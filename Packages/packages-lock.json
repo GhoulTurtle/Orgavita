@@ -70,7 +70,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.render-pipelines.core": {
-      "version": "14.0.9",
+      "version": "14.0.4",
       "depth": 1,
       "source": "builtin",
       "dependencies": {

@@ -62,6 +62,15 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""f136b45c-1de5-4491-a020-e3d66ae8b400"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -196,6 +205,28 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c9165f8d-95ca-44bf-ac21-e1a1b8e8ff04"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""07a869b8-0780-4ce4-b032-901c8614a353"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -208,6 +239,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         m_InGamePlayer_Sprint = m_InGamePlayer.FindAction("Sprint", throwIfNotFound: true);
         m_InGamePlayer_Crouch = m_InGamePlayer.FindAction("Crouch", throwIfNotFound: true);
         m_InGamePlayer_Look = m_InGamePlayer.FindAction("Look", throwIfNotFound: true);
+        m_InGamePlayer_Interact = m_InGamePlayer.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -273,6 +305,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGamePlayer_Sprint;
     private readonly InputAction m_InGamePlayer_Crouch;
     private readonly InputAction m_InGamePlayer_Look;
+    private readonly InputAction m_InGamePlayer_Interact;
     public struct InGamePlayerActions
     {
         private @Player m_Wrapper;
@@ -281,6 +314,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         public InputAction @Sprint => m_Wrapper.m_InGamePlayer_Sprint;
         public InputAction @Crouch => m_Wrapper.m_InGamePlayer_Crouch;
         public InputAction @Look => m_Wrapper.m_InGamePlayer_Look;
+        public InputAction @Interact => m_Wrapper.m_InGamePlayer_Interact;
         public InputActionMap Get() { return m_Wrapper.m_InGamePlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -302,6 +336,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Look.started += instance.OnLook;
             @Look.performed += instance.OnLook;
             @Look.canceled += instance.OnLook;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
         }
 
         private void UnregisterCallbacks(IInGamePlayerActions instance)
@@ -318,6 +355,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Look.started -= instance.OnLook;
             @Look.performed -= instance.OnLook;
             @Look.canceled -= instance.OnLook;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
         }
 
         public void RemoveCallbacks(IInGamePlayerActions instance)
@@ -341,5 +381,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
         void OnSprint(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
 }

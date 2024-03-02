@@ -34,6 +34,8 @@ public class KeypadUI : MonoBehaviour{
         keypadInteractable.OnNumberEntered -= UpdateAnswerText;
         keypadInteractable.OnTriggerState -= (sender, e) => ChangeButtonsIsEnabled(true);
         keypadInteractable.OnExitState -= (sender, e) => ChangeButtonsIsEnabled(false);
+        keypadInteractable.OnTriggerState -= (sender, e) => ChangeButtonsIsEnabled(true);
+        keypadInteractable.OnExitState -= (sender, e) => ChangeButtonsIsEnabled(false);
     }
 
     private void UpdateAnswerText(object sender, KeypadInteractable.KeypadNumberEnteredEventArgs e){

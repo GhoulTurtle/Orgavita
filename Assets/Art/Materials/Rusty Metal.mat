@@ -116,7 +116,7 @@ Material:
     - Vector1_B2CC132F: 7000
     - Vector1_B9994903: 11
     - Vector1_E8746023: 32
-    - _AffineTextureWarpingWeight: 1
+    - _AffineTextureWarpingWeight: 0
     - _AlphaClip: 0
     - _AlphaClippingDitherIsEnabled: 0
     - _AlphaToMask: 0
@@ -150,7 +150,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _PrecisionColorOverrideMode: 0
-    - _PrecisionGeometryOverrideMode: 0
+    - _PrecisionGeometryOverrideMode: 2
     - _PrecisionGeometryWeight: 1
     - _QueueControl: 0
     - _QueueOffset: 0
@@ -184,7 +184,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _MainColor: {r: 1, g: 1, b: 1, a: 1}
     - _PrecisionColorOverrideParameters: {r: 0, g: 0, b: 0, a: 0}
-    - _PrecisionGeometryOverrideParameters: {r: 0, g: 0, b: 0, a: 0}
+    - _PrecisionGeometryOverrideParameters: {r: 1, g: 1, b: 1, a: 0}
     - _ReflectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _UVAnimationParameters: {r: 1, g: 1, b: 0, a: 0}

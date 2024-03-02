@@ -32,6 +32,7 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
         Cursor.lockState = CursorLockMode.Confined;
         Cursor.visible = true;
         virtualCamera.Priority = 11;
+        OnTriggerState?.Invoke(this, EventArgs.Empty);
     }
 
     public virtual void ExitState(object sender, EventArgs e){

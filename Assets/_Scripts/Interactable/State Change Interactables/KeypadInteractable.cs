@@ -90,8 +90,9 @@ public class KeypadInteractable : StateChangeInteractable{
                 currentEntry += num;
 
                 previousCharPos = currentEntry.Length - 1;
-                OnNumberEntered?.Invoke(this, new KeypadNumberEnteredEventArgs(currentEntry));
             }
+            
+            OnNumberEntered?.Invoke(this, new KeypadNumberEnteredEventArgs(currentEntry));
         }
 
     public void ClearNumber(){

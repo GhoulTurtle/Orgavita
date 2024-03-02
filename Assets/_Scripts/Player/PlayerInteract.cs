@@ -5,7 +5,6 @@ using UnityEngine.InputSystem;
 
 public class PlayerInteract : MonoBehaviour{
 	[Header("Required References")]
-	[SerializeField] private LayerMask interactLayer; 
 	[SerializeField] private Transform playerCamera;
 
 	[Header("Interact Variables")]
@@ -69,7 +68,7 @@ public class PlayerInteract : MonoBehaviour{
 	}
 
 	private bool GetInteractable(out IInteractable interactable){
-		if(Physics.SphereCast(playerCamera.position, interactionRadius, playerCamera.forward, out RaycastHit hitInfo, interactionDistance, interactLayer)){
+		if(Physics.SphereCast(playerCamera.position, interactionRadius, playerCamera.forward, out RaycastHit hitInfo, interactionDistance)){
 			if(!hitInfo.collider.TryGetComponent(out IInteractable _interatable)){
 				interactable = null;
 				return false;

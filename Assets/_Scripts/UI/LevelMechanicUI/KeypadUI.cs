@@ -17,26 +17,34 @@ public class KeypadUI : MonoBehaviour{
         keypadInteractable.OnNumberEntered += UpdateAnswerText;
         keypadInteractable.OnKeypadCleared += ClearAnswerText;
         keypadInteractable.OnCorrectPasswordEntered += CorrectPasswordEntered;
+        keypadInteractable.OnIncorrectPasswordEntered += IncorrectPasswordEntered;
         keypadInteractable.OnTriggerState += (sender, e) => ChangeButtonsIsEnabled(true);
         keypadInteractable.OnExitState += (sender, e) => ChangeButtonsIsEnabled(false);
+    }
+
+    private void OnDestroy() {
+        if(keypadInteractable == null) return;
+        keypadInteractable.OnNumberEntered -= UpdateAnswerText;
+        keypadInteractable.OnCorrectPasswordEntered -= CorrectPasswordEntered;
+        keypadInteractable.OnIncorrectPasswordEntered -= IncorrectPasswordEntered;
+        keypadInteractable.OnTriggerState -= (sender, e) => ChangeButtonsIsEnabled(true);
+        keypadInteractable.OnExitState -= (sender, e) => ChangeButtonsIsEnabled(false);
+        keypadInteractable.OnTriggerState -= (sender, e) => ChangeButtonsIsEnabled(true);
+        keypadInteractable.OnExitState -= (sender, e) => ChangeButtonsIsEnabled(false);
     }
 
     private void CorrectPasswordEntered(object sender, EventArgs e){
         answerText.color = Color.green;
     }
 
+    private void IncorrectPasswordEntered(object sender, EventArgs e){
+        answerText.color = Color.red;
+    }
+
     private void ClearAnswerText(object sender, EventArgs e){
         answerText.text = "";
     }
 
-    private void OnDestroy() {
-        if(keypadInteractable == null) return;
-        keypadInteractable.OnNumberEntered -= UpdateAnswerText;
-        keypadInteractable.OnTriggerState -= (sender, e) => ChangeButtonsIsEnabled(true);
-        keypadInteractable.OnExitState -= (sender, e) => ChangeButtonsIsEnabled(false);
-        keypadInteractable.OnTriggerState -= (sender, e) => ChangeButtonsIsEnabled(true);
-        keypadInteractable.OnExitState -= (sender, e) => ChangeButtonsIsEnabled(false);
-    }
 
     private void UpdateAnswerText(object sender, KeypadInteractable.KeypadNumberEnteredEventArgs e){
         answerText.text = e.Entry;

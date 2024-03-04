@@ -9,10 +9,12 @@ public class KeypadInteractable : StateChangeInteractable{
     [SerializeField] private int maxPasswordSize = 4;
     [SerializeField] private string password;
     [SerializeField] private UnityEvent unlockEvent;
+    [SerializeField] private UnityEvent lockEvent;
 
     public event EventHandler<KeypadNumberEnteredEventArgs> OnNumberEntered;
     public event EventHandler OnKeypadCleared;
     public event EventHandler OnCorrectPasswordEntered;
+    public event EventHandler OnIncorrectPasswordEntered;
 
     public class KeypadNumberEnteredEventArgs : EventArgs{
         public string Entry;
@@ -99,12 +101,18 @@ public class KeypadInteractable : StateChangeInteractable{
         currentEntry = "";
         previousCharPos = -1;
         OnKeypadCleared?.Invoke(this, EventArgs.Empty);
+        lockEvent?.Invoke();
+        OnIncorrectPasswordEntered?.Invoke(this, EventArgs.Empty);
     }
 
     public void EnterNumber(){
         if(currentEntry == password){
             unlockEvent?.Invoke();
             OnCorrectPasswordEntered?.Invoke(this, EventArgs.Empty);
+        }
+        else{
+            lockEvent?.Invoke();
+            OnIncorrectPasswordEntered?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -44,5 +44,6 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
         if(playerInputHandler != null){
             playerInputHandler.OnCancelInput -= ExitState;
         }
+        OnExitState?.Invoke(this, EventArgs.Empty);
     }
 }

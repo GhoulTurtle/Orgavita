@@ -621,7 +621,7 @@ GameObject:
   - component: {fileID: 1117479408}
   - component: {fileID: 1117479409}
   m_Layer: 0
-  m_Name: Virtual Camera
+  m_Name: Player Interact Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2912,5 +2912,8 @@ MonoBehaviour:
   maxPasswordSize: 4
   password: 1111
   unlockEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  lockEvent:
     m_PersistentCalls:
       m_Calls: []

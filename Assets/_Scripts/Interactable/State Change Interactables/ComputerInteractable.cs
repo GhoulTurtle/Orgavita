@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,6 +8,9 @@ public class ComputerInteractable : StateChangeInteractable{
 
     [Header("Computer Required References")]
     [SerializeField] private LayerMask computerScreenLayer;
+    [SerializeField] private List<ComputerApplication> computerApplications;
+
+    [Header("Computer Variables")]
     [SerializeField] private float mouseRayDistance;
 
     private bool isSelected = false;
@@ -15,6 +19,16 @@ public class ComputerInteractable : StateChangeInteractable{
     public UnityEvent<Vector2> OnCursorMove;
     public EventHandler OnCursorDown;
     public EventHandler OnCursorUp;
+    
+    public EventHandler<ComputerApplicationSetupEventArgs> OnSetupComputerApplications;
+
+    public class ComputerApplicationSetupEventArgs : EventArgs{
+        public List<ComputerApplication> computerApplications;
+
+        public ComputerApplicationSetupEventArgs(List<ComputerApplication> _computerApplications){
+            computerApplications = _computerApplications;
+        }
+    }
 
     public class ComputerCursorEventArgs : EventArgs{
         public Vector2 cursorPosition;
@@ -28,6 +42,10 @@ public class ComputerInteractable : StateChangeInteractable{
 
     private void Awake() {
         playerCamera = Camera.main;
+    }
+
+    private void Start() {
+        OnSetupComputerApplications?.Invoke(this, new ComputerApplicationSetupEventArgs(computerApplications));
     }
 
     private void OnDestroy() {

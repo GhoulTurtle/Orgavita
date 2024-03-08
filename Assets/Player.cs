@@ -322,6 +322,15 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""Button"",
+                    ""id"": ""a01396eb-b759-4c62-b957-1efab5b72305"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -456,6 +465,28 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""action"": ""Cancel"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1b5b1ce1-fcf5-440e-9784-bcf74cfa8249"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d81bac99-3076-4414-97ec-07a5dc80ca25"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Click"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -515,6 +546,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         m_UI_Navigation = m_UI.FindAction("Navigation", throwIfNotFound: true);
         m_UI_Accept = m_UI.FindAction("Accept", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
+        m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
         // Cutscene
         m_Cutscene = asset.FindActionMap("Cutscene", throwIfNotFound: true);
         m_Cutscene_Skip = m_Cutscene.FindAction("Skip", throwIfNotFound: true);
@@ -676,6 +708,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Navigation;
     private readonly InputAction m_UI_Accept;
     private readonly InputAction m_UI_Cancel;
+    private readonly InputAction m_UI_Click;
     public struct UIActions
     {
         private @Player m_Wrapper;
@@ -683,6 +716,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         public InputAction @Navigation => m_Wrapper.m_UI_Navigation;
         public InputAction @Accept => m_Wrapper.m_UI_Accept;
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
+        public InputAction @Click => m_Wrapper.m_UI_Click;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -701,6 +735,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Cancel.started += instance.OnCancel;
             @Cancel.performed += instance.OnCancel;
             @Cancel.canceled += instance.OnCancel;
+            @Click.started += instance.OnClick;
+            @Click.performed += instance.OnClick;
+            @Click.canceled += instance.OnClick;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -714,6 +751,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Cancel.started -= instance.OnCancel;
             @Cancel.performed -= instance.OnCancel;
             @Cancel.canceled -= instance.OnCancel;
+            @Click.started -= instance.OnClick;
+            @Click.performed -= instance.OnClick;
+            @Click.canceled -= instance.OnClick;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -792,6 +832,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         void OnNavigation(InputAction.CallbackContext context);
         void OnAccept(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+        void OnClick(InputAction.CallbackContext context);
     }
     public interface ICutsceneActions
     {

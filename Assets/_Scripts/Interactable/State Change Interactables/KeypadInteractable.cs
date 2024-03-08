@@ -31,7 +31,7 @@ public class KeypadInteractable : StateChangeInteractable{
         base.EnterState();
     }
 
-    public override void ExitState(object sender, EventArgs e){
+    public override void ExitState(object sender, PlayerInputHandler.InputEventArgs e){
         base.ExitState(sender, e);
     }
 

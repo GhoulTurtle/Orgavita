@@ -460,7 +460,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.000061035156, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &418822996538019572
 MonoBehaviour:
@@ -475,6 +475,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   windowNameText: {fileID: 2941545641914732124}
+  closeButton: {fileID: 2941545641570578672}
 --- !u!1 &2941545643054318800
 GameObject:
   m_ObjectHideFlags: 0

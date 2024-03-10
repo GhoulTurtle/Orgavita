@@ -650,7 +650,7 @@ MonoBehaviour:
     type: 3}
   loadingCursorSprite: {fileID: 1654072340, guid: 7201e919a3b2eee468a5d9a42314af2e,
     type: 3}
-  interactCursorSprite: {fileID: 1779934374, guid: 7201e919a3b2eee468a5d9a42314af2e,
+  clickableCursorSprite: {fileID: 1779934374, guid: 7201e919a3b2eee468a5d9a42314af2e,
     type: 3}
 --- !u!1 &255507069
 GameObject:
@@ -2342,7 +2342,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1218744099}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0.00007152547}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2352,7 +2352,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000061035156, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1246070666
@@ -3165,7 +3165,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   computerApplications:
-  - {fileID: 11400000, guid: e9c36a76545668047bac271c12d82600, type: 2}
+  - {fileID: 11400000, guid: 1eae6061020727e41bb9a32e7eabde32, type: 2}
   - {fileID: 11400000, guid: c6549e7359c68f249b6a4116f2c7bfe3, type: 2}
   mouseRayDistance: 2
   OnCursorMove:

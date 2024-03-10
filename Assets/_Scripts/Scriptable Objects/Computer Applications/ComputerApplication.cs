@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Computer Application")]
 public class ComputerApplication : ScriptableObject {
+    [Header("Default Computer Application Variables")]
     public string Name;
     public Sprite Icon;
     public Sprite LoadingWindowSprite;

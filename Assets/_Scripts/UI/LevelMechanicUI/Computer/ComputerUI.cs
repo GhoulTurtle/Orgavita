@@ -22,7 +22,7 @@ public class ComputerUI : MonoBehaviour{
     public Color SelectedIconTint = Color.magenta;
     [SerializeField] private Sprite defaultCursorSprite;
     [SerializeField] private Sprite loadingCursorSprite;
-    [SerializeField] private Sprite interactCursorSprite;
+    [SerializeField] private Sprite clickableCursorSprite;
 
     private float cursorOffset = 2f;
 
@@ -31,13 +31,14 @@ public class ComputerUI : MonoBehaviour{
     private Vector2 currentMousePosition = new Vector2();
 
     private DesktopUI currentSelectedApplication;
-
     private ApplicationUI currentApplication;
+
+    private ComputerCursorState currentCursorState = ComputerCursorState.Default;
 
     private void Awake() {
         TryGetComponent(out canvasTransform);
         TryGetComponent(out graphicRaycaster);
-        computerInteractable.OnSetupComputerApplications += SetupApplicationUI;
+        computerInteractable.OnSetupComputerApplications += SetupDesktopUI;
     }
 
     private void Start() {
@@ -45,11 +46,11 @@ public class ComputerUI : MonoBehaviour{
     }
 
     private void OnDestroy() {
-        computerInteractable.OnSetupComputerApplications -= SetupApplicationUI;
+        computerInteractable.OnSetupComputerApplications -= SetupDesktopUI;
         StopAllCoroutines();
     }
 
-    private void SetupApplicationUI(object sender, ComputerInteractable.ComputerApplicationSetupEventArgs e){
+    private void SetupDesktopUI(object sender, ComputerInteractable.ComputerApplicationSetupEventArgs e){
         for (int i = 0; i < e.computerApplications.Count; i++){
             Instantiate(desktopApplicationTemplate, desktopIconParent).SetupDesktopUI(this, e.computerApplications[i]);
         }
@@ -71,8 +72,30 @@ public class ComputerUI : MonoBehaviour{
         }
     }
 
+    public void CloseApplication(){
+        if(currentApplication == null) return;
+        
+        UpdateCursor(ComputerCursorState.Loading);
+        
+        StartCoroutine(ClosingApplicationCoroutine());
+    }
+
+    public void UpdateCursor(ComputerCursorState state){
+        if(currentCursorState == state) return;
+
+        currentCursorState = state;
+        switch (currentCursorState){
+            case ComputerCursorState.Default: cursorImage.sprite = defaultCursorSprite;
+                break;
+            case ComputerCursorState.Clickable: cursorImage.sprite = clickableCursorSprite;
+                break;
+            case ComputerCursorState.Loading: cursorImage.sprite = loadingCursorSprite;
+                break;
+        }
+    }
+
     private void LaunchApplication(ComputerApplication application){
-        cursorImage.sprite = loadingCursorSprite;
+        UpdateCursor(ComputerCursorState.Loading);
 
         desktopIconParent.gameObject.SetActive(false);
 
@@ -86,16 +109,13 @@ public class ComputerUI : MonoBehaviour{
         StartCoroutine(LoadingApplicationCoroutine(application));
     }
 
-    public void CloseApplication(){
-        if(currentApplication == null) return;
-        cursorImage.sprite = loadingCursorSprite;
-        StartCoroutine(ClosingApplicationCoroutine());
-    }
 
     private IEnumerator ClosingApplicationCoroutine(){
         yield return new WaitForSeconds(currentApplication.ApplicationSO.LoadTime);
         Destroy(currentApplication.gameObject);
-        cursorImage.sprite = defaultCursorSprite;
+        
+        UpdateCursor(ComputerCursorState.Default);
+
         desktopIconParent.gameObject.SetActive(true);
         selectedImage.gameObject.SetActive(true);        
     }
@@ -105,7 +125,9 @@ public class ComputerUI : MonoBehaviour{
         if(application.LoadingWindowSprite != null){
             applicationLoadingImage.gameObject.SetActive(false);
         }
-        cursorImage.sprite = defaultCursorSprite;
+        
+        UpdateCursor(ComputerCursorState.Default);
+        
         currentApplication = Instantiate(application.ApplicationUI, applicationParent);
 
         currentApplication.SetupApplicationUI(this, application);

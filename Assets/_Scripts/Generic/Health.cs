@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class Heath : MonoBehaviour{
+public class Health : MonoBehaviour{
 	[Header("Heath Variables")]
 	[SerializeField] private float maxHealth;
 

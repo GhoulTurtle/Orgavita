@@ -11,6 +11,9 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
     [SerializeField] private bool showCursor = true;
 
     protected PlayerInputHandler playerInputHandler;
+    
+    public event EventHandler OnTriggerState;
+    public event EventHandler OnExitState;
 
     public abstract string InteractionPrompt {get;}
     public bool Interact(PlayerInteract player){
@@ -27,9 +30,6 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
             playerInputHandler.OnCancelInput -= ExitState;
         }
     }
-
-    public event EventHandler OnTriggerState;
-    public event EventHandler OnExitState;
 
     public virtual void EnterState(){
         GameManager.UpdateGameState(GameState.UI);

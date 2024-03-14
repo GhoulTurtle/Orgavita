@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
@@ -13,6 +14,11 @@ public class TextBoxUI : MonoBehaviour{
     [SerializeField] private TextMeshProUGUI textBoxText;
     [SerializeField] private TextMeshProUGUI speakerText;
     [SerializeField] private Transform textBoxContinueIndicator;
+
+    [Header("Question UI References")]
+    [SerializeField] private TextMeshProUGUI questionText;
+    [SerializeField] private Transform answerButtonParent;
+    [SerializeField] private TextBoxAnswerButtonUI answerButtonUIPrefab;
 
     [Header("Text Box Animation Variables")]
     [SerializeField] private float animationDuration = 0.15f;
@@ -28,6 +34,9 @@ public class TextBoxUI : MonoBehaviour{
     private Dialogue[] currentDialogue;
     private int currentDialogueIndex = 0;
     private IEnumerator currentTextPrint = null;
+
+    private Dialogue currentQuestion;
+    private List<TextBoxAnswerButtonUI> currentAnswerButtonUI = new List<TextBoxAnswerButtonUI>();
 
     private IEnumerator currentTextboxAnimation;
     private const float SNAP_DISTANCE = 0.01f;
@@ -57,7 +66,7 @@ public class TextBoxUI : MonoBehaviour{
     }
 
     public void StartDialogue(Dialogue[] dialogue){
-        if(currentDialogue != null) return;
+        if(currentDialogue != null || currentQuestion != null) return;
 
         ShowTextBox(true);
 
@@ -66,10 +75,32 @@ public class TextBoxUI : MonoBehaviour{
         PrintNextLine();
     }
 
+    public void StartQuestion(Dialogue questionDialogue, ChoiceDialogue[] choices){
+        if(currentDialogue != null || currentQuestion != null) return;
+        
+        currentQuestion = questionDialogue;
+
+        ShowTextBox(true);
+        SetupChoices(choices);
+
+        PrintQuestion();
+    }
+
     public void AttemptPrintNextLine(){
         if(currentTextPrint != null){
             SentenceFinishedPrinting();
+
+            if(currentQuestion != null){
+                questionText.text = currentQuestion.Sentence;
+                return;
+            }
+            
             textBoxText.text = currentDialogue[currentDialogueIndex-1].Sentence;
+            return;
+        }
+
+        if(currentQuestion != null){
+            ShowChoices();
             return;
         }
        
@@ -84,10 +115,55 @@ public class TextBoxUI : MonoBehaviour{
             currentTextPrint = null;
         }
 
+        if(currentQuestion != null){
+            RemoveAnswerButtonUI();
+            HideChoices();
+        }
+
+        questionText.text = "";
+        textBoxText.text = "";
+
+        currentQuestion = null;
         currentDialogue = null;
         currentDialogueIndex = 0;
     }
 
+    private void RemoveAnswerButtonUI(){
+        for (int i = 0; i < currentAnswerButtonUI.Count; i++){
+            Destroy(currentAnswerButtonUI[i].gameObject);
+        }
+
+        currentAnswerButtonUI.Clear();
+    }
+
+    private void PrintQuestion(){
+        HideTextBoxIndicator();
+
+        currentTextPrint = TextPrinter.PrintSentence(currentQuestion.Sentence, questionText, SentenceFinishedPrinting);
+        StartCoroutine(currentTextPrint);
+
+        questionText.color = currentQuestion.SentenceColor;
+
+        AnimateText(questionText, currentQuestion.SentenceDialogueEffect);
+    }
+
+    private void SetupChoices(ChoiceDialogue[] choices){
+        HideChoices();
+
+        for (int i = 0; i < choices.Length; i++){
+            var answerButton = Instantiate(answerButtonUIPrefab, answerButtonParent);
+            answerButton.SetupAnswerButton(choices[i]);
+            currentAnswerButtonUI.Add(answerButton);
+        }
+    }
+
+    private void ShowChoices(){
+        answerButtonParent.gameObject.SetActive(true);
+    }
+
+    private void HideChoices(){
+        answerButtonParent.gameObject.SetActive(false);
+    }
 
     private void PrintNextLine(){
         HideTextBoxIndicator();
@@ -103,7 +179,7 @@ public class TextBoxUI : MonoBehaviour{
         
         textBoxText.color = currentDialogue[currentDialogueIndex].SentenceColor;
         
-        AnimateText(currentDialogue[currentDialogueIndex].SentenceDialogueEffect);
+        AnimateText(textBoxText, currentDialogue[currentDialogueIndex].SentenceDialogueEffect);
         
         currentDialogueIndex++;
     }
@@ -111,7 +187,13 @@ public class TextBoxUI : MonoBehaviour{
     private void SentenceFinishedPrinting(){
         StopCoroutine(currentTextPrint);
         currentTextPrint = null;
-        ShowTextBoxIndicator();
+
+        if(currentQuestion == null){
+            ShowTextBoxIndicator();
+        }
+        else{
+            ShowChoices();
+        }
     }
 
     private void ShowTextBoxIndicator(){
@@ -177,7 +259,7 @@ public class TextBoxUI : MonoBehaviour{
         }
     }
 
-    private void AnimateText(DialogueEffect sentenceDialogueEffect){
+    private void AnimateText(TextMeshProUGUI textToAnimate, DialogueEffect sentenceDialogueEffect){
         switch (sentenceDialogueEffect){
             case DialogueEffect.None:
                 break;

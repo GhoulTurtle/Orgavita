@@ -18,6 +18,7 @@ public class InspectInteractable : DialogueInteractable{
 
     public override void EndDialogue(){
         base.EndDialogue();
+        
         OnDialogueEnd?.Invoke();
     }
 

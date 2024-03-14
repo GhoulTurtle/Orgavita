@@ -22,6 +22,18 @@ MonoBehaviour:
   - Sentence: It also changes colors!
     SentenceColor: {r: 1, g: 0, b: 0, a: 1}
     SentenceDialogueEffect: 0
+  - Sentence: There's also different dialogue effects!
+    SentenceColor: {r: 1, g: 1, b: 1, a: 1}
+    SentenceDialogueEffect: 0
+  - Sentence: This one is called Wobble! I'm feel like Im going to be sick!
+    SentenceColor: {r: 1, g: 1, b: 1, a: 1}
+    SentenceDialogueEffect: 1
+  - Sentence: This one is pulse! WOOO
+    SentenceColor: {r: 1, g: 1, b: 1, a: 1}
+    SentenceDialogueEffect: 2
+  - Sentence: THIS IS SHAKE MY GOD HELPPP!
+    SentenceColor: {r: 0.3726415, g: 1, b: 0.38112384, a: 1}
+    SentenceDialogueEffect: 3
   - Sentence: Now try skipping... did it work? Let me know!
     SentenceColor: {r: 1, g: 1, b: 1, a: 1}
     SentenceDialogueEffect: 0

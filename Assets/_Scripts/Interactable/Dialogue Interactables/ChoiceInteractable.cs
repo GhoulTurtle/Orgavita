@@ -19,11 +19,14 @@ public class ChoiceInteractable : DialogueInteractable{
         base.StartDialogue();
 
         SetupChoiceEvents();
+
+        textBoxUI.StartQuestion(choiceDialogueSO.Question, choiceDialogueSO.Choices);
+
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
     public override void ContinueDialogue(object sender, PlayerInputHandler.InputEventArgs e){
         base.ContinueDialogue(sender, e);
-
     }
 
     public override void CancelDialogue(object sender, PlayerInputHandler.InputEventArgs e){
@@ -31,13 +34,16 @@ public class ChoiceInteractable : DialogueInteractable{
         base.CancelDialogue(sender, e);
 
         UnsubscribeFromChoiceEvents();
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     public override void EndDialogue(){
-        //When dialogue is over, let the user select a choice.
         base.EndDialogue();
 
         UnsubscribeFromChoiceEvents();
+
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     private void SetupChoiceEvents(){
@@ -59,6 +65,8 @@ public class ChoiceInteractable : DialogueInteractable{
         if(arrayIndex >= 0 && arrayIndex < choiceDialogueSO.Choices.Length){
             ChoiceEvents[arrayIndex]?.Invoke();
         }
+
+        EndDialogue();
     }
 
     public void UpdateUnityChoiceEvents(){

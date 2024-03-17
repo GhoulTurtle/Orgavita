@@ -3,10 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-#if UNITY_EDITOR
-using UnityEditor;
-#endif
-
 /// <summary>
 /// A scriptable object that manages player inventory data.
 /// Manages a list of inventory items, current equipped item, current emergency item, and any unlocked tools.
@@ -16,13 +12,13 @@ using UnityEditor;
 [CreateAssetMenu(menuName = "Inventory/Player Inventory", fileName = "NewPlayerInventorySO")]
 public class PlayerInventorySO : ScriptableObject{
     [Header("Inventory Settings")]
-    public int MaxInventorySize = 6;
+    [SerializeField] private int maxInventorySize = 6;
 
     [Header("Inventory Data")]
-    public List<InventoryItem> Inventory;
-    public InventoryItem EquippedItem;
-    public InventoryItem EmergencyItem;
-    public List<InventoryItem> UnlockedTools;
+    [SerializeField] private List<InventoryItem> inventory;
+    [SerializeField] private InventoryItem equippedItem;
+    [SerializeField] private InventoryItem emergencyItem;
+    [SerializeField] private List<InventoryItem> unlockedTools;
 
     #if UNITY_EDITOR
     [Header("Inventory Editor Variables")]
@@ -34,17 +30,19 @@ public class PlayerInventorySO : ScriptableObject{
     public class MaxInventoryIncreasedEventArgs : EventArgs{
         public int CurrentMaxInventorySize;
         public int AmountAdded;
+        public List<InventoryItem> newSlotsAdded;
 
-        public MaxInventoryIncreasedEventArgs(int currentMaxInventorySize, int amountAdded){
+        public MaxInventoryIncreasedEventArgs(int currentMaxInventorySize, int amountAdded, List<InventoryItem> _newSlotsAdded){
             CurrentMaxInventorySize = currentMaxInventorySize;
             AmountAdded = amountAdded;
+            newSlotsAdded =_newSlotsAdded;
         }
     }
 
     #if UNITY_EDITOR
     public void OnEnable(){
         if(cleanInventoryOnPlay){
-            MaxInventorySize = defaultMaxInventory;
+            maxInventorySize = defaultMaxInventory;
             GenerateNewInventory();
         }
     }
@@ -52,24 +50,26 @@ public class PlayerInventorySO : ScriptableObject{
 
     [ContextMenu("Generate New Inventory")]
     public void GenerateNewInventory(){
-        Inventory.Clear();
-        UnlockedTools.Clear();
+        inventory.Clear();
+        unlockedTools.Clear();
 
-        for (int i = 0; i < MaxInventorySize; i++){
-            Inventory.Add(new InventoryItem(null));
+        for (int i = 0; i < maxInventorySize; i++){
+            inventory.Add(new InventoryItem(null));
         }
 
-        EquippedItem = new InventoryItem(null);
-        EmergencyItem = new InventoryItem(null);
+        equippedItem = new InventoryItem(null);
+        emergencyItem = new InventoryItem(null);
     }
 
     public void IncreaseMaxInventory(int amount){
-        MaxInventorySize += amount;
-        OnMaxInventoryIncreased?.Invoke(this, new MaxInventoryIncreasedEventArgs(MaxInventorySize, amount));
+        List<InventoryItem> newSlotsAdded = AddInventorySlots(amount);
+        
+        maxInventorySize += amount;
+        OnMaxInventoryIncreased?.Invoke(this, new MaxInventoryIncreasedEventArgs(maxInventorySize, amount, newSlotsAdded));
     }
 
     public int AttemptToAddItemToInventory(ItemDataSO item, int itemAmount){
-        if(item.IsStackable){
+        if(item.GetIsStackable()){
             List<InventoryItem> validInventoryItems = CheckValidStackableInventoryItems(item);
             if(validInventoryItems.Count > 0){
                 for (int i = 0; i < validInventoryItems.Count; i++){
@@ -90,11 +90,112 @@ public class PlayerInventorySO : ScriptableObject{
         return itemAmount;
     }
 
-    public List<InventoryItem> FindEmptyInventoryItems(){
-        return Inventory.Where(inventoryItem => inventoryItem.IsEmpty()).ToList();
+    public void EquipItem(InventoryItem itemToEquip){
+        if(!equippedItem.IsEmpty()){
+            SwapInventoryItems(equippedItem, itemToEquip);
+            return;
+        }
+    
+        equippedItem.SetItem(itemToEquip.GetHeldItem(), itemToEquip.GetCurrentStack());
+        
+        itemToEquip.ClearItem();
     }
 
-    public List<InventoryItem> CheckValidStackableInventoryItems(ItemDataSO item){
-        return Inventory.Where(inventoryItem => inventoryItem.HeldItemData == item && !inventoryItem.IsFull()).ToList();
+    public void UnEquipItem(){
+        if(equippedItem.IsEmpty()) return;
+        
+        List<InventoryItem> emptyInventorySpaces = FindEmptyInventoryItems();
+        
+        if(emptyInventorySpaces.Count == 0) return;
+
+        AttemptToAddItemToInventory(equippedItem.GetHeldItem(), equippedItem.GetCurrentStack());
+        equippedItem.ClearItem();
+    }
+
+    public void EquipEmergencyItem(InventoryItem itemToEquip){
+        if(!emergencyItem.IsEmpty()){
+            SwapInventoryItems(emergencyItem, itemToEquip);
+            return;
+        }
+    
+        emergencyItem.SetItem(itemToEquip.GetHeldItem(), itemToEquip.GetCurrentStack());
+        
+        itemToEquip.ClearItem();
+    }
+
+    public void UnEquipEmergencyItem(){
+        if(emergencyItem.IsEmpty()) return;
+        
+        List<InventoryItem> emptyInventorySpaces = FindEmptyInventoryItems();
+        
+        if(emptyInventorySpaces.Count == 0) return;
+        
+        AttemptToAddItemToInventory(emergencyItem.GetHeldItem(), emergencyItem.GetCurrentStack());
+        emergencyItem.ClearItem();
+    }
+
+    public void AddTool(ItemDataSO itemDataSO, int initalToolStack){
+        foreach (InventoryItem tool in unlockedTools){
+            if(tool.GetHeldItem() == itemDataSO){
+                return;
+            }
+        }
+
+        unlockedTools.Add(new InventoryItem(itemDataSO, initalToolStack));
+    }
+
+    public void RemoveTool(InventoryItem toolInventoryItem){
+        if(!unlockedTools.Contains(toolInventoryItem)) return;
+
+        var toolIndex = unlockedTools.IndexOf(toolInventoryItem);
+
+        unlockedTools[toolIndex].ClearItem();
+
+        unlockedTools.Remove(toolInventoryItem);
+    }
+
+    public InventoryItem GetEquippedInventoryItem(){
+        return equippedItem;
+    }
+
+    public InventoryItem GetEmergencyInventoryItem(){
+        return emergencyItem;
+    }
+
+    public List<InventoryItem> GetCurrentInventory(){
+        return inventory;
+    }
+
+    public int GetMaxInventorySize(){
+        return maxInventorySize;
+    }
+
+    private List<InventoryItem> AddInventorySlots(int slotsToAdd){
+        List<InventoryItem> newSlotsAdded = new List<InventoryItem>();
+        for (int i = 0; i <= slotsToAdd; i++){
+            var newInventoryItem = new InventoryItem(null);
+            inventory.Add(newInventoryItem);
+            newSlotsAdded.Add(newInventoryItem);
+        }
+
+        return newSlotsAdded;
+    }
+
+    private void SwapInventoryItems(InventoryItem item1, InventoryItem item2){
+        if(item1.IsEmpty() && item2.IsEmpty()) return;
+
+        var item1Data = item1.GetHeldItem();
+        var item1Stack = item1.GetCurrentStack();
+
+        item1.SetItem(item2.GetHeldItem(), item2.GetCurrentStack());
+        item2.SetItem(item1Data, item1Stack);
+    }
+
+    private List<InventoryItem> FindEmptyInventoryItems(){
+        return inventory.Where(inventoryItem => inventoryItem.IsEmpty()).ToList();
+    }
+
+    private List<InventoryItem> CheckValidStackableInventoryItems(ItemDataSO item){
+        return inventory.Where(inventoryItem => inventoryItem.GetHeldItem() == item && !inventoryItem.IsFull()).ToList();
     }
 }

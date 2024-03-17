@@ -5,21 +5,43 @@ using UnityEngine;
 /// </summary>
 public abstract class ItemDataSO : ScriptableObject{
     [Header("Item Information")]
-    public string ItemName;
-    public string ItemQuickDescription;
-    public BasicDialogueSO ItemInspectDescription;
+    [SerializeField] private string itemName;
+    [SerializeField] private string itemQuickDescription;
+    [SerializeField] private BasicDialogueSO itemInspectDescription;
     
     [Header("Item Visual")]
-    public Sprite ItemIcon;
-    public Transform ItemModelPrefab;
+    [SerializeField] private Sprite itemIcon;
+    [SerializeField] private Transform itemModelPrefab;
 
     [Header("Item Settings")]
-    public bool IsCombinable = false;
-    public bool IsStackable = true;
-    public bool IsDestroyable = true;
-    public int maxStackSize;
+    [SerializeField] private bool isCombinable = false;
+    [SerializeField] private bool isStackable = true;
+    [SerializeField] private bool isDestroyable = true;
+    [SerializeField] private int maxStackSize = 1;
 
-    public abstract bool UseItem();
-    public abstract void CombineItem();
-    public abstract void DestoryItem();
+    public string GetItemName(){
+        return itemName;
+    }
+
+    public Sprite GetItemSprite(){
+        return itemIcon;
+    }
+
+    public bool GetIsCombinable(){
+        return isCombinable;
+    }
+
+    public bool GetIsStackable(){
+        return isStackable;
+    }
+
+    public bool GetIsDestroyable(){
+        return isDestroyable;
+    }
+
+    public int GetItemMaxStackSize(){
+        return maxStackSize;
+    }
+
+    public virtual bool UseItem(){return true;}
 }

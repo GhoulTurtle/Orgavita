@@ -1,12 +1,13 @@
 using System;
+using UnityEngine;
 
 /// <summary>
 /// Responsible for handling item data and the stack amount of the current held item.
 /// </summary>
 [Serializable]
 public class InventoryItem{
-    public ItemDataSO HeldItemData;
-    public int CurrentItemStackAmount;
+    [SerializeField] private ItemDataSO heldItemData;
+    [SerializeField] private int currentItemStackAmount;
 
     //Events
     public EventHandler<ItemUpdatedEventArgs> OnItemUpdated;
@@ -23,21 +24,21 @@ public class InventoryItem{
     }
 
     public InventoryItem(ItemDataSO itemData, int itemStackAmount = 0){
-        HeldItemData = itemData;
-        CurrentItemStackAmount = itemStackAmount;
+        heldItemData = itemData;
+        currentItemStackAmount = itemStackAmount;
     }
 
     public int AddToStack(int amount){
         if(!IsStackable() || IsFull()) return amount;
 
-        var remainingStackSpace = HeldItemData.maxStackSize - CurrentItemStackAmount;
+        var remainingStackSpace = heldItemData.GetItemMaxStackSize() - currentItemStackAmount;
 
         int addAmount = amount >= remainingStackSpace ? remainingStackSpace : amount;
         int returnAmount = amount >= remainingStackSpace ? amount -= remainingStackSpace : 0;
 
-        CurrentItemStackAmount += addAmount;
+        currentItemStackAmount += addAmount;
 
-        OnItemUpdated?.Invoke(this, new ItemUpdatedEventArgs(HeldItemData, CurrentItemStackAmount));
+        OnItemUpdated?.Invoke(this, new ItemUpdatedEventArgs(heldItemData, currentItemStackAmount));
 
         return returnAmount;
     }
@@ -45,50 +46,63 @@ public class InventoryItem{
     public void RemoveFromStack(int amount){
         if(IsEmpty() || !IsStackable()) return;
 
-        CurrentItemStackAmount -= amount;
+        currentItemStackAmount -= amount;
         
-        if(CurrentItemStackAmount <= 0){
+        if(currentItemStackAmount <= 0){
             ClearItem();
             return;
         }
 
-        OnItemUpdated?.Invoke(this, new ItemUpdatedEventArgs(HeldItemData, CurrentItemStackAmount));
+        OnItemUpdated?.Invoke(this, new ItemUpdatedEventArgs(heldItemData, currentItemStackAmount));
     }
 
     public int SetItem(ItemDataSO itemData, int itemStackAmount = 1){
-        HeldItemData = itemData;
+        if(itemData == null){
+            ClearItem();
+            return 0;
+        }
         
-        var stackAddAmount = itemStackAmount >= itemData.maxStackSize ? itemData.maxStackSize : itemStackAmount;
-        var returnAmount = itemStackAmount > itemData.maxStackSize ? itemStackAmount - itemData.maxStackSize : 0;
+        heldItemData = itemData;
+        
+        var stackAddAmount = itemStackAmount >= itemData.GetItemMaxStackSize() ? itemData.GetItemMaxStackSize() : itemStackAmount;
+        var returnAmount = itemStackAmount > itemData.GetItemMaxStackSize() ? itemStackAmount - itemData.GetItemMaxStackSize() : 0;
 
-        CurrentItemStackAmount = stackAddAmount;
+        currentItemStackAmount = stackAddAmount;
 
-        OnItemUpdated?.Invoke(this, new ItemUpdatedEventArgs(HeldItemData, CurrentItemStackAmount));
+        OnItemUpdated?.Invoke(this, new ItemUpdatedEventArgs(heldItemData, currentItemStackAmount));
 
         return returnAmount;
     }
 
     public void ClearItem(){
-        HeldItemData = null;
-        CurrentItemStackAmount = 0;
+        heldItemData = null;
+        currentItemStackAmount = 0;
 
         OnItemCleared?.Invoke(this, EventArgs.Empty);
     }
 
+    public ItemDataSO GetHeldItem(){
+        return heldItemData;
+    }
+
+    public int GetCurrentStack(){
+        return currentItemStackAmount;
+    }
+
     public int ReturnItemMaxStack(){
         if(IsEmpty()) return 0;
-        return HeldItemData.maxStackSize;
+        return heldItemData.GetItemMaxStackSize();
     }
 
     public bool IsEmpty(){
-        return HeldItemData == null;
+        return heldItemData == null;
     }
 
     public bool IsFull(){
-        return HeldItemData.maxStackSize == CurrentItemStackAmount;
+        return heldItemData.GetItemMaxStackSize() == currentItemStackAmount;
     }
 
     public bool IsStackable(){
-        return HeldItemData.IsStackable;
+        return heldItemData.GetIsStackable();
     }
 }

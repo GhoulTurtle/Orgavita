@@ -14,16 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isCancelable: 1
   Question:
-    Sentence: This is a test question...
+    Sentence: Open the Door?
     SentenceColor: {r: 1, g: 1, b: 1, a: 1}
     SentenceDialogueEffect: 0
   Choices:
-  - Sentence: Pick Up
+  - Sentence: Yes
     SentenceColor: {r: 0.4080857, g: 1, b: 0.13679248, a: 1}
     SentenceDialogueEffect: 0
-  - Sentence: Cancel
+  - Sentence: No
     SentenceColor: {r: 1, g: 0.4198113, b: 0.4198113, a: 1}
-    SentenceDialogueEffect: 0
-  - Sentence: Use
-    SentenceColor: {r: 0.33134568, g: 0.9622642, b: 0.9622642, a: 1}
     SentenceDialogueEffect: 0

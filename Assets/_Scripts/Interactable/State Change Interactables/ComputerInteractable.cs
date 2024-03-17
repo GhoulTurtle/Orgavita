@@ -16,6 +16,8 @@ public class ComputerInteractable : StateChangeInteractable{
     private bool isSelected = false;
 
     [Header("Computer Events")]
+    public EventHandler OnEnterComputerState;
+    public EventHandler OnExitComputerState;
     public UnityEvent<Vector2> OnCursorMove;
     public EventHandler OnCursorDown;
     public EventHandler OnCursorUp;
@@ -63,12 +65,14 @@ public class ComputerInteractable : StateChangeInteractable{
         base.EnterState();
         playerInputHandler.OnClickInput += CursorInput;
         isSelected = true;
+        OnEnterComputerState?.Invoke(this, EventArgs.Empty);
     }
 
     public override void ExitState(object sender, PlayerInputHandler.InputEventArgs e){
         base.ExitState(sender, e);
         playerInputHandler.OnClickInput -= CursorInput;
         isSelected = false;
+        OnExitComputerState?.Invoke(this, EventArgs.Empty);
     }
 
     private void CursorInput(object sender, PlayerInputHandler.InputEventArgs e){

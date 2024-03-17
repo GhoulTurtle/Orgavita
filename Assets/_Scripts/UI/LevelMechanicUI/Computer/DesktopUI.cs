@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class DesktopUI : MonoBehaviour{
     public ComputerApplication ApplicationSO {get; private set;}
 
-    [Header("Required References")]
+    [Header("UI References")]
     [SerializeField] private Image applicationIconImage;
     [SerializeField] private TextMeshProUGUI applicationNameText;
 

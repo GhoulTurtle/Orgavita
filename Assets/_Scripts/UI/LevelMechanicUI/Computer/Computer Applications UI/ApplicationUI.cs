@@ -15,11 +15,31 @@ public class ApplicationUI : MonoBehaviour{
         ApplicationSO = application;
 
         windowNameText.text = ApplicationSO.Name;
+
+        computerUI.OnEnableUI += (sender, e) => EnableApplicationUIInteractivity();
+        computerUI.OnDisableUI += (sender, e) => DisableApplicationUIInteractivity();
     }
 
     public virtual void CloseApplication(){
-        //Make stuff non-interactable
-        closeButton.interactable = false;
+        DisableApplicationUIInteractivity();
+
+        computerUI.OnEnableUI -= (sender, e) => EnableApplicationUIInteractivity();
+        computerUI.OnDisableUI -= (sender, e) => DisableApplicationUIInteractivity();
+        
         computerUI.CloseApplication();
+    }
+
+     private void EnableApplicationUIInteractivity(){
+        Selectable[] selectableUI = transform.GetComponentsInChildren<Selectable>(true);
+        for (int i = 0; i < selectableUI.Length; i++){
+            selectableUI[i].interactable = true;
+        }
+    }
+
+    private void DisableApplicationUIInteractivity(){
+        Selectable[] selectableUI = transform.GetComponentsInChildren<Selectable>(true);
+        for (int i = 0; i < selectableUI.Length; i++){
+            selectableUI[i].interactable = false;
+        }
     }
 }

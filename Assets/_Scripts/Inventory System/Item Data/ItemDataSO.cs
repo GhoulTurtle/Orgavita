@@ -23,6 +23,10 @@ public abstract class ItemDataSO : ScriptableObject{
         return itemName;
     }
 
+    public string GetItemQuickDescription(){
+        return itemQuickDescription;
+    }
+
     public Sprite GetItemSprite(){
         return itemIcon;
     }

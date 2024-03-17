@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,9 @@ public class ComputerUI : MonoBehaviour{
     [SerializeField] private Sprite loadingCursorSprite;
     [SerializeField] private Sprite clickableCursorSprite;
 
+    public EventHandler OnEnableUI;
+    public EventHandler OnDisableUI;
+
     private float cursorOffset = 2f;
 
     private List<GameObject> dragTargets = new List<GameObject>();
@@ -35,10 +39,15 @@ public class ComputerUI : MonoBehaviour{
 
     private ComputerCursorState currentCursorState = ComputerCursorState.Default;
 
+    private bool isActive = false;
+
     private void Awake() {
         TryGetComponent(out canvasTransform);
         TryGetComponent(out graphicRaycaster);
         computerInteractable.OnSetupComputerApplications += SetupDesktopUI;
+
+        computerInteractable.OnEnterComputerState += (sender, e) => EnableComputerUIInteractivity();
+        computerInteractable.OnExitComputerState += (sender, e) => DisableComputerUIInteractivity(); 
     }
 
     private void Start() {
@@ -47,12 +56,40 @@ public class ComputerUI : MonoBehaviour{
 
     private void OnDestroy() {
         computerInteractable.OnSetupComputerApplications -= SetupDesktopUI;
+        computerInteractable.OnEnterComputerState -= EnableComputerUI;
+        computerInteractable.OnExitComputerState -= DisableComputerUI; 
         StopAllCoroutines();
+    }
+
+    private void EnableComputerUI(object sender, EventArgs e){
+        EnableComputerUIInteractivity();
+        OnEnableUI?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void DisableComputerUI(object sender, EventArgs e){
+        DisableComputerUIInteractivity();
+        OnDisableUI?.Invoke(this, EventArgs.Empty);
     }
 
     private void SetupDesktopUI(object sender, ComputerInteractable.ComputerApplicationSetupEventArgs e){
         for (int i = 0; i < e.computerApplications.Count; i++){
             Instantiate(desktopApplicationTemplate, desktopIconParent).SetupDesktopUI(this, e.computerApplications[i]);
+        }
+
+        DisableComputerUIInteractivity();
+    }
+
+    private void EnableComputerUIInteractivity(){
+        Selectable[] selectableUI = transform.GetComponentsInChildren<Selectable>(true);
+        for (int i = 0; i < selectableUI.Length; i++){
+            selectableUI[i].interactable = true;
+        }
+    }
+
+    private void DisableComputerUIInteractivity(){
+        Selectable[] selectableUI = transform.GetComponentsInChildren<Selectable>(true);
+        for (int i = 0; i < selectableUI.Length; i++){
+            selectableUI[i].interactable = false;
         }
     }
 
@@ -131,6 +168,10 @@ public class ComputerUI : MonoBehaviour{
         currentApplication = Instantiate(application.ApplicationUI, applicationParent);
 
         currentApplication.SetupApplicationUI(this, application);
+
+        if(!isActive){
+            DisableComputerUIInteractivity();
+        }
     }
 
     public void CursorMove(Vector2 cursorPosition){

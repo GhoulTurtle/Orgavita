@@ -14,10 +14,28 @@ public class InventoryUI : MonoBehaviour{
 
     [Header("Required References")]
     [SerializeField] private PlayerInventoryHandler playerInventoryHandler;
+    [SerializeField] private MenuSelector inventoryUISelector;
 
-    public EventHandler OnSlotSelected;
+    public EventHandler<SlotSelectedEventArgs> OnSlotSelected;
+    public class SlotSelectedEventArgs : EventArgs{
+        public InventoryItem inventoryItemSelected;
+        public ItemDataSO itemDataSelected;
+
+        public SlotSelectedEventArgs(InventoryItem _inventoryItemSelected, ItemDataSO _itemDataSelected){
+            itemDataSelected = _itemDataSelected;
+            inventoryItemSelected = _inventoryItemSelected;
+        }
+    }
+
+    private ItemUI currentSelectedItemUI;
+
+    private List<ItemUI> currentItemUI;
+    private List<ItemSlotUI> currentItemSlotUI;
 
     private void Awake() {
+        currentItemUI = new List<ItemUI>();
+        currentItemSlotUI = new List<ItemSlotUI>();
+
         HideInventoryScreen();
 
         if(playerInventoryHandler == null) return;
@@ -36,45 +54,55 @@ public class InventoryUI : MonoBehaviour{
 
         playerInventoryHandler.OnSetupInventory -= SetupInventoryUI;
 
-        playerInventoryHandler.GetInventory().OnMaxInventoryIncreased -= (sender, e) => AddInventorySlotsUI(e.newSlotsAdded);
+        playerInventoryHandler.GetInventory().OnMaxInventoryIncreased -= (sender, e) => AddNewInventoryUI(e.newSlotsAdded);
+    }
+
+    public void SelectItemUI(ItemUI itemUI){
+        currentSelectedItemUI = itemUI;
+        var itemUIInventoryItem = itemUI.GetInventoryItem();
+        OnSlotSelected?.Invoke(this, new SlotSelectedEventArgs(itemUIInventoryItem, itemUIInventoryItem.GetHeldItem()));
     }
 
     private void SetupInventoryUI(object sender, PlayerInventoryHandler.SetupInventoryEventArgs e){
         equippedItemUI.SetupItemUI(this, e.playerInventorySO.GetEquippedInventoryItem());
         emergencyItemUI.SetupItemUI(this, e.playerInventorySO.GetEmergencyInventoryItem());
 
-        playerInventoryHandler.GetInventory().OnMaxInventoryIncreased += (sender, e) => AddInventorySlotsUI(e.newSlotsAdded);
+        playerInventoryHandler.GetInventory().OnMaxInventoryIncreased += (sender, e) => AddNewInventoryUI(e.newSlotsAdded);
 
         List<InventoryItem> inventory = e.playerInventorySO.GetCurrentInventory();
         
-        SetupInventorySlotsUI(inventory);
-        SetupInventoryItemsUI(inventory);
+        AddNewInventoryUI(inventory);
+        SetupInventorySelector();
     }
 
-    private void SetupInventoryItemsUI(List<InventoryItem> inventory){
-        foreach (InventoryItem item in inventory){
-            Instantiate(itemUITemplate, itemScrollContent).SetupItemUI(this, item);
-        }
+    private void SetupInventorySelector(){
+        inventoryUISelector.SetCursorStartingSelection(currentItemUI[0].transform);
     }
 
-    private void SetupInventorySlotsUI(List<InventoryItem> inventory){
-        foreach (InventoryItem item in inventory){
-            Instantiate(itemSlotTemplate, itemSlotParent).SetupItemSlotUI(this, item);
-        }
-    }
-
-    private void AddInventorySlotsUI(List<InventoryItem> newInventoryItemsAdded){
+    private void AddNewInventoryUI(List<InventoryItem> newInventoryItemsAdded){
         foreach (InventoryItem item in newInventoryItemsAdded){
-            Instantiate(itemUITemplate, itemScrollContent).SetupItemUI(this, item);
-            Instantiate(itemSlotTemplate, itemSlotParent).SetupItemSlotUI(this, item);
+            var newItemUI = Instantiate(itemUITemplate, itemScrollContent);
+            newItemUI.SetupItemUI(this, item);
+            currentItemUI.Add(newItemUI);
+
+            var newItemSlotUI = Instantiate(itemSlotTemplate, itemSlotParent);
+            newItemSlotUI.SetupItemSlotUI(this, item);
+            currentItemSlotUI.Add(newItemSlotUI);
         }
     }
 
-    private void ShowInventoryScreen(){
+    private void ShowInventoryScreen(){        
         inventoryScreen.gameObject.SetActive(true);
+
+        inventoryUISelector.EnableSelector();
+        if(currentSelectedItemUI != null){
+            var itemUIInventoryItem = currentSelectedItemUI.GetInventoryItem();
+            OnSlotSelected?.Invoke(this, new SlotSelectedEventArgs(itemUIInventoryItem, itemUIInventoryItem.GetHeldItem()));
+        }
     }
 
     private void HideInventoryScreen(){
+        inventoryUISelector.DisableSelector();
         inventoryScreen.gameObject.SetActive(false);
     }
 }

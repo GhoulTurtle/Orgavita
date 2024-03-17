@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -21,6 +22,16 @@ public class ItemSlotUI : MonoBehaviour{
 
         associatedInventoryItem.OnItemCleared += (sender, e) => EmptySlotColor();
         associatedInventoryItem.OnItemUpdated += (sender, e) => UpdateSlotColor();
+        inventoryUI.OnSlotSelected += NewSlotSelected;
+        UpdateSlotColor();
+    }
+
+    private void NewSlotSelected(object sender, InventoryUI.SlotSelectedEventArgs e){
+        if(e.inventoryItemSelected == associatedInventoryItem){
+            SelectedSlotColor();
+            return;
+        }
+
         UpdateSlotColor();
     }
 

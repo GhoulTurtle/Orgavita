@@ -1,9 +1,11 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemUI : MonoBehaviour{
+public class ItemUI : MonoBehaviour, ISelectHandler{
     [Header("UI References")]
+    [SerializeField] private Button itemUIButton;
     [SerializeField] private TextMeshProUGUI itemNameText;
     [SerializeField] private TextMeshProUGUI itemStackAmountText;
     [SerializeField] private Image itemImage;
@@ -58,5 +60,13 @@ public class ItemUI : MonoBehaviour{
         itemStackAmountText.text = "";
 
         itemImage.sprite = emptyItemSlotSprite;
+    }
+
+    public void OnSelect(BaseEventData eventData){
+        inventoryUI.SelectItemUI(this);
+    }
+
+    public InventoryItem GetInventoryItem(){
+        return associatedInventoryItem;
     }
 }

@@ -6,8 +6,8 @@ public class InventoryUI : MonoBehaviour{
     [Header("UI References")]
     [SerializeField] private Transform inventoryScreen;
     [SerializeField] private Transform itemSlotParent;
-    [SerializeField] private ItemSlotUI itemSlotTemplate;
     [SerializeField] private Transform itemScrollContent;
+    [SerializeField] private ItemSlotUI itemSlotTemplate;
     [SerializeField] private ItemUI itemUITemplate;
     [SerializeField] private ItemUI equippedItemUI;
     [SerializeField] private ItemUI emergencyItemUI;
@@ -40,8 +40,7 @@ public class InventoryUI : MonoBehaviour{
 
         if(playerInventoryHandler == null) return;
 
-        playerInventoryHandler.OnShowInventory += (sender, e) => ShowInventoryScreen();
-        playerInventoryHandler.OnHideInventory += (sender, e) => HideInventoryScreen();
+        playerInventoryHandler.OnInventoryStateChanged += EvaluateInventoryState;
         
         playerInventoryHandler.OnSetupInventory += SetupInventoryUI;
     }
@@ -49,8 +48,7 @@ public class InventoryUI : MonoBehaviour{
     private void OnDestroy() {
         if(playerInventoryHandler == null) return;
 
-        playerInventoryHandler.OnShowInventory -= (sender, e) => ShowInventoryScreen();
-        playerInventoryHandler.OnHideInventory -= (sender, e) => HideInventoryScreen();
+        playerInventoryHandler.OnInventoryStateChanged -= EvaluateInventoryState;
 
         playerInventoryHandler.OnSetupInventory -= SetupInventoryUI;
 
@@ -88,6 +86,21 @@ public class InventoryUI : MonoBehaviour{
             var newItemSlotUI = Instantiate(itemSlotTemplate, itemSlotParent);
             newItemSlotUI.SetupItemSlotUI(this, item);
             currentItemSlotUI.Add(newItemSlotUI);
+        }
+    }
+
+    private void EvaluateInventoryState(object sender, PlayerInventoryHandler.InventoryStateChangedEventArgs e){
+        switch (e.inventoryState){
+            case InventoryState.Closed: HideInventoryScreen();
+                break;
+            case InventoryState.Default: ShowInventoryScreen();
+                break;
+            case InventoryState.ContextUI: 
+                break;
+            case InventoryState.Combine: 
+                break;
+            case InventoryState.Inspect:
+                break;
         }
     }
 

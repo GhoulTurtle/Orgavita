@@ -402,17 +402,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""a4905c02-4b04-43f5-a1e7-e7392dca3271"",
-                    ""path"": ""<Mouse>/delta"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Navigation"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""eb9c89c8-16bc-41c1-befe-1013b007be01"",
                     ""path"": ""<Keyboard>/e"",
                     ""interactions"": """",

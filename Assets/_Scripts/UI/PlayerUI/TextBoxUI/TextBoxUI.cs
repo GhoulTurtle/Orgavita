@@ -144,7 +144,7 @@ public class TextBoxUI : MonoBehaviour{
 
         questionText.color = currentQuestion.SentenceColor;
 
-        AnimateText(questionText, currentQuestion.SentenceDialogueEffect);
+        UIAnimator.AnimateText(questionText, currentQuestion.SentenceDialogueEffect);
     }
 
     private void SetupChoices(ChoiceDialogue[] choices){
@@ -179,7 +179,7 @@ public class TextBoxUI : MonoBehaviour{
         
         textBoxText.color = currentDialogue[currentDialogueIndex].SentenceColor;
         
-        AnimateText(textBoxText, currentDialogue[currentDialogueIndex].SentenceDialogueEffect);
+        UIAnimator.AnimateText(textBoxText, currentDialogue[currentDialogueIndex].SentenceDialogueEffect);
         
         currentDialogueIndex++;
     }
@@ -198,8 +198,10 @@ public class TextBoxUI : MonoBehaviour{
 
     private void ShowTextBoxIndicator(){
         textBoxContinueIndicator.gameObject.SetActive(true);
-        currentIndicatorAnimation = TextBoxIndicatorCorutine();
-        StartCoroutine(TextBoxIndicatorCorutine());
+        
+        currentIndicatorAnimation = UIAnimator.UISinAnimation(textBoxContinueIndicator, indicatorOriginalYPosition, indicatorMoveSpeed, indicatorMoveDistance);
+
+        StartCoroutine(currentIndicatorAnimation);
     }
 
     private void HideTextBoxIndicator(){
@@ -210,13 +212,13 @@ public class TextBoxUI : MonoBehaviour{
         }
     }
 
-    private void ShowTextBox(bool state){
+    private void ShowTextBox(bool isOpening){
         if(currentTextboxAnimation != null){
             StopCoroutine(currentTextboxAnimation);
             currentTextboxAnimation = null;
         }       
 
-        if(state){
+        if(isOpening){
             textBoxParent.gameObject.SetActive(true);
             textBoxParent.localScale = new Vector3(closeXScale, textBoxParent.localScale.y, textBoxParent.localScale.z);
         }
@@ -224,51 +226,10 @@ public class TextBoxUI : MonoBehaviour{
             textBoxParent.localScale = new Vector3(openXScale, textBoxParent.localScale.y, textBoxParent.localScale.z);
         }
 
-        currentTextboxAnimation = TextBoxAnimationCorutine(state);
+        Vector3 textBoxGoalScale = isOpening ? new Vector3(openXScale, textBoxParent.localScale.y, textBoxParent.localScale.z) : 
+                                           new Vector3(closeXScale, textBoxParent.localScale.y, textBoxParent.localScale.z);
+        currentTextboxAnimation = UIAnimator.UIStretchAnimation(textBoxParent, textBoxGoalScale, animationDuration, !isOpening);
 
         StartCoroutine(currentTextboxAnimation);
-    }
-
-    private IEnumerator TextBoxIndicatorCorutine(){
-        while(true){
-            textBoxContinueIndicator.localPosition = new Vector3(textBoxContinueIndicator.localPosition.x, SinAmount(), textBoxContinueIndicator.localPosition.z);
-            yield return null;
-        }
-    }
-
-    private float SinAmount(){
-        return indicatorOriginalYPosition + Mathf.Sin(Time.time * indicatorMoveSpeed) * indicatorMoveDistance;
-    }
-
-    private IEnumerator TextBoxAnimationCorutine(bool isOpening){
-        Vector3 goalScale = isOpening ? new Vector3(openXScale, textBoxParent.localScale.y, textBoxParent.localScale.z) : 
-                                        new Vector3(closeXScale, textBoxParent.localScale.y, textBoxParent.localScale.z);
-
-        float current = 0;
-
-        while(Mathf.Abs(textBoxParent.localScale.x - goalScale.x) > SNAP_DISTANCE){
-            textBoxParent.localScale = Vector3.Lerp(textBoxParent.localScale, goalScale, current / animationDuration);
-            current += Time.deltaTime;
-            yield return null;
-        }
-
-        textBoxParent.localScale = goalScale;
-
-        if(!isOpening){
-            textBoxParent.gameObject.SetActive(false);
-        }
-    }
-
-    private void AnimateText(TextMeshProUGUI textToAnimate, DialogueEffect sentenceDialogueEffect){
-        switch (sentenceDialogueEffect){
-            case DialogueEffect.None:
-                break;
-            case DialogueEffect.Wobble:
-                break;
-            case DialogueEffect.Pulse:
-                break;
-            case DialogueEffect.Shake:
-                break;
-        }
     }
 }

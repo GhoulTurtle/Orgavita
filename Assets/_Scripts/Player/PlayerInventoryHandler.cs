@@ -7,6 +7,16 @@ public class PlayerInventoryHandler : MonoBehaviour{
     [SerializeField] private PlayerInventorySO currentInventory;
     [SerializeField] private PlayerInventoryRecipeListSO currentInventoryRecipeList;
 
+    private InventoryState currentInventoryState = InventoryState.Closed;
+
+    public EventHandler<InventoryStateChangedEventArgs> OnInventoryStateChanged;
+    public class InventoryStateChangedEventArgs : EventArgs{
+        public InventoryState inventoryState;
+        public InventoryStateChangedEventArgs(InventoryState _inventoryState){
+            inventoryState = _inventoryState;
+        }
+    }
+
     public EventHandler<SetupInventoryEventArgs> OnSetupInventory;
     public class SetupInventoryEventArgs : EventArgs{
         public PlayerInventorySO playerInventorySO;
@@ -14,9 +24,6 @@ public class PlayerInventoryHandler : MonoBehaviour{
             playerInventorySO = _playerInventorySO;
         }
     }
-
-    public EventHandler OnShowInventory;
-    public EventHandler OnHideInventory;
 
     private PlayerInputHandler playerInputHandler;
 
@@ -31,33 +38,76 @@ public class PlayerInventoryHandler : MonoBehaviour{
     private void OnDestroy() {
         if(playerInputHandler == null) return;
 
-        playerInputHandler.OnCancelInput -= ExitInventoryInput;
+        playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
     }
 
     public void InventoryInput(InputAction.CallbackContext context){
         if(context.phase != InputActionPhase.Performed) return;
 
-        SubscribeToUIInput();
-        GameManager.UpdateGameState(GameState.UI);
-        OnShowInventory?.Invoke(this, EventArgs.Empty);
+        UpdateInventoryState(InventoryState.Default);
     }
 
     public void SetupInventory(){
         OnSetupInventory?.Invoke(this, new SetupInventoryEventArgs(currentInventory));
     }
 
-    private void ExitInventoryInput(object sender, PlayerInputHandler.InputEventArgs e){
-        UnSubscribeFromUIInput();
+    public void UpdateInventoryState(InventoryState inventoryState){
+        if(currentInventoryState == inventoryState) return;
+
+        currentInventoryState = inventoryState;
+
+        switch (inventoryState){
+            case InventoryState.Closed: ClosedInventoryState();
+                break;
+            case InventoryState.Default: DefaultInventoryState();
+                break;
+            case InventoryState.ContextUI: ContextUIInventoryState();
+                break;
+            case InventoryState.Combine: CombineInventoryState();
+                break;
+            case InventoryState.Inspect: InspectInventoryState();
+                break;
+        }
+
+        OnInventoryStateChanged?.Invoke(this, new InventoryStateChangedEventArgs(currentInventoryState));
+    }
+
+    private void InspectInventoryState(){
+        playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
+        playerInputHandler.OnCancelInput += ReturnToContextUIInput;
+    }
+
+    private void CombineInventoryState(){
+        playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
+        playerInputHandler.OnCancelInput += ReturnToContextUIInput;
+    }
+
+    private void ContextUIInventoryState(){
+        playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
+        playerInputHandler.OnCancelInput += ReturnToInventoryUIInput;
+    }
+
+    private void DefaultInventoryState(){
+        playerInputHandler.OnCancelInput -= ReturnToInventoryUIInput;
+        playerInputHandler.OnCancelInput += ExitInventoryUIInput;
+        GameManager.UpdateGameState(GameState.UI);
+    }
+
+    private void ClosedInventoryState(){
+        playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
         GameManager.UpdateGameState(GameState.Game);
-        OnHideInventory?.Invoke(this, EventArgs.Empty);
     }
 
-    private void SubscribeToUIInput(){
-        playerInputHandler.OnCancelInput += ExitInventoryInput;
+    private void ReturnToContextUIInput(object sender, PlayerInputHandler.InputEventArgs e){
+        UpdateInventoryState(InventoryState.ContextUI);
     }
 
-    private void UnSubscribeFromUIInput(){
-        playerInputHandler.OnCancelInput -= ExitInventoryInput;
+    private void ReturnToInventoryUIInput(object sender, PlayerInputHandler.InputEventArgs e){
+        UpdateInventoryState(InventoryState.Default);
+    }
+
+    private void ExitInventoryUIInput(object sender, PlayerInputHandler.InputEventArgs e){
+        UpdateInventoryState(InventoryState.Closed);
     }
 
     public PlayerInventorySO GetInventory(){

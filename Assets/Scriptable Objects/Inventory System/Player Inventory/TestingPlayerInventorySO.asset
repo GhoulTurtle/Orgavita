@@ -12,10 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b086ce22b2bef2b40841ea36c6bd683f, type: 3}
   m_Name: TestingPlayerInventorySO
   m_EditorClassIdentifier: 
-  maxInventorySize: 6
+  maxInventorySize: 10
   inventory:
-  - heldItemData: {fileID: 11400000, guid: 31eb7a6be111eff4fa84b7f5f86351bd, type: 2}
-    currentItemStackAmount: 1
+  - heldItemData: {fileID: 0}
+    currentItemStackAmount: 0
+  - heldItemData: {fileID: 0}
+    currentItemStackAmount: 0
+  - heldItemData: {fileID: 0}
+    currentItemStackAmount: 0
+  - heldItemData: {fileID: 0}
+    currentItemStackAmount: 0
+  - heldItemData: {fileID: 0}
+    currentItemStackAmount: 0
   - heldItemData: {fileID: 0}
     currentItemStackAmount: 0
   - heldItemData: {fileID: 0}

@@ -54,8 +54,6 @@ public class PlayerInventoryHandler : MonoBehaviour{
     public void UpdateInventoryState(InventoryState inventoryState){
         if(currentInventoryState == inventoryState) return;
 
-        currentInventoryState = inventoryState;
-
         switch (inventoryState){
             case InventoryState.Closed: ClosedInventoryState();
                 break;
@@ -68,6 +66,8 @@ public class PlayerInventoryHandler : MonoBehaviour{
             case InventoryState.Inspect: InspectInventoryState();
                 break;
         }
+
+        currentInventoryState = inventoryState;
 
         OnInventoryStateChanged?.Invoke(this, new InventoryStateChangedEventArgs(currentInventoryState));
     }
@@ -88,9 +88,9 @@ public class PlayerInventoryHandler : MonoBehaviour{
     }
 
     private void DefaultInventoryState(){
+        GameManager.UpdateGameState(GameState.UI);
         playerInputHandler.OnCancelInput -= ReturnToInventoryUIInput;
         playerInputHandler.OnCancelInput += ExitInventoryUIInput;
-        GameManager.UpdateGameState(GameState.UI);
     }
 
     private void ClosedInventoryState(){
@@ -99,14 +99,17 @@ public class PlayerInventoryHandler : MonoBehaviour{
     }
 
     private void ReturnToContextUIInput(object sender, PlayerInputHandler.InputEventArgs e){
+        if(e.inputActionPhase != InputActionPhase.Performed) return;
         UpdateInventoryState(InventoryState.ContextUI);
     }
 
     private void ReturnToInventoryUIInput(object sender, PlayerInputHandler.InputEventArgs e){
+        if(e.inputActionPhase != InputActionPhase.Performed) return;
         UpdateInventoryState(InventoryState.Default);
     }
 
     private void ExitInventoryUIInput(object sender, PlayerInputHandler.InputEventArgs e){
+        if(e.inputActionPhase != InputActionPhase.Performed) return;
         UpdateInventoryState(InventoryState.Closed);
     }
 

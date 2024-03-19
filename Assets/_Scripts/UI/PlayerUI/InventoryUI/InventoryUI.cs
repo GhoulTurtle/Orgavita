@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,12 @@ public class InventoryUI : MonoBehaviour{
     [SerializeField] private ItemUI itemUITemplate;
     [SerializeField] private ItemUI equippedItemUI;
     [SerializeField] private ItemUI emergencyItemUI;
+
+    [Header("UI Animation Variables")]
+    [SerializeField] private Vector2 closeScale;
+    [SerializeField] private float animationDuration = 0.5f;
+    private Vector3 openScale = Vector3.one;
+    private IEnumerator currentInventoryUIAnimation;
 
     [Header("Required References")]
     [SerializeField] private PlayerInventoryHandler playerInventoryHandler;
@@ -36,7 +43,8 @@ public class InventoryUI : MonoBehaviour{
         currentItemUI = new List<ItemUI>();
         currentItemSlotUI = new List<ItemSlotUI>();
 
-        HideInventoryScreen();
+        inventoryUISelector.DisableSelector();
+        inventoryScreen.gameObject.SetActive(false);
 
         if(playerInventoryHandler == null) return;
 
@@ -46,13 +54,17 @@ public class InventoryUI : MonoBehaviour{
     }
 
     private void OnDestroy() {
+        StopAllCoroutines();
+
         if(playerInventoryHandler == null) return;
-
         playerInventoryHandler.OnInventoryStateChanged -= EvaluateInventoryState;
-
         playerInventoryHandler.OnSetupInventory -= SetupInventoryUI;
-
         playerInventoryHandler.GetInventory().OnMaxInventoryIncreased -= (sender, e) => AddNewInventoryUI(e.newSlotsAdded);
+    }
+
+    public void ClickedSelectedItemUI(){
+
+        playerInventoryHandler.UpdateInventoryState(InventoryState.ContextUI);
     }
 
     public void SelectItemUI(ItemUI itemUI){
@@ -105,9 +117,21 @@ public class InventoryUI : MonoBehaviour{
     }
 
     private void ShowInventoryScreen(){        
+        inventoryUISelector.EnableSelector();
+        
+        if(currentInventoryUIAnimation != null){
+            StopCoroutine(currentInventoryUIAnimation);
+            currentInventoryUIAnimation = null;
+        }
+
         inventoryScreen.gameObject.SetActive(true);
 
-        inventoryUISelector.EnableSelector();
+        inventoryScreen.localScale = closeScale;
+
+        currentInventoryUIAnimation = UIAnimator.UIStretchAnimation(inventoryScreen, openScale, animationDuration, false);        
+
+        StartCoroutine(currentInventoryUIAnimation);
+
         if(currentSelectedItemUI != null){
             var itemUIInventoryItem = currentSelectedItemUI.GetInventoryItem();
             OnSlotSelected?.Invoke(this, new SlotSelectedEventArgs(itemUIInventoryItem, itemUIInventoryItem.GetHeldItem()));
@@ -116,6 +140,16 @@ public class InventoryUI : MonoBehaviour{
 
     private void HideInventoryScreen(){
         inventoryUISelector.DisableSelector();
-        inventoryScreen.gameObject.SetActive(false);
+
+        if(currentInventoryUIAnimation != null){
+            StopCoroutine(currentInventoryUIAnimation);
+            currentInventoryUIAnimation = null;
+        }
+
+        inventoryScreen.localScale = openScale;
+
+        currentInventoryUIAnimation = UIAnimator.UIStretchAnimation(inventoryScreen, closeScale, animationDuration, true);        
+
+        StartCoroutine(currentInventoryUIAnimation);
     }
 }

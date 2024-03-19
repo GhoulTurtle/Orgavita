@@ -435,17 +435,6 @@
                 },
                 {
                     "name": "",
-                    "id": "8740e75e-d3b3-4e65-acdb-d0d05e315fae",
-                    "path": "<Keyboard>/tab",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Cancel",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "1b5b1ce1-fcf5-440e-9784-bcf74cfa8249",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",

@@ -1716,6 +1716,22 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 361538590, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: closeScale.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 361538590, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: closeScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 361538590, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: closeScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 361538590, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: animationDuration
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 397133274, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0

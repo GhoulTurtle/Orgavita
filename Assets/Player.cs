@@ -457,6 +457,17 @@ public partial class @Player: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""120e9837-a878-4ef5-82fc-14d04de247e8"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""1b5b1ce1-fcf5-440e-9784-bcf74cfa8249"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",

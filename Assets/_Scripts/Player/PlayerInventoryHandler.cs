@@ -1,11 +1,17 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class PlayerInventoryHandler : MonoBehaviour{
+    [Header("Input Variables")]
+    [SerializeField] private float inputLockoutTime = 0.5f;
+
     [Header("Scriptable Object Required References")]
     [SerializeField] private PlayerInventorySO currentInventory;
     [SerializeField] private PlayerInventoryRecipeListSO currentInventoryRecipeList;
+
+    public InventoryState CurrentInventoryState => currentInventoryState;
 
     private InventoryState currentInventoryState = InventoryState.Closed;
 
@@ -27,6 +33,8 @@ public class PlayerInventoryHandler : MonoBehaviour{
 
     private PlayerInputHandler playerInputHandler;
 
+    private bool inputValid = true;
+
     private void Awake() {
         TryGetComponent(out playerInputHandler);
     }
@@ -39,6 +47,7 @@ public class PlayerInventoryHandler : MonoBehaviour{
         if(playerInputHandler == null) return;
 
         playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
+        StopAllCoroutines();
     }
 
     public void InventoryInput(InputAction.CallbackContext context){
@@ -54,6 +63,8 @@ public class PlayerInventoryHandler : MonoBehaviour{
     public void UpdateInventoryState(InventoryState inventoryState){
         if(currentInventoryState == inventoryState) return;
 
+        StartCoroutine(InputLockoutCoroutine());
+
         switch (inventoryState){
             case InventoryState.Closed: ClosedInventoryState();
                 break;
@@ -67,9 +78,15 @@ public class PlayerInventoryHandler : MonoBehaviour{
                 break;
         }
 
-        currentInventoryState = inventoryState;
+        OnInventoryStateChanged?.Invoke(this, new InventoryStateChangedEventArgs(inventoryState));
 
-        OnInventoryStateChanged?.Invoke(this, new InventoryStateChangedEventArgs(currentInventoryState));
+        currentInventoryState = inventoryState;
+    }
+
+    private IEnumerator InputLockoutCoroutine(){
+        inputValid = false;
+        yield return new WaitForSeconds(inputLockoutTime);
+        inputValid = true;
     }
 
     private void InspectInventoryState(){
@@ -99,17 +116,23 @@ public class PlayerInventoryHandler : MonoBehaviour{
     }
 
     private void ReturnToContextUIInput(object sender, PlayerInputHandler.InputEventArgs e){
-        if(e.inputActionPhase != InputActionPhase.Performed) return;
+        if(!inputValid) return;
+
+        if(e.inputActionPhase != InputActionPhase.Started) return;
         UpdateInventoryState(InventoryState.ContextUI);
     }
 
     private void ReturnToInventoryUIInput(object sender, PlayerInputHandler.InputEventArgs e){
-        if(e.inputActionPhase != InputActionPhase.Performed) return;
+        if(!inputValid) return;
+
+        if(e.inputActionPhase != InputActionPhase.Started) return;
         UpdateInventoryState(InventoryState.Default);
     }
 
     private void ExitInventoryUIInput(object sender, PlayerInputHandler.InputEventArgs e){
-        if(e.inputActionPhase != InputActionPhase.Performed) return;
+        if(!inputValid) return;
+
+        if(e.inputActionPhase != InputActionPhase.Started) return;
         UpdateInventoryState(InventoryState.Closed);
     }
 

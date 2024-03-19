@@ -13,17 +13,19 @@ public static class UIAnimator{
 /// <param name="animationDuration"></param>
 /// <param name="deactivateAfterAnimation"></param>
 /// <returns></returns>
-    public static IEnumerator UIStretchAnimation(Transform transformToAnimate, Vector3 goalScale, float animationDuration, bool deactivateAfterAnimation = true){
+    public static IEnumerator UIStretchAnimationCoroutine(Transform transformToAnimate, Vector2 goalScale, float animationDuration, bool deactivateAfterAnimation = true){
         
+        var _goalScale = new Vector3(goalScale.x, goalScale.y, 1);
+
         float current = 0;
 
-        while(Vector3.Distance(transformToAnimate.localScale, goalScale) > LERP_SNAP_DISTANCE){
-            transformToAnimate.localScale = Vector3.Lerp(transformToAnimate.localScale, goalScale, current / animationDuration);
+        while(Vector3.Distance(transformToAnimate.localScale, _goalScale) > LERP_SNAP_DISTANCE){
+            transformToAnimate.localScale = Vector3.Lerp(transformToAnimate.localScale, _goalScale, current / animationDuration);
             current += Time.deltaTime;
             yield return null;
         }
 
-        transformToAnimate.localScale = goalScale;
+        transformToAnimate.localScale = _goalScale;
 
         if(deactivateAfterAnimation){
             transformToAnimate.gameObject.SetActive(false);
@@ -41,7 +43,7 @@ public static class UIAnimator{
 /// <param name="infiniteAnimation"></param>
 /// <param name="animationDuration"></param>
 /// <returns></returns>
-    public static IEnumerator UISinAnimation(Transform transformToAnimate, float transformYOrigin, float animationSpeed, float animationDistance, float animationDuration = -1f){
+    public static IEnumerator UISinAnimationCoroutine(Transform transformToAnimate, float transformYOrigin, float animationSpeed, float animationDistance, float animationDuration = -1f){
         while(animationDuration == -1f){
             transformToAnimate.localPosition = new Vector3(transformToAnimate.localPosition.x, SinAmount(transformYOrigin, animationSpeed, animationDistance), transformToAnimate.localPosition.z);
             yield return null;
@@ -74,7 +76,7 @@ public static class UIAnimator{
 /// <param name="infiniteAnimation"></param>
 /// <param name="animationDuration"></param>
 /// <returns></returns>
-    public static IEnumerator UICosAnimation(Transform transformToAnimate, float transformXOrigin, float animationSpeed, float animationDistance, float animationDuration = -1f){
+    public static IEnumerator UICosAnimationCoroutine(Transform transformToAnimate, float transformXOrigin, float animationSpeed, float animationDistance, float animationDuration = -1f){
         while(animationDuration == -1f){
             transformToAnimate.localPosition = new Vector3(CosAmount(transformXOrigin, animationSpeed, animationDistance), transformToAnimate.localPosition.y, transformToAnimate.localPosition.z);
             yield return null;
@@ -96,17 +98,32 @@ public static class UIAnimator{
         return xOrigin + Mathf.Cos(Time.time * cosSpread) * cosIntensity;
     }
 
-    public static IEnumerator AnimateText(TextMeshProUGUI textToAnimate, DialogueEffect sentenceDialogueEffect){
+    /// <summary>
+    /// Text animations. UNDER CONSTRUCTION
+    /// </summary>
+    /// <param name="textToAnimate"></param>
+    /// <param name="sentenceDialogueEffect"></param>
+    /// <returns></returns>
+
+    public static IEnumerator AnimateTextCoroutine(TextMeshProUGUI textToAnimate, DialogueEffect sentenceDialogueEffect){
         yield return null;
-        switch (sentenceDialogueEffect){
-            case DialogueEffect.None:
-                break;
-            case DialogueEffect.Wobble:
-                break;
-            case DialogueEffect.Pulse:
-                break;
-            case DialogueEffect.Shake:
-                break;
+    }
+
+    public static IEnumerator UILerpingAnimationCoroutine(Transform transformToAnimate, Vector2 goalPosition, float animationDuration, bool deactivateAfterAnimation = true){
+        var _goalScale = new Vector3(goalPosition.x, goalPosition.y, 1);
+        
+        float current = 0;
+
+        while(Vector3.Distance(transformToAnimate.localScale, _goalScale) > LERP_SNAP_DISTANCE){
+            transformToAnimate.localPosition = Vector3.Lerp(transformToAnimate.localPosition, _goalScale, current / animationDuration);
+            current += Time.deltaTime;
+            yield return null;
+        }
+
+        transformToAnimate.localPosition = _goalScale;
+
+        if(deactivateAfterAnimation){
+            transformToAnimate.gameObject.SetActive(false);
         }
     }
 }

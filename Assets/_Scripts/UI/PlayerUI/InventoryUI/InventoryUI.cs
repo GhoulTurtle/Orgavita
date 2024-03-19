@@ -34,6 +34,9 @@ public class InventoryUI : MonoBehaviour{
         }
     }
 
+    public EventHandler OnCurrentSlotClicked;
+    public EventHandler OnExitContextUI;
+
     private ItemUI currentSelectedItemUI;
 
     private List<ItemUI> currentItemUI;
@@ -63,8 +66,8 @@ public class InventoryUI : MonoBehaviour{
     }
 
     public void ClickedSelectedItemUI(){
-
         playerInventoryHandler.UpdateInventoryState(InventoryState.ContextUI);
+        OnCurrentSlotClicked?.Invoke(this, EventArgs.Empty);
     }
 
     public void SelectItemUI(ItemUI itemUI){
@@ -105,7 +108,14 @@ public class InventoryUI : MonoBehaviour{
         switch (e.inventoryState){
             case InventoryState.Closed: HideInventoryScreen();
                 break;
-            case InventoryState.Default: ShowInventoryScreen();
+            case InventoryState.Default:
+                if(playerInventoryHandler.CurrentInventoryState == InventoryState.Closed){
+                    ShowInventoryScreen();
+                }
+
+                if(playerInventoryHandler.CurrentInventoryState == InventoryState.ContextUI){
+                    OnExitContextUI?.Invoke(this, EventArgs.Empty);
+                }
                 break;
             case InventoryState.ContextUI: 
                 break;
@@ -128,7 +138,7 @@ public class InventoryUI : MonoBehaviour{
 
         inventoryScreen.localScale = closeScale;
 
-        currentInventoryUIAnimation = UIAnimator.UIStretchAnimation(inventoryScreen, openScale, animationDuration, false);        
+        currentInventoryUIAnimation = UIAnimator.UIStretchAnimationCoroutine(inventoryScreen, openScale, animationDuration, false);        
 
         StartCoroutine(currentInventoryUIAnimation);
 
@@ -148,7 +158,7 @@ public class InventoryUI : MonoBehaviour{
 
         inventoryScreen.localScale = openScale;
 
-        currentInventoryUIAnimation = UIAnimator.UIStretchAnimation(inventoryScreen, closeScale, animationDuration, true);        
+        currentInventoryUIAnimation = UIAnimator.UIStretchAnimationCoroutine(inventoryScreen, closeScale, animationDuration, true);        
 
         StartCoroutine(currentInventoryUIAnimation);
     }

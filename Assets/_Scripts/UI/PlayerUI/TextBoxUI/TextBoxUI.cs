@@ -144,7 +144,7 @@ public class TextBoxUI : MonoBehaviour{
 
         questionText.color = currentQuestion.SentenceColor;
 
-        UIAnimator.AnimateText(questionText, currentQuestion.SentenceDialogueEffect);
+        UIAnimator.AnimateTextCoroutine(questionText, currentQuestion.SentenceDialogueEffect);
     }
 
     private void SetupChoices(ChoiceDialogue[] choices){
@@ -179,7 +179,7 @@ public class TextBoxUI : MonoBehaviour{
         
         textBoxText.color = currentDialogue[currentDialogueIndex].SentenceColor;
         
-        UIAnimator.AnimateText(textBoxText, currentDialogue[currentDialogueIndex].SentenceDialogueEffect);
+        UIAnimator.AnimateTextCoroutine(textBoxText, currentDialogue[currentDialogueIndex].SentenceDialogueEffect);
         
         currentDialogueIndex++;
     }
@@ -199,7 +199,7 @@ public class TextBoxUI : MonoBehaviour{
     private void ShowTextBoxIndicator(){
         textBoxContinueIndicator.gameObject.SetActive(true);
         
-        currentIndicatorAnimation = UIAnimator.UISinAnimation(textBoxContinueIndicator, indicatorOriginalYPosition, indicatorMoveSpeed, indicatorMoveDistance);
+        currentIndicatorAnimation = UIAnimator.UISinAnimationCoroutine(textBoxContinueIndicator, indicatorOriginalYPosition, indicatorMoveSpeed, indicatorMoveDistance);
 
         StartCoroutine(currentIndicatorAnimation);
     }
@@ -228,7 +228,7 @@ public class TextBoxUI : MonoBehaviour{
 
         Vector3 textBoxGoalScale = isOpening ? new Vector3(openXScale, textBoxParent.localScale.y, textBoxParent.localScale.z) : 
                                            new Vector3(closeXScale, textBoxParent.localScale.y, textBoxParent.localScale.z);
-        currentTextboxAnimation = UIAnimator.UIStretchAnimation(textBoxParent, textBoxGoalScale, animationDuration, !isOpening);
+        currentTextboxAnimation = UIAnimator.UIStretchAnimationCoroutine(textBoxParent, textBoxGoalScale, animationDuration, !isOpening);
 
         StartCoroutine(currentTextboxAnimation);
     }

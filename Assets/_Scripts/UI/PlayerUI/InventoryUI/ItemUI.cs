@@ -66,6 +66,10 @@ public class ItemUI : MonoBehaviour, ISelectHandler{
         inventoryUI.SelectItemUI(this);
     }
 
+    public void OnClick(){
+        inventoryUI.ClickedSelectedItemUI();
+    }
+
     public InventoryItem GetInventoryItem(){
         return associatedInventoryItem;
     }

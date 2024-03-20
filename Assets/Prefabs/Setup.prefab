@@ -1009,10 +1009,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedItemNameText: {fileID: 2133029004}
   selectedItemDescriptionText: {fileID: 418978877}
-  contextButtonParent: {fileID: 2081108378}
+  contextUIParent: {fileID: 1954625570}
   contextButtonTemplate: {fileID: 6529394230700671486, guid: 376dfb6b8562d8044bcfe11af615dee7,
     type: 3}
+  contextButtonParent: {fileID: 2081108379}
   inventoryUI: {fileID: 361538590}
+  startingContextButtonSpacing: -100
+  addContextButtonSpacing: 25
+  animationDuration: 0.5
+  animationPopoutOffset: {x: 0, y: 190}
 --- !u!114 &1870531789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6528,7 +6533,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -2.0600586, y: -169.98}
+  m_AnchoredPosition: {x: -2.0600586, y: -360}
   m_SizeDelta: {x: 467.5, y: 243.35}
   m_Pivot: {x: 1, y: 0.5}
 --- !u!1 &1976089129
@@ -6853,8 +6858,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000061035156, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -20.998001}
+  m_SizeDelta: {x: -26.5, y: -64.846}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2081108379
 MonoBehaviour:
@@ -6869,11 +6874,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Padding:
-    m_Left: 10
+    m_Left: 0
     m_Right: 0
-    m_Top: 15
+    m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -8341,6 +8346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0cbc5e7af247044bbe48b26a4ddfbf0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputLockoutTime: 0.25
   currentInventory: {fileID: 11400000, guid: 43cda2997f2cc084b9d3e989d0cefc65, type: 2}
   currentInventoryRecipeList: {fileID: 0}
 --- !u!1 &7793910638020122993

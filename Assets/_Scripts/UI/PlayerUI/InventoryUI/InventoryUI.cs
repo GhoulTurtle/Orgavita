@@ -34,7 +34,20 @@ public class InventoryUI : MonoBehaviour{
         }
     }
 
-    public EventHandler OnCurrentSlotClicked;
+    public EventHandler<SlotClickedEventArgs> OnCurrentSlotClicked;
+    public class SlotClickedEventArgs : EventArgs{
+        public InventoryItem inventoryItemClicked;
+        public ItemDataSO itemDataClicked;
+        public PlayerInventoryHandler playerInventoryHandler;
+        public bool inEquipmentSlot = false;
+
+        public SlotClickedEventArgs(InventoryItem _inventoryItemClicked, ItemDataSO _itemDataClicked, PlayerInventoryHandler _playerInventoryHandler, bool _inEquipmentSlot){
+            inventoryItemClicked = _inventoryItemClicked;
+            itemDataClicked = _itemDataClicked;
+            playerInventoryHandler = _playerInventoryHandler;
+            inEquipmentSlot = _inEquipmentSlot;
+        }
+    }
     public EventHandler OnExitContextUI;
 
     private ItemUI currentSelectedItemUI;
@@ -67,7 +80,9 @@ public class InventoryUI : MonoBehaviour{
 
     public void ClickedSelectedItemUI(){
         playerInventoryHandler.UpdateInventoryState(InventoryState.ContextUI);
-        OnCurrentSlotClicked?.Invoke(this, EventArgs.Empty);
+
+        var selectedInventoryItem = currentSelectedItemUI.GetInventoryItem();
+        OnCurrentSlotClicked?.Invoke(this, new SlotClickedEventArgs(selectedInventoryItem, selectedInventoryItem.GetHeldItem(), playerInventoryHandler, currentSelectedItemUI.GetIsEquipmentSlot()));
     }
 
     public void SelectItemUI(ItemUI itemUI){
@@ -77,8 +92,8 @@ public class InventoryUI : MonoBehaviour{
     }
 
     private void SetupInventoryUI(object sender, PlayerInventoryHandler.SetupInventoryEventArgs e){
-        equippedItemUI.SetupItemUI(this, e.playerInventorySO.GetEquippedInventoryItem());
-        emergencyItemUI.SetupItemUI(this, e.playerInventorySO.GetEmergencyInventoryItem());
+        equippedItemUI.SetupItemUI(this, e.playerInventorySO.GetEquippedInventoryItem(), true);
+        emergencyItemUI.SetupItemUI(this, e.playerInventorySO.GetEmergencyInventoryItem(), true);
 
         playerInventoryHandler.GetInventory().OnMaxInventoryIncreased += (sender, e) => AddNewInventoryUI(e.newSlotsAdded);
 
@@ -114,10 +129,11 @@ public class InventoryUI : MonoBehaviour{
                 }
 
                 if(playerInventoryHandler.CurrentInventoryState == InventoryState.ContextUI){
+                    EnableItemUIInteractivity();
                     OnExitContextUI?.Invoke(this, EventArgs.Empty);
                 }
                 break;
-            case InventoryState.ContextUI: 
+            case InventoryState.ContextUI: DisableItemUIInteractivity();
                 break;
             case InventoryState.Combine: 
                 break;
@@ -161,5 +177,31 @@ public class InventoryUI : MonoBehaviour{
         currentInventoryUIAnimation = UIAnimator.UIStretchAnimationCoroutine(inventoryScreen, closeScale, animationDuration, true);        
 
         StartCoroutine(currentInventoryUIAnimation);
+    }
+
+    private void DisableItemUIInteractivity(){
+        foreach (ItemUI itemUI in currentItemUI){
+            itemUI.DisableInteractivity();
+        }
+
+        equippedItemUI.DisableInteractivity();
+        emergencyItemUI.DisableInteractivity();
+    }
+
+    private void EnableItemUIInteractivity(){
+        foreach (ItemUI itemUI in currentItemUI){
+            itemUI.EnableInteractivity();
+        }
+
+        equippedItemUI.EnableInteractivity();
+        emergencyItemUI.DisableInteractivity();
+    }
+
+    public void MoveSelectorBackToSelectedItemUI(){
+        inventoryUISelector.SetTarget(currentSelectedItemUI.transform);
+    }
+
+    public MenuSelector GetInventoryMenuSelector(){
+        return inventoryUISelector;
     }
 }

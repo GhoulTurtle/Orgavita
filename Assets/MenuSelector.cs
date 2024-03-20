@@ -44,7 +44,7 @@ public class MenuSelector : MonoBehaviour{
         }
     }
 
-    private void SetTarget(Transform target){
+    public void SetTarget(Transform target){
         if(CurrentEventSystem.currentSelectedGameObject != target.gameObject){
             CurrentEventSystem.SetSelectedGameObject(target.gameObject);
         }

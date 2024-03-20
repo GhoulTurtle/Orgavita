@@ -21,7 +21,11 @@ public class ItemUI : MonoBehaviour, ISelectHandler{
 
     private InventoryItem associatedInventoryItem;
 
-    public void SetupItemUI(InventoryUI _inventoryUI, InventoryItem _associatedInventoryItem){
+    private bool isEquipmentSlot = false;
+
+    public void SetupItemUI(InventoryUI _inventoryUI, InventoryItem _associatedInventoryItem, bool _isEquipmentSlot = false){
+        isEquipmentSlot = _isEquipmentSlot;
+
         inventoryUI = _inventoryUI;
     
         associatedInventoryItem = _associatedInventoryItem;
@@ -62,15 +66,29 @@ public class ItemUI : MonoBehaviour, ISelectHandler{
         itemImage.sprite = emptyItemSlotSprite;
     }
 
+    public void DisableInteractivity(){
+        itemUIButton.interactable = false;
+    }
+
+    public void EnableInteractivity(){
+        itemUIButton.interactable = true;
+    }
+
     public void OnSelect(BaseEventData eventData){
         inventoryUI.SelectItemUI(this);
     }
 
     public void OnClick(){
+        if(associatedInventoryItem.IsEmpty()) return;
+        
         inventoryUI.ClickedSelectedItemUI();
     }
 
     public InventoryItem GetInventoryItem(){
         return associatedInventoryItem;
+    }
+    
+    public bool GetIsEquipmentSlot(){
+        return isEquipmentSlot;
     }
 }

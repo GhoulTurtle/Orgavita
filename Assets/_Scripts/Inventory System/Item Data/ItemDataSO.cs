@@ -14,6 +14,7 @@ public abstract class ItemDataSO : ScriptableObject{
     [SerializeField] private Transform itemModelPrefab;
 
     [Header("Item Settings")]
+    [SerializeField] private ItemType itemType;
     [SerializeField] private bool isCombinable = false;
     [SerializeField] private bool isStackable = true;
     [SerializeField] private bool isDestroyable = true;
@@ -29,6 +30,10 @@ public abstract class ItemDataSO : ScriptableObject{
 
     public Sprite GetItemSprite(){
         return itemIcon;
+    }
+
+    public ItemType GetItemType(){
+        return itemType;
     }
 
     public bool GetIsCombinable(){

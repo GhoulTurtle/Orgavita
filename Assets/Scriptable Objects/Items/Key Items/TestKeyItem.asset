@@ -18,7 +18,8 @@ MonoBehaviour:
   itemInspectDescription: {fileID: 0}
   itemIcon: {fileID: 0}
   itemModelPrefab: {fileID: 0}
-  isCombinable: 0
+  itemType: 0
+  isCombinable: 1
   isStackable: 0
-  isDestroyable: 0
+  isDestroyable: 1
   maxStackSize: 1

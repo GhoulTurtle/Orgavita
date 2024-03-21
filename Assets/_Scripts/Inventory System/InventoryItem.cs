@@ -56,6 +56,19 @@ public class InventoryItem{
         OnItemUpdated?.Invoke(this, new ItemUpdatedEventArgs(heldItemData, currentItemStackAmount));
     }
 
+    public void SetStack(int stackAmount){
+         if(IsEmpty() || !IsStackable()) return;
+
+         currentItemStackAmount = stackAmount;
+
+         if(currentItemStackAmount <= 0){
+            ClearItem();
+            return;
+        }
+
+        OnItemUpdated?.Invoke(this, new ItemUpdatedEventArgs(heldItemData, currentItemStackAmount));
+    }
+
     public int SetItem(ItemDataSO itemData, int itemStackAmount = 1){
         if(itemData == null){
             ClearItem();

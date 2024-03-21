@@ -10,17 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c32ba6731676be4e9ce5077ee6a8527, type: 3}
-  m_Name: TestKeyItem
+  m_Name: TestKeyItem2
   m_EditorClassIdentifier: 
-  itemName: Divine Crank
-  itemQuickDescription: This crank is glowing with holy power... otherwise its just
-    a normal crank.
+  itemName: Holy Hammer
+  itemQuickDescription: The hammer god used lol
   itemInspectDescription: {fileID: 0}
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: a01087ce1455c7e4c8f2410c26afcfd2, type: 3}
   itemModelPrefab: {fileID: 0}
   itemType: 0
-  isUseable: 1
+  isUseable: 0
   isCombinable: 1
   isStackable: 1
-  isDestroyable: 1
-  maxStackSize: 2
+  isDestroyable: 0
+  maxStackSize: 3

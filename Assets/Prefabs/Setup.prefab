@@ -878,7 +878,7 @@ GameObject:
   - component: {fileID: 361538588}
   - component: {fileID: 361538587}
   - component: {fileID: 361538590}
-  - component: {fileID: 1870531790}
+  - component: {fileID: 7675127232587117695}
   - component: {fileID: 1870531789}
   m_Layer: 5
   m_Name: PlayerInventory
@@ -995,7 +995,7 @@ MonoBehaviour:
   animationDuration: 0.5
   playerInventoryHandler: {fileID: 1474441831}
   inventoryUISelector: {fileID: 1870531789}
---- !u!114 &1870531790
+--- !u!114 &7675127232587117695
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1014,8 +1014,14 @@ MonoBehaviour:
     type: 3}
   contextButtonParent: {fileID: 2081108379}
   inventoryUI: {fileID: 361538590}
+  playerInventoryHandler: {fileID: 1474441831}
   startingContextButtonSpacing: -100
   addContextButtonSpacing: 25
+  destroyConfirmationText:
+    Sentence: 'Confirm to destroy this item stack to clear inventory slot. Warning:
+      This cannot be undone.'
+    SentenceColor: {r: 1, g: 0, b: 0, a: 1}
+    SentenceDialogueEffect: 0
   animationDuration: 0.5
   animationPopoutOffset: {x: 0, y: 190}
 --- !u!114 &1870531789

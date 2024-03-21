@@ -90,6 +90,14 @@ public class PlayerInventorySO : ScriptableObject{
         return itemAmount;
     }
 
+    public int AttemptToStackItems(InventoryItem itemToStack, InventoryItem itemToAdd){
+        if(itemToStack.GetHeldItem() == null) return 0;
+
+        int itemAmount = itemToAdd.GetCurrentStack();
+
+        return itemToStack.AddToStack(itemAmount);
+    }
+
     public void EquipItem(InventoryItem itemToEquip){
         if(!equippedItem.IsEmpty()){
             SwapInventoryItems(equippedItem, itemToEquip);

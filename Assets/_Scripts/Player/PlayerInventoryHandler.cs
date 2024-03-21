@@ -83,6 +83,80 @@ public class PlayerInventoryHandler : MonoBehaviour{
         currentInventoryState = inventoryState;
     }
 
+    public string AttemptItemCombination(InventoryItem initalComboItem, InventoryItem incomingItem){
+        ComboResult newComboResult = new ComboResult();
+
+        if(initalComboItem.GetHeldItem() == incomingItem.GetHeldItem() && initalComboItem.IsFull() || 
+           initalComboItem.GetHeldItem() == incomingItem.GetHeldItem() && incomingItem.IsFull()){
+            newComboResult.SetComboResult(ComboResultType.Invalid_Stack_Combo, null);
+            return GetCombineResultMessage(newComboResult);
+        }
+    
+        if(initalComboItem.GetHeldItem() == incomingItem.GetHeldItem() && !initalComboItem.IsFull() && !incomingItem.IsFull()){
+            int remainingStack = currentInventory.AttemptToStackItems(incomingItem, initalComboItem);
+            if(remainingStack != 0){
+                initalComboItem.SetStack(remainingStack);
+            }
+            else{
+                initalComboItem.ClearItem();
+            }
+
+            newComboResult.SetComboResult(ComboResultType.Valid_Stack_Combo, incomingItem);
+            return GetCombineResultMessage(newComboResult);
+        }
+
+        //if initalcomboitem is a resource and the incoming item is a weapon the return either INVALIDWEAPONRESOURCECOMBO, VALIDWEAPONRESOUCECOMBO, or FULLWEAPON
+        //if initalcomboitem is a resource and the incoming item is a tool the return either INVALIDTOOLRESOURCECOMBO, VALIDTOOLRESOUCECOMBO or FULLTOOL
+
+        InventoryItem attemptedItemCombo = currentInventoryRecipeList.ReturnValidInventoryRecipeResult(initalComboItem.GetHeldItem(), incomingItem.GetHeldItem());
+        if(attemptedItemCombo == null){
+            newComboResult.SetComboResult(ComboResultType.Invalid_Combo, null);
+            return GetCombineResultMessage(newComboResult);
+        }
+
+        if(attemptedItemCombo != null){
+            //Hold a temp reference to the items before removing them incase we don't have room in the inventory
+            ItemDataSO initalComboItemData = initalComboItem.GetHeldItem();
+            ItemDataSO incomingItemData = incomingItem.GetHeldItem();
+
+            initalComboItem.RemoveFromStack(1);
+            incomingItem.RemoveFromStack(1);
+
+            int remainingItems = currentInventory.AttemptToAddItemToInventory(attemptedItemCombo.GetHeldItem(), attemptedItemCombo.GetCurrentStack());
+
+            if(remainingItems != 0){
+                //Add back the items into the inventory
+                currentInventory.AttemptToAddItemToInventory(initalComboItemData, 1);
+                currentInventory.AttemptToAddItemToInventory(incomingItemData, 1);
+
+                newComboResult.SetComboResult(ComboResultType.Full_Inventory, attemptedItemCombo);
+                return GetCombineResultMessage(newComboResult);
+            }
+
+            newComboResult.SetComboResult(ComboResultType.Valid_Combo, attemptedItemCombo);
+            return GetCombineResultMessage(newComboResult);
+        }
+
+        return "INVALID ITEM COMBINATION";
+    }
+
+    private string GetCombineResultMessage(ComboResult comboResult){
+        return comboResult.GetComboResultType() switch{
+            ComboResultType.Invalid_Combo => "Can't combine those.",
+            ComboResultType.Invalid_Weapon_Resource_Combo => "Wrong ammo type.",
+            ComboResultType.Invalid_Tool_Resource_Combo => "Wrong type of resource.",
+            ComboResultType.Invalid_Stack_Combo => "Can't stack those.",
+            ComboResultType.Valid_Combo => "Made " + comboResult.GetResultItemName() + " X" + comboResult.GetResultItemStack() + ".",
+            ComboResultType.Valid_Stack_Combo => "Successfully Stacked " + comboResult.GetResultItemName() + " X" + comboResult.GetResultItemStack() + ".",
+            ComboResultType.Valid_Weapon_Resource_Combo => "Loaded " + comboResult.GetResultItemName(),
+            ComboResultType.Valid_Tool_Resource_Combo => "Recharged " + comboResult.GetResultItemName(),
+            ComboResultType.Full_Weapon => comboResult.GetResultItemName() + " is already loaded.",
+            ComboResultType.Full_Tool => comboResult.GetResultItemName() + " is already charged.",
+            ComboResultType.Full_Inventory => "Can't hold anymore items.",
+            _ => "ERROR NO COMBO RESULT TYPE FOUND",
+        };
+    }
+
     private IEnumerator InputLockoutCoroutine(){
         inputValid = false;
         yield return new WaitForSeconds(inputLockoutTime);
@@ -91,26 +165,32 @@ public class PlayerInventoryHandler : MonoBehaviour{
 
     private void InspectInventoryState(){
         playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
+        playerInputHandler.OnCancelInput -= ReturnDefaultInventoryUIInput;
         playerInputHandler.OnCancelInput += ReturnToContextUIInput;
     }
 
     private void CombineInventoryState(){
         playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
+        playerInputHandler.OnCancelInput -= ReturnDefaultInventoryUIInput;
         playerInputHandler.OnCancelInput += ReturnToContextUIInput;
     }
 
     private void ContextUIInventoryState(){
         playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
-        playerInputHandler.OnCancelInput += ReturnToInventoryUIInput;
+        playerInputHandler.OnCancelInput -= ReturnToContextUIInput;
+        playerInputHandler.OnCancelInput += ReturnDefaultInventoryUIInput;
     }
 
     private void DefaultInventoryState(){
         GameManager.UpdateGameState(GameState.UI);
-        playerInputHandler.OnCancelInput -= ReturnToInventoryUIInput;
+        playerInputHandler.OnCancelInput -= ReturnDefaultInventoryUIInput;
+        playerInputHandler.OnCancelInput -= ReturnToContextUIInput;
         playerInputHandler.OnCancelInput += ExitInventoryUIInput;
     }
 
     private void ClosedInventoryState(){
+        playerInputHandler.OnCancelInput -= ReturnDefaultInventoryUIInput;
+        playerInputHandler.OnCancelInput -= ReturnToContextUIInput;
         playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
         GameManager.UpdateGameState(GameState.Game);
     }
@@ -122,7 +202,7 @@ public class PlayerInventoryHandler : MonoBehaviour{
         UpdateInventoryState(InventoryState.ContextUI);
     }
 
-    private void ReturnToInventoryUIInput(object sender, PlayerInputHandler.InputEventArgs e){
+    private void ReturnDefaultInventoryUIInput(object sender, PlayerInputHandler.InputEventArgs e){
         if(!inputValid) return;
 
         if(e.inputActionPhase != InputActionPhase.Started) return;

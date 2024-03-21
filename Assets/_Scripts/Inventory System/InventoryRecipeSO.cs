@@ -15,7 +15,7 @@ public class InventoryRecipeSO : ScriptableObject{
 
     [Header("Crafting Outputs")]
     [SerializeField] private ItemDataSO resultItemData;
-    [SerializeField] private RangedInt resultStackAmount;
+    [SerializeField] private int resultStackAmount;
 
     public bool ReturnIsValidCombination(ItemDataSO firstItem, ItemDataSO secondItem){
         if(firstItem == null || secondItem == null){
@@ -23,7 +23,7 @@ public class InventoryRecipeSO : ScriptableObject{
         }
 
         if(combineItemDataOne == firstItem && combineItemDataTwo == secondItem || combineItemDataOne == secondItem && combineItemDataTwo == firstItem){
-            return combineItemDataOne == firstItem && combineItemDataTwo == secondItem || combineItemDataOne == secondItem && combineItemDataTwo == firstItem;
+            return true;
         }
 
         return false;
@@ -35,6 +35,7 @@ public class InventoryRecipeSO : ScriptableObject{
 
     public int GetResultItemStackAmount(){
         if(returnOneItem) return 1;
-        return Random.Range(resultStackAmount.minValue, resultStackAmount.maxValue);
+        if(resultItemData.GetItemMaxStackSize() < resultStackAmount) return resultItemData.GetItemMaxStackSize();
+        else return resultStackAmount;
     }
 }

@@ -5,14 +5,19 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class ContextButton{
+    private ContextMenuUI contextMenuUI;
     private ContextButtonType buttonType;
+
 
     private PlayerInventoryHandler playerInventoryHandler;
     private PlayerInventorySO playerInventory;
     private InventoryItem selectedInventoryItem;
 
-    public ContextButton(ContextButtonType _buttonType, InventoryItem _selectedInventoryItem, PlayerInventoryHandler _playerInventoryHandler){
+    private bool isConfirmingDestroy = false;
+
+    public ContextButton(ContextButtonType _buttonType, ContextMenuUI _contextMenuUI, InventoryItem _selectedInventoryItem, PlayerInventoryHandler _playerInventoryHandler){
         buttonType = _buttonType;
+        contextMenuUI = _contextMenuUI;
         selectedInventoryItem = _selectedInventoryItem;
         playerInventoryHandler = _playerInventoryHandler;
 
@@ -49,8 +54,14 @@ public class ContextButton{
     }
 
     private void DestroyAction(){
-        selectedInventoryItem.ClearItem();
-        playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
+        if(isConfirmingDestroy){
+            selectedInventoryItem.ClearItem();
+            playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
+            return;
+        }
+
+        contextMenuUI.DestroyConfirmationText();
+        isConfirmingDestroy = true;
     }
 
     private void UnEquipAction(){

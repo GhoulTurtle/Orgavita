@@ -81,7 +81,7 @@ public class ItemUI : MonoBehaviour, ISelectHandler{
     public void OnClick(){
         if(associatedInventoryItem.IsEmpty()) return;
         
-        inventoryUI.ClickedSelectedItemUI();
+        inventoryUI.ClickedSelectedItemUI(this);
     }
 
     public InventoryItem GetInventoryItem(){

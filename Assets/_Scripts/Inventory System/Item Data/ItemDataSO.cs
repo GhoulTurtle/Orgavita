@@ -15,6 +15,7 @@ public abstract class ItemDataSO : ScriptableObject{
 
     [Header("Item Settings")]
     [SerializeField] private ItemType itemType;
+    [SerializeField] private bool isUseable = true;
     [SerializeField] private bool isCombinable = false;
     [SerializeField] private bool isStackable = true;
     [SerializeField] private bool isDestroyable = true;
@@ -34,6 +35,10 @@ public abstract class ItemDataSO : ScriptableObject{
 
     public ItemType GetItemType(){
         return itemType;
+    }
+
+    public bool GetIsUseable(){
+        return isUseable;
     }
 
     public bool GetIsCombinable(){

@@ -34,21 +34,15 @@ public class InventoryUI : MonoBehaviour{
         }
     }
 
-    public EventHandler<SlotClickedEventArgs> OnCurrentSlotClicked;
-    public class SlotClickedEventArgs : EventArgs{
-        public InventoryItem inventoryItemClicked;
-        public ItemDataSO itemDataClicked;
-        public PlayerInventoryHandler playerInventoryHandler;
-        public bool inEquipmentSlot = false;
+    public EventHandler<SlotCombinedEventArgs> OnSlotCombined;
 
-        public SlotClickedEventArgs(InventoryItem _inventoryItemClicked, ItemDataSO _itemDataClicked, PlayerInventoryHandler _playerInventoryHandler, bool _inEquipmentSlot){
-            inventoryItemClicked = _inventoryItemClicked;
-            itemDataClicked = _itemDataClicked;
-            playerInventoryHandler = _playerInventoryHandler;
-            inEquipmentSlot = _inEquipmentSlot;
+    public class SlotCombinedEventArgs : EventArgs{
+        public string comboResultText;
+
+        public SlotCombinedEventArgs(string _comboResultText){
+            comboResultText = _comboResultText;
         }
     }
-    public EventHandler OnExitContextUI;
 
     private ItemUI currentSelectedItemUI;
 
@@ -78,15 +72,36 @@ public class InventoryUI : MonoBehaviour{
         playerInventoryHandler.GetInventory().OnMaxInventoryIncreased -= (sender, e) => AddNewInventoryUI(e.newSlotsAdded);
     }
 
-    public void ClickedSelectedItemUI(){
-        playerInventoryHandler.UpdateInventoryState(InventoryState.ContextUI);
+    public void ClickedSelectedItemUI(ItemUI itemUIClicked)
+    {
+        if (playerInventoryHandler.CurrentInventoryState == InventoryState.Default){
+            playerInventoryHandler.UpdateInventoryState(InventoryState.ContextUI);
+            return;
+        }
 
-        var selectedInventoryItem = currentSelectedItemUI.GetInventoryItem();
-        OnCurrentSlotClicked?.Invoke(this, new SlotClickedEventArgs(selectedInventoryItem, selectedInventoryItem.GetHeldItem(), playerInventoryHandler, currentSelectedItemUI.GetIsEquipmentSlot()));
+        if (playerInventoryHandler.CurrentInventoryState != InventoryState.Combine) return;
+        ShowCombineAttempt(itemUIClicked);
+    }
+
+    private void ShowCombineAttempt(ItemUI itemUIClicked){
+        if (currentSelectedItemUI == itemUIClicked){
+            playerInventoryHandler.UpdateInventoryState(InventoryState.ContextUI);
+            OnSlotSelected?.Invoke(this, new SlotSelectedEventArgs(currentSelectedItemUI.GetInventoryItem(), currentSelectedItemUI.GetInventoryItem().GetHeldItem()));
+            return;
+        }
+
+        string resultText = playerInventoryHandler.AttemptItemCombination(currentSelectedItemUI.GetInventoryItem(), itemUIClicked.GetInventoryItem());
+
+        OnSlotCombined?.Invoke(this, new SlotCombinedEventArgs(resultText));
+
+        playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
     }
 
     public void SelectItemUI(ItemUI itemUI){
-        currentSelectedItemUI = itemUI;
+        if(playerInventoryHandler.CurrentInventoryState != InventoryState.Combine){
+            currentSelectedItemUI = itemUI;
+        }
+
         var itemUIInventoryItem = itemUI.GetInventoryItem();
         OnSlotSelected?.Invoke(this, new SlotSelectedEventArgs(itemUIInventoryItem, itemUIInventoryItem.GetHeldItem()));
     }
@@ -130,12 +145,11 @@ public class InventoryUI : MonoBehaviour{
 
                 if(playerInventoryHandler.CurrentInventoryState == InventoryState.ContextUI){
                     EnableItemUIInteractivity();
-                    OnExitContextUI?.Invoke(this, EventArgs.Empty);
                 }
                 break;
             case InventoryState.ContextUI: DisableItemUIInteractivity();
                 break;
-            case InventoryState.Combine: 
+            case InventoryState.Combine: EnableItemUIInteractivity();
                 break;
             case InventoryState.Inspect:
                 break;
@@ -194,7 +208,7 @@ public class InventoryUI : MonoBehaviour{
         }
 
         equippedItemUI.EnableInteractivity();
-        emergencyItemUI.DisableInteractivity();
+        emergencyItemUI.EnableInteractivity();
     }
 
     public void MoveSelectorBackToSelectedItemUI(){
@@ -203,5 +217,17 @@ public class InventoryUI : MonoBehaviour{
 
     public MenuSelector GetInventoryMenuSelector(){
         return inventoryUISelector;
+    }
+
+    public bool GetSelectedItemInEquipmentSlot(){
+        return currentSelectedItemUI.GetIsEquipmentSlot();
+    }
+
+    public InventoryItem GetSelectedInventoryItem(){
+        return currentSelectedItemUI.GetInventoryItem();
+    }
+
+    public ItemDataSO GetSelectedItemData(){
+        return currentSelectedItemUI.GetInventoryItem().GetHeldItem();
     }
 }

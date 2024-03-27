@@ -33,6 +33,10 @@ public abstract class ItemDataSO : ScriptableObject{
         return itemIcon;
     }
 
+    public Transform GetItemModel(){
+        return itemModelPrefab;
+    }
+
     public ItemType GetItemType(){
         return itemType;
     }

@@ -12,12 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b086ce22b2bef2b40841ea36c6bd683f, type: 3}
   m_Name: TestingPlayerInventorySO
   m_EditorClassIdentifier: 
-  maxInventorySize: 10
+  maxInventorySize: 8
   inventory:
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
   - heldItemData: {fileID: 0}
     currentItemStackAmount: 0
   - heldItemData: {fileID: 0}
@@ -42,4 +38,4 @@ MonoBehaviour:
     currentItemStackAmount: 0
   unlockedTools: []
   cleanInventoryOnPlay: 1
-  defaultMaxInventory: 6
+  defaultMaxInventory: 12

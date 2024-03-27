@@ -17,7 +17,8 @@ MonoBehaviour:
     a normal crank.
   itemInspectDescription: {fileID: 0}
   itemIcon: {fileID: 0}
-  itemModelPrefab: {fileID: 0}
+  itemModelPrefab: {fileID: 2296407230400467076, guid: a304041efad9cd448b4ebb6ec789c187,
+    type: 3}
   itemType: 0
   isUseable: 1
   isCombinable: 1

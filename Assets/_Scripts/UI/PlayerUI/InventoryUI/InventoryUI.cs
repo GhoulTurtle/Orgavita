@@ -72,8 +72,7 @@ public class InventoryUI : MonoBehaviour{
         playerInventoryHandler.GetInventory().OnMaxInventoryIncreased -= (sender, e) => AddNewInventoryUI(e.newSlotsAdded);
     }
 
-    public void ClickedSelectedItemUI(ItemUI itemUIClicked)
-    {
+    public void ClickedSelectedItemUI(ItemUI itemUIClicked){
         if (playerInventoryHandler.CurrentInventoryState == InventoryState.Default){
             playerInventoryHandler.UpdateInventoryState(InventoryState.ContextUI);
             return;
@@ -145,13 +144,23 @@ public class InventoryUI : MonoBehaviour{
 
                 if(playerInventoryHandler.CurrentInventoryState == InventoryState.ContextUI){
                     EnableItemUIInteractivity();
+                    MoveSelectorBackToSelectedItemUI();
                 }
                 break;
-            case InventoryState.ContextUI: DisableItemUIInteractivity();
+            case InventoryState.ContextUI: 
+                if(playerInventoryHandler.CurrentInventoryState == InventoryState.Inspect){
+                    inventoryUISelector.EnableSelector();
+                }
+
+                DisableItemUIInteractivity();
                 break;
-            case InventoryState.Combine: EnableItemUIInteractivity();
+            case InventoryState.Combine:
+                EnableItemUIInteractivity();
+                MoveSelectorBackToSelectedItemUI();
                 break;
             case InventoryState.Inspect:
+                inventoryUISelector.DisableSelector();
+                DisableItemUIInteractivity();
                 break;
         }
     }
@@ -211,7 +220,7 @@ public class InventoryUI : MonoBehaviour{
         emergencyItemUI.EnableInteractivity();
     }
 
-    public void MoveSelectorBackToSelectedItemUI(){
+    private void MoveSelectorBackToSelectedItemUI(){
         inventoryUISelector.SetTarget(currentSelectedItemUI.transform);
     }
 
@@ -224,6 +233,7 @@ public class InventoryUI : MonoBehaviour{
     }
 
     public InventoryItem GetSelectedInventoryItem(){
+        if(currentSelectedItemUI == null) return null;
         return currentSelectedItemUI.GetInventoryItem();
     }
 

@@ -36,6 +36,8 @@ public class ContextMenuUI : MonoBehaviour{
     private IEnumerator currentDescriptionPrint;
     private IEnumerator currentContextUIAnimation;
 
+    private bool inCombineState = false;
+
     private void Awake() {
         currentContextButtons = new List<ContextButtonUI>();
 
@@ -70,24 +72,28 @@ public class ContextMenuUI : MonoBehaviour{
             case InventoryState.Closed:
                 break;
             case InventoryState.Default:
+                inCombineState = false;
                 if(playerInventoryHandler.CurrentInventoryState == InventoryState.ContextUI){
                     HideContextUI();
+                    StartQuickDescriptionPrint(inventoryUI.GetSelectedInventoryItem().GetHeldItem());
                 }
                 break;
             case InventoryState.ContextUI:
                 if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine){
-                    HideCombineUI();
+                    UpdateSelectedItemUI();
                 }
                 ShowContextUI();
                 break;
-            case InventoryState.Combine: ShowCombineUI();
+            case InventoryState.Combine: 
+                ShowCombineUI();
                 break;
-            case InventoryState.Inspect:
+            case InventoryState.Inspect: HideContextUI();
                 break;
         }
     }
 
     private void ShowCombineUI(){
+        inCombineState = true;
         HideContextUI();
         
         if(currentDescriptionPrint != null){
@@ -103,8 +109,10 @@ public class ContextMenuUI : MonoBehaviour{
         selectedItemDescriptionText.color = Color.white;
     }
 
-    private void HideCombineUI(){
-        
+    private void UpdateSelectedItemUI(){
+        selectedItemNameText.text = inventoryUI.GetSelectedInventoryItem().GetHeldItem().GetItemName();
+        selectedItemDescriptionText.color = Color.white;
+        selectedItemDescriptionText.text = inventoryUI.GetSelectedInventoryItem().GetHeldItem().GetItemQuickDescription();
     }
 
     private void ShowContextUI(){
@@ -133,7 +141,6 @@ public class ContextMenuUI : MonoBehaviour{
         StartCoroutine(currentContextUIAnimation);
 
         RemoveContextUIButtons();
-        inventoryUI.MoveSelectorBackToSelectedItemUI();
     }
 
     private void GenerateContextUIButtons(InventoryItem inventoryItem, ItemDataSO itemData){
@@ -173,20 +180,28 @@ public class ContextMenuUI : MonoBehaviour{
     }
 
     private void UpdateSelectionUI(object sender, InventoryUI.SlotSelectedEventArgs e){
-        if(currentDescriptionPrint != null){
-            DescriptionFinishedPrinting();
-        }
-
         ItemDataSO selectedItemData = e.itemDataSelected;
-        
-        if(selectedItemData == null){
+
+        if (selectedItemData == null){
             ClearSelectionUI();
             return;
         }
 
         selectedItemNameText.text = selectedItemData.GetItemName();
 
-        if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine) return;
+        if (inCombineState) return;
+
+        StartQuickDescriptionPrint(selectedItemData);
+    }
+
+    private void StartQuickDescriptionPrint(ItemDataSO selectedItemData){
+        if(selectedItemData == null){
+            ClearSelectionUI();
+            return;
+        }
+        if (currentDescriptionPrint != null){
+            DescriptionFinishedPrinting();
+        }
 
         selectedItemDescriptionText.color = Color.white;
         currentDescriptionPrint = TextPrinter.PrintSentence(selectedItemData.GetItemQuickDescription(), selectedItemDescriptionText, DescriptionFinishedPrinting);
@@ -199,6 +214,9 @@ public class ContextMenuUI : MonoBehaviour{
     }
 
     private void ClearSelectionUI(){
+        if (currentDescriptionPrint != null){
+            DescriptionFinishedPrinting();
+        }
         selectedItemNameText.text = "";
 
         if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine) return;

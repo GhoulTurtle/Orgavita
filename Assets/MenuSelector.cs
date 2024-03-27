@@ -97,10 +97,25 @@ public class MenuSelector : MonoBehaviour{
     public void EnableSelector(){
         isActive = true;
         CurrentEventSystem.SetSelectedGameObject(currentSelectedTransform.gameObject);
+        ShowSelectorVisual();
     }
 
     public void DisableSelector(){
+        if(currentMoveAnimation != null){
+            StopCoroutine(currentMoveAnimation);
+            currentMoveAnimation = null;
+        }
         isActive = false;
+        CurrentEventSystem.SetSelectedGameObject(null);
+        HideSelectorVisual();
+    }
+
+    private void HideSelectorVisual(){
+        selectorImageTransform.gameObject.SetActive(false);
+    }
+
+    private void ShowSelectorVisual(){
+        selectorImageTransform.gameObject.SetActive(true);
     }
 
     public void SetCursorStartingSelection(Transform _startingSelectedObject){

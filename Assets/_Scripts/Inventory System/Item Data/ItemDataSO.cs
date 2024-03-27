@@ -7,7 +7,7 @@ public abstract class ItemDataSO : ScriptableObject{
     [Header("Item Information")]
     [SerializeField] private string itemName;
     [SerializeField] private string itemQuickDescription;
-    [SerializeField] private BasicDialogueSO itemInspectDescription;
+    [SerializeField, TextArea(3,3)] private string itemInspectDescription;
     
     [Header("Item Visual")]
     [SerializeField] private Sprite itemIcon;
@@ -27,6 +27,10 @@ public abstract class ItemDataSO : ScriptableObject{
 
     public string GetItemQuickDescription(){
         return itemQuickDescription;
+    }
+
+    public string GetItemInspectDescription(){
+        return itemInspectDescription;
     }
 
     public Sprite GetItemSprite(){

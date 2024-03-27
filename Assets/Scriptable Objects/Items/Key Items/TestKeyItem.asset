@@ -15,7 +15,10 @@ MonoBehaviour:
   itemName: Divine Crank
   itemQuickDescription: This crank is glowing with holy power... otherwise its just
     a normal crank.
-  itemInspectDescription: {fileID: 0}
+  itemInspectDescription: The Holy Hand Crank is a sacred relic, rumored to have
+    been crafted by ancient mystics in a time long forgotten. This ornate device
+    emits a soft, ethereal glow, exuding an aura of divine power. When used, it can
+    activate hidden mechanisms, unlock mystical doors, and reveal secret passages.
   itemIcon: {fileID: 0}
   itemModelPrefab: {fileID: 2296407230400467076, guid: a304041efad9cd448b4ebb6ec789c187,
     type: 3}

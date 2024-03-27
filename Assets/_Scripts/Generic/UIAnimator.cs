@@ -104,23 +104,49 @@ public static class UIAnimator{
     /// <param name="textToAnimate"></param>
     /// <param name="sentenceDialogueEffect"></param>
     /// <returns></returns>
-
     public static IEnumerator AnimateTextCoroutine(TextMeshProUGUI textToAnimate, DialogueEffect sentenceDialogueEffect){
         yield return null;
     }
 
-    public static IEnumerator UILerpingAnimationCoroutine(Transform transformToAnimate, Vector2 goalPosition, float animationDuration, bool deactivateAfterAnimation = true){
-        var _goalScale = new Vector3(goalPosition.x, goalPosition.y, 1);
-        
+    /// <summary>
+    /// A lerp animation that lerps the textToAnimate margins to the goalMargins over the animation duration. 
+    /// </summary>
+    /// <param name="textToAnimate"></param>
+    /// <param name="goalMargins"></param>
+    /// <param name="animationDuration"></param>
+    /// <returns></returns>
+    public static IEnumerator UILerpingTextMarginAnimationCoroutine(TextMeshProUGUI textToAnimate, Vector4 goalMargins, float animationDuration){
         float current = 0;
 
-        while(Vector3.Distance(transformToAnimate.localScale, _goalScale) > LERP_SNAP_DISTANCE){
-            transformToAnimate.localPosition = Vector3.Lerp(transformToAnimate.localPosition, _goalScale, current / animationDuration);
+        while(Vector4.Distance(textToAnimate.margin, goalMargins) > LERP_SNAP_DISTANCE){
+            textToAnimate.margin = Vector4.Lerp(textToAnimate.margin, goalMargins, current / animationDuration);
             current += Time.deltaTime;
             yield return null;
         }
 
-        transformToAnimate.localPosition = _goalScale;
+        textToAnimate.margin = goalMargins;
+    }
+
+    /// <summary>
+    /// A lerp animation that lerps from the current object position to the goal position over the animation duration.
+    /// </summary>
+    /// <param name="transformToAnimate"></param>
+    /// <param name="goalPosition"></param>
+    /// <param name="animationDuration"></param>
+    /// <param name="deactivateAfterAnimation"></param>
+    /// <returns></returns>
+    public static IEnumerator UILerpingAnimationCoroutine(Transform transformToAnimate, Vector2 goalPosition, float animationDuration, bool deactivateAfterAnimation = true){
+        var _goalPosition = new Vector3(goalPosition.x, goalPosition.y, 1);
+        
+        float current = 0;
+
+        while(Vector3.Distance(transformToAnimate.localPosition, _goalPosition) > LERP_SNAP_DISTANCE){
+            transformToAnimate.localPosition = Vector3.Lerp(transformToAnimate.localPosition, _goalPosition, current / animationDuration);
+            current += Time.deltaTime;
+            yield return null;
+        }
+
+        transformToAnimate.localPosition = _goalPosition;
 
         if(deactivateAfterAnimation){
             transformToAnimate.gameObject.SetActive(false);

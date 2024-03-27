@@ -1,13 +1,8 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using UnityEngine.Events;
 
 public class ContextButton{
     private ContextMenuUI contextMenuUI;
     private ContextButtonType buttonType;
-
 
     private PlayerInventoryHandler playerInventoryHandler;
     private PlayerInventorySO playerInventory;

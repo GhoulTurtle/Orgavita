@@ -805,6 +805,7 @@ GameObject:
   - component: {fileID: 7675127232587117695}
   - component: {fileID: 44228164}
   - component: {fileID: 1870531789}
+  - component: {fileID: 822731223}
   m_Layer: 5
   m_Name: PlayerInventory
   m_TagString: Untagged
@@ -962,9 +963,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 361538590}
+  playerInventoryHandler: {fileID: 1474441831}
+  itemModelRender: {fileID: 1837081798}
   itemModelPivot: {fileID: 530017414}
   idleSpinStartDelay: 2
-  itemSpinSpeed: 0.15
+  itemSpinSpeed: 90
+  inspectAnimationSlideOffset: {x: -800, y: 0}
+  inspectAnimationTime: 1.25
 --- !u!114 &1870531789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -979,6 +984,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectorMoveTime: 0.5
   selectorImageTransform: {fileID: 1470401023}
+--- !u!114 &822731223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361538583}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcd790c5cb8b0414c9cca35df8a4f37b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryUI: {fileID: 361538590}
+  scrollRect: {fileID: 369196633}
+  viewportRectTransform: {fileID: 713419760}
+  contentRectTransform: {fileID: 998432314}
 --- !u!1 &369196631
 GameObject:
   m_ObjectHideFlags: 0
@@ -3137,8 +3158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -9.604675, y: 14.5881}
-  m_SizeDelta: {x: 9.6047, y: 42.3462}
+  m_AnchoredPosition: {x: -7.7805176, y: 14.588097}
+  m_SizeDelta: {x: 15.561001, y: 42.3462}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &713419763
 CanvasRenderer:
@@ -5038,6 +5059,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1557841138}
   - component: {fileID: 1557841140}
+  - component: {fileID: 1001848918}
   m_Layer: 9
   m_Name: ModelRenderCamera
   m_TagString: Untagged
@@ -5074,7 +5096,7 @@ Camera:
   m_GameObject: {fileID: 1557841137}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 3
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -5098,7 +5120,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
+  field of view: 45
   orthographic: 0
   orthographic size: 5
   m_Depth: 0
@@ -5109,13 +5131,30 @@ Camera:
   m_TargetTexture: {fileID: 8400000, guid: 39df4196307807444995a35db464f308, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
-  m_HDR: 1
+  m_HDR: 0
   m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
+--- !u!114 &1001848918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1557841137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 52ab600c3ff6a7045b4490df2ba9982f, type: 2}
 --- !u!1 &1562543188
 GameObject:
   m_ObjectHideFlags: 0

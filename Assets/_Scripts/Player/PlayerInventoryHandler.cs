@@ -33,6 +33,8 @@ public class PlayerInventoryHandler : MonoBehaviour{
 
     private PlayerInputHandler playerInputHandler;
 
+    private Vector2 navigationInput;
+
     private bool inputValid = true;
 
     private void Awake() {
@@ -167,6 +169,11 @@ public class PlayerInventoryHandler : MonoBehaviour{
         playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
         playerInputHandler.OnCancelInput -= ReturnDefaultInventoryUIInput;
         playerInputHandler.OnCancelInput += ReturnToContextUIInput;
+        playerInputHandler.OnNavigateInput += NavigationInput;
+    }
+
+    private void NavigationInput(object sender, PlayerInputHandler.InputEventArgs e){
+        navigationInput = e.callbackContext.ReadValue<Vector2>();
     }
 
     private void CombineInventoryState(){
@@ -178,6 +185,8 @@ public class PlayerInventoryHandler : MonoBehaviour{
     private void ContextUIInventoryState(){
         playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
         playerInputHandler.OnCancelInput -= ReturnToContextUIInput;
+        playerInputHandler.OnNavigateInput -= NavigationInput;
+        navigationInput = Vector2.zero;
         playerInputHandler.OnCancelInput += ReturnDefaultInventoryUIInput;
     }
 
@@ -228,7 +237,11 @@ public class PlayerInventoryHandler : MonoBehaviour{
         return currentInventoryRecipeList;
     }
 
+    public Vector2 GetNavigationInput(){
+        return navigationInput;
+    }
+    
     public void SetRecipeList(PlayerInventoryRecipeListSO inventoryRecipeListSO){
         currentInventoryRecipeList = inventoryRecipeListSO;
-    }
+    }   
 }

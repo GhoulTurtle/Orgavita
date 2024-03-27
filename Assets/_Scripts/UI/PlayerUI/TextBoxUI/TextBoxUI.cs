@@ -39,7 +39,6 @@ public class TextBoxUI : MonoBehaviour{
     private List<TextBoxAnswerButtonUI> currentAnswerButtonUI = new List<TextBoxAnswerButtonUI>();
 
     private IEnumerator currentTextboxAnimation;
-    private const float SNAP_DISTANCE = 0.01f;
 
     private IEnumerator currentIndicatorAnimation;
 

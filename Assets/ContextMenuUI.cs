@@ -12,6 +12,7 @@ public class ContextMenuUI : MonoBehaviour{
     [SerializeField] private Transform contextUIParent;
     [SerializeField] private ContextButtonUI contextButtonTemplate;
     [SerializeField] private VerticalLayoutGroup contextButtonParent;
+    [SerializeField] private Transform selectedItemDivider;
 
     [Header("Required References")]
     [SerializeField] private InventoryUI inventoryUI;
@@ -24,14 +25,27 @@ public class ContextMenuUI : MonoBehaviour{
     [Header("Context Menu Text")]
     [SerializeField] private Dialogue destroyConfirmationText;
 
-    [Header("UI Animation References")]
+    [Header("Context Menu Animation Variables")]
     [SerializeField] private float animationDuration = 0.5f;
     [SerializeField] private Vector2 animationPopoutOffset;
 
+    [Header("Inspect Animation Variables")]
+    [SerializeField] private float inspectAnimationDuration = 1.5f;
+    [SerializeField] private Vector2 itemDividerOffset;
+    [SerializeField] private Vector4 inspectItemDescriptionMargins;
+
     private List<ContextButtonUI> currentContextButtons;
+
+    private Vector2 itemDividerOriginalPosition;
+    private Vector2 itemDividerGoalPosition;
 
     private Vector2 contextMenuOriginalPosition;
     private Vector2 contextMenuPopupGoalPosition;
+
+    private Vector4 itemDescriptionOriginalMargins = Vector4.zero;
+
+    private IEnumerator currentItemDividerAnimation;
+    private IEnumerator currentItemDescriptionAnimation;
 
     private IEnumerator currentDescriptionPrint;
     private IEnumerator currentContextUIAnimation;
@@ -47,6 +61,9 @@ public class ContextMenuUI : MonoBehaviour{
 
         contextMenuOriginalPosition = contextUIParent.localPosition;
         contextMenuPopupGoalPosition = contextMenuOriginalPosition + animationPopoutOffset;
+
+        itemDividerOriginalPosition = selectedItemDivider.localPosition;
+        itemDividerGoalPosition = itemDividerOriginalPosition + itemDividerOffset;
 
         ClearSelectionUI();
     }
@@ -82,13 +99,48 @@ public class ContextMenuUI : MonoBehaviour{
                 if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine){
                     UpdateSelectedItemUI();
                 }
+                if(playerInventoryHandler.CurrentInventoryState == InventoryState.Inspect){
+                    ExitInspectAnimation();
+                }
                 ShowContextUI();
                 break;
             case InventoryState.Combine: 
                 ShowCombineUI();
                 break;
-            case InventoryState.Inspect: HideContextUI();
+            case InventoryState.Inspect: 
+                HideContextUI();
+                EnterInspectAnimation();
                 break;
+        }
+    }
+
+    private void EnterInspectAnimation(){
+        StopInspectAnimationCoroutines();
+        currentItemDividerAnimation = UIAnimator.UILerpingAnimationCoroutine(selectedItemDivider, itemDividerGoalPosition, inspectAnimationDuration, false);
+        StartCoroutine(currentItemDividerAnimation);
+        currentItemDescriptionAnimation = UIAnimator.UILerpingTextMarginAnimationCoroutine(selectedItemDescriptionText, inspectItemDescriptionMargins, inspectAnimationDuration);
+        StartCoroutine(currentItemDescriptionAnimation);
+        StartInspectDescriptionPrint(inventoryUI.GetSelectedItemData());
+    }
+
+    private void ExitInspectAnimation(){
+        StopInspectAnimationCoroutines();
+        currentItemDividerAnimation = UIAnimator.UILerpingAnimationCoroutine(selectedItemDivider, itemDividerOriginalPosition, inspectAnimationDuration, false);
+        StartCoroutine(currentItemDividerAnimation);
+        currentItemDescriptionAnimation = UIAnimator.UILerpingTextMarginAnimationCoroutine(selectedItemDescriptionText, itemDescriptionOriginalMargins, inspectAnimationDuration);
+        StartCoroutine(currentItemDescriptionAnimation);
+        StartQuickDescriptionPrint(inventoryUI.GetSelectedItemData());
+    }
+
+    private void StopInspectAnimationCoroutines(){
+        if(currentItemDividerAnimation != null){
+            StopCoroutine(currentItemDividerAnimation);
+            currentItemDividerAnimation = null;
+        }
+
+        if(currentItemDescriptionAnimation != null){
+            StopCoroutine(currentItemDescriptionAnimation);
+            currentItemDescriptionAnimation = null;
         }
     }
 
@@ -110,9 +162,9 @@ public class ContextMenuUI : MonoBehaviour{
     }
 
     private void UpdateSelectedItemUI(){
-        selectedItemNameText.text = inventoryUI.GetSelectedInventoryItem().GetHeldItem().GetItemName();
+        selectedItemNameText.text = inventoryUI.GetSelectedItemData().GetItemName();
         selectedItemDescriptionText.color = Color.white;
-        selectedItemDescriptionText.text = inventoryUI.GetSelectedInventoryItem().GetHeldItem().GetItemQuickDescription();
+        selectedItemDescriptionText.text = inventoryUI.GetSelectedItemData().GetItemQuickDescription();
     }
 
     private void ShowContextUI(){
@@ -180,6 +232,8 @@ public class ContextMenuUI : MonoBehaviour{
     }
 
     private void UpdateSelectionUI(object sender, InventoryUI.SlotSelectedEventArgs e){
+        DescriptionFinishedPrinting();
+        
         ItemDataSO selectedItemData = e.itemDataSelected;
 
         if (selectedItemData == null){
@@ -195,12 +249,10 @@ public class ContextMenuUI : MonoBehaviour{
     }
 
     private void StartQuickDescriptionPrint(ItemDataSO selectedItemData){
+        DescriptionFinishedPrinting();
         if(selectedItemData == null){
             ClearSelectionUI();
             return;
-        }
-        if (currentDescriptionPrint != null){
-            DescriptionFinishedPrinting();
         }
 
         selectedItemDescriptionText.color = Color.white;
@@ -208,15 +260,26 @@ public class ContextMenuUI : MonoBehaviour{
         StartCoroutine(currentDescriptionPrint);
     }
 
+    private void StartInspectDescriptionPrint(ItemDataSO selectedItemData){
+        DescriptionFinishedPrinting();
+        if(selectedItemData == null){
+            ClearSelectionUI();
+            return;
+        }
+
+        selectedItemDescriptionText.color = Color.white;
+        currentDescriptionPrint = TextPrinter.PrintSentence(selectedItemData.GetItemInspectDescription(), selectedItemDescriptionText, DescriptionFinishedPrinting);
+        StartCoroutine(currentDescriptionPrint);
+    }
+
     private void DescriptionFinishedPrinting(){
-        StopCoroutine(currentDescriptionPrint);
-        currentDescriptionPrint = null;
+        if(currentDescriptionPrint != null){
+            StopCoroutine(currentDescriptionPrint);
+            currentDescriptionPrint = null;
+        }
     }
 
     private void ClearSelectionUI(){
-        if (currentDescriptionPrint != null){
-            DescriptionFinishedPrinting();
-        }
         selectedItemNameText.text = "";
 
         if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine) return;

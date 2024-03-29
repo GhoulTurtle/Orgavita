@@ -3,7 +3,9 @@ using UnityEngine;
 /// <summary>
 /// Base scriptable object that all items derive from. Holds needed variables and methods for items.
 /// </summary>
-public abstract class ItemDataSO : ScriptableObject{
+
+[CreateAssetMenu(menuName = "Item/Basic Item", fileName = "NewItemDataSO")]
+public class ItemDataSO : ScriptableObject{
     [Header("Item Information")]
     [SerializeField] private string itemName;
     [SerializeField] private string itemQuickDescription;
@@ -11,7 +13,8 @@ public abstract class ItemDataSO : ScriptableObject{
     
     [Header("Item Visual")]
     [SerializeField] private Sprite itemIcon;
-    [SerializeField] private Transform itemModelPrefab;
+    [SerializeField] private Transform itemInventoryModelPrefab;
+    [SerializeField] private Transform itemInWorldModelPrefab;
 
     [Header("Item Settings")]
     [SerializeField] private ItemType itemType;
@@ -37,8 +40,12 @@ public abstract class ItemDataSO : ScriptableObject{
         return itemIcon;
     }
 
-    public Transform GetItemModel(){
-        return itemModelPrefab;
+    public Transform GetItemInventoryModel(){
+        return itemInventoryModelPrefab;
+    }
+
+    public Transform GetItemInWorldModel(){
+        return itemInWorldModelPrefab;
     }
 
     public ItemType GetItemType(){

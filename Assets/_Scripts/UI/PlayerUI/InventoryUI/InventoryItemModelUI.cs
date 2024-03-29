@@ -120,8 +120,10 @@ public class InventoryItemModelUI : MonoBehaviour{
 
     private void DestroyItemModel(){
         StopItemIdleAnimationCoroutines();
-        Destroy(currentItemModel.gameObject);
-        currentItemModel = null;
+        if(currentItemModel != null){
+            Destroy(currentItemModel.gameObject);
+            currentItemModel = null;
+        }
     }
 
     private void CreateItemModel(InventoryItem inventoryItemSelected){
@@ -131,7 +133,7 @@ public class InventoryItemModelUI : MonoBehaviour{
 
         if (inventoryItemSelected.IsEmpty()) return;
 
-        itemModelPrefab = inventoryItemSelected.GetHeldItem().GetItemModel();
+        itemModelPrefab = inventoryItemSelected.GetHeldItem().GetItemInventoryModel();
 
         if (itemModelPrefab == null) return;
 

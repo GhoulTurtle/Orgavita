@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c388e5dcdca4ab4aa014ad0a6c0f04d, type: 3}
+  m_Name: MetalScrapItemDataSO
+  m_EditorClassIdentifier: 
+  itemName: Metal Scrap
+  itemQuickDescription: Bits and pieces of metal that can be used to create ammunition.
+  itemInspectDescription: Metal scrap is very common since the collapse, as metal
+    structures became more and more popular. Metal scrap can be combined with other
+    items to create ammunition for weapons.
+  itemIcon: {fileID: 0}
+  itemModelPrefab: {fileID: 0}
+  itemType: 2
+  isUseable: 0
+  isCombinable: 1
+  isStackable: 1
+  isDestroyable: 1
+  maxStackSize: 30

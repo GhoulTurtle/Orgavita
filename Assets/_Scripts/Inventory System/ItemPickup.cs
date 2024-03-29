@@ -1,17 +1,32 @@
 using UnityEngine;
 
 public class ItemPickup : MonoBehaviour, IInteractable{
+    [Header("Required References")]
+    [SerializeField] private Transform itemVisualParent;
+
     [Header("Item Pickup Variables")]
     [SerializeField] private ItemDataSO itemToPickup;
     [SerializeField] private int itemPickupStackAmount;
 
+    private Transform currentItemModel;
+
     public string InteractionPrompt {get; private set;}
 
     private void Awake() {
-        if(itemPickupStackAmount <= 0) itemPickupStackAmount = 0;
-        if(itemToPickup != null){
-            InteractionPrompt = "Pickup " + itemToPickup.GetItemName();
+        if(itemToPickup == null) return;
+        SetupItemPickup();
+    }
+
+    public void SetItemPickup(ItemDataSO _itemToPickup, int _itemPickupStackAmount){
+        itemToPickup = _itemToPickup;
+        itemPickupStackAmount = _itemPickupStackAmount;
+
+        if(currentItemModel != null){
+            Destroy(currentItemModel.gameObject);
+            currentItemModel = null;
         }
+
+        SetupItemPickup();
     }
 
     public void PickupItem(PlayerInventorySO playerInventory){
@@ -23,6 +38,8 @@ public class ItemPickup : MonoBehaviour, IInteractable{
         }
 
         itemPickupStackAmount = itemRemainder;
+        
+        UpdateInteractionText();
     }
 
     public bool Interact(PlayerInteract player){
@@ -32,5 +49,27 @@ public class ItemPickup : MonoBehaviour, IInteractable{
         }
 
         return false;
+    }
+
+    private void SetupItemPickup(){
+        if(itemPickupStackAmount <= 0) itemPickupStackAmount = 1;
+
+        var itemModel = itemToPickup.GetItemInWorldModel();
+
+        if(itemModel != null){
+            currentItemModel = Instantiate(itemModel, itemVisualParent);
+        }
+
+        UpdateInteractionText();
+    }
+
+    private void UpdateInteractionText(){
+        if(itemToPickup != null){
+            if(itemPickupStackAmount > 1){
+                InteractionPrompt = "Pickup " + itemToPickup.GetItemName() + " X" + itemPickupStackAmount;
+                return;
+            }
+            InteractionPrompt = "Pickup " + itemToPickup.GetItemName();
+        }
     }
 }

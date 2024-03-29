@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c388e5dcdca4ab4aa014ad0a6c0f04d, type: 3}
+  m_Name: EmptySyringeItemDataSO
+  m_EditorClassIdentifier: 
+  itemName: Empty Syringe
+  itemQuickDescription: A empty syringe that can be filled with medicine. It's pretty
+    sharp.
+  itemInspectDescription: The syringe is a vital tool, repurposed from its original
+    medical intent to craft essential medicines. With it, you can mix ingredients
+    found in the surroundings, concocting remedies to heal wounds and reduce fear,
+    could also be used as a weapon if needed.
+  itemIcon: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 8967305202571421445, guid: df81087c07e22264a8d95ba1b98ad157,
+    type: 3}
+  itemInWorldModelPrefab: {fileID: 8967305202571421445, guid: c1407835baff04f41ad16c6ac1ffee2a,
+    type: 3}
+  itemType: 2
+  isUseable: 0
+  isCombinable: 1
+  isStackable: 1
+  isDestroyable: 1
+  maxStackSize: 5

@@ -9,17 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3c32ba6731676be4e9ce5077ee6a8527, type: 3}
-  m_Name: TestKeyItem2
+  m_Script: {fileID: 11500000, guid: 9c388e5dcdca4ab4aa014ad0a6c0f04d, type: 3}
+  m_Name: ExplosiveArrowItemDataSO
   m_EditorClassIdentifier: 
-  itemName: Holy Hammer
-  itemQuickDescription: The hammer god used lol
-  itemInspectDescription: {fileID: 0}
-  itemIcon: {fileID: 21300000, guid: a01087ce1455c7e4c8f2410c26afcfd2, type: 3}
+  itemName: Explosive Arrow
+  itemQuickDescription: A bizzare combination of a syringe filled with gunpowder
+    that explodes on impact dealing massive damage.
+  itemInspectDescription: 
+  itemIcon: {fileID: 0}
   itemModelPrefab: {fileID: 0}
-  itemType: 0
+  itemType: 2
   isUseable: 0
   isCombinable: 1
   isStackable: 1
-  isDestroyable: 0
-  maxStackSize: 3
+  isDestroyable: 1
+  maxStackSize: 25

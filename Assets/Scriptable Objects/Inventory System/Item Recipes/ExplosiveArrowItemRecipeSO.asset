@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e281a804787a6244aa56859cf5db92ca, type: 3}
-  m_Name: TestItemRecipe
+  m_Name: ExplosiveArrowItemRecipeSO
   m_EditorClassIdentifier: 
   returnOneItem: 1
-  combineItemDataOne: {fileID: 11400000, guid: 31eb7a6be111eff4fa84b7f5f86351bd, type: 2}
-  combineItemDataTwo: {fileID: 11400000, guid: b68a6c769168e3646ba05b487de30c82, type: 2}
-  resultItemData: {fileID: 11400000, guid: 8b014d81684ec3148986d3d2f8cd68e0, type: 2}
-  resultStackAmount: 3
+  combineItemDataOne: {fileID: 11400000, guid: 44b25b4cdc38f58478b7a4d77c8da2d7, type: 2}
+  combineItemDataTwo: {fileID: 11400000, guid: c49c17b4e9ae2234685e2797facbed45, type: 2}
+  resultItemData: {fileID: 11400000, guid: e222ff7dbb3df474e93e530ca4d68800, type: 2}
+  resultStackAmount: 1

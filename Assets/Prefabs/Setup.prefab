@@ -1428,8 +1428,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2730,11 +2730,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 579913582}
+  - {fileID: 1980540862}
   - {fileID: 885317336}
   - {fileID: 35524480}
   - {fileID: 372126333}
   - {fileID: 1954625570}
-  - {fileID: 1980540862}
   m_Father: {fileID: 827934013}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3457,8 +3457,8 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2124118984}
   - {fileID: 653130961}
+  - {fileID: 2124118984}
   - {fileID: 89104179}
   - {fileID: 1470401023}
   m_Father: {fileID: 361538584}
@@ -8677,8 +8677,6 @@ MonoBehaviour:
   safeSpaceBuildMaxPercent: 0.5
   fearBuildTimeInSeconds: 90
   fearGracePeriodInSeconds: 30
-  currentFearCells: 0
-  maxFearCellsInSafeSpace: 0
 --- !u!1 &7793910638020122993
 GameObject:
   m_ObjectHideFlags: 0

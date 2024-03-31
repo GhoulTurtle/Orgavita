@@ -13,8 +13,13 @@ MonoBehaviour:
   m_Name: DefaultPlayerRecipeList
   m_EditorClassIdentifier: 
   knownInventoryRecipes:
+  - {fileID: 11400000, guid: cac876fe5cb088e40af12fe167d146b3, type: 2}
+  - {fileID: 11400000, guid: 22647b93c93e6e84ba56829b225e0ae4, type: 2}
+  - {fileID: 11400000, guid: e9a426fe7b485bd46adf4740090ce271, type: 2}
   - {fileID: 11400000, guid: 99a834974209b37459bace0168b1588b, type: 2}
   - {fileID: 11400000, guid: ed07adca968c78443acaeec873d0c637, type: 2}
+  - {fileID: 11400000, guid: cd03603675a0bd74a92a12a1e1598746, type: 2}
+  - {fileID: 11400000, guid: 976a64cc2b5352a4582f1d161d44caa6, type: 2}
   - {fileID: 11400000, guid: f612e219b72e6b14da3a292701f2077f, type: 2}
   defaultRecipeOnPlay: 0
   defaultInventoryRecipes: []

@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c32ba6731676be4e9ce5077ee6a8527, type: 3}
+  m_Name: BoltCuttersItemDataSO
+  m_EditorClassIdentifier: 
+  itemName: Bolt Cutters
+  itemQuickDescription: Designed to cut through metal padlocks, bolts, and chains.
+    Made for repeated use with no loss of durability or strength.
+  itemInspectDescription: A heavy-duty tool with long handles and sharp blades, designed
+    to cut through metal bolts, chains, and padlocks. The blades are made of hardened
+    steel, ensuring durability and strength for repeated use. The handles are coated
+    with a non-slip grip, providing comfort and control during operation.
+  itemIcon: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 9153377978867259716, guid: 6a0a107bb9223f547b3bc8076cbd6f16,
+    type: 3}
+  itemInWorldModelPrefab: {fileID: 2388843087462388518, guid: d6e0dc576c114ab4fa490e0a9524ceaa,
+    type: 3}
+  itemType: 0
+  isUseable: 1
+  isCombinable: 0
+  isStackable: 0
+  isDestroyable: 0
+  maxStackSize: 1
+  itemSuccessfullyUseMessage: 
+  itemCannotUseMessage: I can't use this here...
+  itemFailedUseMessage: 

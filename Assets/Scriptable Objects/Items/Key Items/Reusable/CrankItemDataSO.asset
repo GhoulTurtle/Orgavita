@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c32ba6731676be4e9ce5077ee6a8527, type: 3}
+  m_Name: CrankItemDataSO
+  m_EditorClassIdentifier: 
+  itemName: Crank
+  itemQuickDescription: A simple crank that can be used to turn mechanisms.
+  itemInspectDescription: The crank is a sturdy metal tool, consisting of a long
+    handle and a gear mechanism at one end. It is designed to fit into crank locks,
+    which are specially designed sockets found near old shutter gates. When inserted
+    and turned, the crank engages with the gear mechanism of the shutter gate, allowing
+    it to be raised or lowered.
+  itemIcon: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 2296407230400467076, guid: a304041efad9cd448b4ebb6ec789c187,
+    type: 3}
+  itemInWorldModelPrefab: {fileID: 3881441897468389987, guid: 638329e981f0b5f46ba219001814c804,
+    type: 3}
+  itemType: 0
+  isUseable: 1
+  isCombinable: 0
+  isStackable: 0
+  isDestroyable: 0
+  maxStackSize: 1

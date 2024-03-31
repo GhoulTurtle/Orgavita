@@ -44,7 +44,9 @@ public class InventoryItem{
     }
 
     public void RemoveFromStack(int amount){
-        if(IsEmpty() || !IsStackable()) return;
+        if(IsEmpty()) return;
+
+        if(!IsStackable()) ClearItem();
 
         currentItemStackAmount -= amount;
         

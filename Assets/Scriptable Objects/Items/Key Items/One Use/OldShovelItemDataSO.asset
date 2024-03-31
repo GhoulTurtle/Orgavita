@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c32ba6731676be4e9ce5077ee6a8527, type: 3}
+  m_Name: OldShovelItemDataSO
+  m_EditorClassIdentifier: 
+  itemName: Old Shovel
+  itemQuickDescription: Rusty and feeling like it can break at any time. However
+    does feel like it has atleast one use left in it.
+  itemInspectDescription: A weathered tool, its metal head covered in rust from years
+    of neglect. The wooden handle, worn smooth with age, bears the marks of countless
+    hours of labor. Despite its appearance, the shovel feels sturdy in your hands,
+    hinting at its former reliability.
+  itemIcon: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 6782573991366633964, guid: d43ffba6bc9127143a278e5dcdbedf19,
+    type: 3}
+  itemInWorldModelPrefab: {fileID: 8066897716935062258, guid: 7d3fdb17494782341a8cda2622726de2,
+    type: 3}
+  itemType: 0
+  isUseable: 1
+  isCombinable: 0
+  isStackable: 0
+  isDestroyable: 0
+  maxStackSize: 1
+  itemSuccessfullyUseMessage: 
+  itemCannotUseMessage: I can't use this here...
+  itemFailedUseMessage: 

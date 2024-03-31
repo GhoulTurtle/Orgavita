@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c32ba6731676be4e9ce5077ee6a8527, type: 3}
+  m_Name: HalfCompleteKeyItemDataSO
+  m_EditorClassIdentifier: 
+  itemName: Half-Complete Key
+  itemQuickDescription: A key shaft and orante key ring adorned with angel wings.
+    It has one of the key teeth needed to be a finished key.
+  itemInspectDescription: A sturdy shaft and a decorative key ring adorned with intricate
+    angelic wings. However, crucially absent are one of the key's teeth, leaving
+    the key unusable in its current state.
+  itemIcon: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 1138642330253289063, guid: 2d5a7ab53a12c0a4887c1a0e44ed7411,
+    type: 3}
+  itemInWorldModelPrefab: {fileID: 7164985393727156684, guid: 6011b63703b56ec4baf6346e570d02c8,
+    type: 3}
+  itemType: 0
+  isUseable: 0
+  isCombinable: 1
+  isStackable: 0
+  isDestroyable: 0
+  maxStackSize: 1
+  itemSuccessfullyUseMessage: 
+  itemCannotUseMessage: I can't use this here...
+  itemFailedUseMessage: 

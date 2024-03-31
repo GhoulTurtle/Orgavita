@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c32ba6731676be4e9ce5077ee6a8527, type: 3}
+  m_Name: MetalPieceItemDataSO
+  m_EditorClassIdentifier: 
+  itemName: Metal Piece
+  itemQuickDescription: A piece of metal that looks like it fits inside of something.
+  itemInspectDescription: Small, intricately designed piece of metal featuring a
+    jagged edge that suggests it fits inside of something. It is made of a durable
+    metal, with a slightly worn appearance that hints at its age and significance.
+    The surface of the metal piece is etched with delicate patterns.
+  itemIcon: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 6663165188543865699, guid: 3ad868fa5b891344280f4023192bd367,
+    type: 3}
+  itemInWorldModelPrefab: {fileID: 4025877857988898424, guid: b524c8389756f1c4790fca41e731796b,
+    type: 3}
+  itemType: 0
+  isUseable: 0
+  isCombinable: 1
+  isStackable: 1
+  isDestroyable: 0
+  maxStackSize: 2
+  itemSuccessfullyUseMessage: 
+  itemCannotUseMessage: I can't use this here...
+  itemFailedUseMessage: 

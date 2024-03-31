@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c32ba6731676be4e9ce5077ee6a8527, type: 3}
+  m_Name: OldShovelHeadItemDataSO
+  m_EditorClassIdentifier: 
+  itemName: Old Shovel Head
+  itemQuickDescription: Rusted and dull shovel head. Able to be attached to a handle
+    of some kind to create a shovel.
+  itemInspectDescription: A rusted metal blade, worn and weathered from years of
+    use. Its edges are dulled, but still retain a semblance of their original sharpness.
+    The head is designed with a socket that fits snugly onto a handle, suggesting
+    it was once part of a sturdy tool.
+  itemIcon: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 3686435999969967121, guid: e87744db54a362249bd41a57fa9de11a,
+    type: 3}
+  itemInWorldModelPrefab: {fileID: 6596134388086926852, guid: da47abd4c051d6e4f90bbee53fab91fa,
+    type: 3}
+  itemType: 0
+  isUseable: 0
+  isCombinable: 1
+  isStackable: 0
+  isDestroyable: 0
+  maxStackSize: 1
+  itemSuccessfullyUseMessage: 
+  itemCannotUseMessage: I can't use this here...
+  itemFailedUseMessage: 

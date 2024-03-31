@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e281a804787a6244aa56859cf5db92ca, type: 3}
+  m_Name: OldShovelItemRecipeSO
+  m_EditorClassIdentifier: 
+  returnOneItem: 1
+  combineItemDataOne: {fileID: 11400000, guid: 05fb3058af5efe84ca0e2dd24da8a536, type: 2}
+  combineItemDataTwo: {fileID: 11400000, guid: 48f57a846c133ff4fbfa358100858d30, type: 2}
+  resultItemData: {fileID: 11400000, guid: 3527a8ff1b9356e4a962a44afaaf0498, type: 2}
+  resultStackAmount: 1

@@ -76,12 +76,15 @@ public class ContextMenuUI : MonoBehaviour{
     }
 
     public void DestroyConfirmationText(){
-        if(currentDescriptionPrint != null){
-            DescriptionFinishedPrinting();
-        }
+        DescriptionFinishedPrinting();
 
         selectedItemDescriptionText.text = destroyConfirmationText.Sentence;
         selectedItemDescriptionText.color = destroyConfirmationText.SentenceColor;
+    }
+
+    public void ShowUseResultText(string resultText){
+        DescriptionFinishedPrinting();
+        selectedItemDescriptionText.text = resultText;
     }
 
     private void EvaluateInventoryState(object sender, PlayerInventoryHandler.InventoryStateChangedEventArgs e){
@@ -148,9 +151,7 @@ public class ContextMenuUI : MonoBehaviour{
         inCombineState = true;
         HideContextUI();
         
-        if(currentDescriptionPrint != null){
-            DescriptionFinishedPrinting();
-        }
+        DescriptionFinishedPrinting();
 
         selectedItemDescriptionText.text = "Combine " + inventoryUI.GetSelectedItemData().GetItemName() + " with...";
         selectedItemDescriptionText.color = Color.white;

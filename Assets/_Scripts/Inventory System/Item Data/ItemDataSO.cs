@@ -72,5 +72,7 @@ public class ItemDataSO : ScriptableObject{
         return maxStackSize;
     }
 
-    public virtual bool UseItem(){return true;}
+    public virtual void UseItem(InventoryItem selectedItem, PlayerInventoryHandler playerInventoryHandler, out string resultMessage){
+        resultMessage = "Used " + itemName;
+    }
 }

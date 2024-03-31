@@ -36,8 +36,9 @@ public class ContextButton{
     }
 
     private void UseAction(){
-        selectedInventoryItem.GetHeldItem().UseItem();
+        selectedInventoryItem.GetHeldItem().UseItem(selectedInventoryItem, playerInventoryHandler, out string resultMessage);
         playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
+        contextMenuUI.ShowUseResultText(resultMessage);
     }
 
     private void InspectAction(){

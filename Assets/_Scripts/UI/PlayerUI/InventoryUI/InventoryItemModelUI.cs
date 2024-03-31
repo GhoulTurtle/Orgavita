@@ -175,7 +175,7 @@ public class InventoryItemModelUI : MonoBehaviour{
     }
 
     private IEnumerator IdleSpinCorutine(){
-        while(true){
+        while(true && currentItemModel != null){
             currentItemModel.Rotate(0, itemSpinSpeed * Time.deltaTime, 0);
             yield return null;
         }

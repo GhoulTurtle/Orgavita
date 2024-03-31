@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f02916338d89b3488692c96945d797b, type: 3}
+  m_Name: BandageItemDataSO
+  m_EditorClassIdentifier: 
+  itemName: Bandage
+  itemQuickDescription: A bandage that can be used to heal a small amount over a
+    period of time.
+  itemInspectDescription: "\rThe bandage is a strip of sterile gauze or fabric, used
+    for dressing wounds. It is designed to absorb blood and other fluids, promoting
+    healing and preventing infection. It only provides a small amount of healing
+    over a short period of time."
+  itemIcon: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 0}
+  itemInWorldModelPrefab: {fileID: 8967305202571421445, guid: c1407835baff04f41ad16c6ac1ffee2a,
+    type: 3}
+  itemType: 1
+  isUseable: 1
+  isCombinable: 1
+  isStackable: 1
+  isDestroyable: 1
+  maxStackSize: 8
+  consumableItemJobList:
+  - jobType: 6
+    amount: 15
+    time: 0.35
+  itemUsedMessage: 

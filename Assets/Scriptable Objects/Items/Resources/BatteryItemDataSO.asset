@@ -15,10 +15,11 @@ MonoBehaviour:
   itemName: Battery
   itemQuickDescription: A basic AA battery, can be used to power items.
   itemInspectDescription: Essential for powering electronic tools and devices, batteries
-    are required keep your equipment running smoothly. They are getting more rare
+    are required to keep your equipment running smoothly. They are getting more rare
     as the days go by, better keep a high stock.
   itemIcon: {fileID: 0}
-  itemModelPrefab: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 0}
+  itemInWorldModelPrefab: {fileID: 0}
   itemType: 2
   isUseable: 0
   isCombinable: 1

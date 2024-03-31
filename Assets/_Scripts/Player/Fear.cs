@@ -9,6 +9,9 @@ public class Fear : MonoBehaviour{
     [SerializeField] private float fearBuildTimeInSeconds = 90f;
     [SerializeField] private float fearGracePeriodInSeconds = 30f;
 
+    private const int fearCellsPerTick = 1;
+    private WaitForSeconds fearTickWaitTimer;
+
     public event EventHandler<FearCellsChangedEventArgs> OnCurrentFearCellsChanged;
     public class FearCellsChangedEventArgs : EventArgs{
         public int currentFearCells;
@@ -32,6 +35,7 @@ public class Fear : MonoBehaviour{
 
     private void Awake() {
         currentFearCells = 0;
+        fearTickWaitTimer = new WaitForSeconds(fearCellsPerTick);
         CalculateMaxFearCellsInSafeSpace();
         StartFearBuild();
     }
@@ -59,6 +63,28 @@ public class Fear : MonoBehaviour{
         StartCoroutine(FearCellGraceCoroutine());
     }
 
+    public void RaiseCurrentFearCells(int raiseCellAmount){
+        currentFearCells += raiseCellAmount;
+        if(currentFearCells > maxFearCells){
+            TriggerGameOver();
+            return;
+        } 
+
+        OnCurrentFearCellsChanged?.Invoke(this, new FearCellsChangedEventArgs(currentFearCells));
+    }
+
+    public void RaiseCurrentFearCellsOverTime(int totalAmount, float timePerCell){
+        StartCoroutine(RaiseFearOverTimeJob(totalAmount, timePerCell));
+	}
+
+    public void LowerCurrentFearCellsOverTime(int totalAmount, float timePerCell){
+        StartCoroutine(LowerFearOverTimeJob(totalAmount, timePerCell));
+    }
+
+    public bool WillAmountTriggerGameOver(int amount){
+        return currentFearCells + amount > maxFearCells;
+    }
+
     public void OnEnterSafeSpace(){
         StopFearBuild();
         StartCalmFearBuild();
@@ -67,6 +93,14 @@ public class Fear : MonoBehaviour{
     public void OnExitSafeSpace(){
         StopFearBuild();
         StartFearBuild();
+    }
+
+    public bool IsCurrentFearEmpty(){
+        return currentFearCells == 0;
+    }
+
+    public bool IsCurrentFearFull(){
+        return currentFearCells == maxFearCells;
     }
 
     private void CalculateMaxFearCellsInSafeSpace(){
@@ -92,6 +126,22 @@ public class Fear : MonoBehaviour{
 
     private void TriggerGameOver(){
         Debug.Log("Game Over!");
+    }
+
+    private IEnumerator RaiseFearOverTimeJob(int totalAmount, float waitTimePerCell){
+        while(totalAmount > 0){
+			RaiseCurrentFearCells(1);
+			yield return new WaitForSeconds(waitTimePerCell);
+			totalAmount -= 1;
+		}
+    }
+
+    private IEnumerator LowerFearOverTimeJob(int totalAmount, float waitTimePerCell){
+        while(totalAmount > 0){
+			LowerCurrentFearCells(1);
+			yield return new WaitForSeconds(waitTimePerCell);
+			totalAmount -= 1;
+		}
     }
 
     private IEnumerator FearCellGraceCoroutine(){

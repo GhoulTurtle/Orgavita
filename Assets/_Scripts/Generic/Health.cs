@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class Health : MonoBehaviour{
@@ -25,6 +26,8 @@ public class Health : MonoBehaviour{
 	private HealthState currentHealthState;
 	private float currentHealth;
 
+	private IEnumerator currentHealOverTimeJob;
+
 	private float healthyStatusCutoff;
 	private float injuredStatusCutoff;
 	private float warningStatusCutoff;
@@ -32,8 +35,13 @@ public class Health : MonoBehaviour{
 
 	private void Awake(){
 		currentHealth = maxHealth;
+
 		SetStatusCutoff();
 		OnHealthStateChanged?.Invoke(this, new HealthStateChangedEventArgs(currentHealthState));
+	}
+
+	private void OnDestroy() {
+		StopAllCoroutines();
 	}
 
 	public void TakeDamage(float damage){
@@ -54,7 +62,23 @@ public class Health : MonoBehaviour{
 		UpdateHealthState();
 	}
 
+	public void HealHealthOverTime(float totalAmount, float totalTime){
+		currentHealOverTimeJob = HealOverTimeJob(totalAmount, totalTime);
+		StartCoroutine(currentHealOverTimeJob);
+	}
+
+	public bool IsHealthFull(){
+		return currentHealth == maxHealth;
+	}
+
+	public bool IsActiveHealOverTimeJob(){
+		return currentHealOverTimeJob != null;
+	}
+
 	public void IncreaseMaxHealth(float amount){
+		if(IsHealthFull()){
+			currentHealth += amount;
+		}
 		maxHealth += amount;
 		OnMaxIncreasedEvent?.Invoke(this, EventArgs.Empty);
 		SetStatusCutoff();
@@ -90,5 +114,15 @@ public class Health : MonoBehaviour{
 		currentHealthState = incomingHealthState;
 
 		OnHealthStateChanged?.Invoke(this, new HealthStateChangedEventArgs(currentHealthState));
+	}
+
+	private IEnumerator HealOverTimeJob(float totalAmount, float waitTimeBetweenHealPoints){
+		while(totalAmount > 0){
+			HealHealth(1);
+			yield return new WaitForSeconds(waitTimeBetweenHealPoints);
+			totalAmount -= 1;
+		}
+
+		currentHealOverTimeJob = null;
 	}
 }

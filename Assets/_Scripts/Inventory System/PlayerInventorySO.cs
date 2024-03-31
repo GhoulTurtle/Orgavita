@@ -180,7 +180,7 @@ public class PlayerInventorySO : ScriptableObject{
 
     private List<InventoryItem> AddInventorySlots(int slotsToAdd){
         List<InventoryItem> newSlotsAdded = new List<InventoryItem>();
-        for (int i = 0; i <= slotsToAdd; i++){
+        for (int i = 0; i < slotsToAdd; i++){
             var newInventoryItem = new InventoryItem(null);
             inventory.Add(newInventoryItem);
             newSlotsAdded.Add(newInventoryItem);

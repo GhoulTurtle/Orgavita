@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -34,6 +35,8 @@ public class PlayerInventoryHandler : MonoBehaviour{
     private PlayerInputHandler playerInputHandler;
 
     private Vector2 navigationInput;
+
+    private ItemLevelMechanic currentItemLevelMechanic;
 
     private bool inputValid = true;
 
@@ -157,6 +160,22 @@ public class PlayerInventoryHandler : MonoBehaviour{
             ComboResultType.Full_Inventory => "Can't hold anymore items.",
             _ => "ERROR NO COMBO RESULT TYPE FOUND",
         };
+    }
+
+    public void AddCurrentLevelMechanic(ItemLevelMechanic itemLevelMechanic){
+        if(currentItemLevelMechanic != null){
+            RemoveCurrentLevelMechanic(currentItemLevelMechanic);
+        }
+        currentItemLevelMechanic = itemLevelMechanic;
+    }
+
+    public void RemoveCurrentLevelMechanic(ItemLevelMechanic itemLevelMechanic){
+        if(currentItemLevelMechanic == null || currentItemLevelMechanic != itemLevelMechanic) return;
+        currentItemLevelMechanic = null;
+    }
+
+    public ItemLevelMechanic GetCurrentLevelMechanic(){
+        return currentItemLevelMechanic;
     }
 
     private IEnumerator InputLockoutCoroutine(){

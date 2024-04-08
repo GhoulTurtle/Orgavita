@@ -12,15 +12,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c32ba6731676be4e9ce5077ee6a8527, type: 3}
   m_Name: ScrewDriverItemDataSO
   m_EditorClassIdentifier: 
-  itemName: Crank
-  itemQuickDescription: 
-  itemInspectDescription: 
+  itemName: Screw Driver
+  itemQuickDescription: Flatheaded screw driver that can be used to untighten screws.
+  itemInspectDescription: A handheld tool with a slender, cylindrical metal shaft
+    and a flat, narrow tip. The tip is specifically designed to fit into the slots
+    of screws, allowing for easy loosening and tightening. The handle of the screwdriver
+    is made up of weared down oak.
   itemIcon: {fileID: 0}
-  itemInventoryModelPrefab: {fileID: 0}
-  itemInWorldModelPrefab: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 3622149466158720813, guid: ea59e06e6ed088942924c91c1965fdc8,
+    type: 3}
+  itemInWorldModelPrefab: {fileID: 3778004253047876498, guid: 81f9b6e15dfaa3e4e967e0020e3fefd5,
+    type: 3}
   itemType: 0
   isUseable: 1
   isCombinable: 0
   isStackable: 0
   isDestroyable: 0
   maxStackSize: 1
+  itemCannotUseMessage: I can't use this here...

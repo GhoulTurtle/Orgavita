@@ -11,6 +11,8 @@ public class InspectInteractable : DialogueInteractable{
     public UnityEvent OnDialogueEnd;
 
     public override void StartDialogue(){
+        if(inspectDialogue == null) return;
+
         base.StartDialogue();
 
         textBoxUI.StartDialogue(inspectDialogue.DialogueSentences);
@@ -28,5 +30,11 @@ public class InspectInteractable : DialogueInteractable{
 
     public override void CancelDialogue(object sender, PlayerInputHandler.InputEventArgs e){
         base.CancelDialogue(sender, e);
+    }
+
+    public void SetInspectDialogue(BasicDialogueSO dialogueSO){
+        if(inspectDialogue == dialogueSO) return;
+
+        inspectDialogue = dialogueSO;
     }
 }

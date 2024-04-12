@@ -12,32 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b086ce22b2bef2b40841ea36c6bd683f, type: 3}
   m_Name: TestingPlayerInventorySO
   m_EditorClassIdentifier: 
-  maxInventorySize: 12
+  maxInventorySize: 8
   inventory:
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
+  - heldItemData: {fileID: 11400000, guid: 22008d58e4cfb174aada50013fce3cad, type: 2}
+    currentItemStackAmount: 1
+  - heldItemData: {fileID: 11400000, guid: 82348a962a6cce243ac3dbce4f32bb05, type: 2}
+    currentItemStackAmount: 1
+  - heldItemData: {fileID: 11400000, guid: 3527a8ff1b9356e4a962a44afaaf0498, type: 2}
+    currentItemStackAmount: 1
+  - heldItemData: {fileID: 11400000, guid: 479b370889b273a468cb821e09ffb8db, type: 2}
+    currentItemStackAmount: 1
+  - heldItemData: {fileID: 11400000, guid: 95ec6de2fd828b04588657451c481641, type: 2}
+    currentItemStackAmount: 1
+  - heldItemData: {fileID: 11400000, guid: a0065c308b03ac54b9a7f1ab9733c60b, type: 2}
+    currentItemStackAmount: 1
   equippedItem:
     heldItemData: {fileID: 0}
     currentItemStackAmount: 0
@@ -46,4 +34,4 @@ MonoBehaviour:
     currentItemStackAmount: 0
   unlockedTools: []
   cleanInventoryOnPlay: 1
-  defaultMaxInventory: 6
+  defaultMaxInventory: 8

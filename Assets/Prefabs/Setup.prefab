@@ -8304,9 +8304,10 @@ GameObject:
   - component: {fileID: 7793910637263857224}
   - component: {fileID: 1474441831}
   - component: {fileID: 612669994}
+  - component: {fileID: 7793910637992359072}
   m_Layer: 3
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8462,7 +8463,19 @@ MonoBehaviour:
     m_ActionId: f136b45c-1de5-4491-a020-e3d66ae8b400
     m_ActionName: InGamePlayer/Interact[/Keyboard/e]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 7793910637992359072}
+        m_TargetAssemblyTypeName: PlayerPause, Assembly-CSharp
+        m_MethodName: PauseInput
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: 7259a5d6-d122-4f2b-82c5-f2835f4f5cd6
     m_ActionName: InGamePlayer/Pause[/Keyboard/escape]
   - m_PersistentCalls:
@@ -8677,6 +8690,19 @@ MonoBehaviour:
   safeSpaceBuildMaxPercent: 0.5
   fearBuildTimeInSeconds: 90
   fearGracePeriodInSeconds: 30
+--- !u!114 &7793910637992359072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7793910637263857235}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30a1bf50f06c1a248bc9266d53b99114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseMenuUI: {fileID: 578899}
 --- !u!1 &7793910638020122993
 GameObject:
   m_ObjectHideFlags: 0

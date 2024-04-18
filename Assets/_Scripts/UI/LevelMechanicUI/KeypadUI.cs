@@ -9,6 +9,10 @@ public class KeypadUI : MonoBehaviour{
     [SerializeField] private TextMeshProUGUI answerText;
     [SerializeField] private List<ObjectUIButton> buttons;
 
+    [Header("Color Variables")]
+    [SerializeField] private Color incorrectAnswerTextColor = Color.red;
+    [SerializeField] private Color correntAnswerTextColor = Color.green;
+
     private void Start() {
         answerText.text = "";
         ChangeButtonsIsEnabled(false);
@@ -34,11 +38,11 @@ public class KeypadUI : MonoBehaviour{
     }
 
     private void CorrectPasswordEntered(object sender, EventArgs e){
-        answerText.color = Color.green;
+        answerText.color = correntAnswerTextColor;
     }
 
     private void IncorrectPasswordEntered(object sender, EventArgs e){
-        answerText.color = Color.red;
+        answerText.color = incorrectAnswerTextColor;
     }
 
     private void ClearAnswerText(object sender, EventArgs e){

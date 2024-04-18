@@ -418,6 +418,8 @@ MonoBehaviour:
   - {fileID: 1540971085}
   - {fileID: 1276561576}
   - {fileID: 1516881288}
+  incorrectAnswerTextColor: {r: 1, g: 0, b: 0, a: 1}
+  correntAnswerTextColor: {r: 0.003114995, g: 0.6603774, b: 0.003114995, a: 1}
 --- !u!1 &821356076
 GameObject:
   m_ObjectHideFlags: 0

@@ -41428,6 +41428,51 @@ PrefabInstance:
       propertyPath: camSens
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: tiltTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: tiltAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 1830341593}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: bobbingAmplitude
+      value: 0.002
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: bobbingFrequency
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: headBobResetSpeed
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: runningTiltAmount
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: runningBobbingAmplitude
+      value: 0.004
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: runningBobbingFrequency
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 7793910637263857229, guid: 80a0578531470ab4498ceedf1d7a27bc,
         type: 3}
       propertyPath: runSpeed
@@ -43471,6 +43516,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f2f1450bdf548048b86aae2f9ec6a14, type: 3}
+--- !u!4 &1830341593 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7793910636912983556, guid: 80a0578531470ab4498ceedf1d7a27bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 1740661477}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1831049073
 PrefabInstance:
   m_ObjectHideFlags: 0

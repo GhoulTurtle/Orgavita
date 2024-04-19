@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -25,6 +26,22 @@ public class PlayerMovement : MonoBehaviour{
 	[SerializeField] private float gravity = -9.31f;
 	[SerializeField] private float groundedRadius = 0.5f;
 
+	public EventHandler<PlayerMovementStateChangedEventArgs> OnPlayerMovementStateChanged;
+	public class PlayerMovementStateChangedEventArgs : EventArgs{
+		public PlayerMovementState playerMovementState;
+		public PlayerMovementStateChangedEventArgs(PlayerMovementState _playerMovementState){
+			playerMovementState = _playerMovementState;
+		}
+	}
+	public EventHandler<PlayerMovementDirectionChangedEventArgs> OnPlayerMovementDirectionChanged;
+	public class PlayerMovementDirectionChangedEventArgs : EventArgs{
+		public Vector3 rawDirection;
+		public PlayerMovementDirectionChangedEventArgs(Vector3 _rawDirection){
+			rawDirection = _rawDirection;
+		}
+	}
+	public EventHandler OnPlayerMovementStopped;
+
 	private const float validSprintAngle = 0.55f;
 	private const float terminalVelocity = -53f;
 	private const float crouchSnapDistance = 0.01f;
@@ -40,8 +57,10 @@ public class PlayerMovement : MonoBehaviour{
 	private bool canCrouch = true;
 	private bool grounded;
 
-	private PlayerMovementEnum currentPlayerMovement = PlayerMovementEnum.Walking;
+	private PlayerMovementState currentPlayerMovementState = PlayerMovementState.Walking;
 
+	private Vector2 previousMoveInput;
+	private Vector2 playerMoveInput;
 	private Vector3 moveDirection;
 	private Vector3 initialCameraPosition;
 	private Vector3 initialGroundCheckPosition;
@@ -70,46 +89,60 @@ public class PlayerMovement : MonoBehaviour{
 	private void Update(){
         GroundCheck();
         Gravity();
-        if (movementSpeed == runSpeed) CheckValidSprint();
+        if (currentPlayerMovementState == PlayerMovementState.Sprinting) CheckValidSprint();
         Move();
     }
 
     private void Move(){
         moveDirection = playerOrientation.forward * yInput + playerOrientation.right * xInput;
+		if(moveDirection == Vector3.zero){
+			OnPlayerMovementStopped?.Invoke(this, EventArgs.Empty);
+		}
+
+		if(playerMoveInput != previousMoveInput){
+			OnPlayerMovementDirectionChanged?.Invoke(this, new PlayerMovementDirectionChangedEventArgs(playerMoveInput));
+		}
+
         characterController.Move(movementSpeed * Time.deltaTime * moveDirection.normalized + new Vector3(0, verticalVelocity, 0) * Time.deltaTime);
+		previousMoveInput = playerMoveInput;
     }
 
     public void MoveInput(InputAction.CallbackContext context){
 		xInput = context.ReadValue<Vector2>().x;
 		yInput = context.ReadValue<Vector2>().y;
+
+		playerMoveInput.x = xInput;
+		playerMoveInput.y = yInput;
 	}
 
 	public void SprintInput(InputAction.CallbackContext context){
-		if(currentPlayerMovement == PlayerMovementEnum.Crouching) return;
+		if(currentPlayerMovementState == PlayerMovementState.Crouching) return;
 
 		if(context.canceled){
 			movementSpeed = walkSpeed;
-			currentPlayerMovement = PlayerMovementEnum.Walking;
+			UpdatePlayerMovementState(PlayerMovementState.Walking);
 			return;
 		}
 
 		if(!canSprint) return;
-		currentPlayerMovement = PlayerMovementEnum.Sprinting;
+
+		UpdatePlayerMovementState(PlayerMovementState.Sprinting);
+		
 		movementSpeed = runSpeed;
 		StartCoroutine(SprintCooldownCoroutine());
 	}
 
 	public void CrouchInput(InputAction.CallbackContext context){
-		if(currentPlayerMovement == PlayerMovementEnum.Sprinting) return;
+		if(currentPlayerMovementState == PlayerMovementState.Sprinting) return;
 
 		var heightTarget = context.canceled ? standingHeight : crouchHeight;
 		var speed = heightTarget == standingHeight ? walkSpeed : crouchMovementSpeed;
-		var state = heightTarget == standingHeight ? PlayerMovementEnum.Walking : PlayerMovementEnum.Crouching;
+		var state = heightTarget == standingHeight ? PlayerMovementState.Walking : PlayerMovementState.Crouching;
 
-		if(state == PlayerMovementEnum.Crouching && !canCrouch) return;
+		if(state == PlayerMovementState.Crouching && !canCrouch) return;
 
 		// Attempting to uncrouch but hit a ceiling;
-		if(state == PlayerMovementEnum.Walking && Physics.Raycast(transform.position, Vector3.up, uncrouchRayDistance)){
+		if(state == PlayerMovementState.Walking && Physics.Raycast(transform.position, Vector3.up, uncrouchRayDistance)){
 			return;
 		}
 
@@ -117,12 +150,29 @@ public class PlayerMovement : MonoBehaviour{
 		currentCrouchJob = CrouchJobCoroutine(heightTarget);
 		StartCoroutine(currentCrouchJob);
 		movementSpeed = speed;
-		currentPlayerMovement = state;
-		if(state == PlayerMovementEnum.Crouching) StartCoroutine(CrouchCooldownCoroutine());
+		
+		UpdatePlayerMovementState(state);
+
+		if(state == PlayerMovementState.Crouching) StartCoroutine(CrouchCooldownCoroutine());
+	}
+
+	public bool IsMoving(){
+		return moveDirection != Vector3.zero;
+	}
+
+	private void UpdatePlayerMovementState(PlayerMovementState state){
+		if(currentPlayerMovementState == state) return;
+
+		currentPlayerMovementState = state;
+
+		OnPlayerMovementStateChanged?.Invoke(this, new PlayerMovementStateChangedEventArgs(currentPlayerMovementState));
 	}
 
 	private void CheckValidSprint(){
-		if(yInput < validSprintAngle) movementSpeed = walkSpeed;
+		if(yInput < validSprintAngle) {
+			movementSpeed = walkSpeed;
+			UpdatePlayerMovementState(PlayerMovementState.Walking);
+		}
 	}
 
 	private void GroundCheck(){

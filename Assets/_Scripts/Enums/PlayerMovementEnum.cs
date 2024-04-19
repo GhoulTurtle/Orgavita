@@ -1,4 +1,4 @@
-public enum PlayerMovementEnum{
+public enum PlayerMovementState{
 	Walking,
 	Sprinting,
 	Crouching

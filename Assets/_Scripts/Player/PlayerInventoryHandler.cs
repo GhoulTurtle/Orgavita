@@ -110,8 +110,8 @@ public class PlayerInventoryHandler : MonoBehaviour{
             return GetCombineResultMessage(newComboResult);
         }
 
-        //if initalcomboitem is a resource and the incoming item is a weapon the return either INVALIDWEAPONRESOURCECOMBO, VALIDWEAPONRESOUCECOMBO, or FULLWEAPON
-        //if initalcomboitem is a resource and the incoming item is a tool the return either INVALIDTOOLRESOURCECOMBO, VALIDTOOLRESOUCECOMBO or FULLTOOL
+        //if initalcomboitem is a resource and the incoming item is a weapon then return either INVALIDWEAPONRESOURCECOMBO, VALIDWEAPONRESOUCECOMBO, or FULLWEAPON
+        //if initalcomboitem is a resource and the incoming item is a tool then return either INVALIDTOOLRESOURCECOMBO, VALIDTOOLRESOUCECOMBO or FULLTOOL
 
         InventoryItem attemptedItemCombo = currentInventoryRecipeList.ReturnValidInventoryRecipeResult(initalComboItem.GetHeldItem(), incomingItem.GetHeldItem());
         if(attemptedItemCombo == null){

@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour{
 	[SerializeField] private float sprintCooldown;
 
 	[Header("Crouch Variables")]
-	[SerializeField] private float crouchSpeed;
+	[SerializeField] private float crouchTimeInSeconds;
 	[SerializeField] private float crouchCooldown;
 	[SerializeField] private float crouchHeight = 0.5f;
 
@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour{
 
 	private const float validSprintAngle = 0.55f;
 	private const float terminalVelocity = -53f;
-	private const float crouchSnapDistance = 0.01f;
+	private const float crouchSnapDistance = 0.001f;
 	private const float uncrouchRayDistance = 1.5f;
 	
 	private float xInput;
@@ -68,6 +68,7 @@ public class PlayerMovement : MonoBehaviour{
 	private WaitForSecondsRealtime sprintCooldownTimer;
 	private WaitForSecondsRealtime crouchCooldownTimer;
 
+	private IEnumerator currentUnCrouchJob;
 	private IEnumerator currentCrouchJob;
 
 	private void Awake() {
@@ -139,14 +140,18 @@ public class PlayerMovement : MonoBehaviour{
 		var speed = heightTarget == standingHeight ? walkSpeed : crouchMovementSpeed;
 		var state = heightTarget == standingHeight ? PlayerMovementState.Walking : PlayerMovementState.Crouching;
 
+		//Attempting to crouch but crouch is on cooldown so return.
 		if(state == PlayerMovementState.Crouching && !canCrouch) return;
 
-		// Attempting to uncrouch but hit a ceiling;
+		// Attempting to uncrouch but hit a ceiling, start a uncrouch job
 		if(state == PlayerMovementState.Walking && Physics.Raycast(transform.position, Vector3.up, uncrouchRayDistance)){
+			currentUnCrouchJob = UnCrouchJob();
+			StartCoroutine(currentUnCrouchJob);
 			return;
 		}
 
 		if(currentCrouchJob != null) StopCoroutine(currentCrouchJob);
+		if(currentUnCrouchJob != null) StopCoroutine(currentUnCrouchJob);
 		currentCrouchJob = CrouchJobCoroutine(heightTarget);
 		StartCoroutine(currentCrouchJob);
 		movementSpeed = speed;
@@ -191,9 +196,13 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
 	private IEnumerator CrouchJobCoroutine(float desiredHeight){
-		while(characterController.height != desiredHeight){
-			characterController.height = Mathf.Lerp(characterController.height, desiredHeight, crouchSpeed * Time.deltaTime);
-			
+		float current = 0;
+
+		while(Mathf.Abs(characterController.height - desiredHeight) > crouchSnapDistance){
+			characterController.height = Mathf.Lerp(characterController.height, desiredHeight, current / crouchTimeInSeconds);
+
+			current += Time.deltaTime;
+
 			var halfHeightDifference = new Vector3(0, (standingHeight - characterController.height) / 2, 0);
 			var newCameraPos = initialCameraPosition - halfHeightDifference;
 
@@ -201,13 +210,24 @@ public class PlayerMovement : MonoBehaviour{
 
 			var newGroundCheckPos = initialGroundCheckPosition + halfHeightDifference;
 			groundCheckTransform.localPosition = newGroundCheckPos;
-			
-			if(Mathf.Abs(characterController.height - desiredHeight) < crouchSnapDistance){
-				characterController.height = desiredHeight;
-			}
 			yield return null;
 		}
+
+		characterController.height = desiredHeight;
 	}
+
+	private IEnumerator UnCrouchJob(){
+		while(Physics.Raycast(transform.position, Vector3.up, uncrouchRayDistance)){
+			yield return null;
+		}
+
+		currentCrouchJob = CrouchJobCoroutine(standingHeight);
+		StartCoroutine(currentCrouchJob);
+		movementSpeed = walkSpeed;
+		
+		UpdatePlayerMovementState(PlayerMovementState.Walking);
+	}
+
 
 	private IEnumerator CrouchCooldownCoroutine(){
 		canCrouch = false;

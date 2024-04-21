@@ -27,4 +27,9 @@ public static class GameManager{
 
         OnGameStateChange?.Invoke(null, new GameStateEventArgs(newState));
     }
+
+    public static void ResetStaticData(){
+        OnGameStateChange = null;
+        CurrentState = GameState.Game;
+    }
 }

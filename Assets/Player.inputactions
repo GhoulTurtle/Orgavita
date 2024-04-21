@@ -302,8 +302,17 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Point",
+                    "type": "PassThrough",
+                    "id": "106e5fba-9165-4046-b0fe-450ea2675a06",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Click",
-                    "type": "Button",
+                    "type": "PassThrough",
                     "id": "a01396eb-b759-4c62-b957-1efab5b72305",
                     "expectedControlType": "Button",
                     "processors": "",
@@ -463,6 +472,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Click",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "254c4df4-3919-49e3-bce5-6f0a591faa2d",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Point",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

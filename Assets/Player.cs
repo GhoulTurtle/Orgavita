@@ -324,8 +324,17 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Point"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""106e5fba-9165-4046-b0fe-450ea2675a06"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Click"",
-                    ""type"": ""Button"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""a01396eb-b759-4c62-b957-1efab5b72305"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
@@ -487,6 +496,17 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""action"": ""Click"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""254c4df4-3919-49e3-bce5-6f0a591faa2d"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -546,6 +566,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         m_UI_Navigation = m_UI.FindAction("Navigation", throwIfNotFound: true);
         m_UI_Accept = m_UI.FindAction("Accept", throwIfNotFound: true);
         m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
+        m_UI_Point = m_UI.FindAction("Point", throwIfNotFound: true);
         m_UI_Click = m_UI.FindAction("Click", throwIfNotFound: true);
         // Cutscene
         m_Cutscene = asset.FindActionMap("Cutscene", throwIfNotFound: true);
@@ -708,6 +729,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_Navigation;
     private readonly InputAction m_UI_Accept;
     private readonly InputAction m_UI_Cancel;
+    private readonly InputAction m_UI_Point;
     private readonly InputAction m_UI_Click;
     public struct UIActions
     {
@@ -716,6 +738,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         public InputAction @Navigation => m_Wrapper.m_UI_Navigation;
         public InputAction @Accept => m_Wrapper.m_UI_Accept;
         public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
+        public InputAction @Point => m_Wrapper.m_UI_Point;
         public InputAction @Click => m_Wrapper.m_UI_Click;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
@@ -735,6 +758,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Cancel.started += instance.OnCancel;
             @Cancel.performed += instance.OnCancel;
             @Cancel.canceled += instance.OnCancel;
+            @Point.started += instance.OnPoint;
+            @Point.performed += instance.OnPoint;
+            @Point.canceled += instance.OnPoint;
             @Click.started += instance.OnClick;
             @Click.performed += instance.OnClick;
             @Click.canceled += instance.OnClick;
@@ -751,6 +777,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Cancel.started -= instance.OnCancel;
             @Cancel.performed -= instance.OnCancel;
             @Cancel.canceled -= instance.OnCancel;
+            @Point.started -= instance.OnPoint;
+            @Point.performed -= instance.OnPoint;
+            @Point.canceled -= instance.OnPoint;
             @Click.started -= instance.OnClick;
             @Click.performed -= instance.OnClick;
             @Click.canceled -= instance.OnClick;
@@ -832,6 +861,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         void OnNavigation(InputAction.CallbackContext context);
         void OnAccept(InputAction.CallbackContext context);
         void OnCancel(InputAction.CallbackContext context);
+        void OnPoint(InputAction.CallbackContext context);
         void OnClick(InputAction.CallbackContext context);
     }
     public interface ICutsceneActions

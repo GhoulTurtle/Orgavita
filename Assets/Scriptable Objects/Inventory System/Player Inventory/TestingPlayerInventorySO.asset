@@ -26,10 +26,6 @@ MonoBehaviour:
     currentItemStackAmount: 0
   - heldItemData: {fileID: 0}
     currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
   equippedItem:
     heldItemData: {fileID: 0}
     currentItemStackAmount: 0

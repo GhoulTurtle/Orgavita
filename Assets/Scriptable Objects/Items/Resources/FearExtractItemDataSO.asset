@@ -18,8 +18,9 @@ MonoBehaviour:
   itemInspectDescription: The liquid inside appears thick and viscous, almost like
     tar, and seems to shift and writhe slightly, as if alive. This extract can be
     used for a variety of recipes.
-  itemIcon: {fileID: 0}
-  itemModelPrefab: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: fad7ab1e97178164a96eb0c6a653b12c, type: 3}
+  itemInventoryModelPrefab: {fileID: 0}
+  itemInWorldModelPrefab: {fileID: 0}
   itemType: 2
   isUseable: 0
   isCombinable: 1

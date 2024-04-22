@@ -42781,6 +42781,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: tiltAmount
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: runningTiltAmount
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

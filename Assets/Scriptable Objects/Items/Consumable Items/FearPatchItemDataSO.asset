@@ -19,7 +19,7 @@ MonoBehaviour:
     to be applied to the skin. It contains fear extract that slowly releases over
     time, gradually reducing the user's fear levels. Can use multiple at once to
     speed up the effect.
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 76a78eeb149b41140ad303133a454a30, type: 3}
   itemInventoryModelPrefab: {fileID: 0}
   itemInWorldModelPrefab: {fileID: 8967305202571421445, guid: c1407835baff04f41ad16c6ac1ffee2a,
     type: 3}

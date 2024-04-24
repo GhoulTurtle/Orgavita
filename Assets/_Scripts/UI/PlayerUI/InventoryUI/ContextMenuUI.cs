@@ -119,18 +119,18 @@ public class ContextMenuUI : MonoBehaviour{
 
     private void EnterInspectAnimation(){
         StopInspectAnimationCoroutines();
-        currentItemDividerAnimation = UIAnimator.UILerpingAnimationCoroutine(selectedItemDivider, itemDividerGoalPosition, inspectAnimationDuration, false);
+        currentItemDividerAnimation = UIAnimator.LerpingAnimationCoroutine(selectedItemDivider, itemDividerGoalPosition, inspectAnimationDuration, false);
         StartCoroutine(currentItemDividerAnimation);
-        currentItemDescriptionAnimation = UIAnimator.UILerpingTextMarginAnimationCoroutine(selectedItemDescriptionText, inspectItemDescriptionMargins, inspectAnimationDuration);
+        currentItemDescriptionAnimation = UIAnimator.LerpingTextMarginAnimationCoroutine(selectedItemDescriptionText, inspectItemDescriptionMargins, inspectAnimationDuration);
         StartCoroutine(currentItemDescriptionAnimation);
         StartInspectDescriptionPrint(inventoryUI.GetSelectedItemData());
     }
 
     private void ExitInspectAnimation(){
         StopInspectAnimationCoroutines();
-        currentItemDividerAnimation = UIAnimator.UILerpingAnimationCoroutine(selectedItemDivider, itemDividerOriginalPosition, inspectAnimationDuration, false);
+        currentItemDividerAnimation = UIAnimator.LerpingAnimationCoroutine(selectedItemDivider, itemDividerOriginalPosition, inspectAnimationDuration, false);
         StartCoroutine(currentItemDividerAnimation);
-        currentItemDescriptionAnimation = UIAnimator.UILerpingTextMarginAnimationCoroutine(selectedItemDescriptionText, itemDescriptionOriginalMargins, inspectAnimationDuration);
+        currentItemDescriptionAnimation = UIAnimator.LerpingTextMarginAnimationCoroutine(selectedItemDescriptionText, itemDescriptionOriginalMargins, inspectAnimationDuration);
         StartCoroutine(currentItemDescriptionAnimation);
         StartQuickDescriptionPrint(inventoryUI.GetSelectedItemData());
     }
@@ -180,7 +180,7 @@ public class ContextMenuUI : MonoBehaviour{
             currentContextUIAnimation = null;
         }
         
-        currentContextUIAnimation = UIAnimator.UILerpingAnimationCoroutine(contextUIParent, contextMenuPopupGoalPosition, animationDuration, false);
+        currentContextUIAnimation = UIAnimator.LerpingAnimationCoroutine(contextUIParent, contextMenuPopupGoalPosition, animationDuration, false);
         StartCoroutine(currentContextUIAnimation);
     }
 
@@ -190,7 +190,7 @@ public class ContextMenuUI : MonoBehaviour{
             currentContextUIAnimation = null;
         }
 
-        currentContextUIAnimation = UIAnimator.UILerpingAnimationCoroutine(contextUIParent, contextMenuOriginalPosition, animationDuration, false);
+        currentContextUIAnimation = UIAnimator.LerpingAnimationCoroutine(contextUIParent, contextMenuOriginalPosition, animationDuration, false);
         StartCoroutine(currentContextUIAnimation);
 
         RemoveContextUIButtons();

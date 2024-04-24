@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+/// <summary>
+/// NOTE: Needs to be refactored, and split up. This does alot.
+/// </summary>
 public class TextBoxUI : MonoBehaviour{
     public static TextBoxUI Instance;
 
@@ -12,7 +15,6 @@ public class TextBoxUI : MonoBehaviour{
     [Header("UI References")]
     [SerializeField] private Transform textBoxParent;
     [SerializeField] private TextMeshProUGUI textBoxText;
-    [SerializeField] private TextMeshProUGUI speakerText;
     [SerializeField] private Transform textBoxContinueIndicator;
 
     [Header("Question UI References")]
@@ -20,16 +22,25 @@ public class TextBoxUI : MonoBehaviour{
     [SerializeField] private Transform answerButtonParent;
     [SerializeField] private TextBoxAnswerButtonUI answerButtonUIPrefab;
 
+    [Header("Speaker UI References")]
+    [SerializeField] private Transform speakerUIParent;
+    [SerializeField] private TextMeshProUGUI speakerText;
+
     [Header("Text Box Animation Variables")]
     [SerializeField] private float animationDuration = 0.15f;
-    
-    private const float closeXScale = 0f;
-    private const float openXScale = 1f;
 
+    [Header("Speaker UI Animation Variables")]
+    [SerializeField] private float speakerUIPopupAnimationDuration;
+    [SerializeField] private Vector2 speakerUIPopupPosition = new Vector2(1, 2);
+    private Vector3 speakerUIOriginalPosition;
+    
     [Header("Text Box Indicator Animation Variables")]
     [SerializeField] private float indicatorMoveSpeed = 1.5f;
     [SerializeField] private float indicatorMoveDistance = 0.5f;
     private float indicatorOriginalYPosition;
+
+    private const float closeXScale = 0f;
+    private const float openXScale = 1f;
 
     private Dialogue[] currentDialogue;
     private int currentDialogueIndex = 0;
@@ -38,9 +49,13 @@ public class TextBoxUI : MonoBehaviour{
     private Dialogue currentQuestion;
     private List<TextBoxAnswerButtonUI> currentAnswerButtonUI = new List<TextBoxAnswerButtonUI>();
 
-    private IEnumerator currentTextboxAnimation;
+    private DialogueSO currentDialogueSO;
 
+    private ConversationDialogueSO currentConversationSO;
+
+    private IEnumerator currentTextboxAnimation;
     private IEnumerator currentIndicatorAnimation;
+    private IEnumerator currentSpeakerUIAnimation;
 
     public event EventHandler OnCurrentDialogueFinished;
 
@@ -57,6 +72,10 @@ public class TextBoxUI : MonoBehaviour{
             indicatorOriginalYPosition = textBoxContinueIndicator.localPosition.y; 
         }
 
+        if(speakerUIParent != null){
+            speakerUIOriginalPosition = speakerUIParent.localPosition;
+        }
+
         textBoxParent.gameObject.SetActive(false);
     }
 
@@ -64,25 +83,36 @@ public class TextBoxUI : MonoBehaviour{
         StopAllCoroutines();
     }
 
-    public void StartDialogue(Dialogue[] dialogue){
-        if(currentDialogue != null || currentQuestion != null) return;
-
+    public void StartDialogue(DialogueSO dialogueSO){
+        if(currentDialogueSO != null || dialogueSO == null) return;
+        
         ShowTextBox(true);
+    
+        currentDialogueSO = dialogueSO;
 
-        currentDialogue = dialogue;
-
-        PrintNextLine();
+        SetupDialogue();
     }
 
-    public void StartQuestion(Dialogue questionDialogue, ChoiceDialogue[] choices){
-        if(currentDialogue != null || currentQuestion != null) return;
-        
-        currentQuestion = questionDialogue;
+    private void SetupDialogue(){
+        switch (currentDialogueSO){
+            case BasicDialogueSO basicDialogueSO: 
+            currentDialogue = basicDialogueSO.DialogueSentences;
+            PrintNextLine();
+            break;
+            case ChoiceDialogueSO choiceDialogue:
+            currentQuestion = choiceDialogue.Question;
+            SetupChoices(choiceDialogue.Choices);
+            PrintQuestion();
+            break;
+            case ConversationDialogueSO conversationDialogueSO:
+            currentConversationSO = conversationDialogueSO;
+            ShowSpeakerUI(true);
+            break;
+            default:
+            StopDialogue();
+            break;
+        }
 
-        ShowTextBox(true);
-        SetupChoices(choices);
-
-        PrintQuestion();
     }
 
     public void AttemptPrintNextLine(){
@@ -107,7 +137,9 @@ public class TextBoxUI : MonoBehaviour{
     }
 
     public void StopDialogue(){
-        ShowTextBox(false);
+        if(currentConversationSO != null){
+            ShowSpeakerUI(false);
+        }
 
         if(currentTextPrint != null){
             StopCoroutine(currentTextPrint);
@@ -119,11 +151,16 @@ public class TextBoxUI : MonoBehaviour{
             HideChoices();
         }
 
+        ShowTextBox(false);
+
+        speakerText.text = "";
         questionText.text = "";
         textBoxText.text = "";
 
+        currentConversationSO = null;
         currentQuestion = null;
         currentDialogue = null;
+        currentDialogueSO = null;
         currentDialogueIndex = 0;
     }
 
@@ -198,7 +235,7 @@ public class TextBoxUI : MonoBehaviour{
     private void ShowTextBoxIndicator(){
         textBoxContinueIndicator.gameObject.SetActive(true);
         
-        currentIndicatorAnimation = UIAnimator.UISinAnimationCoroutine(textBoxContinueIndicator, indicatorOriginalYPosition, indicatorMoveSpeed, indicatorMoveDistance);
+        currentIndicatorAnimation = UIAnimator.SinAnimationCoroutine(textBoxContinueIndicator, indicatorOriginalYPosition, indicatorMoveSpeed, indicatorMoveDistance);
 
         StartCoroutine(currentIndicatorAnimation);
     }
@@ -227,8 +264,28 @@ public class TextBoxUI : MonoBehaviour{
 
         Vector3 textBoxGoalScale = isOpening ? new Vector3(openXScale, textBoxParent.localScale.y, textBoxParent.localScale.z) : 
                                            new Vector3(closeXScale, textBoxParent.localScale.y, textBoxParent.localScale.z);
-        currentTextboxAnimation = UIAnimator.UIStretchAnimationCoroutine(textBoxParent, textBoxGoalScale, animationDuration, !isOpening);
+        currentTextboxAnimation = UIAnimator.StretchAnimationCoroutine(textBoxParent, textBoxGoalScale, animationDuration, !isOpening);
 
         StartCoroutine(currentTextboxAnimation);
+    }
+
+    private void ShowSpeakerUI(bool isPoppingUp){
+        if(currentSpeakerUIAnimation != null){
+            StopCoroutine(currentSpeakerUIAnimation);
+            currentSpeakerUIAnimation = null;
+        }
+
+        if(isPoppingUp){
+            speakerUIParent.gameObject.SetActive(true);
+            speakerUIParent.localPosition = speakerUIOriginalPosition;
+        }
+        else{
+            speakerUIParent.localPosition = speakerUIPopupPosition;
+        }
+
+        Vector3 speakerUIGoalPosition = isPoppingUp ? speakerUIPopupPosition : speakerUIOriginalPosition;
+
+        currentSpeakerUIAnimation = UIAnimator.LerpingAnimationCoroutine(speakerUIParent, speakerUIGoalPosition, speakerUIPopupAnimationDuration, !isPoppingUp);
+        StartCoroutine(currentSpeakerUIAnimation);
     }
 }

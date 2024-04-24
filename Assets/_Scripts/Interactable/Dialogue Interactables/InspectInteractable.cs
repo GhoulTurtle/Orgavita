@@ -15,7 +15,7 @@ public class InspectInteractable : DialogueInteractable{
 
         base.StartDialogue();
 
-        textBoxUI.StartDialogue(inspectDialogue.DialogueSentences);
+        textBoxUI.StartDialogue(inspectDialogue);
     }
 
     public override void EndDialogue(){

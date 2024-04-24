@@ -86,17 +86,17 @@ public class InventoryItemModelUI : MonoBehaviour{
 
     private void EnterInspectStateAnimation(){
         StopInspectAnimationCoroutines();
-        currentInspectMoveAnimation = UIAnimator.UILerpingAnimationCoroutine(itemModelRender, itemModelSlidePosition, inspectAnimationTime, false);
+        currentInspectMoveAnimation = UIAnimator.LerpingAnimationCoroutine(itemModelRender, itemModelSlidePosition, inspectAnimationTime, false);
         StartCoroutine(currentInspectMoveAnimation);
-        currentInspectScaleAnimation = UIAnimator.UIStretchAnimationCoroutine(itemModelRender, inspectAnimationScale, inspectAnimationTime, false);
+        currentInspectScaleAnimation = UIAnimator.StretchAnimationCoroutine(itemModelRender, inspectAnimationScale, inspectAnimationTime, false);
         StartCoroutine(currentInspectScaleAnimation);
     }
 
     private void ExitInspectStateAnimation(){
         StopInspectAnimationCoroutines();
-        currentInspectMoveAnimation = UIAnimator.UILerpingAnimationCoroutine(itemModelRender, itemModelOriginalPosition, inspectAnimationTime, false);
+        currentInspectMoveAnimation = UIAnimator.LerpingAnimationCoroutine(itemModelRender, itemModelOriginalPosition, inspectAnimationTime, false);
         StartCoroutine(currentInspectMoveAnimation);
-        currentInspectScaleAnimation = UIAnimator.UIStretchAnimationCoroutine(itemModelRender, itemModelOriginalScale, inspectAnimationTime, false);
+        currentInspectScaleAnimation = UIAnimator.StretchAnimationCoroutine(itemModelRender, itemModelOriginalScale, inspectAnimationTime, false);
         StartCoroutine(currentInspectScaleAnimation);
 
         currentItemResetAnimation = ResetItemToDefault();

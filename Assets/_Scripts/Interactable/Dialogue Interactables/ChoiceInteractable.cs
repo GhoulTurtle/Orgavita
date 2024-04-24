@@ -20,7 +20,7 @@ public class ChoiceInteractable : DialogueInteractable{
 
         SetupChoiceEvents();
 
-        textBoxUI.StartQuestion(choiceDialogueSO.Question, choiceDialogueSO.Choices);
+        textBoxUI.StartDialogue(choiceDialogueSO);
 
         Cursor.lockState = CursorLockMode.Confined;
     }

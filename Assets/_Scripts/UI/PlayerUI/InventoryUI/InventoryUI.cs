@@ -177,7 +177,7 @@ public class InventoryUI : MonoBehaviour{
 
         inventoryScreen.localScale = closeScale;
 
-        currentInventoryUIAnimation = UIAnimator.UIStretchAnimationCoroutine(inventoryScreen, openScale, animationDuration, false);        
+        currentInventoryUIAnimation = UIAnimator.StretchAnimationCoroutine(inventoryScreen, openScale, animationDuration, false);        
 
         StartCoroutine(currentInventoryUIAnimation);
 
@@ -197,7 +197,7 @@ public class InventoryUI : MonoBehaviour{
 
         inventoryScreen.localScale = openScale;
 
-        currentInventoryUIAnimation = UIAnimator.UIStretchAnimationCoroutine(inventoryScreen, closeScale, animationDuration, true);        
+        currentInventoryUIAnimation = UIAnimator.StretchAnimationCoroutine(inventoryScreen, closeScale, animationDuration, true);        
 
         StartCoroutine(currentInventoryUIAnimation);
     }

@@ -10,15 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45c828af7e91e2c429906f2687ef5a3b, type: 3}
-  m_Name: TestEmailList
+  m_Name: DecayingApartment_OfficeEmailList
   m_EditorClassIdentifier: 
   EmailMessageList:
-  - Subject: Testing Mcgee
+  - Subject: New Code
     Sender: bobby-diamond
     Recipient: jenny-yu
-    Body: Yo, I am sending this email to test the mail application to double check
-      that it is working accordingly.
-  - Subject: BLAH BLAH
-    Sender: Itah-Killa2
-    Recipient: YOU
-    Body: LMAO YOU STINKY
+    Body: 'Hey Jenny, we change the emergency code for the shutter door on your floor,
+      the new code is: 9281.'

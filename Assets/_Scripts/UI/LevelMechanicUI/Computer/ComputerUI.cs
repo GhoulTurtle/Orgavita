@@ -39,8 +39,6 @@ public class ComputerUI : MonoBehaviour{
 
     private ComputerCursorState currentCursorState = ComputerCursorState.Default;
 
-    private bool isActive = false;
-
     private void Awake() {
         TryGetComponent(out canvasTransform);
         TryGetComponent(out graphicRaycaster);
@@ -169,7 +167,7 @@ public class ComputerUI : MonoBehaviour{
 
         currentApplication.SetupApplicationUI(this, application);
 
-        if(!isActive){
+        if(!computerInteractable.GetIsSelected()){
             DisableComputerUIInteractivity();
         }
     }

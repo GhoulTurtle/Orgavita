@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Door : MonoBehaviour, IInteractable{
     public string InteractionPrompt {get{
@@ -14,6 +15,11 @@ public class Door : MonoBehaviour, IInteractable{
     [SerializeField] private float doorRotationSpeedInSeconds = 1f;
     [SerializeField] private float rotationAmount = 90f;
     [SerializeField] private float forwardDirection = 0f;
+
+    [Header("Door Events")]
+    [SerializeField] private UnityEvent OnDoorOpen;
+    [SerializeField] private UnityEvent OnDoorClose;
+    [SerializeField] private UnityEvent OnFailedOpen;
 
     private Vector3 startRotation;
     private Vector3 forward;
@@ -33,6 +39,7 @@ public class Door : MonoBehaviour, IInteractable{
 
     public bool Interact(PlayerInteract player){
         if(isLocked){
+            OnFailedOpen?.Invoke();
             return false;
         }
 
@@ -57,12 +64,15 @@ public class Door : MonoBehaviour, IInteractable{
         Quaternion endRotation;
 
         if(!openingDoor){
+            OnDoorClose?.Invoke();
             endRotation = Quaternion.Euler(startRotation);
         }
         else if(forwardAmount >= forwardDirection){
+            OnDoorOpen?.Invoke();
             endRotation = Quaternion.Euler(new Vector3(0, doorStartRotation.y - rotationAmount, 0));
         }
         else{
+            OnDoorOpen?.Invoke();
             endRotation = Quaternion.Euler(new Vector3(0, doorStartRotation.y + rotationAmount, 0));
         }
 

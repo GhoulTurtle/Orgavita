@@ -50,6 +50,8 @@ public class TextBoxUI : MonoBehaviour{
     private List<TextBoxAnswerButtonUI> currentAnswerButtonUI = new List<TextBoxAnswerButtonUI>();
 
     private DialogueSO currentDialogueSO;
+    private int currentConversationIndex = 0;
+    private IEnumerator currentSpeakerTextPrint = null;
 
     private ConversationDialogueSO currentConversationSO;
 
@@ -58,6 +60,8 @@ public class TextBoxUI : MonoBehaviour{
     private IEnumerator currentSpeakerUIAnimation;
 
     public event EventHandler OnCurrentDialogueFinished;
+    public event EventHandler OnTextBoxOpen;
+    public event EventHandler OnTextBoxClosed;
 
     private void Awake() {
         if(Instance == null){
@@ -107,12 +111,46 @@ public class TextBoxUI : MonoBehaviour{
             case ConversationDialogueSO conversationDialogueSO:
             currentConversationSO = conversationDialogueSO;
             ShowSpeakerUI(true);
+            ProceedConversation();
             break;
             default:
             StopDialogue();
             break;
         }
+    }
 
+    private void ProceedConversation(){
+        if(currentDialogue == null || currentDialogue.Length <= currentDialogueIndex){
+            if(currentConversationSO.Conversation.Length <= currentConversationIndex){
+                //End the conversation
+                OnCurrentDialogueFinished?.Invoke(this, EventArgs.Empty);
+                StopDialogue();
+                return;
+            }
+
+            //Grab the next conversation dialogue set
+            currentDialogue = currentConversationSO.Conversation[currentConversationIndex].SpeakerDialogue;
+            //Update the speaker text
+            UpdateSpeakerText();
+
+            //Increase the conversation index
+            currentConversationIndex++;
+
+            //Reset the dialogue index for the new speaker dialogue
+            currentDialogueIndex = 0;
+        }
+
+        PrintNextLine();
+    }
+
+    private void UpdateSpeakerText(){
+        if(currentSpeakerTextPrint != null){
+            SpeakerTextFinishedPrinting();
+        }
+
+        speakerText.color = currentConversationSO.Conversation[currentConversationIndex].SpeakerName.SentenceColor;
+        currentSpeakerTextPrint = TextPrinter.PrintSentence(currentConversationSO.Conversation[currentConversationIndex].SpeakerName.Sentence, speakerText, SpeakerTextFinishedPrinting);
+        StartCoroutine(currentSpeakerTextPrint);
     }
 
     public void AttemptPrintNextLine(){
@@ -162,6 +200,7 @@ public class TextBoxUI : MonoBehaviour{
         currentDialogue = null;
         currentDialogueSO = null;
         currentDialogueIndex = 0;
+        currentConversationIndex = 0;
     }
 
     private void RemoveAnswerButtonUI(){
@@ -204,9 +243,14 @@ public class TextBoxUI : MonoBehaviour{
     private void PrintNextLine(){
         HideTextBoxIndicator();
 
-        if(currentDialogue.Length <= currentDialogueIndex){
+        if(currentDialogue.Length <= currentDialogueIndex && currentConversationSO == null){
             OnCurrentDialogueFinished?.Invoke(this, EventArgs.Empty);
             StopDialogue();
+            return;
+        }
+
+        if(currentConversationSO != null && currentDialogue.Length <= currentDialogueIndex){
+            ProceedConversation();
             return;
         }
 
@@ -230,6 +274,11 @@ public class TextBoxUI : MonoBehaviour{
         else{
             ShowChoices();
         }
+    }
+
+    private void SpeakerTextFinishedPrinting(){
+        StopCoroutine(currentSpeakerTextPrint);
+        currentSpeakerTextPrint = null;
     }
 
     private void ShowTextBoxIndicator(){
@@ -257,9 +306,11 @@ public class TextBoxUI : MonoBehaviour{
         if(isOpening){
             textBoxParent.gameObject.SetActive(true);
             textBoxParent.localScale = new Vector3(closeXScale, textBoxParent.localScale.y, textBoxParent.localScale.z);
+            OnTextBoxOpen?.Invoke(this, EventArgs.Empty);
         }
         else{
             textBoxParent.localScale = new Vector3(openXScale, textBoxParent.localScale.y, textBoxParent.localScale.z);
+            OnTextBoxClosed?.Invoke(this, EventArgs.Empty);            
         }
 
         Vector3 textBoxGoalScale = isOpening ? new Vector3(openXScale, textBoxParent.localScale.y, textBoxParent.localScale.z) : 

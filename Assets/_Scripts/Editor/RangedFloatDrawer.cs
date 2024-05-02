@@ -6,8 +6,8 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomPropertyDrawer(typeof(RangedInt), true)]
-public class RangedIntDrawer : PropertyDrawer {
+[CustomPropertyDrawer(typeof(RangedFloat), true)]
+public class RangedFloatDrawer : PropertyDrawer {
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label){
 		label = EditorGUI.BeginProperty(position, label, property);
 		position = EditorGUI.PrefixLabel(position, label);
@@ -15,8 +15,8 @@ public class RangedIntDrawer : PropertyDrawer {
 		SerializedProperty minProp = property.FindPropertyRelative("minValue");
 		SerializedProperty maxProp = property.FindPropertyRelative("maxValue");
 
-		float minValue = minProp.intValue;
-		float maxValue = maxProp.intValue;
+		float minValue = minProp.floatValue;
+		float maxValue = maxProp.floatValue;
 
 		float rangeMin = 0;
 		float rangeMax = 1;

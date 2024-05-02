@@ -8,12 +8,15 @@ public class InspectInteractable : DialogueInteractable{
     [SerializeField] private BasicDialogueSO inspectDialogue;
 
     [Header("Inspect Events")]
+    public UnityEvent OnDialogueStart;
     public UnityEvent OnDialogueEnd;
 
     public override void StartDialogue(){
         if(inspectDialogue == null) return;
 
         base.StartDialogue();
+
+        OnDialogueStart?.Invoke();
 
         textBoxUI.StartDialogue(inspectDialogue);
     }

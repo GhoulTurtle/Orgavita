@@ -8,8 +8,11 @@ public class KeypadInteractable : StateChangeInteractable{
     [Header("Keypad Variables")]
     [SerializeField] private int maxPasswordSize = 4;
     [SerializeField] private string password;
-    [SerializeField] private UnityEvent unlockEvent;
-    [SerializeField] private UnityEvent lockEvent;
+    [SerializeField] private UnityEvent UnlockEvent;
+    [SerializeField] private UnityEvent LockEvent;
+    [SerializeField] private UnityEvent EnteredNumberEvent;
+    [SerializeField] private UnityEvent IncorrectPasswordEnteredEvent;
+    [SerializeField] private UnityEvent ClearedKeypadEvent;
 
     public event EventHandler<KeypadNumberEnteredEventArgs> OnNumberEntered;
     public event EventHandler OnKeypadCleared;
@@ -94,6 +97,7 @@ public class KeypadInteractable : StateChangeInteractable{
                 previousCharPos = currentEntry.Length - 1;
             }
             
+            EnteredNumberEvent?.Invoke();
             OnNumberEntered?.Invoke(this, new KeypadNumberEnteredEventArgs(currentEntry));
         }
 
@@ -101,18 +105,20 @@ public class KeypadInteractable : StateChangeInteractable{
         currentEntry = "";
         previousCharPos = -1;
         OnKeypadCleared?.Invoke(this, EventArgs.Empty);
-        lockEvent?.Invoke();
+        LockEvent?.Invoke();
         OnIncorrectPasswordEntered?.Invoke(this, EventArgs.Empty);
+        ClearedKeypadEvent?.Invoke();
     }
 
     public void EnterNumber(){
         if(currentEntry == password){
-            unlockEvent?.Invoke();
+            UnlockEvent?.Invoke();
             OnCorrectPasswordEntered?.Invoke(this, EventArgs.Empty);
         }
         else{
-            lockEvent?.Invoke();
+            LockEvent?.Invoke();
             OnIncorrectPasswordEntered?.Invoke(this, EventArgs.Empty);
+            IncorrectPasswordEnteredEvent?.Invoke();
         }
     }
 }

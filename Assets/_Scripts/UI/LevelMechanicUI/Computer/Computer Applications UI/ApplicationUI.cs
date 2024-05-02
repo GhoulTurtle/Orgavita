@@ -18,6 +18,8 @@ public class ApplicationUI : MonoBehaviour{
 
         computerUI.OnEnableUI += (sender, e) => EnableApplicationUIInteractivity();
         computerUI.OnDisableUI += (sender, e) => DisableApplicationUIInteractivity();
+
+        EnableApplicationUIInteractivity();
     }
 
     public virtual void CloseApplication(){

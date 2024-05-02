@@ -9,11 +9,14 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
 
     [Header("State Change Options")]
     [SerializeField] private bool showCursor = true;
+    [SerializeField] protected bool isLocked = false;
 
     protected PlayerInputHandler playerInputHandler;
     
     public event EventHandler OnTriggerState;
     public event EventHandler OnExitState;
+    public event EventHandler OnUnlockInteractable;
+    public event EventHandler OnLockInteractable;
 
     public abstract string InteractionPrompt {get;}
     public bool Interact(PlayerInteract player){
@@ -41,6 +44,7 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
             Cursor.visible = false;
         }
         virtualCamera.Priority = 11;
+        
         OnTriggerState?.Invoke(this, EventArgs.Empty);
     }
 
@@ -54,6 +58,17 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
         if(playerInputHandler != null){
             playerInputHandler.OnCancelInput -= ExitState;
         }
+
         OnExitState?.Invoke(this, EventArgs.Empty);
+    }
+
+    public virtual void UnlockInteractable(){
+        isLocked = false;
+        OnUnlockInteractable?.Invoke(this, EventArgs.Empty);
+    }
+
+    public virtual void LockInteractable(){
+        isLocked = true;
+        OnLockInteractable?.Invoke(this, EventArgs.Empty);
     }
 }

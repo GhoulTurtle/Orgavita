@@ -12,6 +12,10 @@ public class ConversationInteractable : DialogueInteractable{
     [Header("Conversation Variables")]
     [SerializeField] private ConversationDialogueSO conversationDialogueSO;
 
+    public override void TriggerDialogueFromGameEvent(PlayerInteract player){
+        base.Interact(player);
+    }
+
     public override void StartDialogue(){
         base.StartDialogue();
 
@@ -20,11 +24,9 @@ public class ConversationInteractable : DialogueInteractable{
 
     public override void CancelDialogue(object sender, PlayerInputHandler.InputEventArgs e){
         base.CancelDialogue(sender, e);
-    
     }
 
     public override void ContinueDialogue(object sender, PlayerInputHandler.InputEventArgs e){
         base.ContinueDialogue(sender, e);
-
     }
 }

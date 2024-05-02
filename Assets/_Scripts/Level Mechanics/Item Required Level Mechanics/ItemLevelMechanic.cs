@@ -51,8 +51,15 @@ public class ItemLevelMechanic : MonoBehaviour{
             inventoryItem.RemoveFromStack(1);
         }
 
-        inspectInteractable.SetInspectDialogue(unlockedDialogue);
-        if(unlockedDialogue == null && isOneShot){
+        if(inspectInteractable != null){
+            inspectInteractable.SetInspectDialogue(unlockedDialogue);
+        }
+
+        if(unlockedDialogue == null && isOneShot && inspectInteractable != null){
+            if(playerInventoryHandler.GetCurrentLevelMechanic() == this){
+                playerInventoryHandler.RemoveCurrentLevelMechanic(this);
+            }
+            
             Destroy(inspectInteractable);
         }
 

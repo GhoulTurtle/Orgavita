@@ -3,7 +3,7 @@ using UnityEngine.Events;
 
 public class SwitchInteractable : MonoBehaviour, IInteractable{
     public string InteractionPrompt {get{
-        string prompt = currentState ? "Activate" : "Deactivate";
+        string prompt = !currentState ? "Activate" : "Deactivate";
         return prompt;
     }}
 

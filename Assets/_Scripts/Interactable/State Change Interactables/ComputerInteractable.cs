@@ -56,23 +56,35 @@ public class ComputerInteractable : StateChangeInteractable{
     }
 
     private void Update() {
-        if(!isSelected) return;
+        if(!isSelected || isLocked) return;
 
         DetectMousePosition();
     }
 
     public override void EnterState(){
         base.EnterState();
-        playerInputHandler.OnClickInput += CursorInput;
+        
+        if(!isLocked){
+            playerInputHandler.OnClickInput += CursorInput;
+        }
+        
         isSelected = true;
         OnEnterComputerState?.Invoke(this, EventArgs.Empty);
     }
 
     public override void ExitState(object sender, PlayerInputHandler.InputEventArgs e){
         base.ExitState(sender, e);
-        playerInputHandler.OnClickInput -= CursorInput;
+
+        if(!isLocked){
+            playerInputHandler.OnClickInput -= CursorInput;
+        }
+
         isSelected = false;
         OnExitComputerState?.Invoke(this, EventArgs.Empty);
+    }
+
+    public bool GetIsSelected(){
+        return isSelected;
     }
 
     private void CursorInput(object sender, PlayerInputHandler.InputEventArgs e){

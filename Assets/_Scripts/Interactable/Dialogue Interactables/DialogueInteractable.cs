@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
     public abstract string InteractionPrompt {get;}
 
+    public bool isCancelable = true;
+
     protected PlayerInputHandler playerInputHandler;
 
     protected TextBoxUI textBoxUI => TextBoxUI.Instance;
@@ -17,7 +19,7 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
         }
     }
 
-    public bool Interact(PlayerInteract player){
+    public virtual bool Interact(PlayerInteract player){
         if(player.TryGetComponent(out playerInputHandler)){
             playerInputHandler.OnCancelInput += CancelDialogue;
             playerInputHandler.OnAcceptInput += ContinueDialogue;
@@ -61,7 +63,7 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
     }
 
     public virtual void CancelDialogue(object sender, PlayerInputHandler.InputEventArgs e){
-        if(e.inputActionPhase != InputActionPhase.Performed) return;
+        if(e.inputActionPhase != InputActionPhase.Performed || !isCancelable) return;
         
         textBoxUI.StopDialogue();
 
@@ -73,5 +75,9 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
         }
 
         textBoxUI.OnCurrentDialogueFinished -= (sender, e) => EndDialogue();
+    }
+
+    public virtual void TriggerDialogueFromGameEvent(PlayerInteract player){
+        Interact(player);
     }
 }

@@ -49,11 +49,14 @@ MonoBehaviour:
     - Sentence: ...
       SentenceColor: {r: 1, g: 1, b: 1, a: 1}
       SentenceDialogueEffect: 0
+    - Sentence: I Hate You!
+      SentenceColor: {r: 1, g: 0, b: 0, a: 1}
+      SentenceDialogueEffect: 0
   - SpeakerName:
       Sentence: Bobby
-      SentenceColor: {r: 1, g: 1, b: 1, a: 1}
+      SentenceColor: {r: 0.14320946, g: 1, b: 0, a: 1}
       SentenceDialogueEffect: 0
     SpeakerDialogue:
-    - Sentence: Bye Nerd!!
+    - Sentence: Bye Nerd!! + Who Asked?
       SentenceColor: {r: 1, g: 1, b: 1, a: 1}
       SentenceDialogueEffect: 0

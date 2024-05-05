@@ -129,7 +129,7 @@ Material:
     - Vector1_B2CC132F: 600
     - Vector1_B9994903: 11
     - Vector1_E8746023: 128
-    - _AffineTextureWarpingWeight: 1
+    - _AffineTextureWarpingWeight: 0
     - _AlphaClip: 0
     - _AlphaClippingDitherIsEnabled: 0
     - _AlphaToMask: 0

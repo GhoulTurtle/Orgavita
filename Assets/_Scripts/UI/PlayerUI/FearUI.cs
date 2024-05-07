@@ -30,7 +30,7 @@ public class FearUI : MonoBehaviour{
             statusImage.color = calmColor;
             break;
         case FearState.Panic:
-            statusText.text = "PANIC";
+            statusText.text = "PANICKED"; 
             statusImage.color = panicColor;
             break;
         case FearState.Terrified:

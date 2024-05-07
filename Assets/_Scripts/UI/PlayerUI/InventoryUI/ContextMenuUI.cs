@@ -99,12 +99,13 @@ public class ContextMenuUI : MonoBehaviour{
                 }
                 break;
             case InventoryState.ContextUI:
-                if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine){
-                    UpdateSelectedItemUI();
-                }
                 if(playerInventoryHandler.CurrentInventoryState == InventoryState.Inspect){
                     ExitInspectAnimation();
                 }
+                if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine){
+                    UpdateSelectedItemUI();
+                }
+                
                 ShowContextUI();
                 break;
             case InventoryState.Combine: 
@@ -130,8 +131,10 @@ public class ContextMenuUI : MonoBehaviour{
         StopInspectAnimationCoroutines();
         currentItemDividerAnimation = UIAnimator.LerpingAnimationCoroutine(selectedItemDivider, itemDividerOriginalPosition, inspectAnimationDuration, false);
         StartCoroutine(currentItemDividerAnimation);
+        
         currentItemDescriptionAnimation = UIAnimator.LerpingTextMarginAnimationCoroutine(selectedItemDescriptionText, itemDescriptionOriginalMargins, inspectAnimationDuration);
         StartCoroutine(currentItemDescriptionAnimation);
+        
         StartQuickDescriptionPrint(inventoryUI.GetSelectedItemData());
     }
 
@@ -172,8 +175,6 @@ public class ContextMenuUI : MonoBehaviour{
         GenerateContextUIButtons(inventoryUI.GetSelectedInventoryItem(), inventoryUI.GetSelectedItemData());
 
         UpdateContextParentSpacing();
-
-        inventoryUI.GetInventoryMenuSelector().SetTarget(currentContextButtons[0].transform);
         
         if(currentContextUIAnimation != null){
             StopCoroutine(currentContextUIAnimation);
@@ -182,6 +183,8 @@ public class ContextMenuUI : MonoBehaviour{
         
         currentContextUIAnimation = UIAnimator.LerpingAnimationCoroutine(contextUIParent, contextMenuPopupGoalPosition, animationDuration, false);
         StartCoroutine(currentContextUIAnimation);
+
+        inventoryUI.GetInventoryMenuSelector().SetTarget(currentContextButtons[0].transform);
     }
 
     private void HideContextUI(){        

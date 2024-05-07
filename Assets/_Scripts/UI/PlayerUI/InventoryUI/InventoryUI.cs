@@ -115,6 +115,8 @@ public class InventoryUI : MonoBehaviour{
         
         AddNewInventoryUI(inventory);
         SetupInventorySelector();
+
+        SelectItemUI(currentItemUI[0]);
     }
 
     private void SetupInventorySelector(){

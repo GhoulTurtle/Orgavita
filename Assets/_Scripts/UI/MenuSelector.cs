@@ -20,6 +20,7 @@ public class MenuSelector : MonoBehaviour{
     private const float stopMovingDistanceFromTarget = 0.01f;
 
     private bool isActive;
+    private bool isFirstActivation = true;
 
     private void Awake() {
         CurrentEventSystem = EventSystem.current;
@@ -33,6 +34,12 @@ public class MenuSelector : MonoBehaviour{
 
     private void Update(){
         if(!isActive) return;
+
+        if(isFirstActivation){
+            SetTarget(currentSelectedTransform);
+            isFirstActivation = false;  
+        }
+
         DetectNewObjectSelected();
     }
 
@@ -74,10 +81,10 @@ public class MenuSelector : MonoBehaviour{
     }
 
     private void SetSelectorPostionAndScaleToCurrentSelected(){
-        selectorImageTransform.position = currentSelectedTransform.position;
-
         selectorRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, currentSelectedRectTransform.rect.size.x);
         selectorRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, currentSelectedRectTransform.rect.size.y);
+
+        selectorImageTransform.position = currentSelectedTransform.transform.position;
     }
 
     private void MoveSelector(float current){
@@ -96,7 +103,12 @@ public class MenuSelector : MonoBehaviour{
 
     public void EnableSelector(){
         isActive = true;
-        CurrentEventSystem.SetSelectedGameObject(currentSelectedTransform.gameObject);
+        
+        if(currentSelectedTransform != null){
+            CurrentEventSystem.SetSelectedGameObject(currentSelectedTransform.gameObject);
+            Invoke(nameof(SetSelectorPostionAndScaleToCurrentSelected), 0.1f); //TEMP Needs refactoring
+        }
+
         ShowSelectorVisual();
     }
 
@@ -123,8 +135,5 @@ public class MenuSelector : MonoBehaviour{
 
         currentSelectedTransform = _startingSelectedObject;
         currentSelectedTransform.TryGetComponent(out currentSelectedRectTransform);
-
-        CurrentEventSystem.SetSelectedGameObject(currentSelectedTransform.gameObject);
-        SetSelectorPostionAndScaleToCurrentSelected();
     }
 }

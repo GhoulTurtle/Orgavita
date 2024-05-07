@@ -9,9 +9,9 @@ public class Fear : MonoBehaviour{
     [SerializeField] private float safeSpaceBuildMaxPercent = 0.5f; 
     [SerializeField] private float fearBuildTimeInSeconds = 90f;
     [SerializeField] private float fearGracePeriodInSeconds = 30f;
-    [SerializeField, Range(0f, 1f)] private float calmPercentCutoff = 0.75f;
+    [SerializeField, Range(0f, 1f)] private float calmPercentCutoff = 0.25f;
 	[SerializeField, Range(0f, 1f)] private float panicPercentCutoff = 0.5f;
-	[SerializeField, Range(0f, 1f)] private float terrifiedPercentCutoff = 0.25f;
+	[SerializeField, Range(0f, 1f)] private float terrifiedPercentCutoff = 0.75f;
 
     public EventHandler<FearStateChangedEventArgs> OnFearStateChanged;
 	public class FearStateChangedEventArgs : EventArgs{
@@ -137,13 +137,13 @@ public class Fear : MonoBehaviour{
     private void UpdateFearState(){
 		FearState incomingFearState = FearState.Calm;
 		switch(currentFearCells){
-			case int fear when fear >= calmStatusCutoff:
+			case int fear when fear <= calmStatusCutoff:
 				incomingFearState = FearState.Calm;
 			break;
-			case int fear when fear >= panicStatusCutoff: 
+			case int fear when fear <= panicStatusCutoff: 
 				incomingFearState = FearState.Panic;
 			break;
-			case int fear when fear >= terrifiedStatusCutoff:
+			case int fear when fear <= terrifiedStatusCutoff:
 				incomingFearState = FearState.Terrified;
 			break;
 		}

@@ -1,5 +1,5 @@
-using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -29,7 +29,16 @@ public class PlayerPause : MonoBehaviour{
         Cursor.visible = true;
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0;
-        
+        EventSystem.current.SetSelectedGameObject(null);
+    }
+
+    public void InSubMenu(){
+        if(playerInputHandler != null){
+            playerInputHandler.OnCancelInput -= UnPausedInput; 
+        }
+    }
+
+    public void InPauseMenu(){       
         if(playerInputHandler != null){
             playerInputHandler.OnCancelInput += UnPausedInput; 
         }

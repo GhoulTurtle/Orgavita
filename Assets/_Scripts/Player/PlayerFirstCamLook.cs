@@ -30,6 +30,9 @@ public class PlayerFirstCamLook : MonoBehaviour{
 
 	private const float YClamp = 80f;
 
+	private float lastSinValue;
+	private bool isMovingUpwards = true;
+
 	private float camX;
 	private float camY;
 	private float currentAmplitude;
@@ -40,6 +43,14 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	private Vector3 currentTiltVector;
 
 	private PlayerMovement playerMovement;
+
+	public EventHandler<TerrainStepEventArgs> OnTerrainStep; 
+	public class TerrainStepEventArgs : EventArgs{
+		public TerrainType terrainType;
+		public TerrainStepEventArgs(TerrainType _terrainType){
+			terrainType = _terrainType;
+		}
+	}
 
 	private void Awake() {
 		startPos = cameraTransform.localPosition;
@@ -98,6 +109,16 @@ public class PlayerFirstCamLook : MonoBehaviour{
 		Vector3 pos = Vector3.zero;
 		pos.y += Mathf.Sin(Time.time * currentFrequency) * currentAmplitude;
 		pos.x += Mathf.Cos(Time.time * currentFrequency / 2) * currentAmplitude * 2;
+		
+		if ((pos.y > 0 && !isMovingUpwards) || (pos.y < 0 && isMovingUpwards)){
+            // Footstep sound should play at the peak
+            if (lastSinValue < 0 && pos.y >= 0){
+                OnTerrainStep?.Invoke(this, new TerrainStepEventArgs(playerMovement.GetCurrentTerrainType()));
+            }
+            isMovingUpwards = pos.y >= 0;
+        }
+		
+		lastSinValue = pos.y;
 		return pos;
 	}
 

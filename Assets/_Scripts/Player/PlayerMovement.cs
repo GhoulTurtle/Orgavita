@@ -59,6 +59,8 @@ public class PlayerMovement : MonoBehaviour{
 
 	private PlayerMovementState currentPlayerMovementState = PlayerMovementState.Walking;
 
+	private TerrainType currentTerrainType = TerrainType.None;
+
 	private Vector2 previousMoveInput;
 	private Vector2 playerMoveInput;
 	private Vector3 moveDirection;
@@ -165,6 +167,10 @@ public class PlayerMovement : MonoBehaviour{
 		return moveDirection != Vector3.zero;
 	}
 
+	public TerrainType GetCurrentTerrainType(){
+		return currentTerrainType;
+	}
+
 	private void UpdatePlayerMovementState(PlayerMovementState state){
 		if(currentPlayerMovementState == state) return;
 
@@ -182,6 +188,12 @@ public class PlayerMovement : MonoBehaviour{
 
 	private void GroundCheck(){
 		grounded = Physics.CheckSphere(groundCheckTransform.position, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore);
+		if(grounded && Physics.Raycast(groundCheckTransform.position, Vector3.down, out RaycastHit hitInfo, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore) && hitInfo.collider.TryGetComponent(out Terrain terrain)){
+			currentTerrainType = terrain.GetTerrainType();
+		}
+		else{
+			currentTerrainType = TerrainType.None;
+		}
 	}
 
 	private void Gravity(){

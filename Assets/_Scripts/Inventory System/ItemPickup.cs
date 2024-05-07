@@ -1,12 +1,18 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ItemPickup : MonoBehaviour, IInteractable{
     [Header("Required References")]
     [SerializeField] private Transform itemVisualParent;
+    [SerializeField] private Collider itemPickupCollider;
+    [SerializeField] private AudioSource itemPickupAudioSource;
 
     [Header("Item Pickup Variables")]
     [SerializeField] private ItemDataSO itemToPickup;
     [SerializeField] private int itemPickupStackAmount;
+
+    [Header("Events")]
+    [SerializeField] private UnityEvent OnPickupEvent;
 
     private Transform currentItemModel;
 
@@ -26,14 +32,25 @@ public class ItemPickup : MonoBehaviour, IInteractable{
             currentItemModel = null;
         }
 
+        itemPickupCollider.enabled = true;
+
         SetupItemPickup();
     }
 
     public void PickupItem(PlayerInventorySO playerInventory){
+        AudioEvent itemPickupAudioEvent = itemToPickup.GetPickupAudioEvent();
+
+        OnPickupEvent?.Invoke();
+
         var itemRemainder = playerInventory.AttemptToAddItemToInventory(itemToPickup, itemPickupStackAmount);
 
+        if(itemPickupAudioEvent != null){
+            itemPickupAudioEvent.Play(itemPickupAudioSource);
+        }
+
         if(itemRemainder == 0){
-            Destroy(gameObject);
+            Destroy(currentItemModel.gameObject);
+            itemPickupCollider.enabled = false;
             return;
         }
 

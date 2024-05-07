@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Fear : MonoBehaviour{
     [Header("Fear Variables")]
@@ -8,6 +9,24 @@ public class Fear : MonoBehaviour{
     [SerializeField] private float safeSpaceBuildMaxPercent = 0.5f; 
     [SerializeField] private float fearBuildTimeInSeconds = 90f;
     [SerializeField] private float fearGracePeriodInSeconds = 30f;
+    [SerializeField, Range(0f, 1f)] private float calmPercentCutoff = 0.75f;
+	[SerializeField, Range(0f, 1f)] private float panicPercentCutoff = 0.5f;
+	[SerializeField, Range(0f, 1f)] private float terrifiedPercentCutoff = 0.25f;
+
+    public EventHandler<FearStateChangedEventArgs> OnFearStateChanged;
+	public class FearStateChangedEventArgs : EventArgs{
+		public FearState fearState;
+
+		public FearStateChangedEventArgs(FearState _fearState){
+			fearState = _fearState;
+		}
+	}
+
+    private FearState currentFearState;
+
+    private float calmStatusCutoff;
+	private float panicStatusCutoff;
+	private float terrifiedStatusCutoff;
 
     private const int fearCellsPerTick = 1;
     private WaitForSeconds fearTickWaitTimer;
@@ -36,8 +55,12 @@ public class Fear : MonoBehaviour{
     private void Awake() {
         currentFearCells = 0;
         fearTickWaitTimer = new WaitForSeconds(fearCellsPerTick);
+        
         CalculateMaxFearCellsInSafeSpace();
         StartFearBuild();
+
+        SetStatusCutoff();
+        OnFearStateChanged?.Invoke(this, new FearStateChangedEventArgs(currentFearState));
     }
 
     private void OnDestroy() {
@@ -59,6 +82,7 @@ public class Fear : MonoBehaviour{
         currentFearCells -= lowerCellAmount;
         if(currentFearCells < 0) currentFearCells = 0;
 
+        UpdateFearState();
         OnCurrentFearCellsChanged?.Invoke(this, new FearCellsChangedEventArgs(currentFearCells));
         StartCoroutine(FearCellGraceCoroutine());
     }
@@ -70,6 +94,7 @@ public class Fear : MonoBehaviour{
             return;
         } 
 
+        UpdateFearState();
         OnCurrentFearCellsChanged?.Invoke(this, new FearCellsChangedEventArgs(currentFearCells));
     }
 
@@ -103,6 +128,33 @@ public class Fear : MonoBehaviour{
         return currentFearCells == maxFearCells;
     }
 
+    private void SetStatusCutoff(){
+        calmStatusCutoff = Mathf.RoundToInt(maxFearCells * calmPercentCutoff);
+        panicStatusCutoff = Mathf.RoundToInt(maxFearCells * panicPercentCutoff);
+        terrifiedStatusCutoff = Mathf.RoundToInt(maxFearCells * terrifiedPercentCutoff);
+    }
+
+    private void UpdateFearState(){
+		FearState incomingFearState = FearState.Calm;
+		switch(currentFearCells){
+			case int fear when fear >= calmStatusCutoff:
+				incomingFearState = FearState.Calm;
+			break;
+			case int fear when fear >= panicStatusCutoff: 
+				incomingFearState = FearState.Panic;
+			break;
+			case int fear when fear >= terrifiedStatusCutoff:
+				incomingFearState = FearState.Terrified;
+			break;
+		}
+
+		if(currentFearState == incomingFearState) return;
+
+		currentFearState = incomingFearState;
+
+		OnFearStateChanged?.Invoke(this, new FearStateChangedEventArgs(incomingFearState));
+	}
+
     private void CalculateMaxFearCellsInSafeSpace(){
         maxFearCellsInSafeSpace = Mathf.RoundToInt(maxFearCells * safeSpaceBuildMaxPercent);
     }
@@ -125,7 +177,9 @@ public class Fear : MonoBehaviour{
     }
 
     private void TriggerGameOver(){
-        Debug.Log("Game Over!");
+        Time.timeScale = 1;
+        Cursor.lockState = CursorLockMode.None;
+        SceneManager.LoadScene(0);
     }
 
     private IEnumerator RaiseFearOverTimeJob(int totalAmount, float waitTimePerCell){
@@ -179,6 +233,7 @@ public class Fear : MonoBehaviour{
             yield break;
         }
         
+        UpdateFearState();
         OnCurrentFearCellsChanged?.Invoke(this, new FearCellsChangedEventArgs(currentFearCells));
         StartFearBuild();
     }

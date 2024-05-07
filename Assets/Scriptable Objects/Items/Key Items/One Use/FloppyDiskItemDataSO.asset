@@ -22,6 +22,10 @@ MonoBehaviour:
     type: 3}
   itemInWorldModelPrefab: {fileID: 1378348945297961297, guid: 9c2e8bbe3b6939842b8a0fa83222150d,
     type: 3}
+  itemPickupAudioEvent: {fileID: 11400000, guid: 209839112e4af2e41a2d23b85faf2c9f,
+    type: 2}
+  itemUseAudioEvent: {fileID: 0}
+  itemDiscardEvent: {fileID: 0}
   itemType: 0
   isUseable: 1
   isCombinable: 0

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba00ede18d5e4fe47ad3809f5bad1750, type: 3}
+  m_Name: PlayerMetalStepsAudioEvent
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: fb7bd10f176368a4b8664afccf2387cc, type: 3}
+  - {fileID: 8300000, guid: ef75048d68c96e746a817393fd2c9825, type: 3}
+  - {fileID: 8300000, guid: e52c21532f8ff034fb583b8e408b05db, type: 3}
+  volume:
+    minValue: 0.08345753
+    maxValue: 0.12518628
+  pitch:
+    minValue: 0.76005965
+    maxValue: 1.0700448

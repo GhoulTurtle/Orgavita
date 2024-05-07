@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerPause : MonoBehaviour{
     [Header("UI References")]
@@ -50,5 +51,15 @@ public class PlayerPause : MonoBehaviour{
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1;
+    }
+
+    public void ReturnToMainMenu(){
+        Time.timeScale = 1;
+        SceneManager.LoadScene(0);
+    }
+
+    public void QuitGame(){
+        Time.timeScale = 1;
+        Application.Quit();
     }
 }

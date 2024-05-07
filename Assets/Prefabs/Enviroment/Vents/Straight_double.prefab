@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 7905101882124027942}
   - component: {fileID: 5354893269846637804}
   - component: {fileID: -972290432050999099}
-  m_Layer: 0
+  - component: {fileID: 4575923959289512741}
+  m_Layer: 6
   m_Name: Straight_double
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &7905101882124027942
 MeshFilter:
@@ -106,3 +107,16 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 9083029674221870312, guid: 418fb3bd9d9925f44a563bc0d66a3195, type: 3}
+--- !u!114 &4575923959289512741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5859354082857786681}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1203ffd7c484034181fe8e540253b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 3

@@ -16,6 +16,11 @@ public class ItemDataSO : ScriptableObject{
     [SerializeField] private Transform itemInventoryModelPrefab;
     [SerializeField] private Transform itemInWorldModelPrefab;
 
+    [Header("Item Audio")]
+    [SerializeField] private AudioEvent itemPickupAudioEvent;
+    [SerializeField] private AudioEvent itemUseAudioEvent;
+    [SerializeField] private AudioEvent itemDiscardEvent;
+
     [Header("Item Settings")]
     [SerializeField] private ItemType itemType;
     [SerializeField] private bool isUseable = true;
@@ -46,6 +51,18 @@ public class ItemDataSO : ScriptableObject{
 
     public Transform GetItemInWorldModel(){
         return itemInWorldModelPrefab;
+    }
+
+    public AudioEvent GetPickupAudioEvent(){
+        return itemPickupAudioEvent;
+    }
+
+    public AudioEvent GetUseAudioEvent(){
+        return itemUseAudioEvent;
+    }
+
+    public AudioEvent GetDiscardAudioEvent(){
+        return itemDiscardEvent;
     }
 
     public ItemType GetItemType(){

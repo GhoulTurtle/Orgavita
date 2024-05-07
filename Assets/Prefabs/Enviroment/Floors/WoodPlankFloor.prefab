@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4855171873686215844}
   - component: {fileID: 7243475201899898990}
   - component: {fileID: 8642639953299563605}
+  - component: {fileID: 7903703491484793057}
   m_Layer: 6
   m_Name: WoodPlankFloor
   m_TagString: Untagged
@@ -32,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &4855171873686215844
 MeshFilter:
@@ -106,3 +107,16 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -7423264412359114970, guid: c415f84694b15bc438fb7cebbacc7b71, type: 3}
+--- !u!114 &7903703491484793057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9188752958600743355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1203ffd7c484034181fe8e540253b43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrainType: 2

@@ -16,17 +16,13 @@ public class TriggerGameEvent : MonoBehaviour{
         triggerCollider.isTrigger = true;
     }
 
-    private void Start() {
-        triggerCollider.enabled = true;
-    }
-
     private void OnTriggerEnter(Collider other) {
         if(!other.CompareTag(PLAYER)) return;
 
         OnGameEventTriggered?.Invoke();
 
         if(deactivateOnTrigger){
-            triggerCollider.enabled = false;
+            Destroy(this);
         }
     }
 }

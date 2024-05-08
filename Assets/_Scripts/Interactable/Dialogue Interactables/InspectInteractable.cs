@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 public class InspectInteractable : DialogueInteractable{
     public override string InteractionPrompt => "Inspect";
@@ -7,24 +6,16 @@ public class InspectInteractable : DialogueInteractable{
     [Header("Inspect Variables")]
     [SerializeField] private BasicDialogueSO inspectDialogue;
 
-    [Header("Inspect Events")]
-    public UnityEvent OnDialogueStart;
-    public UnityEvent OnDialogueEnd;
-
     public override void StartDialogue(){
         if(inspectDialogue == null) return;
 
         base.StartDialogue();
-
-        OnDialogueStart?.Invoke();
 
         textBoxUI.StartDialogue(inspectDialogue);
     }
 
     public override void EndDialogue(){
         base.EndDialogue();
-        
-        OnDialogueEnd?.Invoke();
     }
 
     public override void ContinueDialogue(object sender, PlayerInputHandler.InputEventArgs e){

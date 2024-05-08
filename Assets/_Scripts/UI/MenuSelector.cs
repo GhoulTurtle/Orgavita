@@ -101,6 +101,13 @@ public class MenuSelector : MonoBehaviour{
         selectorRectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, verticalLerp);
     }
 
+    public ItemUI TryGetCurrentSelectedItemUI(){
+        if(currentSelectedTransform == null) return null;
+        
+        currentSelectedTransform.TryGetComponent(out ItemUI itemUI);
+        return itemUI;
+    }
+
     public void EnableSelector(){
         isActive = true;
         

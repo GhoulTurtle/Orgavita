@@ -172,6 +172,8 @@ public class ContextMenuUI : MonoBehaviour{
     }
 
     private void ShowContextUI(){
+        if(inventoryUI.GetSelectedInventoryItem() == null) return;
+
         GenerateContextUIButtons(inventoryUI.GetSelectedInventoryItem(), inventoryUI.GetSelectedItemData());
 
         UpdateContextParentSpacing();

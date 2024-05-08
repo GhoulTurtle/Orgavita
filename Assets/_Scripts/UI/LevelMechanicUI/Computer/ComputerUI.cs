@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
@@ -27,6 +28,7 @@ public class ComputerUI : MonoBehaviour{
 
     public EventHandler OnEnableUI;
     public EventHandler OnDisableUI;
+    public UnityEvent OnApplicationLaunched;
 
     private float cursorOffset = 2f;
 
@@ -141,6 +143,7 @@ public class ComputerUI : MonoBehaviour{
             applicationLoadingImage.gameObject.SetActive(true);
         }
 
+        OnApplicationLaunched?.Invoke();
         StartCoroutine(LoadingApplicationCoroutine(application));
     }
 

@@ -89,7 +89,8 @@ public class ComputerInteractable : StateChangeInteractable{
 
     private void CursorInput(object sender, PlayerInputHandler.InputEventArgs e){
         switch (e.inputActionPhase){
-            case UnityEngine.InputSystem.InputActionPhase.Performed: OnCursorDown?.Invoke(this, EventArgs.Empty);
+            case UnityEngine.InputSystem.InputActionPhase.Performed: 
+                OnCursorDown?.Invoke(this, EventArgs.Empty);
                 break;
             case UnityEngine.InputSystem.InputActionPhase.Canceled: OnCursorUp?.Invoke(this, EventArgs.Empty);
                 break;

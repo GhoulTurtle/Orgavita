@@ -16,7 +16,6 @@ MonoBehaviour:
   - Sentence: A old wire fence, pretty rusty.
     SentenceColor: {r: 1, g: 1, b: 1, a: 1}
     SentenceDialogueEffect: 0
-  - Sentence: If I had some sort of tool I could probably cut a hole big enough to
-      squeeze through.
+  - Sentence: I could cut a hole in the fence if I had some sort of tool.
     SentenceColor: {r: 1, g: 1, b: 1, a: 1}
     SentenceDialogueEffect: 0

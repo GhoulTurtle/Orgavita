@@ -1,11 +1,18 @@
 using System;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
     public abstract string InteractionPrompt {get;}
-
     public bool isCancelable = true;
+    public bool waitBeforePrinting;
+    public float waitTimeBeforePrintingInSeconds;
+
+    [Header("Inspect Events")]
+    public UnityEvent OnDialogueStart;
+    public UnityEvent OnDialogueEnd;
 
     protected PlayerInputHandler playerInputHandler;
 
@@ -36,11 +43,14 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
         }
 
         textBoxUI.OnCurrentDialogueFinished -= (sender, e) => EndDialogue();
+        StopAllCoroutines();
     }
 
     public virtual void StartDialogue(){
         GameManager.UpdateGameState(GameState.UI);
         textBoxUI.OnCurrentDialogueFinished += (sender, e) => EndDialogue();
+
+        OnDialogueStart?.Invoke();
     }
 
     public virtual void EndDialogue(){
@@ -54,6 +64,8 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
         }
 
         textBoxUI.OnCurrentDialogueFinished -= (sender, e) => EndDialogue();
+                
+        OnDialogueEnd?.Invoke();
     }
 
     public virtual void ContinueDialogue(object sender, PlayerInputHandler.InputEventArgs e){
@@ -78,6 +90,16 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
     }
 
     public virtual void TriggerDialogueFromGameEvent(PlayerInteract player){
+        if(waitBeforePrinting){
+            StartCoroutine(WaitBeforePrintingCoroutine(player));
+            return;
+        }
+
+        Interact(player);
+    }
+
+    private IEnumerator WaitBeforePrintingCoroutine(PlayerInteract player){
+        yield return new WaitForSeconds(waitTimeBeforePrintingInSeconds);
         Interact(player);
     }
 }

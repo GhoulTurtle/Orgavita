@@ -16,6 +16,6 @@ MonoBehaviour:
   - Sentence: A vent cover screwed in with four flathead screws.
     SentenceColor: {r: 1, g: 1, b: 1, a: 1}
     SentenceDialogueEffect: 0
-  - Sentence: I could remove the cover if I had a tool to unscrew the screws.
+  - Sentence: I could remove the cover if I had a tool.
     SentenceColor: {r: 1, g: 1, b: 1, a: 1}
     SentenceDialogueEffect: 0

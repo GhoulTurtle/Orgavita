@@ -148,6 +148,19 @@ public class InventoryUI : MonoBehaviour{
                     EnableItemUIInteractivity();
                     MoveSelectorBackToSelectedItemUI();
                 }
+
+                if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine){
+                    ItemUI selectorItemUI = inventoryUISelector.TryGetCurrentSelectedItemUI();
+
+                    if(selectorItemUI != null){
+                        currentSelectedItemUI = selectorItemUI;
+                        SelectItemUI(selectorItemUI);
+                    }
+                    else{
+                        SelectItemUI(currentSelectedItemUI);
+                    }
+                }
+
                 break;
             case InventoryState.ContextUI: 
                 if(playerInventoryHandler.CurrentInventoryState == InventoryState.Inspect){

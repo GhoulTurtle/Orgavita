@@ -1,11 +1,15 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ShutterGate : ControllableObject{
     [Header("Shutter Gate Variables")]
     [SerializeField] private Vector3 travelPosition;
     [SerializeField] private float travelSpeed;
+
+    public UnityEvent OnShutterGateOpen;
+    public UnityEvent OnShutterGateClose;
 
     private Vector3 startPos;
     private Vector3 endPos;
@@ -31,6 +35,7 @@ public class ShutterGate : ControllableObject{
 
         isActivated = true;
         OnActivate?.Invoke(this, EventArgs.Empty);
+        OnShutterGateOpen?.Invoke();
     }
 
     public override void Deactivate(){
@@ -41,6 +46,7 @@ public class ShutterGate : ControllableObject{
 
         isActivated = false;
         OnDeactivate?.Invoke(this, EventArgs.Empty);
+        OnShutterGateClose?.Invoke();
     }
 
     private IEnumerator GateMovingCorutine(bool activate){

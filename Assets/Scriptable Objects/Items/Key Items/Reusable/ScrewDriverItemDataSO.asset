@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: ScrewDriverItemDataSO
   m_EditorClassIdentifier: 
   itemName: Screw Driver
-  itemQuickDescription: Flatheaded screw driver that can be used to untighten screws.
-  itemInspectDescription: A handheld tool with a slender, cylindrical metal shaft
-    and a flat, narrow tip. The tip is specifically designed to fit into the slots
-    of screws, allowing for easy loosening and tightening. The handle of the screwdriver
-    is made up of weared down oak.
+  itemQuickDescription: A flat headed screwdriver, used for turning screws.
+  itemInspectDescription: A rusty flat headed screw driver. The handle of the screwdriver
+    is made up of weared down oak. Screw drivers and other manual types of tools
+    have been dying out since the Rebirth Age.
   itemIcon: {fileID: 21300000, guid: 04537bbb690f9a641a23857aecd4168c, type: 3}
   itemInventoryModelPrefab: {fileID: 3622149466158720813, guid: ea59e06e6ed088942924c91c1965fdc8,
     type: 3}

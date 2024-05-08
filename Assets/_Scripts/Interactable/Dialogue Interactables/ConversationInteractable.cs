@@ -13,7 +13,7 @@ public class ConversationInteractable : DialogueInteractable{
     [SerializeField] private ConversationDialogueSO conversationDialogueSO;
 
     public override void TriggerDialogueFromGameEvent(PlayerInteract player){
-        base.Interact(player);
+        base.TriggerDialogueFromGameEvent(player);
     }
 
     public override void StartDialogue(){

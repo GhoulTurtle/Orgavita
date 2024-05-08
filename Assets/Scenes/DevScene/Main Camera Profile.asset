@@ -344,13 +344,13 @@ MonoBehaviour:
     m_Value: 1
   blendMode:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0
   color:
     m_OverrideState: 1
-    m_Value: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
+    m_Value: {r: 0.05660379, g: 0.05660379, b: 0.05660379, a: 1}
   precisionAlpha:
     m_OverrideState: 1
-    m_Value: 0.3
+    m_Value: 1
   precisionAlphaDitherTexture:
     m_OverrideState: 0
     m_Value: {fileID: 2800000, guid: 4a3e96c03e7d7c34a8fb8f59764f1945, type: 3}
@@ -366,7 +366,7 @@ MonoBehaviour:
     m_Value: 30
   fogFalloffCurve:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 0.33
   heightFalloffEnabled:
     m_OverrideState: 0
     m_Value: 0

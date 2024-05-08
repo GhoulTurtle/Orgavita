@@ -15,9 +15,9 @@ MonoBehaviour:
   itemName: Fear Extract
   itemQuickDescription: A bottle of fear extract that can be used to make a variety
     of items.
-  itemInspectDescription: The liquid inside appears thick and viscous, almost like
-    tar, and seems to shift and writhe slightly, as if alive. This extract can be
-    used for a variety of recipes.
+  itemInspectDescription: Bottle of fear extract, gathered from an Emotisense Extractor.
+    Can be used with other items to create new or enhance the item's effects. Usally
+    in high demand for ND-56 patients.
   itemIcon: {fileID: 21300000, guid: fad7ab1e97178164a96eb0c6a653b12c, type: 3}
   itemInventoryModelPrefab: {fileID: 3092849477470112210, guid: c0fe0d9650bdfb6459e835be5116f670,
     type: 3}

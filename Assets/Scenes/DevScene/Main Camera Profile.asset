@@ -230,7 +230,7 @@ MonoBehaviour:
     m_Value: 1
   bloom:
     m_OverrideState: 1
-    m_Value: 0.545
+    m_Value: 0.3
   grateMaskMode:
     m_OverrideState: 1
     m_Value: 1
@@ -255,7 +255,7 @@ MonoBehaviour:
     m_Value: 1
   noiseIntensity:
     m_OverrideState: 1
-    m_Value: 0.016
+    m_Value: 0
   noiseSaturation:
     m_OverrideState: 1
     m_Value: 0

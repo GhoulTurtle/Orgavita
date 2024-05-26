@@ -63,24 +63,22 @@ public class ContextButton{
     private void UnEquipAction(){
         if(selectedInventoryItem.GetHeldItem().GetItemType() == ItemType.Weapon){
             playerInventory.UnEquipItem();
-            return;
+        }
+        else if(selectedInventoryItem.GetHeldItem().GetItemType() == ItemType.Emergency_Item){
+            playerInventory.UnEquipEmergencyItem();
         }
 
-        if(selectedInventoryItem.GetHeldItem().GetItemType() == ItemType.Emergency_Item){
-            playerInventory.UnEquipEmergencyItem();
-            return;
-        }
+        playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
     }
 
     private void EquipAction(){
         if(selectedInventoryItem.GetHeldItem().GetItemType() == ItemType.Weapon){
             playerInventory.EquipItem(selectedInventoryItem);
-            return;
+        }
+        else if(selectedInventoryItem.GetHeldItem().GetItemType() == ItemType.Emergency_Item){
+            playerInventory.EquipEmergencyItem(selectedInventoryItem);
         }
 
-        if(selectedInventoryItem.GetHeldItem().GetItemType() == ItemType.Emergency_Item){
-            playerInventory.EquipEmergencyItem(selectedInventoryItem);
-            return;
-        }
+        playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
     }
 }

@@ -49,7 +49,10 @@ public class ItemPickup : MonoBehaviour, IInteractable{
         }
 
         if(itemRemainder == 0){
-            Destroy(currentItemModel.gameObject);
+            if(currentItemModel != null){
+                Destroy(currentItemModel.gameObject);
+            }
+            
             itemPickupCollider.enabled = false;
             return;
         }

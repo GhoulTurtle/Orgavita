@@ -18,7 +18,6 @@ public class PlayerInventorySO : ScriptableObject{
     [SerializeField] private List<InventoryItem> inventory;
     [SerializeField] private InventoryItem equippedItem;
     [SerializeField] private InventoryItem emergencyItem;
-    [SerializeField] private List<InventoryItem> unlockedTools;
 
     #if UNITY_EDITOR
     [Header("Inventory Editor Variables")]
@@ -51,7 +50,6 @@ public class PlayerInventorySO : ScriptableObject{
     [ContextMenu("Generate New Inventory")]
     public void GenerateNewInventory(){
         inventory.Clear();
-        unlockedTools.Clear();
 
         for (int i = 0; i < maxInventorySize; i++){
             inventory.Add(new InventoryItem(null));
@@ -140,26 +138,6 @@ public class PlayerInventorySO : ScriptableObject{
         
         AttemptToAddItemToInventory(emergencyItem.GetHeldItem(), emergencyItem.GetCurrentStack());
         emergencyItem.ClearItem();
-    }
-
-    public void AddTool(ItemDataSO itemDataSO, int initalToolStack){
-        foreach (InventoryItem tool in unlockedTools){
-            if(tool.GetHeldItem() == itemDataSO){
-                return;
-            }
-        }
-
-        unlockedTools.Add(new InventoryItem(itemDataSO, initalToolStack));
-    }
-
-    public void RemoveTool(InventoryItem toolInventoryItem){
-        if(!unlockedTools.Contains(toolInventoryItem)) return;
-
-        var toolIndex = unlockedTools.IndexOf(toolInventoryItem);
-
-        unlockedTools[toolIndex].ClearItem();
-
-        unlockedTools.Remove(toolInventoryItem);
     }
 
     public InventoryItem GetEquippedInventoryItem(){

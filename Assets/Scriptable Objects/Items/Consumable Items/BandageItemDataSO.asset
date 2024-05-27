@@ -33,9 +33,9 @@ MonoBehaviour:
   isCombinable: 1
   isStackable: 1
   isDestroyable: 1
-  maxStackSize: 8
+  maxStackSize: 6
   consumableItemJobList:
   - jobType: 6
     amount: 15
-    time: 0.35
+    time: 0.5
   itemUsedMessage: 

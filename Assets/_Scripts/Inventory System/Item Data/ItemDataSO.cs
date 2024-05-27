@@ -19,7 +19,7 @@ public class ItemDataSO : ScriptableObject{
     [Header("Item Audio")]
     [SerializeField] private AudioEvent itemPickupAudioEvent;
     [SerializeField] private AudioEvent itemUseAudioEvent;
-    [SerializeField] private AudioEvent itemDiscardEvent;
+    [SerializeField] private AudioEvent itemDestoryAudioEvent;
 
     [Header("Item Settings")]
     [SerializeField] private ItemType itemType;
@@ -62,7 +62,7 @@ public class ItemDataSO : ScriptableObject{
     }
 
     public AudioEvent GetDiscardAudioEvent(){
-        return itemDiscardEvent;
+        return itemDestoryAudioEvent;
     }
 
     public ItemType GetItemType(){

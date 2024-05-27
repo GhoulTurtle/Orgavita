@@ -26,7 +26,7 @@ MonoBehaviour:
   itemPickupAudioEvent: {fileID: 11400000, guid: a9b7d182c63905c4a98cadcf01eedc7c,
     type: 2}
   itemUseAudioEvent: {fileID: 11400000, guid: 76c9027c571f6d9498cbea1c54752dfe, type: 2}
-  itemDiscardEvent: {fileID: 11400000, guid: aef22368ebffae54c8bf872138aaf636, type: 2}
+  itemDestoryEvent: {fileID: 0}
   itemType: 1
   isUseable: 1
   isCombinable: 1

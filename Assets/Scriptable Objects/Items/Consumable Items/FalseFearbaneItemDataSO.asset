@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f02916338d89b3488692c96945d797b, type: 3}
-  m_Name: MorphineItemDataSO
+  m_Name: FalseFearbaneItemDataSO
   m_EditorClassIdentifier: 
-  itemName: Morphine
+  itemName: False Fearbane
   itemQuickDescription: Provides a moderate amount of healing but raises fear over
     time.
-  itemInspectDescription: When administered, it provides immediate relief from pain,
-    healing moderate injuries. However, its use comes with the side effect of gradually
-    increasing fear levels over time.
+  itemInspectDescription: 
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 0}
   itemInWorldModelPrefab: {fileID: 8967305202571421445, guid: c1407835baff04f41ad16c6ac1ffee2a,
@@ -28,14 +26,14 @@ MonoBehaviour:
   itemType: 1
   isUseable: 1
   isCombinable: 1
-  isStackable: 1
+  isStackable: 0
   isDestroyable: 1
-  maxStackSize: 2
+  maxStackSize: 1
   consumableItemJobList:
   - jobType: 5
-    amount: 30
+    amount: 35
     time: 0
-  - jobType: 3
-    amount: 2
-    time: 0
+  - jobType: 4
+    amount: 3
+    time: 3
   itemUsedMessage: 

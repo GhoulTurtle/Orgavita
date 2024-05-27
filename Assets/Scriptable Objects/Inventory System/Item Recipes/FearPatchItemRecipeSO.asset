@@ -16,4 +16,4 @@ MonoBehaviour:
   combineItemDataOne: {fileID: 11400000, guid: 8659a2d9dc551054ca268b386c12417b, type: 2}
   combineItemDataTwo: {fileID: 11400000, guid: 60124f8804278084a8dbd9eb83a87d7b, type: 2}
   resultItemData: {fileID: 11400000, guid: 8e6ba2ce2fc0e244e9d16dfb5c01b426, type: 2}
-  resultStackAmount: 1
+  resultStackAmount: 2

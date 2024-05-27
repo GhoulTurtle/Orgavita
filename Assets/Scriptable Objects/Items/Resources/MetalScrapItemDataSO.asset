@@ -18,10 +18,14 @@ MonoBehaviour:
     structures became more and more popular. Metal scrap can be combined with other
     items to create ammunition for weapons.
   itemIcon: {fileID: 0}
-  itemModelPrefab: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 0}
+  itemInWorldModelPrefab: {fileID: 0}
+  itemPickupAudioEvent: {fileID: 0}
+  itemUseAudioEvent: {fileID: 0}
+  itemDestoryEvent: {fileID: 0}
   itemType: 2
   isUseable: 0
   isCombinable: 1
   isStackable: 1
   isDestroyable: 1
-  maxStackSize: 30
+  maxStackSize: 20

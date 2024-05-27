@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c388e5dcdca4ab4aa014ad0a6c0f04d, type: 3}
-  m_Name: FearExtractItemDataSO
+  m_Name: SadnessExtractItemDataSO
   m_EditorClassIdentifier: 
-  itemName: Fear Extract
-  itemQuickDescription: A bottle of fear extract that can be used to make a variety
+  itemName: Sadness Extract
+  itemQuickDescription: A bottle of sadness extract that can be used to make a variety
     of items.
   itemInspectDescription: Bottle of fear extract, gathered from an Emotisense Extractor.
     Can be used with other items to create new or enhance the item's effects. Usally

@@ -23,6 +23,9 @@ MonoBehaviour:
   itemInventoryModelPrefab: {fileID: 0}
   itemInWorldModelPrefab: {fileID: 8967305202571421445, guid: c1407835baff04f41ad16c6ac1ffee2a,
     type: 3}
+  itemPickupAudioEvent: {fileID: 0}
+  itemUseAudioEvent: {fileID: 0}
+  itemDestoryEvent: {fileID: 0}
   itemType: 1
   isUseable: 1
   isCombinable: 1
@@ -31,9 +34,9 @@ MonoBehaviour:
   maxStackSize: 1
   consumableItemJobList:
   - jobType: 5
-    amount: 50
+    amount: 70
     time: 0
   - jobType: 1
-    amount: 10
+    amount: 15
     time: 0
   itemUsedMessage: 

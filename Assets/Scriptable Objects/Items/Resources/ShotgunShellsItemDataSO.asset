@@ -19,7 +19,11 @@ MonoBehaviour:
     packing a spread of large pellets that devastate targets in a wide area. Perfect
     for clearing out groups of enemies or dealing massive damage to tougher foes.
   itemIcon: {fileID: 0}
-  itemModelPrefab: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 0}
+  itemInWorldModelPrefab: {fileID: 0}
+  itemPickupAudioEvent: {fileID: 0}
+  itemUseAudioEvent: {fileID: 0}
+  itemDestoryEvent: {fileID: 0}
   itemType: 2
   isUseable: 0
   isCombinable: 1

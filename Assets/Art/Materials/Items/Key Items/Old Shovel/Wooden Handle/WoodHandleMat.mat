@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BlackSteel
+  m_Name: WoodHandleMat
   m_Shader: {fileID: 4800000, guid: 055eab4e84dc70a47ae75b3125a22de6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -55,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 2ce8294dd57294448be94b476040ab6d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 7d8733cf061cc69469298e1d6469ffeb, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -97,7 +97,7 @@ Material:
     - _EmissionBakedMultiplier: 1
     - _FogWeight: 1
     - _GlossMapScale: 1
-    - _Glossiness: 0.57272726
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _LightingBaked: 1
     - _LightingDynamic: 1

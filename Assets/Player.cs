@@ -89,6 +89,33 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""EmergencyItem"",
+                    ""type"": ""Button"",
+                    ""id"": ""94e78527-3169-4a7c-994a-22cd5df431c0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WeaponUse"",
+                    ""type"": ""Button"",
+                    ""id"": ""17134cb4-9935-4555-aa79-3260a109d831"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WeaponAlt"",
+                    ""type"": ""Button"",
+                    ""id"": ""d3017348-34d4-4d17-a5e9-76a17251a4fd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -172,7 +199,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""7a5895c5-10f1-4ac6-b2d8-1bb2258f44c1"",
-                    ""path"": ""<Gamepad>/leftShoulder"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -248,17 +275,6 @@ public partial class @Player: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""15c2ed16-6432-494e-8781-2a8d66ce34dc"",
-                    ""path"": ""<Mouse>/leftButton"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Interact"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""081d2334-f526-465b-9f7d-429700617325"",
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
@@ -298,6 +314,72 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2c2705b6-ba84-47b3-8ea0-67786e2cc8a7"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EmergencyItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c0ba478f-3ef7-42b8-8e6b-51c5a3056aa7"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""EmergencyItem"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""78a5f6c1-c60c-45d0-ba5c-0cf143262366"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WeaponUse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1a10ca66-3fe0-409a-9ac1-195a0b0ac0d4"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WeaponUse"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4892034e-21c0-43c7-be98-e7184970c8df"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WeaponAlt"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""199b8efd-ea9b-4193-a178-6de68188a529"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""WeaponAlt"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -572,6 +654,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
         m_InGamePlayer_Interact = m_InGamePlayer.FindAction("Interact", throwIfNotFound: true);
         m_InGamePlayer_Pause = m_InGamePlayer.FindAction("Pause", throwIfNotFound: true);
         m_InGamePlayer_Inventory = m_InGamePlayer.FindAction("Inventory", throwIfNotFound: true);
+        m_InGamePlayer_EmergencyItem = m_InGamePlayer.FindAction("EmergencyItem", throwIfNotFound: true);
+        m_InGamePlayer_WeaponUse = m_InGamePlayer.FindAction("WeaponUse", throwIfNotFound: true);
+        m_InGamePlayer_WeaponAlt = m_InGamePlayer.FindAction("WeaponAlt", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigation = m_UI.FindAction("Navigation", throwIfNotFound: true);
@@ -650,6 +735,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGamePlayer_Interact;
     private readonly InputAction m_InGamePlayer_Pause;
     private readonly InputAction m_InGamePlayer_Inventory;
+    private readonly InputAction m_InGamePlayer_EmergencyItem;
+    private readonly InputAction m_InGamePlayer_WeaponUse;
+    private readonly InputAction m_InGamePlayer_WeaponAlt;
     public struct InGamePlayerActions
     {
         private @Player m_Wrapper;
@@ -661,6 +749,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
         public InputAction @Interact => m_Wrapper.m_InGamePlayer_Interact;
         public InputAction @Pause => m_Wrapper.m_InGamePlayer_Pause;
         public InputAction @Inventory => m_Wrapper.m_InGamePlayer_Inventory;
+        public InputAction @EmergencyItem => m_Wrapper.m_InGamePlayer_EmergencyItem;
+        public InputAction @WeaponUse => m_Wrapper.m_InGamePlayer_WeaponUse;
+        public InputAction @WeaponAlt => m_Wrapper.m_InGamePlayer_WeaponAlt;
         public InputActionMap Get() { return m_Wrapper.m_InGamePlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -691,6 +782,15 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
+            @EmergencyItem.started += instance.OnEmergencyItem;
+            @EmergencyItem.performed += instance.OnEmergencyItem;
+            @EmergencyItem.canceled += instance.OnEmergencyItem;
+            @WeaponUse.started += instance.OnWeaponUse;
+            @WeaponUse.performed += instance.OnWeaponUse;
+            @WeaponUse.canceled += instance.OnWeaponUse;
+            @WeaponAlt.started += instance.OnWeaponAlt;
+            @WeaponAlt.performed += instance.OnWeaponAlt;
+            @WeaponAlt.canceled += instance.OnWeaponAlt;
         }
 
         private void UnregisterCallbacks(IInGamePlayerActions instance)
@@ -716,6 +816,15 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
+            @EmergencyItem.started -= instance.OnEmergencyItem;
+            @EmergencyItem.performed -= instance.OnEmergencyItem;
+            @EmergencyItem.canceled -= instance.OnEmergencyItem;
+            @WeaponUse.started -= instance.OnWeaponUse;
+            @WeaponUse.performed -= instance.OnWeaponUse;
+            @WeaponUse.canceled -= instance.OnWeaponUse;
+            @WeaponAlt.started -= instance.OnWeaponAlt;
+            @WeaponAlt.performed -= instance.OnWeaponAlt;
+            @WeaponAlt.canceled -= instance.OnWeaponAlt;
         }
 
         public void RemoveCallbacks(IInGamePlayerActions instance)
@@ -866,6 +975,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnEmergencyItem(InputAction.CallbackContext context);
+        void OnWeaponUse(InputAction.CallbackContext context);
+        void OnWeaponAlt(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

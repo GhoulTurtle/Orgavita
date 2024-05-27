@@ -38,6 +38,16 @@ public class PlayerInventorySO : ScriptableObject{
         }
     }
 
+    public EventHandler OnWeaponItemEquipped;
+    public EventHandler OnWeaponItemUnequipped;
+    public EventHandler OnEmergencyItemEquipped;
+    public EventHandler OnEnemergencyItemUnequipped;
+
+    public class ItemEquippedEventArgs : EventArgs{
+        public InventoryItem equippedItem;
+        
+    }
+
     #if UNITY_EDITOR
     public void OnEnable(){
         if(cleanInventoryOnPlay){

@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: RedSteel
+  m_Name: FloppyDiskMat
   m_Shader: {fileID: 4800000, guid: 055eab4e84dc70a47ae75b3125a22de6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -55,7 +55,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 530578f345e819649928c93a8297e727, type: 3}
+        m_Texture: {fileID: 2800000, guid: a4afb38dd9d313c409f149e720f6784e, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -97,7 +97,7 @@ Material:
     - _EmissionBakedMultiplier: 1
     - _FogWeight: 1
     - _GlossMapScale: 1
-    - _Glossiness: 0.57272726
+    - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _LightingBaked: 1
     - _LightingDynamic: 1

@@ -8270,6 +8270,37 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
+--- !u!1 &3990847994542477470
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8690074691837199955}
+  m_Layer: 3
+  m_Name: InactiveEmergencyItemHolsterPostion
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8690074691837199955
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3990847994542477470}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.25, y: -0.75, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7793910637258231495}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6128890462791897960
 GameObject:
   m_ObjectHideFlags: 0
@@ -8294,7 +8325,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6128890462791897960}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.266, y: -0.101, z: 0.108}
+  m_LocalPosition: {x: 0, y: 0.25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -9150,6 +9181,7 @@ Transform:
   m_Children:
   - {fileID: 8466760115316609206}
   - {fileID: 6989762208156230369}
+  - {fileID: 8690074691837199955}
   m_Father: {fileID: 7793910637263857231}
   m_RootOrder: -2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9173,8 +9205,7 @@ GameObject:
   - component: {fileID: 612669994}
   - component: {fileID: 7793910637992359072}
   - component: {fileID: 1971513946}
-  - component: {fileID: 6307095669731017961}
-  - component: {fileID: 5097447005012370658}
+  - component: {fileID: 6977103743592686637}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -9436,6 +9467,18 @@ MonoBehaviour:
       m_Calls: []
     m_ActionId: 106e5fba-9165-4046-b0fe-450ea2675a06
     m_ActionName: UI/Point[/Mouse/position]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 94e78527-3169-4a7c-994a-22cd5df431c0
+    m_ActionName: InGamePlayer/EmergencyItem[/Keyboard/q]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 17134cb4-9935-4555-aa79-3260a109d831
+    m_ActionName: InGamePlayer/WeaponUse[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: d3017348-34d4-4d17-a5e9-76a17251a4fd
+    m_ActionName: InGamePlayer/WeaponAlt[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: InGamePlayer
@@ -9607,7 +9650,7 @@ MonoBehaviour:
   playerStepAudioSource: {fileID: 2042489191}
   playerStepDataList: {fileID: 11400000, guid: 910dcd63c704e9246ae4578d14da0d27, type: 2}
   playerCameraController: {fileID: 7793910637263857227}
---- !u!114 &6307095669731017961
+--- !u!114 &6977103743592686637
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9616,21 +9659,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 7793910637263857235}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 37390af9bf178754da7ee90d9ff3babc, type: 3}
+  m_Script: {fileID: 11500000, guid: 302b169bd6c31ad43a34cd71bffd911e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5097447005012370658
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7793910637263857235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f200897d287fab44399bb78893d2796a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  playerInventoryHandler: {fileID: 1474441831}
+  activeItemTransform: {fileID: 1840836875470605498}
+  sideArmHolsterTransform: {fileID: 8466760115316609206}
+  backHolsterTransform: {fileID: 6989762208156230369}
+  inactiveEmergencyItemHolsterTransform: {fileID: 8690074691837199955}
+  flashlightHolsterTransform: {fileID: 2011786808092161294}
 --- !u!1 &7793910638020122993
 GameObject:
   m_ObjectHideFlags: 0

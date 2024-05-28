@@ -62,7 +62,7 @@ public class ContextButton{
 
     private void UnEquipAction(){
         if(selectedInventoryItem.GetHeldItem().GetItemType() == ItemType.Weapon){
-            playerInventory.UnEquipItem();
+            playerInventory.UnEquipWeaponItem();
         }
         else if(selectedInventoryItem.GetHeldItem().GetItemType() == ItemType.Emergency_Item){
             playerInventory.UnEquipEmergencyItem();
@@ -73,7 +73,7 @@ public class ContextButton{
 
     private void EquipAction(){
         if(selectedInventoryItem.GetHeldItem().GetItemType() == ItemType.Weapon){
-            playerInventory.EquipItem(selectedInventoryItem);
+            playerInventory.EquipWeaponItem(selectedInventoryItem);
         }
         else if(selectedInventoryItem.GetHeldItem().GetItemType() == ItemType.Emergency_Item){
             playerInventory.EquipEmergencyItem(selectedInventoryItem);

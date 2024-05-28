@@ -69,7 +69,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "EmergencyItem",
+                    "name": "EmergencyItemUse",
                     "type": "Button",
                     "id": "94e78527-3169-4a7c-994a-22cd5df431c0",
                     "expectedControlType": "Button",
@@ -90,6 +90,24 @@
                     "name": "WeaponAlt",
                     "type": "Button",
                     "id": "d3017348-34d4-4d17-a5e9-76a17251a4fd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ReloadWeapon",
+                    "type": "Button",
+                    "id": "66e7ec2e-cea8-47f2-a56f-cad4bb0434ff",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "Hold,MultiTap",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "HolsterWeapon",
+                    "type": "Button",
+                    "id": "cd1081e8-b1a5-411a-bf87-6f3a6386da50",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -287,7 +305,7 @@
                 {
                     "name": "",
                     "id": "c2585a50-e145-4acb-9afe-c499323435bd",
-                    "path": "<Gamepad>/buttonNorth",
+                    "path": "<Gamepad>/leftShoulder",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -302,7 +320,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "EmergencyItem",
+                    "action": "EmergencyItemUse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -313,7 +331,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "EmergencyItem",
+                    "action": "EmergencyItemUse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -358,6 +376,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "WeaponAlt",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e6e77730-0c1d-4390-bdcb-cd1acfa43f25",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HolsterWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5c325f70-3111-4a55-84e8-a7aecdc52ee8",
+                    "path": "<Gamepad>/leftStickPress",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HolsterWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "1343dab1-1df5-473a-a661-62b96c9f3b42",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReloadWeapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e9578ef8-b2bf-4d83-9a85-919851368447",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ReloadWeapon",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

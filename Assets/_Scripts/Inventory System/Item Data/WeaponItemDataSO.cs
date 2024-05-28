@@ -6,7 +6,7 @@ public class WeaponItemDataSO : ItemDataSO{
     public WeaponItemBehaviour weaponItemBehaviour;
 
     public override void UseItem(InventoryItem selectedItem, PlayerInventoryHandler playerInventoryHandler, out string resultMessage){
-        playerInventoryHandler.GetInventory().EquipItem(selectedItem);
+        playerInventoryHandler.GetInventory().EquipWeaponItem(selectedItem);
         base.UseItem(selectedItem, playerInventoryHandler, out resultMessage);
     }
 

@@ -38,14 +38,23 @@ public class PlayerInventorySO : ScriptableObject{
         }
     }
 
-    public EventHandler OnWeaponItemEquipped;
+    public EventHandler<WeaponItemEquippedEventArgs> OnWeaponItemEquipped;
     public EventHandler OnWeaponItemUnequipped;
-    public EventHandler OnEmergencyItemEquipped;
-    public EventHandler OnEnemergencyItemUnequipped;
+    public EventHandler<EmergencyItemEquippedEventArgs> OnEmergencyItemEquipped;
+    public EventHandler OnEmergencyItemUnequipped;
 
-    public class ItemEquippedEventArgs : EventArgs{
-        public InventoryItem equippedItem;
-        
+    public class WeaponItemEquippedEventArgs : EventArgs{
+        public WeaponItemBehaviour equippedWeaponItemBehaviour;
+        public WeaponItemEquippedEventArgs(WeaponItemBehaviour _equippedWeaponItemBehaviour){
+            equippedWeaponItemBehaviour = _equippedWeaponItemBehaviour;
+        }
+    }
+
+    public class EmergencyItemEquippedEventArgs : EventArgs{
+        public EmergencyItemBehaviour equippedEmergencyItemBehaviour;
+        public EmergencyItemEquippedEventArgs(EmergencyItemBehaviour _equippedEmergencyItemBehaviour){
+            equippedEmergencyItemBehaviour = _equippedEmergencyItemBehaviour;
+        }
     }
 
     #if UNITY_EDITOR
@@ -106,18 +115,24 @@ public class PlayerInventorySO : ScriptableObject{
         return itemToStack.AddToStack(itemAmount);
     }
 
-    public void EquipItem(InventoryItem itemToEquip){
+    public void EquipWeaponItem(InventoryItem itemToEquip){
         if(!equippedItem.IsEmpty()){
             SwapInventoryItems(equippedItem, itemToEquip);
-            return;
+            OnWeaponItemUnequipped?.Invoke(this, EventArgs.Empty);
+        }
+        else{
+            equippedItem.SetItem(itemToEquip.GetHeldItem(), itemToEquip.GetCurrentStack());
+            itemToEquip.ClearItem();
         }
     
-        equippedItem.SetItem(itemToEquip.GetHeldItem(), itemToEquip.GetCurrentStack());
-        
-        itemToEquip.ClearItem();
+        if(itemToEquip.GetHeldItem() is WeaponItemDataSO weaponItemDataSO){
+            if(weaponItemDataSO.GetWeaponItemBehaviour() != null){
+                OnWeaponItemEquipped?.Invoke(this, new WeaponItemEquippedEventArgs(weaponItemDataSO.GetWeaponItemBehaviour()));
+            }
+        }
     }
 
-    public void UnEquipItem(){
+    public void UnEquipWeaponItem(){
         if(equippedItem.IsEmpty()) return;
         
         List<InventoryItem> emptyInventorySpaces = FindEmptyInventoryItems();
@@ -126,17 +141,24 @@ public class PlayerInventorySO : ScriptableObject{
 
         AttemptToAddItemToInventory(equippedItem.GetHeldItem(), equippedItem.GetCurrentStack());
         equippedItem.ClearItem();
+        OnWeaponItemUnequipped?.Invoke(this, EventArgs.Empty);
     }
 
     public void EquipEmergencyItem(InventoryItem itemToEquip){
         if(!emergencyItem.IsEmpty()){
             SwapInventoryItems(emergencyItem, itemToEquip);
-            return;
+            OnEmergencyItemUnequipped?.Invoke(this, EventArgs.Empty);
         }
-    
-        emergencyItem.SetItem(itemToEquip.GetHeldItem(), itemToEquip.GetCurrentStack());
-        
-        itemToEquip.ClearItem();
+        else{
+            emergencyItem.SetItem(itemToEquip.GetHeldItem(), itemToEquip.GetCurrentStack());
+            itemToEquip.ClearItem();
+        }
+
+        if(itemToEquip.GetHeldItem() is EmergencyItemDataSO emergencyItemDataSO){
+            if(emergencyItemDataSO.GetEmergencyItemBehaviour() != null){
+                OnEmergencyItemEquipped?.Invoke(this, new EmergencyItemEquippedEventArgs(emergencyItemDataSO.GetEmergencyItemBehaviour()));
+            }
+        }
     }
 
     public void UnEquipEmergencyItem(){
@@ -148,6 +170,7 @@ public class PlayerInventorySO : ScriptableObject{
         
         AttemptToAddItemToInventory(emergencyItem.GetHeldItem(), emergencyItem.GetCurrentStack());
         emergencyItem.ClearItem();
+        OnEmergencyItemUnequipped?.Invoke(this, EventArgs.Empty);
     }
 
     public InventoryItem GetEquippedInventoryItem(){

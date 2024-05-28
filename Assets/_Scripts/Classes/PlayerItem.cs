@@ -1,30 +1,67 @@
+using System;
 using UnityEngine;
 
 /// <summary>
 /// Responsible for holding the current state of a player item, and its position and rotation. Also animates the item when changing item states.
 /// </summary>
-[System.Serializable]
+/// 
+[Serializable]
 public class PlayerItem{
     private Transform playerItemTransform;
-    private Transform holsterParent;
-    private Vector3 worldPostion;
-    private Quaternion worldRotation;
-    private PlayerItemState playerItemState;
+    private Transform currentHolsterParent;
+    private Transform defaultHolsterParent;
 
-    public void SetItemTransform(Transform itemTransform){
-        playerItemTransform = itemTransform;
+    [Header("Item State Variables")]
+    public PlayerItemState PlayerItemState;
+    public PlayerItemHolsterType PlayerItemHolsterType;
+
+    public EventHandler<ItemStateChangedEventArgs> OnItemStateChanged;
+
+    public class ItemStateChangedEventArgs : EventArgs{
+        public PlayerItemState incomingState;
+
+        public ItemStateChangedEventArgs(PlayerItemState _incomingeState){
+            incomingState = _incomingeState;
+        }
     }
 
-    public void ChangeItemState(Vector3 newWorldPostion, Quaternion newWorldRotation, PlayerItemState newState, Transform parent = null){
-        if(newState == playerItemState) return;
+    public PlayerItem(Transform _playerItemTransform){
+        playerItemTransform = _playerItemTransform;
+    }
 
-        worldPostion = newWorldPostion;
-        worldRotation = newWorldRotation;
-        playerItemState = newState;
+    public void SetupPlayerItemHolster(Transform _defaultHolsterParent){
+        defaultHolsterParent = _defaultHolsterParent;
+    }
 
-        if(parent != null){
-            holsterParent = parent;
-            playerItemTransform.parent = holsterParent;
+    public void TriggerDefaultState(){
+        OnItemStateChanged?.Invoke(this, new ItemStateChangedEventArgs(PlayerItemState));
+        ChangeItemHolster(defaultHolsterParent);
+
+        //TO-DO: Set postion and rotation.
+    }
+
+    public void ChangeItemState(PlayerItemState newState, Transform positionParent = null){
+        if(newState == PlayerItemState) return;
+
+        PlayerItemState = newState;
+
+        if(positionParent != null){
+            ChangeItemHolster(positionParent);
         }
+
+        OnItemStateChanged?.Invoke(this, new ItemStateChangedEventArgs(newState));
+    }
+
+    public PlayerItemHolsterType GetPlayerItemHolsterType(){
+        return PlayerItemHolsterType;
+    }
+
+    public PlayerItemState GetPlayerItemState(){
+        return PlayerItemState;      
+    }
+
+    private void ChangeItemHolster(Transform holsterTransform){
+        currentHolsterParent = holsterTransform;
+        playerItemTransform.parent = currentHolsterParent;
     }
 }

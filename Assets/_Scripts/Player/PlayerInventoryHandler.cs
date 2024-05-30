@@ -190,7 +190,7 @@ public class PlayerInventoryHandler : MonoBehaviour{
         playerInputHandler.OnNavigateInput += NavigationInput;
     }
 
-    private void NavigationInput(object sender, PlayerInputHandler.InputEventArgs e){
+    private void NavigationInput(object sender, InputEventArgs e){
         navigationInput = e.callbackContext.ReadValue<Vector2>();
     }
 
@@ -222,21 +222,21 @@ public class PlayerInventoryHandler : MonoBehaviour{
         GameManager.UpdateGameState(GameState.Game);
     }
 
-    private void ReturnToContextUIInput(object sender, PlayerInputHandler.InputEventArgs e){
+    private void ReturnToContextUIInput(object sender, InputEventArgs e){
         if(!inputValid) return;
 
         if(e.inputActionPhase != InputActionPhase.Started) return;
         UpdateInventoryState(InventoryState.ContextUI);
     }
 
-    private void ReturnDefaultInventoryUIInput(object sender, PlayerInputHandler.InputEventArgs e){
+    private void ReturnDefaultInventoryUIInput(object sender, InputEventArgs e){
         if(!inputValid) return;
 
         if(e.inputActionPhase != InputActionPhase.Started) return;
         UpdateInventoryState(InventoryState.Default);
     }
 
-    private void ExitInventoryUIInput(object sender, PlayerInputHandler.InputEventArgs e){
+    private void ExitInventoryUIInput(object sender, InputEventArgs e){
         if(!inputValid) return;
 
         if(e.inputActionPhase != InputActionPhase.Started) return;

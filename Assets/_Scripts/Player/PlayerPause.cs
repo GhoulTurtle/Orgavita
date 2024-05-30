@@ -44,7 +44,7 @@ public class PlayerPause : MonoBehaviour{
         }
     }
 
-    public void UnPausedInput(object sender, PlayerInputHandler.InputEventArgs e){
+    public void UnPausedInput(object sender, InputEventArgs e){
         if(e.inputActionPhase != InputActionPhase.Performed || GameManager.CurrentState != GameState.UI) return;
 
         if(playerInputHandler != null){

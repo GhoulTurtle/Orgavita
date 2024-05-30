@@ -1,4 +1,4 @@
-public enum PlayerItemHolsterType{
+public enum EquippableItemHolsterType{
     None,
     Side_Arm_Holster,
     Back_Holster,

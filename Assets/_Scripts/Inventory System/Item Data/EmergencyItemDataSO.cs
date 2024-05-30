@@ -3,14 +3,14 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Item/Emergency Item", fileName = "NewEmergencyItemDataSO")]
 public class EmergencyItemDataSO : ItemDataSO{
     [Header("Emergency Item Variables")]
-    public EmergencyItemBehaviour emergencyItemBehaviour;
+    public EquippedItemBehaviour emergencyItemBehaviour;
 
     public override void UseItem(InventoryItem selectedItem, PlayerInventoryHandler playerInventoryHandler, out string resultMessage){
         playerInventoryHandler.GetInventory().EquipEmergencyItem(selectedItem);
         base.UseItem(selectedItem, playerInventoryHandler, out resultMessage);
     }
 
-    public EmergencyItemBehaviour GetEmergencyItemBehaviour(){
+    public EquippedItemBehaviour GetEquippedItemBehaviour(){
         return emergencyItemBehaviour;
     }
 }

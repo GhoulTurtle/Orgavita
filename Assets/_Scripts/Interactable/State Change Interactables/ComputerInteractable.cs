@@ -72,7 +72,7 @@ public class ComputerInteractable : StateChangeInteractable{
         OnEnterComputerState?.Invoke(this, EventArgs.Empty);
     }
 
-    public override void ExitState(object sender, PlayerInputHandler.InputEventArgs e){
+    public override void ExitState(object sender, InputEventArgs e){
         base.ExitState(sender, e);
 
         if(!isLocked){
@@ -87,7 +87,7 @@ public class ComputerInteractable : StateChangeInteractable{
         return isSelected;
     }
 
-    private void CursorInput(object sender, PlayerInputHandler.InputEventArgs e){
+    private void CursorInput(object sender, InputEventArgs e){
         switch (e.inputActionPhase){
             case UnityEngine.InputSystem.InputActionPhase.Performed: 
                 OnCursorDown?.Invoke(this, EventArgs.Empty);

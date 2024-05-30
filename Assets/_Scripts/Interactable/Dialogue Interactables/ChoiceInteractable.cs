@@ -25,11 +25,11 @@ public class ChoiceInteractable : DialogueInteractable{
         Cursor.lockState = CursorLockMode.Confined;
     }
 
-    public override void ContinueDialogue(object sender, PlayerInputHandler.InputEventArgs e){
+    public override void ContinueDialogue(object sender, InputEventArgs e){
         base.ContinueDialogue(sender, e);
     }
 
-    public override void CancelDialogue(object sender, PlayerInputHandler.InputEventArgs e){
+    public override void CancelDialogue(object sender, InputEventArgs e){
         if(!choiceDialogueSO.isCancelable) return;
         base.CancelDialogue(sender, e);
 

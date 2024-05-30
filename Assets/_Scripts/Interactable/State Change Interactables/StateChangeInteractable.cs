@@ -48,7 +48,7 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
         OnTriggerState?.Invoke(this, EventArgs.Empty);
     }
 
-    public virtual void ExitState(object sender, PlayerInputHandler.InputEventArgs e){
+    public virtual void ExitState(object sender, InputEventArgs e){
         if(e.inputActionPhase != InputActionPhase.Performed) return;
         GameManager.UpdateGameState(GameState.Game);
         Cursor.lockState = CursorLockMode.Locked;

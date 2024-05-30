@@ -1,4 +1,4 @@
-public enum PlayerItemState{
+public enum EquippableItemState{
     None,
     Active,
     Holstered,

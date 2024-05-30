@@ -38,22 +38,18 @@ public class PlayerInventorySO : ScriptableObject{
         }
     }
 
-    public EventHandler<WeaponItemEquippedEventArgs> OnWeaponItemEquipped;
+    public EventHandler<EquippedItemEventArgs> OnWeaponItemEquipped;
     public EventHandler OnWeaponItemUnequipped;
-    public EventHandler<EmergencyItemEquippedEventArgs> OnEmergencyItemEquipped;
+    public EventHandler<EquippedItemEventArgs> OnEmergencyItemEquipped;
     public EventHandler OnEmergencyItemUnequipped;
 
-    public class WeaponItemEquippedEventArgs : EventArgs{
-        public WeaponItemBehaviour equippedWeaponItemBehaviour;
-        public WeaponItemEquippedEventArgs(WeaponItemBehaviour _equippedWeaponItemBehaviour){
-            equippedWeaponItemBehaviour = _equippedWeaponItemBehaviour;
-        }
-    }
+    public class EquippedItemEventArgs : EventArgs{
+        public InventoryItem inventoryItem;
+        public EquippedItemBehaviour equippedItemBehaviour;
 
-    public class EmergencyItemEquippedEventArgs : EventArgs{
-        public EmergencyItemBehaviour equippedEmergencyItemBehaviour;
-        public EmergencyItemEquippedEventArgs(EmergencyItemBehaviour _equippedEmergencyItemBehaviour){
-            equippedEmergencyItemBehaviour = _equippedEmergencyItemBehaviour;
+        public EquippedItemEventArgs(InventoryItem _inventoryItem, EquippedItemBehaviour _equippedItemBehaviour){
+            inventoryItem = _inventoryItem;
+            equippedItemBehaviour = _equippedItemBehaviour;
         }
     }
 
@@ -116,19 +112,21 @@ public class PlayerInventorySO : ScriptableObject{
     }
 
     public void EquipWeaponItem(InventoryItem itemToEquip){
+        ItemDataSO itemDataSO = itemToEquip.GetHeldItem();
+
         if(!equippedItem.IsEmpty()){
-            SwapInventoryItems(equippedItem, itemToEquip);
             OnWeaponItemUnequipped?.Invoke(this, EventArgs.Empty);
+            SwapInventoryItems(equippedItem, itemToEquip);
         }
         else{
             equippedItem.SetItem(itemToEquip.GetHeldItem(), itemToEquip.GetCurrentStack());
             itemToEquip.ClearItem();
         }
-    
-        if(itemToEquip.GetHeldItem() is WeaponItemDataSO weaponItemDataSO){
-            if(weaponItemDataSO.GetWeaponItemBehaviour() != null){
-                OnWeaponItemEquipped?.Invoke(this, new WeaponItemEquippedEventArgs(weaponItemDataSO.GetWeaponItemBehaviour()));
-            }
+
+        if(itemDataSO is WeaponItemDataSO weaponItemDataSO){
+            if(weaponItemDataSO.GetEquippedItemBehaviour() != null){
+                OnWeaponItemEquipped?.Invoke(this, new EquippedItemEventArgs(itemToEquip, weaponItemDataSO.GetEquippedItemBehaviour()));
+            }   
         }
     }
 
@@ -145,19 +143,21 @@ public class PlayerInventorySO : ScriptableObject{
     }
 
     public void EquipEmergencyItem(InventoryItem itemToEquip){
+        ItemDataSO itemDataSO = itemToEquip.GetHeldItem();
+
         if(!emergencyItem.IsEmpty()){
-            SwapInventoryItems(emergencyItem, itemToEquip);
             OnEmergencyItemUnequipped?.Invoke(this, EventArgs.Empty);
+            SwapInventoryItems(emergencyItem, itemToEquip);
         }
         else{
             emergencyItem.SetItem(itemToEquip.GetHeldItem(), itemToEquip.GetCurrentStack());
             itemToEquip.ClearItem();
         }
-
-        if(itemToEquip.GetHeldItem() is EmergencyItemDataSO emergencyItemDataSO){
-            if(emergencyItemDataSO.GetEmergencyItemBehaviour() != null){
-                OnEmergencyItemEquipped?.Invoke(this, new EmergencyItemEquippedEventArgs(emergencyItemDataSO.GetEmergencyItemBehaviour()));
-            }
+        
+        if(itemDataSO is EmergencyItemDataSO emergencyItemDataSO){
+            if(emergencyItemDataSO.GetEquippedItemBehaviour() != null){
+                OnWeaponItemEquipped?.Invoke(this, new EquippedItemEventArgs(itemToEquip, emergencyItemDataSO.GetEquippedItemBehaviour()));
+            }   
         }
     }
 

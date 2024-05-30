@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 public class PlayerInputHandler : MonoBehaviour{
     private PlayerInput playerInput;
@@ -9,6 +10,7 @@ public class PlayerInputHandler : MonoBehaviour{
     private const string UI = "UI";
     private const string CUTSCENE = "Cutscene";
 
+    //UI inputs
     public event EventHandler<InputEventArgs> OnAcceptInput;
     public event EventHandler<InputEventArgs> OnCancelInput;
     //Need to update navigation
@@ -16,15 +18,13 @@ public class PlayerInputHandler : MonoBehaviour{
     public event EventHandler<InputEventArgs> OnSkipInput;
     public event EventHandler<InputEventArgs> OnClickInput;
 
-    public class InputEventArgs : EventArgs{
-        public InputActionPhase inputActionPhase;
-        public InputAction.CallbackContext callbackContext;
-
-        public InputEventArgs(InputActionPhase _inputActionPhase, InputAction.CallbackContext _callbackContext){
-            inputActionPhase = _inputActionPhase;
-            callbackContext = _callbackContext;
-        }
-    }
+    //Equippable item inputs
+    public EventHandler<InputEventArgs> OnWeaponUse;
+    public EventHandler<InputEventArgs> OnAltWeaponUse;
+    public EventHandler<InputEventArgs> OnEmergencyItemUse;
+    public EventHandler<InputEventArgs> OnHolsterWeapon;
+    public EventHandler<InputEventArgs> OnReload;
+    public EventHandler<InputEventArgs> OnInspect;
 
     private void Awake() {
         TryGetComponent(out playerInput);
@@ -63,5 +63,30 @@ public class PlayerInputHandler : MonoBehaviour{
 
     public void ClickInput(InputAction.CallbackContext context){
         OnClickInput?.Invoke(this, new InputEventArgs(context.phase, context));
+    }
+
+    public void WeaponUseInput(InputAction.CallbackContext context){
+        OnWeaponUse?.Invoke(this, new InputEventArgs(context.phase, context));
+    }
+
+    public void WeaponAltUseInput(InputAction.CallbackContext context){
+        OnAltWeaponUse?.Invoke(this, new InputEventArgs(context.phase, context));
+    }
+
+    public void EmergencyItemUseInput(InputAction.CallbackContext context){
+        OnEmergencyItemUse?.Invoke(this, new InputEventArgs(context.phase, context));
+    }
+
+    public void HolsterWeaponInput(InputAction.CallbackContext context){
+        OnHolsterWeapon?.Invoke(this, new InputEventArgs(context.phase, context));
+    }
+
+    public void ReloadWeaponInput(InputAction.CallbackContext context){
+        if(context.interaction is HoldInteraction){
+            OnInspect?.Invoke(this, new InputEventArgs(context.phase, context));
+        }
+        else{
+            OnReload?.Invoke(this, new InputEventArgs(context.phase, context));
+        }
     }
 }

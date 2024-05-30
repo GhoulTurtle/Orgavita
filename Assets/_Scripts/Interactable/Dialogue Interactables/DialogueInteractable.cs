@@ -68,13 +68,13 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
         OnDialogueEnd?.Invoke();
     }
 
-    public virtual void ContinueDialogue(object sender, PlayerInputHandler.InputEventArgs e){
+    public virtual void ContinueDialogue(object sender, InputEventArgs e){
         if(e.inputActionPhase != InputActionPhase.Performed) return;
 
         textBoxUI.AttemptPrintNextLine();
     }
 
-    public virtual void CancelDialogue(object sender, PlayerInputHandler.InputEventArgs e){
+    public virtual void CancelDialogue(object sender, InputEventArgs e){
         if(e.inputActionPhase != InputActionPhase.Performed || !isCancelable) return;
         
         textBoxUI.StopDialogue();

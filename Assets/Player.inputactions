@@ -87,7 +87,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "WeaponAlt",
+                    "name": "WeaponAltUse",
                     "type": "Button",
                     "id": "d3017348-34d4-4d17-a5e9-76a17251a4fd",
                     "expectedControlType": "Button",
@@ -364,7 +364,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "WeaponAlt",
+                    "action": "WeaponAltUse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -375,7 +375,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "WeaponAlt",
+                    "action": "WeaponAltUse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

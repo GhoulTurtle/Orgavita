@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 23a00124d4b856446a2a1c8906b205bf, type: 3}
-  m_Name: PistolItemDataSO
+  m_Name: TestPistolItemDataSO
   m_EditorClassIdentifier: 
   itemName: Test Pistol
   itemQuickDescription: 
@@ -20,10 +20,12 @@ MonoBehaviour:
   itemInWorldModelPrefab: {fileID: 0}
   itemPickupAudioEvent: {fileID: 0}
   itemUseAudioEvent: {fileID: 0}
-  itemDiscardEvent: {fileID: 0}
+  itemDestoryAudioEvent: {fileID: 0}
   itemType: 3
   isUseable: 1
   isCombinable: 0
   isStackable: 1
   isDestroyable: 0
   maxStackSize: 1
+  weaponItemBehaviour: {fileID: 7869288891403021324, guid: 890eb6b3ce1c42844ad0356bd5bf95d8,
+    type: 3}

@@ -4,5 +4,4 @@ public enum ItemType{
     Resource,
     Weapon,
     Emergency_Item,
-    Tool
 }

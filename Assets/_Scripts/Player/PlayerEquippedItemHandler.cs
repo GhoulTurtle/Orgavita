@@ -45,7 +45,6 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
 
     private void EmergencyItemUnequipped(object sender, EventArgs e){
         DestroyEquippedItem(currentEmergencyItemBehaviour);
-        currentEmergencyItemBehaviour = null;
     }
 
     private void WeaponItemEquipped(object sender, PlayerInventorySO.EquippedItemEventArgs e){
@@ -56,7 +55,6 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
 
     private void WeaponItemUnequipped(object sender, EventArgs e){
         DestroyEquippedItem(currentWeaponItemBehaviour);
-        currentWeaponItemBehaviour = null;
     }
 
     private void SetupEquippedItem(InventoryItem inventoryItem, EquippedItemBehaviour equippedItemBehaviour){

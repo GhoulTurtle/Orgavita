@@ -156,7 +156,7 @@ public class PlayerInventorySO : ScriptableObject{
         
         if(itemDataSO is EmergencyItemDataSO emergencyItemDataSO){
             if(emergencyItemDataSO.GetEquippedItemBehaviour() != null){
-                OnWeaponItemEquipped?.Invoke(this, new EquippedItemEventArgs(itemToEquip, emergencyItemDataSO.GetEquippedItemBehaviour()));
+                OnEmergencyItemEquipped?.Invoke(this, new EquippedItemEventArgs(itemToEquip, emergencyItemDataSO.GetEquippedItemBehaviour()));
             }   
         }
     }
@@ -167,7 +167,7 @@ public class PlayerInventorySO : ScriptableObject{
         List<InventoryItem> emptyInventorySpaces = FindEmptyInventoryItems();
         
         if(emptyInventorySpaces.Count == 0) return;
-        
+
         AttemptToAddItemToInventory(emergencyItem.GetHeldItem(), emergencyItem.GetCurrentStack());
         emergencyItem.ClearItem();
         OnEmergencyItemUnequipped?.Invoke(this, EventArgs.Empty);

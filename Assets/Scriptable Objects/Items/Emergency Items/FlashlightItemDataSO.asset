@@ -20,10 +20,12 @@ MonoBehaviour:
   itemInWorldModelPrefab: {fileID: 0}
   itemPickupAudioEvent: {fileID: 0}
   itemUseAudioEvent: {fileID: 0}
-  itemDiscardEvent: {fileID: 0}
+  itemDestoryAudioEvent: {fileID: 0}
   itemType: 4
   isUseable: 1
   isCombinable: 0
   isStackable: 1
   isDestroyable: 0
   maxStackSize: 1
+  emergencyItemBehaviour: {fileID: 4290631168321002959, guid: 9bed159a317c4ac4bb15493a6a8f85d8,
+    type: 3}

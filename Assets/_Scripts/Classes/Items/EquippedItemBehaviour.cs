@@ -121,11 +121,16 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         return defaultItemState;      
     }
 
+    public virtual ResourceDataSO GetEquippedItemResourceData(){
+        return null;
+    }
+
     private void ChangeItemHolster(Transform holsterTransform){
         currentHolsterTransform = holsterTransform;
 
         if(holsterTransform != null){
             transform.parent = currentHolsterTransform;
+            transform.forward = currentHolsterTransform.forward;
             transform.localPosition = Vector3.zero;
         }
     }

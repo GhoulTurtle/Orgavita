@@ -110,7 +110,56 @@ public class PlayerInventoryHandler : MonoBehaviour{
         }
 
         //if initalcomboitem is a resource and the incoming item is a weapon then return either INVALIDWEAPONRESOURCECOMBO, VALIDWEAPONRESOUCECOMBO, or FULLWEAPON
-        //if initalcomboitem is a resource and the incoming item is a tool then return either INVALIDTOOLRESOURCECOMBO, VALIDTOOLRESOUCECOMBO or FULLTOOL
+        if(initalComboItem.GetHeldItem().GetItemType() == ItemType.Resource && incomingItem.GetHeldItem().GetItemType() == ItemType.Weapon && incomingItem.GetHeldItem() is WeaponItemDataSO weaponItemDataSO){
+            ResourceDataSO weaponResourceData = weaponItemDataSO.GetEquippedItemBehaviour().GetEquippedItemResourceData();
+
+            if(weaponResourceData == null){
+                newComboResult.SetComboResult(ComboResultType.Invalid_Combo, null);
+                return GetCombineResultMessage(newComboResult);
+            }
+            
+            if(weaponResourceData.GetValidItemData() != initalComboItem.GetHeldItem()){
+                newComboResult.SetComboResult(ComboResultType.Invalid_Weapon_Resource_Combo, null);
+                return GetCombineResultMessage(newComboResult);
+            }
+
+            if(weaponResourceData.IsFull()){
+                newComboResult.SetComboResult(ComboResultType.Full_Weapon, incomingItem);
+                return GetCombineResultMessage(newComboResult);
+            }
+
+            //TMP Need to rewrite for weapons
+            weaponResourceData.AddItem();
+            initalComboItem.RemoveFromStack(1);
+            newComboResult.SetComboResult(ComboResultType.Valid_Weapon_Resource_Combo, incomingItem);
+            return GetCombineResultMessage(newComboResult);
+        }
+        
+        //if initalcomboitem is a resource and the incoming item is a emergency item then return either INVALIDTOOLRESOURCECOMBO, VALIDTOOLRESOUCECOMBO or FULLTOOL
+        if(initalComboItem.GetHeldItem().GetItemType() == ItemType.Resource && incomingItem.GetHeldItem().GetItemType() == ItemType.Emergency_Item && incomingItem.GetHeldItem() is EmergencyItemDataSO emergencyItemDataSO){
+            ResourceDataSO emergencyItemResourceData = emergencyItemDataSO.GetEquippedItemBehaviour().GetEquippedItemResourceData();
+
+            if(emergencyItemResourceData == null){
+                newComboResult.SetComboResult(ComboResultType.Invalid_Combo, null);
+                return GetCombineResultMessage(newComboResult);
+            }
+            
+            if(emergencyItemResourceData.GetValidItemData() != initalComboItem.GetHeldItem()){
+                newComboResult.SetComboResult(ComboResultType.Invalid_Tool_Resource_Combo, null);
+                return GetCombineResultMessage(newComboResult);
+            }
+
+            if(emergencyItemResourceData.IsFull()){
+                newComboResult.SetComboResult(ComboResultType.Full_Tool, incomingItem);
+                return GetCombineResultMessage(newComboResult);
+            }
+
+            //TMP Need to rewrite for weapons
+            emergencyItemResourceData.AddItem();
+            initalComboItem.RemoveFromStack(1);
+            newComboResult.SetComboResult(ComboResultType.Valid_Tool_Resource_Combo, incomingItem);
+            return GetCombineResultMessage(newComboResult);
+        }
 
         InventoryItem attemptedItemCombo = currentInventoryRecipeList.ReturnValidInventoryRecipeResult(initalComboItem.GetHeldItem(), incomingItem.GetHeldItem());
         if(attemptedItemCombo == null){

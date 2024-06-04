@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class InteractUI : MonoBehaviour{
 	[Header("Required References")]
-	[SerializeField] private GameObject playerCrosshair;
+	[SerializeField] private GameObject playerHUD;
 	[SerializeField] private TextMeshProUGUI interactionToolTip;
 	[SerializeField] private PlayerInteract playerInteract;
 
@@ -24,13 +24,13 @@ public class InteractUI : MonoBehaviour{
     private void GameStateChanged(object sender, GameManager.GameStateEventArgs e){
 		if(e.State != GameState.Game){
 			showUI = false;
-			playerCrosshair.SetActive(false);
+			playerHUD.SetActive(false);
 			interactionToolTip.text = "";
 			return;
 		}
 
 		showUI = true;
-		playerCrosshair.SetActive(true);
+		playerHUD.SetActive(true);
     }
 
     private void InteractHover(object sender, PlayerInteract.InteractableEventArgs e){

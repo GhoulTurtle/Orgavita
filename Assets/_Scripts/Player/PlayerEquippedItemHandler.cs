@@ -19,31 +19,46 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
 
     private PlayerInventorySO playerInventorySO;
 
+    public EventHandler<ItemBehaviourSpawnedEventArgs> OnEmergencyItemBehaviourSpawned;
+    public EventHandler<ItemBehaviourSpawnedEventArgs> OnEmergencyItemBehaviourDespawned;
+    
+    public EventHandler<ItemBehaviourSpawnedEventArgs> OnWeaponItemBehaviourSpawned;
+    public EventHandler<ItemBehaviourSpawnedEventArgs> OnWeaponItemBehaviourDespawned;
+
+    public class ItemBehaviourSpawnedEventArgs : EventArgs{
+        public EquippedItemBehaviour equippedItemBehaviour;
+        public ItemBehaviourSpawnedEventArgs(EquippedItemBehaviour _equippedItemBehaviour){
+            equippedItemBehaviour = _equippedItemBehaviour;
+        } 
+    }
+
     private void Awake() {
         playerInventorySO = playerInventoryHandler.GetInventory();
         
-        playerInventorySO.OnEmergencyItemUnequipped += EmergencyItemUnequipped;
         playerInventorySO.OnEmergencyItemEquipped += EmergencyItemEquipped;
+        playerInventorySO.OnEmergencyItemUnequipped += EmergencyItemUnequipped;
 
-        playerInventorySO.OnWeaponItemUnequipped += WeaponItemUnequipped;
         playerInventorySO.OnWeaponItemEquipped += WeaponItemEquipped;
+        playerInventorySO.OnWeaponItemUnequipped += WeaponItemUnequipped;
     }
 
     private void OnDestroy() {
-        playerInventorySO.OnEmergencyItemUnequipped -= EmergencyItemUnequipped;
         playerInventorySO.OnEmergencyItemEquipped -= EmergencyItemEquipped;
+        playerInventorySO.OnEmergencyItemUnequipped -= EmergencyItemUnequipped;
 
-        playerInventorySO.OnWeaponItemUnequipped -= WeaponItemUnequipped;
         playerInventorySO.OnWeaponItemEquipped -= WeaponItemEquipped;
+        playerInventorySO.OnWeaponItemUnequipped -= WeaponItemUnequipped;
     }
 
     private void EmergencyItemEquipped(object sender, PlayerInventorySO.EquippedItemEventArgs e){
         currentEmergencyItemBehaviour = Instantiate(e.equippedItemBehaviour);
 
         SetupEquippedItem(e.inventoryItem, currentEmergencyItemBehaviour);
+        OnEmergencyItemBehaviourSpawned?.Invoke(this, new ItemBehaviourSpawnedEventArgs(currentEmergencyItemBehaviour));
     }
 
     private void EmergencyItemUnequipped(object sender, EventArgs e){
+        OnEmergencyItemBehaviourDespawned?.Invoke(this, new ItemBehaviourSpawnedEventArgs(currentEmergencyItemBehaviour));
         DestroyEquippedItem(currentEmergencyItemBehaviour);
     }
 
@@ -51,9 +66,11 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
         currentWeaponItemBehaviour = Instantiate(e.equippedItemBehaviour);
 
         SetupEquippedItem(e.inventoryItem, currentWeaponItemBehaviour);
+        OnWeaponItemBehaviourSpawned?.Invoke(this, new ItemBehaviourSpawnedEventArgs(currentWeaponItemBehaviour));
     }
 
     private void WeaponItemUnequipped(object sender, EventArgs e){
+        OnWeaponItemBehaviourDespawned?.Invoke(this, new ItemBehaviourSpawnedEventArgs(currentWeaponItemBehaviour));
         DestroyEquippedItem(currentWeaponItemBehaviour);
     }
 

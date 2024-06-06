@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FlashlightBehaviour : EquippedItemBehaviour{
    [Header("Required Reference")]
@@ -11,6 +12,10 @@ public class FlashlightBehaviour : EquippedItemBehaviour{
     public EventHandler OnFlashlightTurnedOff;
 
     public EventHandler OnCurrentBatteryTimeChanged;
+
+    public UnityEvent FlashlightTurnedOn;
+    public UnityEvent FlashlightTurnedOff;
+    public UnityEvent FlashlightInteractWhileBatteryDead;
 
     private void OnDestroy() {
         flashlightResourceData.OnBatteryRestored -= (sender, e) => OnCurrentBatteryTimeChanged?.Invoke(this, EventArgs.Empty);
@@ -27,6 +32,7 @@ public class FlashlightBehaviour : EquippedItemBehaviour{
         if(lightReference.enabled){
             StartBatteryTimer();
             OnFlashlightTurnedOn?.Invoke(this, EventArgs.Empty);
+            FlashlightTurnedOn?.Invoke();
         }
     }
 
@@ -39,15 +45,21 @@ public class FlashlightBehaviour : EquippedItemBehaviour{
     }
 
     public override void EmergencyItemUseInput(object sender, InputEventArgs e){
-        if(e.inputActionPhase != UnityEngine.InputSystem.InputActionPhase.Performed || flashlightResourceData.IsEmpty()) return;
+        if(e.inputActionPhase != UnityEngine.InputSystem.InputActionPhase.Performed) return;
+        if(flashlightResourceData.IsEmpty()){ 
+            FlashlightInteractWhileBatteryDead?.Invoke();
+            return;
+        } 
         lightReference.enabled = !lightReference.enabled;
         if(lightReference.enabled){
             StartBatteryTimer();
             OnFlashlightTurnedOn?.Invoke(this, EventArgs.Empty);
+            FlashlightTurnedOn?.Invoke();
         }
         else{
             StopAllCoroutines();
             OnFlashlightTurnedOff?.Invoke(this, EventArgs.Empty);
+            FlashlightTurnedOff?.Invoke();
         }
     }
 

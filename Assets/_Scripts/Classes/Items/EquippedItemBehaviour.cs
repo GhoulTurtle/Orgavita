@@ -1,9 +1,12 @@
+using System.Collections;
 using UnityEngine;
 
 public abstract class EquippedItemBehaviour : MonoBehaviour{
     [Header("Item State Variables")]
     [SerializeField] private EquippableItemState defaultItemState;
     [SerializeField] private EquippableItemHolsterType defaultItemHolsterType;
+    [SerializeField] private bool playHolsterAnimation;
+    [SerializeField] private float holsterAnimationDuration = 0.5f;
 
     protected EquippableItemState currentItemState;
     protected EquippableItemHolsterType currentHolsterType;
@@ -14,6 +17,8 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
     
     private Transform activeHolsterTransform;
     private Transform defaultHolsterTransform;
+
+    private IEnumerator currentHolsterAnimation;
 
     private void OnDestroy() {
         StopAllCoroutines();
@@ -47,7 +52,7 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
     }
 
     public virtual void HolsterWeaponInput(object sender, InputEventArgs e){
-        if(e.inputActionPhase != UnityEngine.InputSystem.InputActionPhase.Performed) return;
+        if(e.inputActionPhase != UnityEngine.InputSystem.InputActionPhase.Performed || currentHolsterAnimation != null) return;
 
         switch (currentItemState){
             case EquippableItemState.Active: ChangeItemState(EquippableItemState.Holstered);
@@ -88,7 +93,7 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
 
     public void TriggerDefaultState(){
         currentItemState = defaultItemState;
-        ChangeItemHolster(defaultHolsterTransform);
+        ChangeItemHolster(defaultHolsterTransform, true);
         UpdateControlOnItemStateChange();
     }
 
@@ -125,13 +130,53 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         return null;
     }
 
-    private void ChangeItemHolster(Transform holsterTransform){
+    private void ChangeItemHolster(Transform holsterTransform, bool spawnHolster = false){
         currentHolsterTransform = holsterTransform;
 
-        if(holsterTransform != null){
-            transform.parent = currentHolsterTransform;
-            transform.forward = currentHolsterTransform.forward;
-            transform.localPosition = Vector3.zero;
+        if(holsterTransform == null) return;
+
+        StopCurrentHolsterAnimation();
+
+        transform.parent = currentHolsterTransform;
+
+        if(playHolsterAnimation && !spawnHolster){            
+            StartCoroutine(HolsterAnimationCoroutine(holsterTransform));
         }
+        else{
+            transform.forward = currentHolsterTransform.forward;
+            transform.position = currentHolsterTransform.position;
+        }
+    }
+
+    private void StopCurrentHolsterAnimation(){
+        if(currentHolsterAnimation != null){
+            StopCoroutine(currentHolsterAnimation);
+            currentHolsterAnimation = null;
+        }
+    }
+
+    private IEnumerator HolsterAnimationCoroutine(Transform holsterTransform){
+        transform.parent = null;
+        float elapsedTime = 0f;
+    
+        Vector3 startPostion = transform.position;
+        Vector3 startRotationVector = transform.forward;
+        
+        while(elapsedTime < holsterAnimationDuration){
+            elapsedTime += Time.deltaTime;
+
+            float t = Mathf.Clamp01(elapsedTime / holsterAnimationDuration);
+
+            transform.position = Vector3.Lerp(startPostion, holsterTransform.position, t);
+            transform.forward = Vector3.Lerp(startRotationVector, holsterTransform.forward, t);
+
+            yield return null;
+        }
+
+        transform.position = holsterTransform.position;
+        transform.forward = holsterTransform.forward;
+        transform.parent = currentHolsterTransform;
+
+        currentHolsterAnimation = null;
     }
 }

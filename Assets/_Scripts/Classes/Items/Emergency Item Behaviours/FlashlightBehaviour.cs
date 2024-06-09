@@ -68,7 +68,6 @@ public class FlashlightBehaviour : EquippedItemBehaviour{
     }
 
     public void BatteryDied(){
-        Debug.Log("Battery Died :(");
         lightReference.enabled = false;
     }
 

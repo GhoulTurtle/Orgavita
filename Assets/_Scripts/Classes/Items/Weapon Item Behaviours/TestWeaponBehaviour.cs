@@ -9,7 +9,6 @@ public class TestWeaponBehaviour : EquippedItemBehaviour{
 
     public override void HolsterWeaponInput(object sender, InputEventArgs e){
         base.HolsterWeaponInput(sender, e);
-        transform.localScale = Vector3.one * 0.2f; 
     }
 
     public override void WeaponUseInput(object sender, InputEventArgs e){

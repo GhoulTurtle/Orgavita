@@ -4,14 +4,17 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     [Header("Required References")]
     [SerializeField] private ResourceDataSO fearPistolResourceData;
 
+    public override void SaveData(){
+        playerInputHandler.OnHolsterWeapon -= HolsterWeaponInput;
+    }
+
     public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler){
         base.SetupItemBehaviour(_inventoryItem, _playerInputHandler);
-
-        
+        playerInputHandler.OnHolsterWeapon += HolsterWeaponInput;
     }
 
     public override void HolsterWeaponInput(object sender, InputEventArgs e){
-
+        base.HolsterWeaponInput(sender, e);
     }
 
     public override void WeaponUseInput(object sender, InputEventArgs e){
@@ -31,7 +34,6 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     }
 
     protected override void SubscribeToInputEvents(){
-       playerInputHandler.OnHolsterWeapon += HolsterWeaponInput;
        playerInputHandler.OnWeaponUse += WeaponUseInput;
        playerInputHandler.OnAltWeaponUse += WeaponUseInput;
        playerInputHandler.OnReload += ReloadInput;
@@ -39,7 +41,6 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     }
 
     protected override void UnsubscribeFromInputEvents(){
-        playerInputHandler.OnHolsterWeapon -= HolsterWeaponInput;
        playerInputHandler.OnWeaponUse -= WeaponUseInput;
        playerInputHandler.OnAltWeaponUse -= WeaponUseInput;
        playerInputHandler.OnReload -= ReloadInput;

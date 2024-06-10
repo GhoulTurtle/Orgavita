@@ -5,8 +5,10 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
     [Header("Item State Variables")]
     [SerializeField] private EquippableItemState defaultItemState;
     [SerializeField] private EquippableItemHolsterType defaultItemHolsterType;
+
+    [Header("Holster Variables")]
     [SerializeField] private bool playHolsterAnimation;
-    [SerializeField] private float holsterAnimationDuration = 0.5f;
+    [SerializeField] private float holsterAnimationDuration = 0.35f;
 
     protected EquippableItemState currentItemState;
     protected EquippableItemHolsterType currentHolsterType;
@@ -137,14 +139,13 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
 
         StopCurrentHolsterAnimation();
 
-        transform.parent = currentHolsterTransform;
-
         if(playHolsterAnimation && !spawnHolster){            
-            StartCoroutine(HolsterAnimationCoroutine(holsterTransform));
+            currentHolsterAnimation = HolsterAnimationCoroutine(holsterTransform);
+            StartCoroutine(currentHolsterAnimation);
         }
         else{
-            transform.forward = currentHolsterTransform.forward;
-            transform.position = currentHolsterTransform.position;
+            transform.parent = currentHolsterTransform;
+            transform.SetPositionAndRotation(currentHolsterTransform.position, currentHolsterTransform.rotation);
         }
     }
 
@@ -158,23 +159,17 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
     private IEnumerator HolsterAnimationCoroutine(Transform holsterTransform){
         transform.parent = null;
         float elapsedTime = 0f;
-    
-        Vector3 startPostion = transform.position;
-        Vector3 startRotationVector = transform.forward;
         
         while(elapsedTime < holsterAnimationDuration){
             elapsedTime += Time.deltaTime;
 
             float t = Mathf.Clamp01(elapsedTime / holsterAnimationDuration);
 
-            transform.position = Vector3.Lerp(startPostion, holsterTransform.position, t);
-            transform.forward = Vector3.Lerp(startRotationVector, holsterTransform.forward, t);
-
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, holsterTransform.position, t), Quaternion.Slerp(transform.rotation, holsterTransform.rotation, t));
             yield return null;
         }
 
-        transform.position = holsterTransform.position;
-        transform.forward = holsterTransform.forward;
+        transform.SetPositionAndRotation(holsterTransform.position, holsterTransform.rotation);
         transform.parent = currentHolsterTransform;
 
         currentHolsterAnimation = null;

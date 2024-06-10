@@ -22,7 +22,7 @@ Material:
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 4000
   stringTagMap:
     RenderType: Opaque
   disabledShaderPasses: []
@@ -70,7 +70,7 @@ Material:
     - _Reflection: 0
     - _ReflectionBlendMode: 0
     - _ReflectionDirectionMode: 0
-    - _RenderQueueCategory: 0
+    - _RenderQueueCategory: 2
     - _ShadingEvaluationMode: 0
     - _SrcBlend: 1
     - _Surface: 0

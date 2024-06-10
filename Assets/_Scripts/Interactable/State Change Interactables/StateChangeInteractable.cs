@@ -2,6 +2,8 @@ using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Cinemachine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
 
 public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
     [Header("Required References")]
@@ -19,6 +21,9 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
     public event EventHandler OnLockInteractable;
 
     public abstract string InteractionPrompt {get;}
+
+    private InputSystemUIInputModule currentInputSystemUIInputModule;
+
     public bool Interact(PlayerInteract player){
         if(player.TryGetComponent(out playerInputHandler)){
             playerInputHandler.OnCancelInput += ExitState;
@@ -44,6 +49,8 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
             Cursor.visible = false;
         }
         virtualCamera.Priority = 11;
+        currentInputSystemUIInputModule = (InputSystemUIInputModule)EventSystem.current.currentInputModule;
+        currentInputSystemUIInputModule.deselectOnBackgroundClick = true;
         
         OnTriggerState?.Invoke(this, EventArgs.Empty);
     }
@@ -58,6 +65,8 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
         if(playerInputHandler != null){
             playerInputHandler.OnCancelInput -= ExitState;
         }
+
+        currentInputSystemUIInputModule.deselectOnBackgroundClick = false;
 
         OnExitState?.Invoke(this, EventArgs.Empty);
     }

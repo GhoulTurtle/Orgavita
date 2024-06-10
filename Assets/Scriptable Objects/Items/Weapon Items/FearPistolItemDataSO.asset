@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23a00124d4b856446a2a1c8906b205bf, type: 3}
+  m_Name: FearPistolItemDataSO
+  m_EditorClassIdentifier: 
+  itemName: Fear Pistol
+  itemQuickDescription: 
+  itemInspectDescription: 
+  itemIcon: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 0}
+  itemInWorldModelPrefab: {fileID: 5371749385734066372, guid: 0e336f1269922b74386442538e45bc8f,
+    type: 3}
+  itemPickupAudioEvent: {fileID: 0}
+  itemUseAudioEvent: {fileID: 0}
+  itemDestoryAudioEvent: {fileID: 0}
+  itemType: 3
+  isUseable: 1
+  isCombinable: 1
+  isStackable: 0
+  isDestroyable: 0
+  maxStackSize: 1
+  weaponItemBehaviour: {fileID: 4696557761689656164, guid: d33fd5331af58cf46a4277836eafd244,
+    type: 3}

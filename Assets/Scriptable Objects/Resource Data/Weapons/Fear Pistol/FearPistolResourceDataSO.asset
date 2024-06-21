@@ -16,4 +16,4 @@ MonoBehaviour:
   currentStack: 0
   maxStack: 20
   resetResourceStack: 1
-  defaultStack: 0
+  defaultStack: 20

@@ -13,8 +13,9 @@ public class PlayerMovement : MonoBehaviour{
 
 	[Header("Base Movement Variables")]
 	[SerializeField] private float walkSpeed;
-	[SerializeField] private float runSpeed;
 	[SerializeField] private float crouchMovementSpeed;
+	[SerializeField] private float runSpeed;
+	[SerializeField] private float aimingSpeed;
 	[SerializeField] private float sprintCooldown;
 
 	[Header("Crouch Variables")]

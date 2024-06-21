@@ -8934,6 +8934,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2011786808092161294}
+  - component: {fileID: 7793910637992359073}
   m_Layer: 3
   m_Name: FlashlightHolsterPostion
   m_TagString: Untagged
@@ -8949,13 +8950,31 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6128890462791897960}
   m_LocalRotation: {x: -0, y: -0.0000012516975, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.25, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 7793910636912983556}
+  m_Father: {fileID: 7793910637263857231}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7793910637992359073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6128890462791897960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29f59af8e1443cc4888a369f3f443a4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lockPos: {fileID: 7793910636912983556}
+  keepOffset: 1
+  offsetPos: {x: -0.1, y: -0.15, z: 0}
+  offsetRotation: {x: 0, y: 0, z: 0}
+  delayPosUpdate: 1
+  followSpeed: 40
 --- !u!1 &6233581469439597890
 GameObject:
   m_ObjectHideFlags: 0
@@ -9287,6 +9306,7 @@ GameObject:
   - component: {fileID: 1226506832}
   - component: {fileID: 7793910637992359078}
   - component: {fileID: 6565496534784932773}
+  - component: {fileID: 1055044228}
   m_Layer: 5
   m_Name: PlayerIn-GameCanvas
   m_TagString: Untagged
@@ -9462,6 +9482,25 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1055044228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7793910636626339037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b754db6829504046bd9cb0131b4ace7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerEquippedItemHandler: {fileID: 6977103743592686637}
+  playerDotCrosshair: {fileID: 7793910638020122993}
+  playerCrossCrosshair:
+  - {fileID: 1002092095}
+  - {fileID: 563793470}
+  - {fileID: 1613120160}
+  - {fileID: 1506483764}
 --- !u!1 &7793910636908847115
 GameObject:
   m_ObjectHideFlags: 0
@@ -9605,7 +9644,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7793910636908847112}
-  - {fileID: 2011786808092161294}
   m_Father: {fileID: 7793910636926104191}
   m_RootOrder: -2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -9946,6 +9984,7 @@ Transform:
   m_Children:
   - {fileID: 7793910637258231495}
   - {fileID: 1840836875470605498}
+  - {fileID: 2011786808092161294}
   - {fileID: 7793910636926104191}
   - {fileID: 7793910636251140206}
   m_Father: {fileID: 7793910637028267706}
@@ -10291,8 +10330,9 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   walkSpeed: 4.5
-  runSpeed: 7
   crouchMovementSpeed: 2.5
+  runSpeed: 7
+  aimingSpeed: 0
   sprintCooldown: 0.5
   crouchTimeInSeconds: 0.75
   crouchCooldown: 0.5
@@ -10316,12 +10356,14 @@ MonoBehaviour:
   tiltTime: 0.5
   runningTiltAmount: 2
   tiltAmount: 0.5
-  crouchingBobbingAmplitude: 0.001
-  crouchingBobbingFrequency: 6.5
   bobbingAmplitude: 0.004
   bobbingFrequency: 9
-  runningBobbingAmplitude: 0.010000001
+  crouchingBobbingAmplitude: 0.001
+  crouchingBobbingFrequency: 6.5
+  runningBobbingAmplitude: 0.008
   runningBobbingFrequency: 19
+  aimingBobbingAmplitude: 0.001
+  aimingBobbingFrquency: 7
   headBobResetSpeed: 4
   cameraRoot: {fileID: 7793910636926104191}
   cameraTransform: {fileID: 7793910636912983556}

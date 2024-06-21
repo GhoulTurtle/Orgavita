@@ -14,12 +14,14 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	[SerializeField] private float tiltAmount = 2f;
 
 	[Header("Headbob Variables")]
-	[SerializeField, Range(0, 0.1f)] private float crouchingBobbingAmplitude = 0.001f;
-	[SerializeField, Range(0, 30f)] private float crouchingBobbingFrequency = 6.5f;
 	[SerializeField, Range(0, 0.1f)] private float bobbingAmplitude = 0.003f;
 	[SerializeField, Range(0, 30f)] private float bobbingFrequency = 7.0f;
+	[SerializeField, Range(0, 0.1f)] private float crouchingBobbingAmplitude = 0.001f;
+	[SerializeField, Range(0, 30f)] private float crouchingBobbingFrequency = 6.5f;
 	[SerializeField, Range(0, 0.1f)] private float runningBobbingAmplitude = 0.0055f;
 	[SerializeField, Range(0, 30f)] private float runningBobbingFrequency = 15f;
+	[SerializeField, Range(0, 0.1f)] private float aimingBobbingAmplitude = 0.001f;
+	[SerializeField, Range(0, 30)] private float aimingBobbingFrquency = 7;
 
 	[SerializeField, Range(1f, 5f)] private float headBobResetSpeed = 3f;
 
@@ -158,6 +160,12 @@ public class PlayerFirstCamLook : MonoBehaviour{
 				currentAmplitude = crouchingBobbingAmplitude;
 				currentFrequency = crouchingBobbingFrequency;
                 break;
+			case PlayerMovementState.Aiming: 
+				tiltDirection = currentMovementVectorNormalized * tiltAmount;
+				
+				currentAmplitude = aimingBobbingAmplitude;
+				currentFrequency = aimingBobbingFrquency; 
+				break;
             default:
                 tiltDirection = currentMovementVectorNormalized * tiltAmount;
                 break;

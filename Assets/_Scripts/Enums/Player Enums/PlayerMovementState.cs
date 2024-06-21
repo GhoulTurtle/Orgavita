@@ -1,5 +1,6 @@
 public enum PlayerMovementState{
 	Walking,
 	Sprinting,
-	Crouching
+	Crouching,
+	Aiming,
 }

@@ -85,7 +85,7 @@ public class PlayerInputHandler : MonoBehaviour{
         if(context.interaction is HoldInteraction){
             OnInspect?.Invoke(this, new InputEventArgs(context.phase, context));
         }
-        else{
+        else if(context.interaction is TapInteraction){
             OnReload?.Invoke(this, new InputEventArgs(context.phase, context));
         }
     }

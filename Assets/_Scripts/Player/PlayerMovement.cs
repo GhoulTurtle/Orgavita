@@ -120,7 +120,7 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
 	public void SprintInput(InputAction.CallbackContext context){
-		if(currentPlayerMovementState == PlayerMovementState.Crouching) return;
+		if(currentPlayerMovementState == PlayerMovementState.Crouching || currentPlayerMovementState == PlayerMovementState.Aiming) return;
 
 		if(context.canceled){
 			movementSpeed = walkSpeed;
@@ -134,6 +134,18 @@ public class PlayerMovement : MonoBehaviour{
 		
 		movementSpeed = runSpeed;
 		StartCoroutine(SprintCooldownCoroutine());
+	}
+
+	public void StartAiming(){
+		if(currentPlayerMovementState == PlayerMovementState.Crouching) return;
+		movementSpeed = aimingSpeed;
+		UpdatePlayerMovementState(PlayerMovementState.Aiming);
+	}
+
+	public void StopAiming(){
+		if(currentPlayerMovementState == PlayerMovementState.Crouching) return;
+		movementSpeed = walkSpeed;
+		UpdatePlayerMovementState(PlayerMovementState.Walking);
 	}
 
 	public void CrouchInput(InputAction.CallbackContext context){

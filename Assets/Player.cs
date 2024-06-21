@@ -123,7 +123,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""id"": ""66e7ec2e-cea8-47f2-a56f-cad4bb0434ff"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold,MultiTap"",
+                    ""interactions"": ""Hold,Tap"",
                     ""initialStateCheck"": false
                 },
                 {

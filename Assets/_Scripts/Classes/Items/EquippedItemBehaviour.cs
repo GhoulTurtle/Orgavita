@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -6,9 +7,24 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
     [SerializeField] private EquippableItemState defaultItemState;
     [SerializeField] private EquippableItemHolsterType defaultItemHolsterType;
 
+    [Header("Weapon State Variables")]
+    [SerializeField] private ChildBehaviourData aimedChildData;
+    [SerializeField] private ChildBehaviourData inspectingChildData;
+    [SerializeField] private ChildBehaviourData reloadingChildData;
+
     [Header("Holster Variables")]
     [SerializeField] private bool playHolsterAnimation;
     [SerializeField] private float holsterAnimationDuration = 0.35f;
+
+    protected WeaponState currentWeaponState = WeaponState.Default;
+
+    public EventHandler<WeaponStateChangedEventArgs> OnWeaponStateChanged;
+    public class WeaponStateChangedEventArgs{
+        public WeaponState weaponState;
+        public WeaponStateChangedEventArgs(WeaponState _weaponState){
+            weaponState = _weaponState;
+        }
+    }
 
     protected EquippableItemState currentItemState;
     protected EquippableItemHolsterType currentHolsterType;
@@ -17,8 +33,10 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
     protected InventoryItem inventoryItem;
     protected PlayerInputHandler playerInputHandler;
     
-    private Transform activeHolsterTransform;
-    private Transform defaultHolsterTransform;
+    protected Transform activeHolsterTransform;
+    protected Transform defaultHolsterTransform;
+
+    protected ChildBehaviour activeTransformChildBehaviour;
 
     private IEnumerator currentHolsterAnimation;
 
@@ -39,6 +57,10 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
     public void SetupPlayerItemHolster(Transform _defaultHolsterTransform, Transform _activeHolsterTransform){
         defaultHolsterTransform = _defaultHolsterTransform;
         activeHolsterTransform = _activeHolsterTransform;
+    
+        if(!activeHolsterTransform.TryGetComponent(out activeTransformChildBehaviour)){
+            Debug.LogError("No child behaviour found on: " + activeHolsterTransform.name + ". Weapon state animations will not be applied correctly.");
+        }
     }
 
     public virtual void WeaponUseInput(object sender, InputEventArgs e){
@@ -55,11 +77,13 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
 
     public virtual void HolsterWeaponInput(object sender, InputEventArgs e){
         if(e.inputActionPhase != UnityEngine.InputSystem.InputActionPhase.Performed || currentHolsterAnimation != null) return;
-
         switch (currentItemState){
-            case EquippableItemState.Active: ChangeItemState(EquippableItemState.Holstered);
+            case EquippableItemState.Active: 
+                ChangeItemState(EquippableItemState.Holstered);
+                ChangeWeaponState(WeaponState.Default);
                 break;
-            case EquippableItemState.Holstered: ChangeItemState(EquippableItemState.Active);
+            case EquippableItemState.Holstered: 
+                ChangeItemState(EquippableItemState.Active);
                 break;
         }
     }
@@ -118,6 +142,30 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         }
 
         UpdateControlOnItemStateChange();
+    }
+
+    protected virtual void ChangeWeaponState(WeaponState newState){
+        if(newState == currentWeaponState) return;
+
+        OnWeaponStateChanged?.Invoke(this, new WeaponStateChangedEventArgs(newState));
+
+        currentWeaponState = newState;
+        UpdateChildBehaviourData();
+    }
+
+    protected virtual void UpdateChildBehaviourData(){
+        if(activeTransformChildBehaviour == null) return;
+
+        switch (currentWeaponState){
+            case WeaponState.Default: activeTransformChildBehaviour.ResetChildBehaviourData();
+                break;
+            case WeaponState.Aiming: activeTransformChildBehaviour.SetChildBehaviourData(aimedChildData);
+                break;
+            case WeaponState.Inspecting: activeTransformChildBehaviour.SetChildBehaviourData(inspectingChildData);
+                break;
+            case WeaponState.Reloading: activeTransformChildBehaviour.SetChildBehaviourData(reloadingChildData);
+                break;
+        }
     }
 
     public EquippableItemHolsterType GetPlayerItemHolsterType(){

@@ -296,6 +296,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultItemState: 2
   defaultItemHolsterType: 1
+  aimedChildData:
+    lockPos: {fileID: 0}
+    keepOffset: 1
+    offsetPos: {x: 0.3, y: -0.18, z: 0.5}
+    offsetRotation: {x: 0, y: 0, z: 0}
+    delayPosUpdate: 1
+    followSpeed: 70
+  inspectingChildData:
+    lockPos: {fileID: 0}
+    keepOffset: 1
+    offsetPos: {x: 0.3, y: -0.05, z: 0.45}
+    offsetRotation: {x: 0, y: 0, z: -25}
+    delayPosUpdate: 1
+    followSpeed: 50
+  reloadingChildData:
+    lockPos: {fileID: 0}
+    keepOffset: 1
+    offsetPos: {x: 0.3, y: -0.3, z: 0.45}
+    offsetRotation: {x: 0, y: 0, z: -25}
+    delayPosUpdate: 1
+    followSpeed: 50
   playHolsterAnimation: 1
   holsterAnimationDuration: 0.5
   fearPistolResourceData: {fileID: 11400000, guid: 9f43ca3173485d7408c22d992a0f1ee5,
@@ -303,6 +324,15 @@ MonoBehaviour:
   fearPistolWeaponData: {fileID: 11400000, guid: 726004da6516fb744a147d3312656ce2,
     type: 2}
   OnEmptyGunTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGunFired:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGunAimed:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGunInspected:
     m_PersistentCalls:
       m_Calls: []
   showGizmos: 1

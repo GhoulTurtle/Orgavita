@@ -1,47 +1,57 @@
 using UnityEngine;
 
-public class ChildBehaviour : MonoBehaviour{
-	[Header("Required References")]
-	[SerializeField] private Transform lockPos;
-	
-	[Header("Location Variables")]
-	[SerializeField] private bool keepOffset;
-	[SerializeField] private Vector3 offsetPos;
-	[SerializeField] private Vector3 offsetRotation;
-	[Space(3f)]
-	[SerializeField] private bool delayPosUpdate;
-	[SerializeField] private float followSpeed;
+public class ChildBehaviour : MonoBehaviour{	
+	[Header("Child Behaviour Data")]
+	[SerializeField] private ChildBehaviourData defaultChildBehaviourData = new ChildBehaviourData();
 
 	private Quaternion offsetQuaternion;
 
 	private Quaternion finalRotation;
 	private Vector3 finalPostion;
 
+	private ChildBehaviourData currentChildBehaviourData;
+
 	private void Start() {
-		offsetQuaternion = Quaternion.Euler(offsetRotation);
+		currentChildBehaviourData = defaultChildBehaviourData;
 	}
 
 	private void Update(){
-		if(lockPos == null) return;
+		if(currentChildBehaviourData.lockPos == null) return;
 		
-		if(keepOffset){
-			finalRotation = lockPos.rotation * offsetQuaternion;
-			finalPostion = lockPos.rotation * offsetPos + lockPos.position;
+		if(currentChildBehaviourData.keepOffset){
+			offsetQuaternion = Quaternion.Euler(currentChildBehaviourData.offsetRotation);
 
-			if(delayPosUpdate){
-				transform.SetPositionAndRotation(Vector3.Lerp(transform.position, finalPostion, followSpeed * Time.deltaTime), Quaternion.Slerp(transform.rotation, finalRotation, followSpeed * Time.deltaTime));
+			finalRotation = currentChildBehaviourData.lockPos.rotation * offsetQuaternion;
+			finalPostion = currentChildBehaviourData.lockPos.rotation * currentChildBehaviourData.offsetPos + currentChildBehaviourData.lockPos.position;
+
+			if(currentChildBehaviourData.delayPosUpdate){
+				transform.SetPositionAndRotation(Vector3.Lerp(transform.position, finalPostion, currentChildBehaviourData.followSpeed * Time.deltaTime), Quaternion.Slerp(transform.rotation, finalRotation, currentChildBehaviourData.followSpeed * Time.deltaTime));
 			}
 			else{
 				transform.SetPositionAndRotation(finalPostion, finalRotation);
 			}
         }
 		else{
-			if(delayPosUpdate){
-				transform.position = Vector3.Lerp(transform.position, lockPos.position, followSpeed * Time.deltaTime);
+			if(currentChildBehaviourData.delayPosUpdate){
+				transform.position = Vector3.Lerp(transform.position, currentChildBehaviourData.lockPos.position, currentChildBehaviourData.followSpeed * Time.deltaTime);
 			}
 			else{
-				transform.position = lockPos.position;
+				transform.position = currentChildBehaviourData.lockPos.position;
 			}
 		}
+	}
+
+	public void SetChildBehaviourData(ChildBehaviourData childBehaviourData){
+		if(childBehaviourData == currentChildBehaviourData) return;
+
+		if(childBehaviourData.lockPos == null && defaultChildBehaviourData.lockPos != null){
+			childBehaviourData.lockPos = defaultChildBehaviourData.lockPos;
+		}
+
+		currentChildBehaviourData = childBehaviourData;
+	}
+
+	public void ResetChildBehaviourData(){
+		currentChildBehaviourData = defaultChildBehaviourData;
 	}
 }

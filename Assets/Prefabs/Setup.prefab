@@ -8969,12 +8969,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f59af8e1443cc4888a369f3f443a4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockPos: {fileID: 7793910636912983556}
-  keepOffset: 1
-  offsetPos: {x: -0.1, y: -0.15, z: 0}
-  offsetRotation: {x: 0, y: 0, z: 0}
-  delayPosUpdate: 1
-  followSpeed: 40
+  defaultChildBehaviourData:
+    lockPos: {fileID: 7793910636912983556}
+    keepOffset: 1
+    offsetPos: {x: -0.2, y: -0.3, z: 0}
+    offsetRotation: {x: 0, y: 0, z: 0}
+    delayPosUpdate: 1
+    followSpeed: 40
 --- !u!1 &6233581469439597890
 GameObject:
   m_ObjectHideFlags: 0
@@ -9731,12 +9732,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f59af8e1443cc4888a369f3f443a4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockPos: {fileID: 7793910637258231495}
-  keepOffset: 0
-  offsetPos: {x: 0, y: 0, z: 0}
-  offsetRotation: {x: 0, y: 0, z: 0}
-  delayPosUpdate: 0
-  followSpeed: 0
+  defaultChildBehaviourData:
+    lockPos: {fileID: 0}
+    keepOffset: 0
+    offsetPos: {x: 0, y: 0, z: 0}
+    offsetRotation: {x: 0, y: 0, z: 0}
+    delayPosUpdate: 0
+    followSpeed: 0
 --- !u!1 &7793910637028267709
 GameObject:
   m_ObjectHideFlags: 0
@@ -10871,12 +10873,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29f59af8e1443cc4888a369f3f443a4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockPos: {fileID: 7793910636912983556}
-  keepOffset: 1
-  offsetPos: {x: 0.3, y: -0.23, z: 0.45}
-  offsetRotation: {x: 0, y: 0, z: 0}
-  delayPosUpdate: 1
-  followSpeed: 40
+  defaultChildBehaviourData:
+    lockPos: {fileID: 7793910636912983556}
+    keepOffset: 1
+    offsetPos: {x: 0.3, y: -0.23, z: 0.45}
+    offsetRotation: {x: 0, y: 0, z: 0}
+    delayPosUpdate: 1
+    followSpeed: 50
 --- !u!1 &9024350679148757009
 GameObject:
   m_ObjectHideFlags: 0

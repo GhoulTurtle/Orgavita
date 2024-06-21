@@ -3016,6 +3016,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultItemState: 0
   defaultItemHolsterType: 0
+  aimedChildData:
+    lockPos: {fileID: 0}
+    keepOffset: 0
+    offsetPos: {x: 0, y: 0, z: 0}
+    offsetRotation: {x: 0, y: 0, z: 0}
+    delayPosUpdate: 0
+    followSpeed: 0
+  inspectingChildData:
+    lockPos: {fileID: 0}
+    keepOffset: 0
+    offsetPos: {x: 0, y: 0, z: 0}
+    offsetRotation: {x: 0, y: 0, z: 0}
+    delayPosUpdate: 0
+    followSpeed: 0
+  reloadingChildData:
+    lockPos: {fileID: 0}
+    keepOffset: 0
+    offsetPos: {x: 0, y: 0, z: 0}
+    offsetRotation: {x: 0, y: 0, z: 0}
+    delayPosUpdate: 0
+    followSpeed: 0
   playHolsterAnimation: 0
   holsterAnimationDuration: 0.5
   lightReference: {fileID: 0}
@@ -3209,6 +3230,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857229, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: aimingSpeed
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

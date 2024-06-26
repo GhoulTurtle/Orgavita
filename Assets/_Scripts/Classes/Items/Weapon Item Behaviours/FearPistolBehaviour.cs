@@ -21,8 +21,6 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     [SerializeField, Range(0.5f, 3f)] private float gizmosLength = 1f;
     [SerializeField, Range(3, 100f)] private int gizmosCircleSides = 36;
 
-    private Transform cameraTransform;
-
     private IEnumerator reloadingWeaponCoroutine;
     
     public override void SaveData(){
@@ -32,7 +30,6 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler){
         base.SetupItemBehaviour(_inventoryItem, _playerInputHandler);
         playerInputHandler.OnHolsterWeapon += HolsterWeaponInput;
-        cameraTransform = Camera.main.transform; //TO-DO: Refactor to not grab the main camera everytime. Might not be a big deal but could cause potential issues later
     }
 
     public override void HolsterWeaponInput(object sender, InputEventArgs e){
@@ -57,6 +54,8 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
 
         Vector3 bloom = GunCalculation.CalculateBloom(bloomAngle, cameraTransform.position, cameraTransform.forward);
 
+        OnWeaponUse?.Invoke(this, EventArgs.Empty);
+
         Debug.DrawRay(cameraTransform.position, bloom, Color.white, 5f);
     }
 
@@ -65,9 +64,11 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
 
         if(e.inputActionPhase == InputActionPhase.Performed){
             ChangeWeaponState(WeaponState.Aiming);
+            OnWeaponAltUse?.Invoke(this, EventArgs.Empty);
         }
         else if(e.inputActionPhase == InputActionPhase.Canceled){
             ChangeWeaponState(WeaponState.Default);
+            OnWeaponAltCancel?.Invoke(this, EventArgs.Empty);
         }
     }
     
@@ -76,20 +77,28 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
         ChangeWeaponState(WeaponState.Reloading);
         reloadingWeaponCoroutine = ReloadingFearPistolCoroutine();
         StartCoroutine(reloadingWeaponCoroutine);
+
+        OnReload.Invoke(this, EventArgs.Empty);
     }
 
     public override void InspectInput(object sender, InputEventArgs e){
         if(currentWeaponState == WeaponState.Reloading) return;
         if(e.inputActionPhase == InputActionPhase.Performed){
             ChangeWeaponState(WeaponState.Inspecting);
+            OnInspectUse?.Invoke(this, EventArgs.Empty);
         }
         else if(e.inputActionPhase == InputActionPhase.Canceled){
             ChangeWeaponState(WeaponState.Default);
+            OnInspectCanceled?.Invoke(this, EventArgs.Empty);
         }
     }
 
     public override ResourceDataSO GetEquippedItemResourceData(){
         return fearPistolResourceData;
+    }
+
+    public override WeaponDataSO GetEquippedWeaponData(){
+        return fearPistolWeaponData;
     }
 
     protected override void SubscribeToInputEvents(){

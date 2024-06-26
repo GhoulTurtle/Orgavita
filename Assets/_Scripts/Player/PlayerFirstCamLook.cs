@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
 using System;
+using Cinemachine;
+using System.Collections;
 
 public class PlayerFirstCamLook : MonoBehaviour{
 	[Header("Cam Variables")]
@@ -25,6 +27,12 @@ public class PlayerFirstCamLook : MonoBehaviour{
 
 	[SerializeField, Range(1f, 5f)] private float headBobResetSpeed = 3f;
 
+	[Header("FOV Variables")]
+	[SerializeField] private float cameraAimFOV;
+	[SerializeField] private float cameraDefaultFOV;
+	[SerializeField] private float cameraFOVAnimationTime;
+	[SerializeField] private float cameraFOVAnimationSnapDistance = 0.01f;
+
 	[Header("Rquired Reference")]
 	[SerializeField] private Transform cameraRoot;
 	[SerializeField] private Transform cameraTransform;
@@ -46,6 +54,10 @@ public class PlayerFirstCamLook : MonoBehaviour{
 
 	private PlayerMovement playerMovement;
 
+	private CinemachineVirtualCamera playerCamera;
+
+	private IEnumerator currentCameraLerpCoroutine;
+
 	public EventHandler<TerrainStepEventArgs> OnTerrainStep; 
 	public class TerrainStepEventArgs : EventArgs{
 		public TerrainType terrainType;
@@ -65,6 +77,10 @@ public class PlayerFirstCamLook : MonoBehaviour{
 			playerMovement.OnPlayerMovementStateChanged += EvaluatePlayerMovementState;
 			playerMovement.OnPlayerMovementDirectionChanged += UpdateCameraTilt;
 			playerMovement.OnPlayerMovementStopped += ResetCameraTilt;
+		}
+
+		if(cameraTransform != null){
+			cameraTransform.TryGetComponent(out playerCamera);
 		}
 
 		Cursor.lockState = lockCursor ? CursorLockMode.Locked : CursorLockMode.None;
@@ -140,27 +156,42 @@ public class PlayerFirstCamLook : MonoBehaviour{
 
 	private void EvaluatePlayerMovementState(object sender, PlayerMovement.PlayerMovementStateChangedEventArgs e){
 		Vector3 tiltDirection;
-        switch (e.playerMovementState)
-        {
+        switch (e.playerMovementState){
             case PlayerMovementState.Sprinting:
+				StopFOVAnimationCoroutine();
+				currentCameraLerpCoroutine = CameraZoomCoroutine(cameraDefaultFOV);
+				StartCoroutine(currentCameraLerpCoroutine);
+
                 tiltDirection = currentMovementVectorNormalized * runningTiltAmount;
 
                 currentAmplitude = runningBobbingAmplitude;
                 currentFrequency = runningBobbingFrequency;
                 break;
             case PlayerMovementState.Walking:
+				StopFOVAnimationCoroutine();
+				currentCameraLerpCoroutine = CameraZoomCoroutine(cameraDefaultFOV);
+				StartCoroutine(currentCameraLerpCoroutine);
+
 				tiltDirection = currentMovementVectorNormalized * tiltAmount;
 
 				currentAmplitude = bobbingAmplitude;
 				currentFrequency = bobbingFrequency;
                 break;
             case PlayerMovementState.Crouching:
+				StopFOVAnimationCoroutine();
+				currentCameraLerpCoroutine = CameraZoomCoroutine(cameraDefaultFOV);
+				StartCoroutine(currentCameraLerpCoroutine);
+
 				tiltDirection = currentMovementVectorNormalized * tiltAmount;
 
 				currentAmplitude = crouchingBobbingAmplitude;
 				currentFrequency = crouchingBobbingFrequency;
                 break;
 			case PlayerMovementState.Aiming: 
+				StopFOVAnimationCoroutine();
+				currentCameraLerpCoroutine = CameraZoomCoroutine(cameraAimFOV);
+				StartCoroutine(currentCameraLerpCoroutine);
+
 				tiltDirection = currentMovementVectorNormalized * tiltAmount;
 				
 				currentAmplitude = aimingBobbingAmplitude;
@@ -174,4 +205,23 @@ public class PlayerFirstCamLook : MonoBehaviour{
         currentTiltVector = new Vector3(tiltDirection.y, 0, -tiltDirection.x);
 		cameraTransform.DOLocalRotate(currentTiltVector, tiltTime);
     }
+
+    private void StopFOVAnimationCoroutine(){
+        if(currentCameraLerpCoroutine != null){
+			StopCoroutine(currentCameraLerpCoroutine);
+			currentCameraLerpCoroutine = null;
+		}
+    }
+
+    private IEnumerator CameraZoomCoroutine(float value){
+		float current = 0;
+
+        while(Mathf.Abs(playerCamera.m_Lens.FieldOfView - value) > cameraFOVAnimationSnapDistance){
+            playerCamera.m_Lens.FieldOfView = Mathf.Lerp(playerCamera.m_Lens.FieldOfView, value, current / cameraFOVAnimationTime);
+            current += Time.deltaTime;
+            yield return null;
+        }
+
+		playerCamera.m_Lens.FieldOfView = value;
+	}
 }

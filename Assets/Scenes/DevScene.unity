@@ -1127,6 +1127,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 797261063}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &834097571 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 563793471, guid: 80a0578531470ab4498ceedf1d7a27bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 7793910637992359070}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &859664631 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
@@ -1812,6 +1818,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1318570141}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &1314056031 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1613120161, guid: 80a0578531470ab4498ceedf1d7a27bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 7793910637992359070}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1318570141
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1901,6 +1913,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12c40ee05333fa249abbcc47410637a4, type: 3}
+--- !u!224 &1363439442 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1002092096, guid: 80a0578531470ab4498ceedf1d7a27bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 7793910637992359070}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1422853784
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2079,6 +2097,12 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 12c40ee05333fa249abbcc47410637a4, type: 3}
+--- !u!224 &1590274288 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 1506483765, guid: 80a0578531470ab4498ceedf1d7a27bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 7793910637992359070}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1613368619
 GameObject:
   m_ObjectHideFlags: 0
@@ -2521,6 +2545,18 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.8574972, y: 1.1567876, z: 1}
   m_Center: {x: -0.4287486, y: 0.0794009, z: 0}
+--- !u!114 &1669576265 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6977103743592686637, guid: 80a0578531470ab4498ceedf1d7a27bc,
+    type: 3}
+  m_PrefabInstance: {fileID: 7793910637992359070}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 302b169bd6c31ad43a34cd71bffd911e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1681114181 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
@@ -3157,9 +3193,57 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 563793470, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 998432314, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
       propertyPath: m_SizeDelta.x
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002092095, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1002092096, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 1055044228, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: playerWeaponCrosshair.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1055044228, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: playerWeaponCrosshair.Array.data[0]
+      value: 
+      objectReference: {fileID: 1363439442}
+    - target: {fileID: 1055044228, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: playerWeaponCrosshair.Array.data[1]
+      value: 
+      objectReference: {fileID: 834097571}
+    - target: {fileID: 1055044228, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: playerWeaponCrosshair.Array.data[2]
+      value: 
+      objectReference: {fileID: 1314056031}
+    - target: {fileID: 1055044228, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: playerWeaponCrosshair.Array.data[3]
+      value: 
+      objectReference: {fileID: 1590274288}
+    - target: {fileID: 1055044228, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: weaponCrosshairAnimationTimeInSeconds
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1506483764, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613120160, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1613120161, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -60
       objectReference: {fileID: 0}
     - target: {fileID: 982711692833290873, guid: 80a0578531470ab4498ceedf1d7a27bc,
         type: 3}
@@ -3231,10 +3315,55 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7793910636912983557, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: m_Lens.FieldOfView
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: cameraAimFOV
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: cameraDefaultFOV
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: cameraFOVAnimationTime
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: cameraDefaultZoomAmount
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: cameraFOVAnimationSnapDistance
+      value: 0.01
+      objectReference: {fileID: 0}
     - target: {fileID: 7793910637263857229, guid: 80a0578531470ab4498ceedf1d7a27bc,
         type: 3}
       propertyPath: aimingSpeed
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857229, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: crouchMovementSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857229, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: playerEquippedItemHandler
+      value: 
+      objectReference: {fileID: 1669576265}
+    - target: {fileID: 7793910638301438295, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: field of view
+      value: 70
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

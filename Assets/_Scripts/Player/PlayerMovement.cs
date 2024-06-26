@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour{
 	[Header("Required References")]
+	[SerializeField] private PlayerEquippedItemHandler playerEquippedItemHandler;
 	[SerializeField] private CharacterController characterController;
 	[SerializeField] private Transform playerOrientation;
 	[SerializeField] private Transform groundCheckTransform;
@@ -59,6 +60,7 @@ public class PlayerMovement : MonoBehaviour{
 	private bool grounded;
 
 	private PlayerMovementState currentPlayerMovementState = PlayerMovementState.Walking;
+	private PlayerMovementState nextPlayerMovementState = PlayerMovementState.Walking;
 
 	private TerrainType currentTerrainType = TerrainType.None;
 
@@ -68,18 +70,22 @@ public class PlayerMovement : MonoBehaviour{
 	private Vector3 initialCameraPosition;
 	private Vector3 initialGroundCheckPosition;
 
-	private WaitForSecondsRealtime sprintCooldownTimer;
-	private WaitForSecondsRealtime crouchCooldownTimer;
+	private WaitForSeconds sprintCooldownTimer;
+	private WaitForSeconds crouchCooldownTimer;
 
 	private IEnumerator currentUnCrouchJob;
 	private IEnumerator currentCrouchJob;
 
 	private void Awake() {
-		sprintCooldownTimer = new WaitForSecondsRealtime(sprintCooldown);
-		crouchCooldownTimer = new WaitForSecondsRealtime(crouchCooldown);
+		sprintCooldownTimer = new WaitForSeconds(sprintCooldown);
+		crouchCooldownTimer = new WaitForSeconds(crouchCooldown);
+		if(playerEquippedItemHandler != null){
+			playerEquippedItemHandler.OnWeaponItemBehaviourSpawned += SubscribeToWeaponStateEvent;
+			playerEquippedItemHandler.OnWeaponItemBehaviourDespawned += UnsubscribeToWeaponStateEvent;
+		}
 	}
 
-	private void Start() {
+    private void Start() {
 		movementSpeed = walkSpeed;
 		standingHeight = characterController.height;
 		initialCameraPosition = playerOrientation.localPosition;
@@ -88,6 +94,11 @@ public class PlayerMovement : MonoBehaviour{
 
 	private void OnDestroy() {
 		StopAllCoroutines();
+		
+		if(playerEquippedItemHandler != null){
+			playerEquippedItemHandler.OnWeaponItemBehaviourSpawned -= SubscribeToWeaponStateEvent;
+			playerEquippedItemHandler.OnWeaponItemBehaviourDespawned -= UnsubscribeToWeaponStateEvent;
+		}
 	}
 
 	private void Update(){
@@ -137,23 +148,35 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
 	public void StartAiming(){
-		if(currentPlayerMovementState == PlayerMovementState.Crouching) return;
-		movementSpeed = aimingSpeed;
+		if(currentPlayerMovementState != PlayerMovementState.Crouching){
+			movementSpeed = aimingSpeed;
+		}
+
 		UpdatePlayerMovementState(PlayerMovementState.Aiming);
 	}
 
 	public void StopAiming(){
-		if(currentPlayerMovementState == PlayerMovementState.Crouching) return;
-		movementSpeed = walkSpeed;
-		UpdatePlayerMovementState(PlayerMovementState.Walking);
+		if(nextPlayerMovementState != PlayerMovementState.Crouching){
+			movementSpeed = walkSpeed;
+		}
+
+		UpdatePlayerMovementState(nextPlayerMovementState);
 	}
 
 	public void CrouchInput(InputAction.CallbackContext context){
 		if(currentPlayerMovementState == PlayerMovementState.Sprinting) return;
 
 		var heightTarget = context.canceled ? standingHeight : crouchHeight;
+		
 		var speed = heightTarget == standingHeight ? walkSpeed : crouchMovementSpeed;
+
+		if(speed == walkSpeed && currentPlayerMovementState == PlayerMovementState.Aiming){
+			speed = aimingSpeed;
+		}
+
 		var state = heightTarget == standingHeight ? PlayerMovementState.Walking : PlayerMovementState.Crouching;
+
+		nextPlayerMovementState = state;
 
 		//Attempting to crouch but crouch is on cooldown so return.
 		if(state == PlayerMovementState.Crouching && !canCrouch) return;
@@ -171,7 +194,9 @@ public class PlayerMovement : MonoBehaviour{
 		StartCoroutine(currentCrouchJob);
 		movementSpeed = speed;
 		
-		UpdatePlayerMovementState(state);
+		if(currentPlayerMovementState != PlayerMovementState.Aiming){
+			UpdatePlayerMovementState(state);
+		}
 
 		if(state == PlayerMovementState.Crouching) StartCoroutine(CrouchCooldownCoroutine());
 	}
@@ -220,6 +245,23 @@ public class PlayerMovement : MonoBehaviour{
 		}
 	}
 
+	private void SubscribeToWeaponStateEvent(object sender, PlayerEquippedItemHandler.ItemBehaviourSpawnedEventArgs e){
+		e.equippedItemBehaviour.OnWeaponStateChanged += EvaulateCurrentWeaponState;
+    }
+
+    private void UnsubscribeToWeaponStateEvent(object sender, PlayerEquippedItemHandler.ItemBehaviourSpawnedEventArgs e){
+		e.equippedItemBehaviour.OnWeaponStateChanged -= EvaulateCurrentWeaponState;
+	}
+
+    private void EvaulateCurrentWeaponState(object sender, EquippedItemBehaviour.WeaponStateChangedEventArgs e){
+		if(currentPlayerMovementState == PlayerMovementState.Aiming && e.weaponState != WeaponState.Aiming){
+			StopAiming();
+		}
+		else if(e.weaponState == WeaponState.Aiming){
+			StartAiming();
+		}
+    }
+
 	private IEnumerator CrouchJobCoroutine(float desiredHeight){
 		float current = 0;
 
@@ -248,9 +290,11 @@ public class PlayerMovement : MonoBehaviour{
 
 		currentCrouchJob = CrouchJobCoroutine(standingHeight);
 		StartCoroutine(currentCrouchJob);
-		movementSpeed = walkSpeed;
 		
-		UpdatePlayerMovementState(PlayerMovementState.Walking);
+		if(currentPlayerMovementState != PlayerMovementState.Aiming){
+			movementSpeed = walkSpeed;
+			UpdatePlayerMovementState(PlayerMovementState.Walking);
+		}
 	}
 
 

@@ -26,6 +26,16 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         }
     }
 
+    public EventHandler OnWeaponUse;
+    public EventHandler OnWeaponAltUse;
+    public EventHandler OnWeaponAltCancel;
+    public EventHandler OnEmergencyItemUse;
+    public EventHandler OnHolsterWeapon;
+    public EventHandler OnUnholsterWeapon;
+    public EventHandler OnReload;
+    public EventHandler OnInspectUse;
+    public EventHandler OnInspectCanceled;
+
     protected EquippableItemState currentItemState;
     protected EquippableItemHolsterType currentHolsterType;
     protected Transform currentHolsterTransform;
@@ -37,6 +47,8 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
     protected Transform defaultHolsterTransform;
 
     protected ChildBehaviour activeTransformChildBehaviour;
+
+    protected Transform cameraTransform;
 
     private IEnumerator currentHolsterAnimation;
 
@@ -50,6 +62,7 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
     }
 
     public virtual void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler){
+        cameraTransform = Camera.main.transform; //TO-DO: Refactor to not grab the main camera everytime. Might not be a big deal but could cause potential issues later
         inventoryItem = _inventoryItem;
         playerInputHandler = _playerInputHandler;
     }
@@ -64,15 +77,15 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
     }
 
     public virtual void WeaponUseInput(object sender, InputEventArgs e){
-
+        
     }
 
     public virtual void WeaponAltUseInput(object sender, InputEventArgs e){
-
+        
     }
 
     public virtual void EmergencyItemUseInput(object sender, InputEventArgs e){
-
+       
     }
 
     public virtual void HolsterWeaponInput(object sender, InputEventArgs e){
@@ -81,19 +94,21 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
             case EquippableItemState.Active: 
                 ChangeItemState(EquippableItemState.Holstered);
                 ChangeWeaponState(WeaponState.Default);
+                OnHolsterWeapon?.Invoke(this, EventArgs.Empty);
                 break;
             case EquippableItemState.Holstered: 
                 ChangeItemState(EquippableItemState.Active);
+                OnUnholsterWeapon?.Invoke(this, EventArgs.Empty);
                 break;
         }
     }
 
     public virtual void ReloadInput(object sender, InputEventArgs e){
-
+        
     }
 
     public virtual void InspectInput(object sender, InputEventArgs e){
-
+        
     }
 
     public virtual void UpdateControlOnItemStateChange(){
@@ -177,6 +192,10 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
     }
 
     public virtual ResourceDataSO GetEquippedItemResourceData(){
+        return null;
+    }
+
+    public virtual WeaponDataSO GetEquippedWeaponData(){
         return null;
     }
 

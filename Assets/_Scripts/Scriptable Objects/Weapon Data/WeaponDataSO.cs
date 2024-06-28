@@ -25,4 +25,8 @@ public class WeaponDataSO : ScriptableObject{
     [Header("Visual Variables")]
     [Tooltip("The amount of camera shake that is applied every shot that the weapon is fired. 0 is no camera shake.")]
     public float cameraShakeAmplitudeOnFired;
+    [Tooltip("The amount the crosshair will animate from the center of the screen on weapon fired.")]
+    public float shootCrosshairMagnitude;
+    [Tooltip("The animation time for the shoot crosshair animation.")]
+    public float shootCrosshairAnimationTimeInSeconds;
 }

@@ -22,3 +22,5 @@ MonoBehaviour:
   kickBackStartWindowInSeconds: 0
   kickBackAmount: 0
   cameraShakeAmplitudeOnFired: 0
+  shootCrosshairMagnitude: 12
+  shootCrosshairAnimationTimeInSeconds: 0.5

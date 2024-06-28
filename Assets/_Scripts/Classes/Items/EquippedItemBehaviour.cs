@@ -191,6 +191,10 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         return defaultItemState;      
     }
 
+    public WeaponState GetWeaponState(){
+        return currentWeaponState;
+    }
+
     public virtual ResourceDataSO GetEquippedItemResourceData(){
         return null;
     }

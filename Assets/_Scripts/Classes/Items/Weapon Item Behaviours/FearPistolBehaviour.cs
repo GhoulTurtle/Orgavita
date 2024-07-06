@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -21,9 +20,14 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     [SerializeField, Range(0.5f, 3f)] private float gizmosLength = 1f;
     [SerializeField, Range(3, 100f)] private int gizmosCircleSides = 36;
 
-    private IEnumerator reloadingWeaponCoroutine;
+    private CoroutineContainer kickbackCoroutineContainer;
+    private CoroutineContainer fireRateCoroutineContainer;
+    private CoroutineContainer reloadCoroutineContainer;
     
+    private int kickbackCounter;
+
     public override void SaveData(){
+        DisposeCoroutineContainers();
         playerInputHandler.OnHolsterWeapon -= HolsterWeaponInput;
     }
 
@@ -33,18 +37,18 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     }
 
     public override void HolsterWeaponInput(object sender, InputEventArgs e){
-        if(reloadingWeaponCoroutine != null){
-            StopCoroutine(reloadingWeaponCoroutine);
-            reloadingWeaponCoroutine = null;
-        }
+        DisposeCoroutineContainers();
 
         base.HolsterWeaponInput(sender, e);
     }
 
     public override void WeaponUseInput(object sender, InputEventArgs e){
-        if(currentWeaponState == WeaponState.Inspecting || currentWeaponState == WeaponState.Reloading) return;
-        if(e.inputActionPhase != InputActionPhase.Performed) return;
-        if(fearPistolResourceData.IsEmpty()){
+        if (currentWeaponState == WeaponState.Inspecting || currentWeaponState == WeaponState.Reloading) return;
+        if (e.inputActionPhase != InputActionPhase.Performed) return;
+        if (fireRateCoroutineContainer != null) return;
+
+        if (fearPistolResourceData.IsEmpty())
+        {
             OnEmptyGunTriggered?.Invoke();
             //Reload weapon if ammo is in inventory
             return;
@@ -52,11 +56,15 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
 
         float bloomAngle = currentWeaponState == WeaponState.Aiming ? fearPistolWeaponData.steadiedBloomAngle : fearPistolWeaponData.baseBloomAngle;
 
-        Vector3 bloom = GunCalculation.CalculateBloom(bloomAngle, cameraTransform.position, cameraTransform.forward);
+        Vector3 bloom = WeaponHelper.CalculateBloom(bloomAngle, cameraTransform.position, cameraTransform.forward);
 
         OnWeaponUse?.Invoke(this, EventArgs.Empty);
+        OnGunFired?.Invoke();
 
         Debug.DrawRay(cameraTransform.position, bloom, Color.white, 5f);
+
+        FireRateCooldown();
+        AttemptTriggerKickback();
     }
 
     public override void WeaponAltUseInput(object sender, InputEventArgs e){
@@ -65,6 +73,7 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
         if(e.inputActionPhase == InputActionPhase.Performed){
             ChangeWeaponState(WeaponState.Aiming);
             OnWeaponAltUse?.Invoke(this, EventArgs.Empty);
+            OnGunAimed?.Invoke();
         }
         else if(e.inputActionPhase == InputActionPhase.Canceled){
             ChangeWeaponState(WeaponState.Default);
@@ -75,10 +84,11 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     public override void ReloadInput(object sender, InputEventArgs e){
         if(e.inputActionPhase != InputActionPhase.Performed || currentWeaponState == WeaponState.Reloading || fearPistolResourceData.IsFull()) return;
         ChangeWeaponState(WeaponState.Reloading);
-        reloadingWeaponCoroutine = ReloadingFearPistolCoroutine();
-        StartCoroutine(reloadingWeaponCoroutine);
+        reloadCoroutineContainer = WeaponHelper.StartNewWeaponCoroutine(this, fearPistolWeaponData.weaponReloadTimeInSeconds);
 
-        OnReload.Invoke(this, EventArgs.Empty);
+        reloadCoroutineContainer.OnCoroutineDisposed += ReloadActionFinished;
+
+        OnReload?.Invoke(this, EventArgs.Empty);
     }
 
     public override void InspectInput(object sender, InputEventArgs e){
@@ -86,6 +96,7 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
         if(e.inputActionPhase == InputActionPhase.Performed){
             ChangeWeaponState(WeaponState.Inspecting);
             OnInspectUse?.Invoke(this, EventArgs.Empty);
+            OnGunInspected?.Invoke();
         }
         else if(e.inputActionPhase == InputActionPhase.Canceled){
             ChangeWeaponState(WeaponState.Default);
@@ -115,10 +126,76 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
        playerInputHandler.OnInspect -= InspectInput;
     }
 
-    private IEnumerator ReloadingFearPistolCoroutine(){
-        yield return new WaitForSeconds(fearPistolWeaponData.weaponReloadTimeInSeconds);
+    protected override void DisposeCoroutineContainers(){
+        if(fireRateCoroutineContainer != null){
+            fireRateCoroutineContainer.OnCoroutineDisposed -= FireRateCooldownFinished;
+            fireRateCoroutineContainer = null;
+        }
+
+        if(kickbackCoroutineContainer != null){
+            kickbackCoroutineContainer.OnCoroutineDisposed -= KickbackWindowClosed;
+            kickbackCoroutineContainer = null;
+        }
+
+        if(reloadCoroutineContainer != null){
+            ChangeWeaponState(WeaponState.Default);
+            reloadCoroutineContainer.OnCoroutineDisposed -= ReloadActionFinished;   
+            reloadCoroutineContainer = null;
+        }
+    }
+
+    private void FireRateCooldown(){
+        fireRateCoroutineContainer = WeaponHelper.StartNewWeaponCoroutine(this, fearPistolWeaponData.weaponFireRateInSeconds);
+        fireRateCoroutineContainer.OnCoroutineDisposed += FireRateCooldownFinished;
+    }
+
+    private void AttemptTriggerKickback(){
+        if(fearPistolWeaponData.minKickBackShotAmount == 0) return;
+
+        kickbackCounter++;
+
+        if(kickbackCounter >= fearPistolWeaponData.minKickBackShotAmount){
+            TriggerKickback();
+        }
+
+        if(kickbackCoroutineContainer != null){
+            RemoveKickbackTimer();
+        }
+
+        CreateKickbackTimer();
+    }
+
+    private void RemoveKickbackTimer(){
+        kickbackCoroutineContainer.OnCoroutineDisposed -= KickbackWindowClosed;
+        kickbackCoroutineContainer = null;
+    }
+
+    private void CreateKickbackTimer(){
+        kickbackCoroutineContainer = WeaponHelper.StartNewWeaponCoroutine(this, fearPistolWeaponData.kickBackWindowInSeconds);
+        kickbackCoroutineContainer.OnCoroutineDisposed += KickbackWindowClosed;
+    }
+
+    private void TriggerKickback(){
+        OnKickbackApplied?.Invoke(this, new KickbackAppliedEventArgs(fearPistolWeaponData.kickBackAmount));
+    }
+
+    private void FireRateCooldownFinished(object sender, CoroutineContainer.CoroutineDisposedEventArgs e){
+        fireRateCoroutineContainer.OnCoroutineDisposed -= FireRateCooldownFinished;
+        fireRateCoroutineContainer = null;
+    }
+
+    private void KickbackWindowClosed(object sender, CoroutineContainer.CoroutineDisposedEventArgs e){
+        kickbackCounter = 0;
+        kickbackCoroutineContainer.OnCoroutineDisposed -= KickbackWindowClosed;
+        kickbackCoroutineContainer = null;
+    }
+
+    private void ReloadActionFinished(object sender, CoroutineContainer.CoroutineDisposedEventArgs e){
         ChangeWeaponState(WeaponState.Default);
-        reloadingWeaponCoroutine = null;
+        //TO-DO: Fill resource ammo here.
+
+        reloadCoroutineContainer.OnCoroutineDisposed -= ReloadActionFinished;   
+        reloadCoroutineContainer = null;
     }
 
     private void OnDrawGizmos() {

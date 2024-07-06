@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
 using System;
-using Cinemachine;
 using System.Collections;
 
 public class PlayerFirstCamLook : MonoBehaviour{
@@ -31,9 +30,10 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	[SerializeField] private float cameraAimFOV;
 	[SerializeField] private float cameraDefaultFOV;
 	[SerializeField] private float cameraFOVAnimationTime;
-	[SerializeField] private float cameraFOVAnimationSnapDistance = 0.01f;
 
 	[Header("Rquired Reference")]
+	[SerializeField] private PlayerEquippedItemHandler playerEquippedItemHandler;
+	[SerializeField] private PlayerCameraVisualHandler playerCameraVisualHandler;
 	[SerializeField] private Transform cameraRoot;
 	[SerializeField] private Transform cameraTransform;
 	[SerializeField] private Transform characterOrientation;
@@ -53,10 +53,9 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	private Vector3 currentTiltVector;
 
 	private PlayerMovement playerMovement;
+	private EquippedItemBehaviour equippedWeaponItemBehaviour;
 
-	private CinemachineVirtualCamera playerCamera;
-
-	private IEnumerator currentCameraLerpCoroutine;
+	private IEnumerator currentCameraFOVAnimationCoroutine;
 
 	public EventHandler<TerrainStepEventArgs> OnTerrainStep; 
 	public class TerrainStepEventArgs : EventArgs{
@@ -79,8 +78,9 @@ public class PlayerFirstCamLook : MonoBehaviour{
 			playerMovement.OnPlayerMovementStopped += ResetCameraTilt;
 		}
 
-		if(cameraTransform != null){
-			cameraTransform.TryGetComponent(out playerCamera);
+		if(playerEquippedItemHandler != null){
+			playerEquippedItemHandler.OnWeaponItemBehaviourSpawned += WeaponSpawned;
+			playerEquippedItemHandler.OnWeaponItemBehaviourDespawned += WeaponDespawned;
 		}
 
 		Cursor.lockState = lockCursor ? CursorLockMode.Locked : CursorLockMode.None;
@@ -90,6 +90,15 @@ public class PlayerFirstCamLook : MonoBehaviour{
 		if(playerMovement != null){
 			playerMovement.OnPlayerMovementDirectionChanged -= UpdateCameraTilt;
 			playerMovement.OnPlayerMovementStopped -= ResetCameraTilt;
+		}
+
+		if(playerEquippedItemHandler != null){
+			playerEquippedItemHandler.OnWeaponItemBehaviourSpawned -= WeaponSpawned;
+			playerEquippedItemHandler.OnWeaponItemBehaviourDespawned -= WeaponDespawned;
+		}
+
+		if(equippedWeaponItemBehaviour != null){
+			equippedWeaponItemBehaviour.OnKickbackApplied -= ApplyCurrentWeaponKickback;
 		}
 	}
 
@@ -106,6 +115,12 @@ public class PlayerFirstCamLook : MonoBehaviour{
 		var inputVector = context.ReadValue<Vector2>();
 		camX += inputVector.x * camSens * Time.deltaTime;
 		camY -= inputVector.y * camSens * Time.deltaTime;
+		camY = Mathf.Clamp(camY, -YClamp, YClamp);
+	}
+
+	public void LookInputInjected(Vector2 inputVector){
+		camX += inputVector.x;
+		camY -= inputVector.y;
 		camY = Mathf.Clamp(camY, -YClamp, YClamp);
 	}
 
@@ -156,11 +171,12 @@ public class PlayerFirstCamLook : MonoBehaviour{
 
 	private void EvaluatePlayerMovementState(object sender, PlayerMovement.PlayerMovementStateChangedEventArgs e){
 		Vector3 tiltDirection;
+
+		float nextCameraFOV = 0;
+
         switch (e.playerMovementState){
             case PlayerMovementState.Sprinting:
-				StopFOVAnimationCoroutine();
-				currentCameraLerpCoroutine = CameraZoomCoroutine(cameraDefaultFOV);
-				StartCoroutine(currentCameraLerpCoroutine);
+				nextCameraFOV = cameraDefaultFOV;
 
                 tiltDirection = currentMovementVectorNormalized * runningTiltAmount;
 
@@ -168,9 +184,7 @@ public class PlayerFirstCamLook : MonoBehaviour{
                 currentFrequency = runningBobbingFrequency;
                 break;
             case PlayerMovementState.Walking:
-				StopFOVAnimationCoroutine();
-				currentCameraLerpCoroutine = CameraZoomCoroutine(cameraDefaultFOV);
-				StartCoroutine(currentCameraLerpCoroutine);
+				nextCameraFOV = cameraDefaultFOV;
 
 				tiltDirection = currentMovementVectorNormalized * tiltAmount;
 
@@ -178,9 +192,7 @@ public class PlayerFirstCamLook : MonoBehaviour{
 				currentFrequency = bobbingFrequency;
                 break;
             case PlayerMovementState.Crouching:
-				StopFOVAnimationCoroutine();
-				currentCameraLerpCoroutine = CameraZoomCoroutine(cameraDefaultFOV);
-				StartCoroutine(currentCameraLerpCoroutine);
+				nextCameraFOV = cameraDefaultFOV;
 
 				tiltDirection = currentMovementVectorNormalized * tiltAmount;
 
@@ -188,9 +200,7 @@ public class PlayerFirstCamLook : MonoBehaviour{
 				currentFrequency = crouchingBobbingFrequency;
                 break;
 			case PlayerMovementState.Aiming: 
-				StopFOVAnimationCoroutine();
-				currentCameraLerpCoroutine = CameraZoomCoroutine(cameraAimFOV);
-				StartCoroutine(currentCameraLerpCoroutine);
+				nextCameraFOV = cameraAimFOV;
 
 				tiltDirection = currentMovementVectorNormalized * tiltAmount;
 				
@@ -202,26 +212,39 @@ public class PlayerFirstCamLook : MonoBehaviour{
                 break;
         }
 
+		if(playerCameraVisualHandler.GetCameraFOV() != nextCameraFOV){
+			StopFOVAnimationCoroutine();
+			currentCameraFOVAnimationCoroutine = playerCameraVisualHandler.CameraFOVAnimationCoroutine(nextCameraFOV, cameraFOVAnimationTime);
+			StartCoroutine(currentCameraFOVAnimationCoroutine);
+		}
+
         currentTiltVector = new Vector3(tiltDirection.y, 0, -tiltDirection.x);
 		cameraTransform.DOLocalRotate(currentTiltVector, tiltTime);
     }
 
-    private void StopFOVAnimationCoroutine(){
-        if(currentCameraLerpCoroutine != null){
-			StopCoroutine(currentCameraLerpCoroutine);
-			currentCameraLerpCoroutine = null;
+    private void WeaponSpawned(object sender, PlayerEquippedItemHandler.ItemBehaviourSpawnedEventArgs e){
+		equippedWeaponItemBehaviour = e.equippedItemBehaviour;
+
+		equippedWeaponItemBehaviour.OnKickbackApplied += ApplyCurrentWeaponKickback;
+    }
+
+    private void WeaponDespawned(object sender, PlayerEquippedItemHandler.ItemBehaviourSpawnedEventArgs e){
+		if(equippedWeaponItemBehaviour != null){
+			equippedWeaponItemBehaviour.OnKickbackApplied -= ApplyCurrentWeaponKickback;
+			
+			equippedWeaponItemBehaviour = null;
 		}
     }
 
-    private IEnumerator CameraZoomCoroutine(float value){
-		float current = 0;
+    private void ApplyCurrentWeaponKickback(object sender, EquippedItemBehaviour.KickbackAppliedEventArgs e){
+		Vector2 kickbackVector = new(1, 1 * e.kickbackAmount);
+		LookInputInjected(kickbackVector);
+    }
 
-        while(Mathf.Abs(playerCamera.m_Lens.FieldOfView - value) > cameraFOVAnimationSnapDistance){
-            playerCamera.m_Lens.FieldOfView = Mathf.Lerp(playerCamera.m_Lens.FieldOfView, value, current / cameraFOVAnimationTime);
-            current += Time.deltaTime;
-            yield return null;
-        }
-
-		playerCamera.m_Lens.FieldOfView = value;
-	}
+    private void StopFOVAnimationCoroutine(){
+        if(currentCameraFOVAnimationCoroutine != null){
+			StopCoroutine(currentCameraFOVAnimationCoroutine);
+			currentCameraFOVAnimationCoroutine = null;
+		}
+    }
 }

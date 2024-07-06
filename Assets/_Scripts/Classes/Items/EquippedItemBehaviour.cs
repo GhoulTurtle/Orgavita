@@ -35,6 +35,13 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
     public EventHandler OnReload;
     public EventHandler OnInspectUse;
     public EventHandler OnInspectCanceled;
+    public EventHandler<KickbackAppliedEventArgs> OnKickbackApplied;
+    public class KickbackAppliedEventArgs : EventArgs{
+        public float kickbackAmount;
+        public KickbackAppliedEventArgs(float _kickbackAmount){
+            kickbackAmount = _kickbackAmount;
+        }
+    }
 
     protected EquippableItemState currentItemState;
     protected EquippableItemHolsterType currentHolsterType;
@@ -181,6 +188,10 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
             case WeaponState.Reloading: activeTransformChildBehaviour.SetChildBehaviourData(reloadingChildData);
                 break;
         }
+    }
+
+    protected virtual void DisposeCoroutineContainers(){
+
     }
 
     public EquippableItemHolsterType GetPlayerItemHolsterType(){

@@ -12,15 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0031ca3f0ead6a4b82fd61e91ee4c31, type: 3}
   m_Name: FearPistolWeaponDataSO
   m_EditorClassIdentifier: 
-  weaponFireRateInSeconds: 0
+  weaponFireRateInSeconds: 0.2
   weaponReloadTimeInSeconds: 5
   weaponAttackDamage: 0
-  aimSpeedInSeconds: 0
   baseBloomAngle: 5
   steadiedBloomAngle: 1
   minKickBackShotAmount: 0
-  kickBackStartWindowInSeconds: 0
+  kickBackWindowInSeconds: 0
   kickBackAmount: 0
-  cameraShakeAmplitudeOnFired: 0
+  cameraShakeShapeOnFired: 1
+  cameraShakeAmplitudeOnFired: 1.84
+  cameraShakeDurationOnFired: 0.4
   shootCrosshairMagnitude: 12
-  shootCrosshairAnimationTimeInSeconds: 0.5
+  shootCrosshairAnimationTimeInSeconds: 0.25

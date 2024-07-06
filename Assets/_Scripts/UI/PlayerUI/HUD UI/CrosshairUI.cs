@@ -26,6 +26,8 @@ public class CrosshairUI : MonoBehaviour{
 
     private void OnDestroy() {
         StopAllCoroutines();
+        playerEquippedItemHandler.OnWeaponItemBehaviourSpawned -= WeaponSpawned;
+        playerEquippedItemHandler.OnWeaponItemBehaviourDespawned -= WeaponDespawned;
     }
 
     private void WeaponSpawned(object sender, PlayerEquippedItemHandler.ItemBehaviourSpawnedEventArgs e){
@@ -138,8 +140,8 @@ public class CrosshairUI : MonoBehaviour{
         }
 
         crosshairTransform.localPosition = goalPosition;
-        current = 0;
 
+        current = 0;
         while(Vector3.Distance(crosshairTransform.localPosition, returnPosition) > LERP_SNAP_DISTANCE){
             crosshairTransform.localPosition = Vector3.Lerp(crosshairTransform.localPosition, returnPosition, current / equippedItemWeaponData.shootCrosshairAnimationTimeInSeconds);
             current += Time.deltaTime;

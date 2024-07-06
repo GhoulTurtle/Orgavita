@@ -237,7 +237,7 @@ public class PlayerFirstCamLook : MonoBehaviour{
     }
 
     private void ApplyCurrentWeaponKickback(object sender, EquippedItemBehaviour.KickbackAppliedEventArgs e){
-		Vector2 kickbackVector = new(1, 1 * e.kickbackAmount);
+		Vector2 kickbackVector = new(0, 1 * e.kickbackAmount);
 		LookInputInjected(kickbackVector);
     }
 

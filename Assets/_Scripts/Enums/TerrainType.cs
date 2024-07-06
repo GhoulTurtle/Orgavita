@@ -3,5 +3,6 @@ public enum TerrainType{
     Soft,
     Hard,
     Metal,
+    Wood,
     
 }

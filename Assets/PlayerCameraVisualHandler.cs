@@ -49,7 +49,7 @@ public class PlayerCameraVisualHandler : MonoBehaviour{
     }
 
     private void TriggerWeaponCameraShake(object sender, EventArgs e){
-        ActivateCameraShake(equippedWeaponDataSO.cameraShakeShapeOnFired, equippedWeaponDataSO.cameraShakeDurationOnFired, equippedWeaponDataSO.cameraShakeAmplitudeOnFired, Vector3.back);
+        ActivateCameraShake(equippedWeaponDataSO.cameraShakeShapeOnFired, equippedWeaponDataSO.cameraShakeDurationOnFired, equippedWeaponDataSO.cameraShakeAmplitudeOnFired, equippedWeaponDataSO.cameraShakeDirection);
     }
 
     public void ActivateCameraShake(CinemachineImpulseDefinition.ImpulseShapes shape, float shakeDuration, float shakeAmplitude, Vector3 shakeDirection){

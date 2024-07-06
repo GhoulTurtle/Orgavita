@@ -1,7 +1,7 @@
 using Cinemachine;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Weapon Data", fileName = "NewWeaponDataSO")]
+[CreateAssetMenu(menuName = "Weapon Data/Default Weapon Data", fileName = "NewWeaponDataSO")]
 public class WeaponDataSO : ScriptableObject{
     [Header("Mechanic Variables")]
     [Tooltip("The rate the weapon will shoot in seconds.")]
@@ -28,6 +28,8 @@ public class WeaponDataSO : ScriptableObject{
     public float cameraShakeAmplitudeOnFired;
     [Tooltip("The duration of the camera shake that is applied every shot that the weapon is fired. 0 is instant shake.")]
     public float cameraShakeDurationOnFired;
+    [Tooltip("The direction vector the shake animate to and from.")]
+    public Vector3 cameraShakeDirection;
     [Tooltip("The amount the crosshair will animate from the center of the screen on weapon fired.")]
     public float shootCrosshairMagnitude;
     [Tooltip("The animation time for the shoot crosshair animation.")]

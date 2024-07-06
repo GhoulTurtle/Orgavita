@@ -321,8 +321,48 @@ MonoBehaviour:
   holsterAnimationDuration: 0.5
   fearPistolResourceData: {fileID: 11400000, guid: 9f43ca3173485d7408c22d992a0f1ee5,
     type: 2}
-  fearPistolWeaponData: {fileID: 11400000, guid: 726004da6516fb744a147d3312656ce2,
+  fearPistolWeaponData: {fileID: 11400000, guid: 2bd39621083cc9d4eb9a31ea3d362ce1,
     type: 2}
+  validBounceableTerrainDataList: {fileID: 11400000, guid: 65726a48f1dd0c9488d6dfdee6e038c8,
+    type: 2}
+  impactSoundTerrainAudioDataList: {fileID: 0}
+  validHitLayermask:
+    serializedVersion: 2
+    m_Bits: 369
+  fearPistolBulletDecalHole: {fileID: 9068418653807071930, guid: f0008a205268ace4f8b7d76a1d09641d,
+    type: 3}
+  fearPistolBulletDecalDent: {fileID: 9068418653807071930, guid: 5b1f1b0d3ca38d54eaf06e76ebfe0568,
+    type: 3}
+  OnTerrainImpacted:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: 9c9f271ca5eae2d49abb35d2d62538b4, type: 2}
+        m_TargetAssemblyTypeName: TerrainAudioDataList, Assembly-CSharp
+        m_MethodName: PlayAudioFromTerrain
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnBulletBounced:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: bf411177f2ef4e749a9be807c105bb47, type: 2}
+        m_TargetAssemblyTypeName: SimpleAudioEvent, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   OnEmptyGunTriggered:
     m_PersistentCalls:
       m_Calls: []

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-public class Health : MonoBehaviour{
+public class Health : MonoBehaviour, IDamagable{
 	[Header("Health Variables")]
 	[SerializeField] private float maxHealth;
 	[SerializeField, Range(0f, 1f)] private float healthyPercentCutoff = 0.8f;

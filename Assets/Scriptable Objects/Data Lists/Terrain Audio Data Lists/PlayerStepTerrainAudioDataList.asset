@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec349158d9abef04b8ae0a5d9375282d, type: 3}
-  m_Name: PlayerStepDataList
+  m_Name: PlayerStepTerrainAudioDataList
   m_EditorClassIdentifier: 
-  PlayerStepDataEntries:
+  terrainAudioDataList:
   - associatedTerrainType: 1
-    associatedStepAudioEvent: {fileID: 11400000, guid: 2bd3647b8b5b8784dbc7c2c210f2d0f4,
+    associatedAudioEvent: {fileID: 11400000, guid: 2bd3647b8b5b8784dbc7c2c210f2d0f4,
       type: 2}
   - associatedTerrainType: 2
-    associatedStepAudioEvent: {fileID: 11400000, guid: 2520fd5dbfddd9a44af800ba99dcb3f8,
+    associatedAudioEvent: {fileID: 11400000, guid: 2520fd5dbfddd9a44af800ba99dcb3f8,
       type: 2}
   - associatedTerrainType: 3
-    associatedStepAudioEvent: {fileID: 11400000, guid: 425e2acac3c52ac4a921c4ad7f02255c,
+    associatedAudioEvent: {fileID: 11400000, guid: 425e2acac3c52ac4a921c4ad7f02255c,
       type: 2}

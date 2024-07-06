@@ -6,9 +6,18 @@ using UnityEngine.InputSystem;
 public class FearPistolBehaviour : EquippedItemBehaviour{
     [Header("Required References")]
     [SerializeField] private ResourceDataSO fearPistolResourceData;
-    [SerializeField] private WeaponDataSO fearPistolWeaponData;
+    [SerializeField] private FearPistolWeaponDataSO fearPistolWeaponData;
+    [SerializeField] private TerrainDataList validBounceableTerrainDataList;
+    [SerializeField] private TerrainAudioDataList impactSoundTerrainAudioDataList;
+    [SerializeField] private LayerMask validHitLayermask;
+    
+    [Header("Visual References")]
+    [SerializeField] private FadeObject fearPistolBulletDecalHole;
+    [SerializeField] private FadeObject fearPistolBulletDecalDent;
 
     [Header("Pistol Behaviour Events")]
+    [SerializeField] private UnityEvent<TerrainType, AudioSource> OnTerrainImpacted;
+    [SerializeField] private UnityEvent<AudioSource> OnBulletBounced;
     [SerializeField] private UnityEvent OnEmptyGunTriggered;
     [SerializeField] private UnityEvent OnGunFired;
     [SerializeField] private UnityEvent OnGunAimed;
@@ -57,12 +66,12 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
         float bloomAngle = currentWeaponState == WeaponState.Aiming ? fearPistolWeaponData.steadiedBloomAngle : fearPistolWeaponData.baseBloomAngle;
 
         Vector3 bloom = WeaponHelper.CalculateBloom(bloomAngle, cameraTransform.position, cameraTransform.forward);
+        Ray firedRay = new(cameraTransform.position, bloom);
 
         OnWeaponUse?.Invoke(this, EventArgs.Empty);
         OnGunFired?.Invoke();
 
-        Debug.DrawRay(cameraTransform.position, bloom, Color.white, 5f);
-
+        HandleGunShotImpact(firedRay, 0);
         FireRateCooldown();
         AttemptTriggerKickback();
     }
@@ -144,6 +153,70 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
         }
     }
 
+    private void HandleGunShotImpact(Ray ray, int rayBounceCounter){
+        Debug.DrawRay(ray.origin, ray.direction, Color.white, 5f);
+        FadeObject fadeObject;
+
+        if(!Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, validHitLayermask, QueryTriggerInteraction.Ignore)) return;
+
+        if(hitInfo.collider.TryGetComponent(out IDamagable damagable)){
+            damagable.TakeDamage(fearPistolWeaponData.weaponAttackDamage);
+            //TO-DO: Figure out what we hit then spawn the right vfx and play the right impact sound.
+            return;
+        }
+
+        if(hitInfo.collider.TryGetComponent(out Terrain terrain)){
+            TerrainType terrainType = terrain.GetTerrainType();
+            if(rayBounceCounter < fearPistolWeaponData.maxBounceCount && validBounceableTerrainDataList.IsEnteredTerrainValid(terrainType)){
+                BounceFearShot(hitInfo, ray, rayBounceCounter);
+                //TO-DO: Play fear pistol bounce sfx, play spark vfx
+                fadeObject = SpawnBulletDecal(fearPistolBulletDecalDent, hitInfo.point, hitInfo.normal);
+
+                OnBulletBounced?.Invoke(fadeObject.GetFadeObjectAudioSource());
+                return;
+            }
+
+            fadeObject = SpawnBulletDecal(fearPistolBulletDecalHole, hitInfo.point, hitInfo.normal);
+            OnTerrainImpacted?.Invoke(terrainType, fadeObject.GetFadeObjectAudioSource());
+        }
+
+        fadeObject = SpawnBulletDecal(fearPistolBulletDecalHole, hitInfo.point, hitInfo.normal);
+        OnTerrainImpacted?.Invoke(TerrainType.None, fadeObject.GetFadeObjectAudioSource());
+    }
+
+    private FadeObject SpawnBulletDecal(FadeObject decalPrefab, Vector3 hitPoint, Vector3 hitNormal){
+        Quaternion rot = Quaternion.LookRotation(-hitNormal);
+        FadeObject spawnedDecal = Instantiate(decalPrefab, hitPoint + hitNormal * 0.01f, rot);
+
+        spawnedDecal.transform.Rotate(90, 0, 180);
+        
+        spawnedDecal.StartFadeTime();
+
+        return spawnedDecal;
+    }
+
+    private void TriggerTerrainImpactEvent(FadeObject decalObject, TerrainType terrainType){
+        AudioSource decalAudioSource = decalObject.GetFadeObjectAudioSource();
+        if(decalAudioSource != null){
+            OnTerrainImpacted?.Invoke(terrainType, decalAudioSource);
+        }   
+    }
+
+    private void BounceFearShot(RaycastHit hitInfo, Ray ray, int rayBounceCounter){
+        rayBounceCounter++;
+
+        Vector3 rayPoint = hitInfo.point;
+        Vector3 rayNorm = hitInfo.normal;
+        Vector3 rayDir = ray.direction;
+
+        Vector3 reflectedVector = rayDir - 2 * Vector3.Dot(rayDir, rayNorm) * rayNorm;
+
+        ray.origin = rayPoint;
+        ray.direction = reflectedVector;
+
+        HandleGunShotImpact(ray, rayBounceCounter);
+    }
+
     private void FireRateCooldown(){
         fireRateCoroutineContainer = WeaponHelper.StartNewWeaponCoroutine(this, fearPistolWeaponData.weaponFireRateInSeconds);
         fireRateCoroutineContainer.OnCoroutineDisposed += FireRateCooldownFinished;
@@ -166,6 +239,7 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     }
 
     private void RemoveKickbackTimer(){
+        kickbackCoroutineContainer.TryStopCoroutine();
         kickbackCoroutineContainer.OnCoroutineDisposed -= KickbackWindowClosed;
         kickbackCoroutineContainer = null;
     }

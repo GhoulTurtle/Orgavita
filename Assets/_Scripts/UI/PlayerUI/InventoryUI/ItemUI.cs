@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -21,6 +22,8 @@ public class ItemUI : MonoBehaviour, ISelectHandler{
 
     private InventoryItem associatedInventoryItem;
 
+    private ResourceDataSO associatedItemResourceData;
+
     private bool isEquipmentSlot = false;
 
     public void SetupItemUI(InventoryUI _inventoryUI, InventoryItem _associatedInventoryItem, bool _isEquipmentSlot = false){
@@ -37,10 +40,15 @@ public class ItemUI : MonoBehaviour, ISelectHandler{
     }
 
     private void OnDestroy() {
-        if(associatedInventoryItem == null) return;
+        if(associatedInventoryItem != null){
+            associatedInventoryItem.OnItemCleared -= (sender, e) => EmptyItemUI();
+            associatedInventoryItem.OnItemUpdated -= (sender, e) => UpdateItemUI(associatedInventoryItem.GetHeldItem());
+        }
 
-        associatedInventoryItem.OnItemCleared -= (sender, e) => EmptyItemUI();
-        associatedInventoryItem.OnItemUpdated -= (sender, e) => UpdateItemUI(associatedInventoryItem.GetHeldItem());
+        if(associatedItemResourceData != null){
+            associatedItemResourceData.OnResourceUpdated -= UpdateStackText;
+        }
+
     }
 
     private void UpdateItemUI(ItemDataSO itemData){
@@ -50,18 +58,78 @@ public class ItemUI : MonoBehaviour, ISelectHandler{
         }
         
         itemNameText.text = itemData.GetItemName();
-        itemStackAmountText.text = associatedInventoryItem.GetCurrentStack().ToString();
-        
         itemImage.sprite = itemData.GetItemSprite();
 
-        Color stackTextColor = associatedInventoryItem.IsFull() ? maxStackAmountTextColor : regularStackAmountTextColor;
+        if(itemData.GetIsStackable()){
+            itemStackAmountText.text = associatedInventoryItem.GetCurrentStack().ToString();
+            Color stackTextColor = associatedInventoryItem.IsFull() ? maxStackAmountTextColor : regularStackAmountTextColor;
+            itemStackAmountText.color = stackTextColor;
+        }
+        else{
+            SetNonStackableItemStackText(itemData);
+        }
+    }
 
-        itemStackAmountText.color = stackTextColor;
+    private void SetNonStackableItemStackText(ItemDataSO itemData){
+        itemStackAmountText.text = "";
+
+        switch (itemData.GetItemType()){
+            case ItemType.Weapon:
+                if(itemData is WeaponItemDataSO equippedItemBehaviour){
+                    ResourceDataSO resourceDataSO = equippedItemBehaviour.GetEquippedItemBehaviour().GetEquippedItemResourceData();
+                    if(resourceDataSO == null) return;
+
+                    SetAssociatedItemResourceData(resourceDataSO);
+
+                    int currentResourceStackCount = resourceDataSO.GetCurrentStackCount();
+                    int maxResourceStackCount = resourceDataSO.GetMaxStackCount();
+
+                    itemStackAmountText.text = currentResourceStackCount + "/" + maxResourceStackCount; 
+                    Color stackTextColor = currentResourceStackCount == 0 ? maxStackAmountTextColor : regularStackAmountTextColor;
+                    itemStackAmountText.color = stackTextColor;                 
+                } 
+                break;
+            case ItemType.Emergency_Item: 
+                if(itemData is EmergencyItemDataSO _equippedItemBehaviour){
+                    ResourceDataSO resourceDataSO = _equippedItemBehaviour.GetEquippedItemBehaviour().GetEquippedItemResourceData();
+                    if(resourceDataSO is FlashlightResourceDataSO flashlightResourceDataSO){
+                        SetAssociatedItemResourceData(flashlightResourceDataSO);
+
+                        int currentBatteryPercentage = flashlightResourceDataSO.GetCurrentBatteryPercentage();
+
+                        itemStackAmountText.text = currentBatteryPercentage + "%";
+                        Color stackTextColor = currentBatteryPercentage <= 20 ? maxStackAmountTextColor : regularStackAmountTextColor;
+                        itemStackAmountText.color = stackTextColor;
+                    }
+                } 
+                break;
+        }
+    }
+    
+    private bool SetAssociatedItemResourceData(ResourceDataSO resourceDataSO){
+        if(associatedItemResourceData == resourceDataSO) return false;
+
+        if(associatedItemResourceData != null){
+            associatedItemResourceData.OnResourceUpdated -= UpdateStackText; 
+            associatedItemResourceData = null;
+        }
+
+        if(resourceDataSO == null) return false;
+
+        associatedItemResourceData = resourceDataSO;
+
+        associatedItemResourceData.OnResourceUpdated += UpdateStackText;   
+        return true;
+    }
+
+    private void UpdateStackText(int obj){
+        SetNonStackableItemStackText(associatedInventoryItem.GetHeldItem());
     }
 
     private void EmptyItemUI(){
         itemNameText.text = "";
         itemStackAmountText.text = "";
+        SetAssociatedItemResourceData(null);
 
         itemImage.sprite = emptyItemSlotSprite;
     }

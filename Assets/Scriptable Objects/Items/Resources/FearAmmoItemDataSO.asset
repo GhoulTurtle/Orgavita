@@ -20,7 +20,11 @@ MonoBehaviour:
     accurate at long ranges, fear ammo has become one of the most popular ammunition
     types.
   itemIcon: {fileID: 0}
-  itemModelPrefab: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 0}
+  itemInWorldModelPrefab: {fileID: 0}
+  itemPickupAudioEvent: {fileID: 0}
+  itemUseAudioEvent: {fileID: 0}
+  itemDestoryAudioEvent: {fileID: 0}
   itemType: 2
   isUseable: 0
   isCombinable: 1

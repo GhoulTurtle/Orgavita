@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1947191985083617213}
   - component: {fileID: 1818780863206798190}
   - component: {fileID: 3682184484643564601}
+  - component: {fileID: 1704230788}
   m_Layer: 0
   m_Name: ComputerVisuals
   m_TagString: Untagged
@@ -84,6 +85,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1704230788
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809270239713447884}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 1269327153718512926, guid: fa42671d2492af54fa5a362e59cc5798, type: 3}
 --- !u!1 &3833842465178491090
 GameObject:
   m_ObjectHideFlags: 0
@@ -119,7 +142,7 @@ Transform:
   - {fileID: 4176493515132248729}
   - {fileID: 4176493514758449568}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!65 &3833842465178491089
 BoxCollider:
@@ -140,8 +163,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.3571925, y: 2, z: 2}
-  m_Center: {x: 0.17859626, y: 0, z: -7.094134e-14}
+  m_Size: {x: 2.2350247, y: 1.8504848, z: 0.045802463}
+  m_Center: {x: 0.23968017, y: 0.0013751984, z: -0.95670277}
 --- !u!114 &3833842465178491088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   virtualCamera: {fileID: 4176493515682251464}
   showCursor: 0
+  isLocked: 0
   computerScreenLayer:
     serializedVersion: 2
     m_Bits: 256
@@ -755,6 +779,9 @@ MonoBehaviour:
     type: 3}
   clickableCursorSprite: {fileID: 1779934374, guid: 7201e919a3b2eee468a5d9a42314af2e,
     type: 3}
+  OnApplicationLaunched:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &4176493515180705349
 GameObject:
   m_ObjectHideFlags: 0

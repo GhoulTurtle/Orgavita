@@ -8,8 +8,8 @@ public class PlayerInventoryHandler : MonoBehaviour{
     [SerializeField] private float inputLockoutTime = 0.5f;
 
     [Header("Scriptable Object Required References")]
-    [SerializeField] private PlayerInventorySO currentInventory;
-    [SerializeField] private PlayerInventoryRecipeListSO currentInventoryRecipeList;
+    [SerializeField] private PlayerInventorySO playerInventory;
+    [SerializeField] private PlayerInventoryRecipeListSO playerInventoryRecipeList;
 
     public InventoryState CurrentInventoryState => currentInventoryState;
 
@@ -32,11 +32,10 @@ public class PlayerInventoryHandler : MonoBehaviour{
     }
 
     private PlayerInputHandler playerInputHandler;
-
     private Vector2 navigationInput;
 
     private ItemLevelMechanic currentItemLevelMechanic;
-
+    
     private bool inputValid = true;
 
     private void Awake() {
@@ -61,7 +60,7 @@ public class PlayerInventoryHandler : MonoBehaviour{
     }
 
     public void SetupInventory(){
-        OnSetupInventory?.Invoke(this, new SetupInventoryEventArgs(currentInventory));
+        OnSetupInventory?.Invoke(this, new SetupInventoryEventArgs(playerInventory));
     }
 
     public void UpdateInventoryState(InventoryState inventoryState){
@@ -87,129 +86,6 @@ public class PlayerInventoryHandler : MonoBehaviour{
         currentInventoryState = inventoryState;
     }
 
-    public string AttemptItemCombination(InventoryItem initalComboItem, InventoryItem incomingItem){
-        ComboResult newComboResult = new ComboResult();
-
-        if(initalComboItem.GetHeldItem() == incomingItem.GetHeldItem() && initalComboItem.IsFull() || 
-           initalComboItem.GetHeldItem() == incomingItem.GetHeldItem() && incomingItem.IsFull()){
-            newComboResult.SetComboResult(ComboResultType.Invalid_Stack_Combo, null);
-            return GetCombineResultMessage(newComboResult);
-        }
-    
-        if(initalComboItem.GetHeldItem() == incomingItem.GetHeldItem() && !initalComboItem.IsFull() && !incomingItem.IsFull()){
-            int remainingStack = currentInventory.AttemptToStackItems(incomingItem, initalComboItem);
-            if(remainingStack != 0){
-                initalComboItem.SetStack(remainingStack);
-            }
-            else{
-                initalComboItem.ClearItem();
-            }
-
-            newComboResult.SetComboResult(ComboResultType.Valid_Stack_Combo, incomingItem);
-            return GetCombineResultMessage(newComboResult);
-        }
-
-        //if initalcomboitem is a resource and the incoming item is a weapon then return either INVALIDWEAPONRESOURCECOMBO, VALIDWEAPONRESOUCECOMBO, or FULLWEAPON
-        if(initalComboItem.GetHeldItem().GetItemType() == ItemType.Resource && incomingItem.GetHeldItem().GetItemType() == ItemType.Weapon && incomingItem.GetHeldItem() is WeaponItemDataSO weaponItemDataSO){
-            ResourceDataSO weaponResourceData = weaponItemDataSO.GetEquippedItemBehaviour().GetEquippedItemResourceData();
-
-            if(weaponResourceData == null){
-                newComboResult.SetComboResult(ComboResultType.Invalid_Combo, null);
-                return GetCombineResultMessage(newComboResult);
-            }
-            
-            if(weaponResourceData.GetValidItemData() != initalComboItem.GetHeldItem()){
-                newComboResult.SetComboResult(ComboResultType.Invalid_Weapon_Resource_Combo, null);
-                return GetCombineResultMessage(newComboResult);
-            }
-
-            if(weaponResourceData.IsFull()){
-                newComboResult.SetComboResult(ComboResultType.Full_Weapon, incomingItem);
-                return GetCombineResultMessage(newComboResult);
-            }
-
-            //TMP Need to rewrite for weapons
-            weaponResourceData.AddItem();
-            initalComboItem.RemoveFromStack(1);
-            newComboResult.SetComboResult(ComboResultType.Valid_Weapon_Resource_Combo, incomingItem);
-            return GetCombineResultMessage(newComboResult);
-        }
-        
-        //if initalcomboitem is a resource and the incoming item is a emergency item then return either INVALIDTOOLRESOURCECOMBO, VALIDTOOLRESOUCECOMBO or FULLTOOL
-        if(initalComboItem.GetHeldItem().GetItemType() == ItemType.Resource && incomingItem.GetHeldItem().GetItemType() == ItemType.Emergency_Item && incomingItem.GetHeldItem() is EmergencyItemDataSO emergencyItemDataSO){
-            ResourceDataSO emergencyItemResourceData = emergencyItemDataSO.GetEquippedItemBehaviour().GetEquippedItemResourceData();
-
-            if(emergencyItemResourceData == null){
-                newComboResult.SetComboResult(ComboResultType.Invalid_Combo, null);
-                return GetCombineResultMessage(newComboResult);
-            }
-            
-            if(emergencyItemResourceData.GetValidItemData() != initalComboItem.GetHeldItem()){
-                newComboResult.SetComboResult(ComboResultType.Invalid_Tool_Resource_Combo, null);
-                return GetCombineResultMessage(newComboResult);
-            }
-
-            if(emergencyItemResourceData.IsFull()){
-                newComboResult.SetComboResult(ComboResultType.Full_Tool, incomingItem);
-                return GetCombineResultMessage(newComboResult);
-            }
-
-            //TMP Need to rewrite for weapons
-            emergencyItemResourceData.AddItem();
-            initalComboItem.RemoveFromStack(1);
-            newComboResult.SetComboResult(ComboResultType.Valid_Tool_Resource_Combo, incomingItem);
-            return GetCombineResultMessage(newComboResult);
-        }
-
-        InventoryItem attemptedItemCombo = currentInventoryRecipeList.ReturnValidInventoryRecipeResult(initalComboItem.GetHeldItem(), incomingItem.GetHeldItem());
-        if(attemptedItemCombo == null){
-            newComboResult.SetComboResult(ComboResultType.Invalid_Combo, null);
-            return GetCombineResultMessage(newComboResult);
-        }
-
-        if(attemptedItemCombo != null){
-            //Hold a temp reference to the items before removing them incase we don't have room in the inventory
-            ItemDataSO initalComboItemData = initalComboItem.GetHeldItem();
-            ItemDataSO incomingItemData = incomingItem.GetHeldItem();
-
-            initalComboItem.RemoveFromStack(1);
-            incomingItem.RemoveFromStack(1);
-
-            int remainingItems = currentInventory.AttemptToAddItemToInventory(attemptedItemCombo.GetHeldItem(), attemptedItemCombo.GetCurrentStack());
-
-            if(remainingItems != 0){
-                //Add back the items into the inventory
-                currentInventory.AttemptToAddItemToInventory(initalComboItemData, 1);
-                currentInventory.AttemptToAddItemToInventory(incomingItemData, 1);
-
-                newComboResult.SetComboResult(ComboResultType.Full_Inventory, attemptedItemCombo);
-                return GetCombineResultMessage(newComboResult);
-            }
-
-            newComboResult.SetComboResult(ComboResultType.Valid_Combo, attemptedItemCombo);
-            return GetCombineResultMessage(newComboResult);
-        }
-
-        return "INVALID ITEM COMBINATION";
-    }
-
-    private string GetCombineResultMessage(ComboResult comboResult){
-        return comboResult.GetComboResultType() switch{
-            ComboResultType.Invalid_Combo => "Can't combine those.",
-            ComboResultType.Invalid_Weapon_Resource_Combo => "Wrong ammo type.",
-            ComboResultType.Invalid_Tool_Resource_Combo => "Wrong type of resource.",
-            ComboResultType.Invalid_Stack_Combo => "Can't stack those.",
-            ComboResultType.Valid_Combo => "Made " + comboResult.GetResultItemName() + " X" + comboResult.GetResultItemStack() + ".",
-            ComboResultType.Valid_Stack_Combo => "Successfully Stacked " + comboResult.GetResultItemName() + " X" + comboResult.GetResultItemStack() + ".",
-            ComboResultType.Valid_Weapon_Resource_Combo => "Loaded " + comboResult.GetResultItemName(),
-            ComboResultType.Valid_Tool_Resource_Combo => "Recharged " + comboResult.GetResultItemName(),
-            ComboResultType.Full_Weapon => comboResult.GetResultItemName() + " is already loaded.",
-            ComboResultType.Full_Tool => comboResult.GetResultItemName() + " is already charged.",
-            ComboResultType.Full_Inventory => "Can't hold anymore items.",
-            _ => "ERROR NO COMBO RESULT TYPE FOUND",
-        };
-    }
-
     public void AddCurrentLevelMechanic(ItemLevelMechanic itemLevelMechanic){
         if(currentItemLevelMechanic != null){
             RemoveCurrentLevelMechanic(currentItemLevelMechanic);
@@ -224,6 +100,10 @@ public class PlayerInventoryHandler : MonoBehaviour{
 
     public ItemLevelMechanic GetCurrentLevelMechanic(){
         return currentItemLevelMechanic;
+    }
+
+    public string AttemptItemCombine(InventoryItem inventoryItem1, InventoryItem inventoryItem2){
+        return playerInventory.AttemptItemCombination(inventoryItem1, inventoryItem2, playerInventoryRecipeList);
     }
 
     private IEnumerator InputLockoutCoroutine(){
@@ -293,15 +173,15 @@ public class PlayerInventoryHandler : MonoBehaviour{
     }
 
     public PlayerInventorySO GetInventory(){
-        return currentInventory;
+        return playerInventory;
     }
 
     public void SetInventory(PlayerInventorySO playerInventorySO){
-        currentInventory = playerInventorySO;
+        playerInventory = playerInventorySO;
     }
 
     public PlayerInventoryRecipeListSO GetRecipeList(){
-        return currentInventoryRecipeList;
+        return playerInventoryRecipeList;
     }
 
     public Vector2 GetNavigationInput(){
@@ -309,6 +189,6 @@ public class PlayerInventoryHandler : MonoBehaviour{
     }
     
     public void SetRecipeList(PlayerInventoryRecipeListSO inventoryRecipeListSO){
-        currentInventoryRecipeList = inventoryRecipeListSO;
+        playerInventoryRecipeList = inventoryRecipeListSO;
     }   
 }

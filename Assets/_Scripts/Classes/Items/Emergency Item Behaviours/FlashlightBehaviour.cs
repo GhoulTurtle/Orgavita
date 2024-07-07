@@ -16,15 +16,16 @@ public class FlashlightBehaviour : EquippedItemBehaviour{
     public UnityEvent FlashlightTurnedOn;
     public UnityEvent FlashlightTurnedOff;
     public UnityEvent FlashlightInteractWhileBatteryDead;
+    public UnityEvent FlashlightReloaded;
 
-    private void OnDestroy() {
+    public override void SaveData(){
         flashlightResourceData.OnBatteryRestored -= (sender, e) => OnCurrentBatteryTimeChanged?.Invoke(this, EventArgs.Empty);
         StopAllCoroutines();
         UnsubscribeFromInputEvents();
     }
 
-    public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler){
-        base.SetupItemBehaviour(_inventoryItem, _playerInputHandler);
+    public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler, PlayerInventoryHandler _playerInventoryHandler){
+        base.SetupItemBehaviour(_inventoryItem, _playerInputHandler, _playerInventoryHandler);
         
         flashlightResourceData.OnBatteryRestored += (sender, e) => OnCurrentBatteryTimeChanged?.Invoke(this, EventArgs.Empty);
 
@@ -47,9 +48,12 @@ public class FlashlightBehaviour : EquippedItemBehaviour{
     public override void EmergencyItemUseInput(object sender, InputEventArgs e){
         if(e.inputActionPhase != UnityEngine.InputSystem.InputActionPhase.Performed) return;
         if(flashlightResourceData.IsEmpty()){ 
-            FlashlightInteractWhileBatteryDead?.Invoke();
+            if(!AttemptReloadFlashlight()){
+                FlashlightInteractWhileBatteryDead?.Invoke();
+            }
             return;
         } 
+
         lightReference.enabled = !lightReference.enabled;
         if(lightReference.enabled){
             StartBatteryTimer();
@@ -69,6 +73,7 @@ public class FlashlightBehaviour : EquippedItemBehaviour{
 
     public void BatteryDied(){
         lightReference.enabled = false;
+        AttemptReloadFlashlight();
     }
 
     public void StartBatteryTimer(){
@@ -85,5 +90,20 @@ public class FlashlightBehaviour : EquippedItemBehaviour{
         
         BatteryDied();
         flashlightResourceData.RemoveItem();
+    }
+
+    private bool AttemptReloadFlashlight(){
+        if(playerInventory.HasItemInInventory(flashlightResourceData.GetValidItemData())){
+            StartReloadFlashlight();
+            FlashlightReloaded?.Invoke();
+            return true;
+        }
+        return false;
+    }
+
+    private void StartReloadFlashlight(){
+        playerInventory.AttemptRemoveItemAmountFromInventory(flashlightResourceData.GetValidItemData(), flashlightResourceData.GetMissingStackCount(), out int amountRemoved);
+
+        flashlightResourceData.AddItemStack(amountRemoved);
     }
 }

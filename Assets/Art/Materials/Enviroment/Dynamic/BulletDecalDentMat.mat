@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _BRDF_MODE_LAMBERT
+  - _FOG_ON
   - _LIGHTING_BAKED_ON
   - _LIGHTING_DYNAMIC_ON
   - _SHADING_EVALUATION_MODE_PER_VERTEX
@@ -59,7 +60,7 @@ Material:
     - _DrawDistanceOverrideMode: 0
     - _DstBlend: 10
     - _EmissionBakedMultiplier: 1
-    - _FogWeight: 0
+    - _FogWeight: 1
     - _LightingBaked: 1
     - _LightingDynamic: 1
     - _LightingMode: 0

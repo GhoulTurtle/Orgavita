@@ -89,7 +89,7 @@ public class InventoryUI : MonoBehaviour{
             return;
         }
 
-        string resultText = playerInventoryHandler.AttemptItemCombination(currentSelectedItemUI.GetInventoryItem(), itemUIClicked.GetInventoryItem());
+        string resultText = playerInventoryHandler.AttemptItemCombine(currentSelectedItemUI.GetInventoryItem(), itemUIClicked.GetInventoryItem());
 
         OnSlotCombined?.Invoke(this, new SlotCombinedEventArgs(resultText));
 

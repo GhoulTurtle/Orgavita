@@ -21,19 +21,27 @@ public class FlashlightResourceDataSO : ResourceDataSO{
         return currentBatteryTimeInSeconds == 0;
     }
 
-    public override void AddItem(){
-        base.AddItem();
+    public override void AddItemStack(int stackAmount){
+        base.AddItemStack(stackAmount);
         currentBatteryTimeInSeconds = maxBatteryTimeInSeconds;
         OnBatteryRestored?.Invoke(this, EventArgs.Empty);
+        OnResourceUpdated?.Invoke(currentStack);
     }
 
     public override void RemoveItem(){
         currentStack--;
         currentBatteryTimeInSeconds = 0;
+
+        OnResourceUpdated?.Invoke(currentStack);
     }
 
     public override bool IsFull(){
         return currentBatteryTimeInSeconds == maxBatteryTimeInSeconds;
+    }
+
+    public int GetCurrentBatteryPercentage(){
+        float scaledValue = currentBatteryTimeInSeconds / maxBatteryTimeInSeconds * 100;
+        return Mathf.RoundToInt(scaledValue);
     }
 
     public float GetCurrentBatteryTimeInSeconds(){
@@ -42,9 +50,18 @@ public class FlashlightResourceDataSO : ResourceDataSO{
 
     public void SetCurrentBatteryTimeInSeconds(float batteryTimeInSeconds){
         currentBatteryTimeInSeconds = batteryTimeInSeconds;
+        OnResourceUpdated?.Invoke(currentStack);
     }
 
     public float GetMaxBatteryTimeInSeconds(){
         return maxBatteryTimeInSeconds;
+    }
+
+    public override int GetMissingStackCount(){
+        if(currentBatteryTimeInSeconds != maxBatteryTimeInSeconds){
+            return 1;
+        }
+        
+        return 0;
     }
 }

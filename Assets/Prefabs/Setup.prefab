@@ -10464,8 +10464,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inputLockoutTime: 0.25
-  currentInventory: {fileID: 11400000, guid: 43cda2997f2cc084b9d3e989d0cefc65, type: 2}
-  currentInventoryRecipeList: {fileID: 11400000, guid: 8412b6203900fe741acb73e16df6d9f8,
+  playerInventory: {fileID: 11400000, guid: 43cda2997f2cc084b9d3e989d0cefc65, type: 2}
+  playerInventoryRecipeList: {fileID: 11400000, guid: 8412b6203900fe741acb73e16df6d9f8,
     type: 2}
 --- !u!114 &612669994
 MonoBehaviour:
@@ -10565,14 +10565,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_ImpulseDefinition:
     m_ImpulseChannel: 1
-    m_ImpulseShape: 1
+    m_ImpulseShape: 2
     m_CustomImpulseShape:
       serializedVersion: 2
       m_Curve: []
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ImpulseDuration: 0.3
+    m_ImpulseDuration: 0.25
     m_ImpulseType: 0
     m_DissipationRate: 0.25
     m_RawSignal: {fileID: 0}
@@ -10603,7 +10603,7 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: 0, y: -1, z: 0}
+  m_DefaultVelocity: {x: 0.2, y: 0, z: -0.3}
 --- !u!1 &7793910638020122993
 GameObject:
   m_ObjectHideFlags: 0
@@ -10977,7 +10977,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultChildBehaviourData:
-    lockPos: {fileID: 7793910636912983556}
+    lockPos: {fileID: 7793910638301438292}
     keepOffset: 1
     offsetPos: {x: 0.3, y: -0.23, z: 0.45}
     offsetRotation: {x: 0, y: 0, z: 0}

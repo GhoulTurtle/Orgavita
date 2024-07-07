@@ -49,6 +49,8 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
 
     protected InventoryItem inventoryItem;
     protected PlayerInputHandler playerInputHandler;
+    protected PlayerInventoryHandler playerInventoryHandler;
+    protected PlayerInventorySO playerInventory;
     
     protected Transform activeHolsterTransform;
     protected Transform defaultHolsterTransform;
@@ -68,10 +70,16 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         
     }
 
-    public virtual void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler){
+    public virtual void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler, PlayerInventoryHandler _playerInventoryHandler){
         cameraTransform = Camera.main.transform; //TO-DO: Refactor to not grab the main camera everytime. Might not be a big deal but could cause potential issues later
         inventoryItem = _inventoryItem;
         playerInputHandler = _playerInputHandler;
+        playerInventoryHandler = _playerInventoryHandler;
+        playerInventory = _playerInventoryHandler.GetInventory();
+    }
+
+    public virtual void EvaulateInventoryStateChanged(object sender, PlayerInventoryHandler.InventoryStateChangedEventArgs e){
+        
     }
 
     public void SetupPlayerItemHolster(Transform _defaultHolsterTransform, Transform _activeHolsterTransform){

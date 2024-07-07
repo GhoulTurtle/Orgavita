@@ -75,7 +75,7 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
     }
 
     private void SetupEquippedItem(InventoryItem inventoryItem, EquippedItemBehaviour equippedItemBehaviour){
-        equippedItemBehaviour.SetupItemBehaviour(inventoryItem, playerInputHandler);
+        equippedItemBehaviour.SetupItemBehaviour(inventoryItem, playerInputHandler, playerInventoryHandler);
 
         AssignPlayerItemDefaultHolster(equippedItemBehaviour);
         AssignDefaultItemState(equippedItemBehaviour);

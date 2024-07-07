@@ -23,8 +23,8 @@ MonoBehaviour:
   itemDestoryAudioEvent: {fileID: 0}
   itemType: 4
   isUseable: 1
-  isCombinable: 0
-  isStackable: 1
+  isCombinable: 1
+  isStackable: 0
   isDestroyable: 0
   maxStackSize: 1
   emergencyItemBehaviour: {fileID: 4290631168321002959, guid: 9bed159a317c4ac4bb15493a6a8f85d8,

@@ -26,8 +26,8 @@ public class TestWeaponBehaviour : EquippedItemBehaviour{
         }
     }
 
-    public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler){
-        base.SetupItemBehaviour(_inventoryItem, _playerInputHandler);
+    public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler, PlayerInventoryHandler _playerInventoryHandler){
+        base.SetupItemBehaviour(_inventoryItem, _playerInputHandler, _playerInventoryHandler);
         playerInputHandler.OnHolsterWeapon += HolsterWeaponInput;
     }
 

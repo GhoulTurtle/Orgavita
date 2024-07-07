@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
@@ -40,9 +41,10 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
         playerInputHandler.OnHolsterWeapon -= HolsterWeaponInput;
     }
 
-    public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler){
-        base.SetupItemBehaviour(_inventoryItem, _playerInputHandler);
+    public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler, PlayerInventoryHandler _playerInventoryHandler){
+        base.SetupItemBehaviour(_inventoryItem, _playerInputHandler, _playerInventoryHandler);
         playerInputHandler.OnHolsterWeapon += HolsterWeaponInput;
+        playerInventoryHandler.OnInventoryStateChanged += EvaulateInventoryStateChanged;
     }
 
     public override void HolsterWeaponInput(object sender, InputEventArgs e){
@@ -52,15 +54,22 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     }
 
     public override void WeaponUseInput(object sender, InputEventArgs e){
-        if (currentWeaponState == WeaponState.Inspecting || currentWeaponState == WeaponState.Reloading) return;
+        if (currentWeaponState == WeaponState.Inspecting) return;
         if (e.inputActionPhase != InputActionPhase.Performed) return;
         if (fireRateCoroutineContainer != null) return;
 
-        if (fearPistolResourceData.IsEmpty())
-        {
+        if (fearPistolResourceData.IsEmpty()){
+            if(currentWeaponState == WeaponState.Reloading) return;
+
+            if (playerInventory.HasItemInInventory(fearPistolResourceData.GetValidItemData())){
+                StartReloadAction();
+            }
             OnEmptyGunTriggered?.Invoke();
-            //Reload weapon if ammo is in inventory
             return;
+        }
+
+        if(currentWeaponState == WeaponState.Reloading){
+            StopReloadAction();
         }
 
         float bloomAngle = currentWeaponState == WeaponState.Aiming ? fearPistolWeaponData.steadiedBloomAngle : fearPistolWeaponData.baseBloomAngle;
@@ -74,10 +83,15 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
         HandleGunShotImpact(firedRay, 0);
         FireRateCooldown();
         AttemptTriggerKickback();
+        UseWeaponResource();
     }
 
     public override void WeaponAltUseInput(object sender, InputEventArgs e){
-        if(currentWeaponState == WeaponState.Inspecting || currentWeaponState == WeaponState.Reloading) return;
+        if(currentWeaponState == WeaponState.Inspecting) return;
+
+        if(currentWeaponState == WeaponState.Reloading){
+            StopReloadAction();
+        }
 
         if(e.inputActionPhase == InputActionPhase.Performed){
             ChangeWeaponState(WeaponState.Aiming);
@@ -91,13 +105,27 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     }
     
     public override void ReloadInput(object sender, InputEventArgs e){
-        if(e.inputActionPhase != InputActionPhase.Performed || currentWeaponState == WeaponState.Reloading || fearPistolResourceData.IsFull()) return;
+        if (e.inputActionPhase != InputActionPhase.Performed || currentWeaponState == WeaponState.Reloading || fearPistolResourceData.IsFull()) return;
+        if (!playerInventory.HasItemInInventory(fearPistolResourceData.GetValidItemData())) return;
+
+        StartReloadAction();
+    }
+
+    private void StartReloadAction(){
         ChangeWeaponState(WeaponState.Reloading);
         reloadCoroutineContainer = WeaponHelper.StartNewWeaponCoroutine(this, fearPistolWeaponData.weaponReloadTimeInSeconds);
 
         reloadCoroutineContainer.OnCoroutineDisposed += ReloadActionFinished;
 
         OnReload?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void StopReloadAction(){
+        if(reloadCoroutineContainer != null){
+            ChangeWeaponState(WeaponState.Default);
+            reloadCoroutineContainer.OnCoroutineDisposed -= ReloadActionFinished;   
+            reloadCoroutineContainer = null;
+        }
     }
 
     public override void InspectInput(object sender, InputEventArgs e){
@@ -110,6 +138,12 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
         else if(e.inputActionPhase == InputActionPhase.Canceled){
             ChangeWeaponState(WeaponState.Default);
             OnInspectCanceled?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    public override void EvaulateInventoryStateChanged(object sender, PlayerInventoryHandler.InventoryStateChangedEventArgs e){
+        if(e.inventoryState != InventoryState.Closed && currentWeaponState == WeaponState.Reloading){
+            StopReloadAction();
         }
     }
 
@@ -153,6 +187,10 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
         }
     }
 
+    private void UseWeaponResource(){
+        fearPistolResourceData.RemoveItem();    
+    }
+
     private void HandleGunShotImpact(Ray ray, int rayBounceCounter){
         Debug.DrawRay(ray.origin, ray.direction, Color.white, 5f);
         FadeObject fadeObject;
@@ -193,13 +231,6 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
         spawnedDecal.StartFadeTime();
 
         return spawnedDecal;
-    }
-
-    private void TriggerTerrainImpactEvent(FadeObject decalObject, TerrainType terrainType){
-        AudioSource decalAudioSource = decalObject.GetFadeObjectAudioSource();
-        if(decalAudioSource != null){
-            OnTerrainImpacted?.Invoke(terrainType, decalAudioSource);
-        }   
     }
 
     private void BounceFearShot(RaycastHit hitInfo, Ray ray, int rayBounceCounter){
@@ -265,11 +296,13 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     }
 
     private void ReloadActionFinished(object sender, CoroutineContainer.CoroutineDisposedEventArgs e){
-        ChangeWeaponState(WeaponState.Default);
-        //TO-DO: Fill resource ammo here.
+        playerInventory.AttemptRemoveItemAmountFromInventory(fearPistolResourceData.GetValidItemData(), fearPistolResourceData.GetMissingStackCount(), out int amountRemoved);
 
-        reloadCoroutineContainer.OnCoroutineDisposed -= ReloadActionFinished;   
-        reloadCoroutineContainer = null;
+        if(amountRemoved > 0){
+            fearPistolResourceData.AddItemStack(amountRemoved);
+        }
+        
+        StopReloadAction();
     }
 
     private void OnDrawGizmos() {

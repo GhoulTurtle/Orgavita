@@ -173,6 +173,121 @@ public class PlayerInventorySO : ScriptableObject{
         OnEmergencyItemUnequipped?.Invoke(this, EventArgs.Empty);
     }
 
+    public void AttemptReloadEquippedItem(ResourceDataSO equippedItemResourceData){
+        ItemDataSO validResourceItemData = equippedItemResourceData.GetValidItemData();
+
+
+    }
+
+    public string AttemptItemCombination(InventoryItem initalComboItem, InventoryItem incomingItem, PlayerInventoryRecipeListSO playerInventoryRecipeListSO){
+        ComboResult newComboResult = new ComboResult();
+
+        ItemDataSO initalComboItemData = initalComboItem.GetHeldItem();
+        ItemDataSO incomingItemData = incomingItem.GetHeldItem();
+
+        if(initalComboItemData == incomingItemData && initalComboItem.IsFull() || 
+           initalComboItemData == incomingItemData && incomingItem.IsFull()){
+            return newComboResult.SetComboResult(ComboResultType.Invalid_Stack_Combo, null);
+        }
+    
+        if(initalComboItemData == incomingItemData && !initalComboItem.IsFull() && !incomingItem.IsFull()){
+            int remainingStack = AttemptToStackItems(incomingItem, initalComboItem);
+            if(remainingStack != 0){
+                initalComboItem.SetStack(remainingStack);
+            }
+            else{
+                initalComboItem.ClearItem();
+            }
+
+            return newComboResult.SetComboResult(ComboResultType.Valid_Stack_Combo, incomingItem);
+        }
+
+        //if initalcomboitem is a resource and the incoming item is a weapon then return either INVALIDWEAPONRESOURCECOMBO, VALIDWEAPONRESOUCECOMBO, or FULLWEAPON
+        if(initalComboItemData.GetItemType() == ItemType.Resource && incomingItemData.GetItemType() == ItemType.Weapon && incomingItemData is WeaponItemDataSO weaponItemDataSO){
+            ResourceDataSO weaponResourceData = weaponItemDataSO.GetEquippedItemBehaviour().GetEquippedItemResourceData();
+
+            return AttemptReloadResourceCombination(initalComboItem, incomingItem, weaponResourceData, newComboResult, true);
+        }
+
+        if(initalComboItemData.GetItemType() == ItemType.Weapon && incomingItemData.GetItemType() == ItemType.Resource && initalComboItemData is WeaponItemDataSO _weaponItemDataSO){
+            ResourceDataSO weaponResourceData = _weaponItemDataSO.GetEquippedItemBehaviour().GetEquippedItemResourceData();
+        
+            return AttemptReloadResourceCombination(incomingItem, initalComboItem, weaponResourceData, newComboResult, true);
+        }
+        
+        //if initalcomboitem is a resource and the incoming item is a emergency item then return either INVALIDTOOLRESOURCECOMBO, VALIDTOOLRESOUCECOMBO or FULLTOOL
+        if(initalComboItemData.GetItemType() == ItemType.Resource && incomingItemData.GetItemType() == ItemType.Emergency_Item && incomingItemData is EmergencyItemDataSO emergencyItemDataSO){
+            ResourceDataSO emergencyItemResourceData = emergencyItemDataSO.GetEquippedItemBehaviour().GetEquippedItemResourceData();
+            return AttemptReloadResourceCombination(initalComboItem, incomingItem, emergencyItemResourceData, newComboResult, false);
+        }
+
+        if(initalComboItemData.GetItemType() == ItemType.Emergency_Item && incomingItemData.GetItemType() == ItemType.Resource && initalComboItemData is EmergencyItemDataSO _emergencyItemDataSO){
+            ResourceDataSO emergencyItemResourceData = _emergencyItemDataSO.GetEquippedItemBehaviour().GetEquippedItemResourceData();
+            return AttemptReloadResourceCombination(incomingItem, initalComboItem, emergencyItemResourceData, newComboResult, false);
+        }
+
+        InventoryItem attemptedItemCombo = playerInventoryRecipeListSO.ReturnValidInventoryRecipeResult(initalComboItemData, incomingItemData);
+        if(attemptedItemCombo == null){
+            return newComboResult.SetComboResult(ComboResultType.Invalid_Combo, null);
+        }
+
+        if(attemptedItemCombo != null){
+            initalComboItem.RemoveFromStack(1);
+            incomingItem.RemoveFromStack(1);
+
+            int remainingItems = AttemptToAddItemToInventory(attemptedItemCombo.GetHeldItem(), attemptedItemCombo.GetCurrentStack());
+
+            if(remainingItems != 0){
+                //Add back the items into the inventory
+                AttemptToAddItemToInventory(initalComboItemData, 1);
+                AttemptToAddItemToInventory(incomingItemData, 1);
+
+                return newComboResult.SetComboResult(ComboResultType.Full_Inventory, attemptedItemCombo);
+            }
+
+            return newComboResult.SetComboResult(ComboResultType.Valid_Combo, attemptedItemCombo);
+        }
+
+        return "INVALID ITEM COMBINATION";
+    }
+
+    private string AttemptReloadResourceCombination(InventoryItem resourceInventoryItem, InventoryItem equipmentInventoryItem, ResourceDataSO resourceData, ComboResult comboResult, bool isWeapon){
+        ItemDataSO resourceItemData = resourceInventoryItem.GetHeldItem();
+        ComboResultType comboResultType;
+
+        if(resourceData == null){
+            return comboResult.SetComboResult(ComboResultType.Invalid_Combo, null);
+        }
+        
+        if(resourceData.GetValidItemData() != resourceItemData){
+            comboResultType = isWeapon ? ComboResultType.Invalid_Weapon_Resource_Combo : ComboResultType.Invalid_Emergency_Item_Resource_Combo;
+
+            return comboResult.SetComboResult(comboResultType, null);
+        }
+
+        if(resourceData.IsFull()){
+            comboResultType = isWeapon ? ComboResultType.Full_Weapon : ComboResultType.Full_Emergency_Item;
+
+            return  comboResult.SetComboResult(comboResultType, equipmentInventoryItem);
+        }
+
+        int missingResourceCount = resourceData.GetMissingStackCount();
+        int currentStackCount = resourceInventoryItem.GetCurrentStack();
+
+        if(missingResourceCount <= currentStackCount){
+            resourceData.AddItemStack(missingResourceCount);
+            resourceInventoryItem.RemoveFromStack(missingResourceCount);
+        }
+        else{
+            resourceData.AddItemStack(currentStackCount);
+            resourceInventoryItem.ClearItem();
+        }
+        
+        comboResultType = isWeapon ? ComboResultType.Valid_Weapon_Resource_Combo : ComboResultType.Valid_Emergency_Item_Resource_Combo;
+
+        return comboResult.SetComboResult(comboResultType, equipmentInventoryItem);
+    }
+
     public InventoryItem GetEquippedInventoryItem(){
         return equippedItem;
     }
@@ -189,6 +304,55 @@ public class PlayerInventorySO : ScriptableObject{
         return maxInventorySize;
     }
 
+    private void SwapInventoryItems(InventoryItem item1, InventoryItem item2){
+        if(item1.IsEmpty() && item2.IsEmpty()) return;
+
+        var item1Data = item1.GetHeldItem();
+        var item1Stack = item1.GetCurrentStack();
+
+        item1.SetItem(item2.GetHeldItem(), item2.GetCurrentStack());
+        item2.SetItem(item1Data, item1Stack);
+    }
+
+    public bool HasItemInInventory(ItemDataSO itemDataSO){
+        return inventory.FirstOrDefault(inventoryItem => inventoryItem.GetHeldItem() == itemDataSO) != null;
+    }
+
+    public bool AttemptRemoveItemAmountFromInventory(ItemDataSO itemToRemove, int amountToRemove, out int amountRemoved){
+        amountRemoved = 0;
+
+        List<InventoryItem> validInventoryItems = AttemptGetItemFromInventory(itemToRemove);
+
+        if(!validInventoryItems.Any()){
+            return false;
+        }
+
+        for (int i = 0; i < validInventoryItems.Count; i++){
+            int itemStackAmount = validInventoryItems[i].GetCurrentStack();
+
+            if(itemStackAmount >= amountToRemove){
+                validInventoryItems[i].RemoveFromStack(amountToRemove);
+                amountRemoved += amountToRemove;
+                return true;
+            }
+            else{
+                validInventoryItems[i].ClearItem();
+                amountToRemove -= itemStackAmount;
+                amountRemoved += itemStackAmount;
+            }
+        }
+
+        return true;
+    } 
+
+    public List<InventoryItem> AttemptGetItemFromInventory(ItemDataSO itemDataSO){
+        List<InventoryItem> correspondingInventoryItemList = new List<InventoryItem>();
+
+        correspondingInventoryItemList = inventory.Where(inventoryItem => inventoryItem.GetHeldItem() == itemDataSO).ToList();
+
+        return correspondingInventoryItemList;
+    }
+
     private List<InventoryItem> AddInventorySlots(int slotsToAdd){
         List<InventoryItem> newSlotsAdded = new List<InventoryItem>();
         for (int i = 0; i < slotsToAdd; i++){
@@ -198,16 +362,6 @@ public class PlayerInventorySO : ScriptableObject{
         }
 
         return newSlotsAdded;
-    }
-
-    private void SwapInventoryItems(InventoryItem item1, InventoryItem item2){
-        if(item1.IsEmpty() && item2.IsEmpty()) return;
-
-        var item1Data = item1.GetHeldItem();
-        var item1Stack = item1.GetCurrentStack();
-
-        item1.SetItem(item2.GetHeldItem(), item2.GetCurrentStack());
-        item2.SetItem(item1Data, item1Stack);
     }
 
     private List<InventoryItem> FindEmptyInventoryItems(){

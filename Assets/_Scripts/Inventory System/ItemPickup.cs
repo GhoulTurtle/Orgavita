@@ -1,10 +1,9 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ItemPickup : MonoBehaviour, IInteractable{
+public class ItemPickup : MonoBehaviour{
     [Header("Required References")]
     [SerializeField] private Transform itemVisualParent;
-    [SerializeField] private Collider itemPickupCollider;
     [SerializeField] private AudioSource itemPickupAudioSource;
 
     [Header("Item Pickup Variables")]
@@ -14,13 +13,17 @@ public class ItemPickup : MonoBehaviour, IInteractable{
     [Header("Events")]
     [SerializeField] private UnityEvent OnPickupEvent;
 
-    private Transform currentItemModel;
-
-    public string InteractionPrompt {get; private set;}
+    private ItemModel currentItemModel;
 
     private void Awake() {
         if(itemToPickup == null) return;
         SetupItemPickup();
+    }
+
+    private void OnDestroy() {
+        if(currentItemModel != null){
+            currentItemModel.OnModelInteracted -= PickupItem;
+        }
     }
 
     public void SetItemPickup(ItemDataSO _itemToPickup, int _itemPickupStackAmount){
@@ -28,11 +31,10 @@ public class ItemPickup : MonoBehaviour, IInteractable{
         itemPickupStackAmount = _itemPickupStackAmount;
 
         if(currentItemModel != null){
+            currentItemModel.OnModelInteracted -= PickupItem;
             Destroy(currentItemModel.gameObject);
             currentItemModel = null;
         }
-
-        itemPickupCollider.enabled = true;
 
         SetupItemPickup();
     }
@@ -52,44 +54,22 @@ public class ItemPickup : MonoBehaviour, IInteractable{
             if(currentItemModel != null){
                 Destroy(currentItemModel.gameObject);
             }
-            
-            itemPickupCollider.enabled = false;
-            return;
         }
 
         itemPickupStackAmount = itemRemainder;
         
-        UpdateInteractionText();
-    }
-
-    public bool Interact(PlayerInteract player){
-        if(player.TryGetComponent(out PlayerInventoryHandler playerInventoryHandler)){
-            PickupItem(playerInventoryHandler.GetInventory());
-            return true;
-        }
-
-        return false;
+        currentItemModel.UpdateInteractionText(itemToPickup.GetItemName(), itemPickupStackAmount);
     }
 
     private void SetupItemPickup(){
         if(itemPickupStackAmount <= 0) itemPickupStackAmount = 1;
 
-        var itemModel = itemToPickup.GetItemInWorldModel();
+        ItemModel itemModel = itemToPickup.GetItemInWorldModel();
 
         if(itemModel != null){
             currentItemModel = Instantiate(itemModel, itemVisualParent);
-        }
-
-        UpdateInteractionText();
-    }
-
-    private void UpdateInteractionText(){
-        if(itemToPickup != null){
-            if(itemPickupStackAmount > 1){
-                InteractionPrompt = "Pickup " + itemToPickup.GetItemName() + " X" + itemPickupStackAmount;
-                return;
-            }
-            InteractionPrompt = "Pickup " + itemToPickup.GetItemName();
+            currentItemModel.OnModelInteracted += PickupItem;
+            currentItemModel.UpdateInteractionText(itemToPickup.GetItemName(), itemPickupStackAmount);
         }
     }
 }

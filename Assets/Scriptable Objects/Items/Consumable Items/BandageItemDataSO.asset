@@ -22,12 +22,12 @@ MonoBehaviour:
   itemIcon: {fileID: 21300000, guid: 0f368b7f47e4f4c42bba4204232146ae, type: 3}
   itemInventoryModelPrefab: {fileID: 838094140992720538, guid: 1813b08786faaa9419ee807cb6de7fad,
     type: 3}
-  itemInWorldModelPrefab: {fileID: 1627293541488781710, guid: 06fb3986e54902447b74a9040d0d5c46,
+  itemInWorldModelPrefab: {fileID: -1889420442233833563, guid: 06fb3986e54902447b74a9040d0d5c46,
     type: 3}
   itemPickupAudioEvent: {fileID: 11400000, guid: e41344496362f2e40a825b535a443689,
     type: 2}
   itemUseAudioEvent: {fileID: 11400000, guid: 4d69b4ab6ae579d47ae4369faad3d90a, type: 2}
-  itemDiscardEvent: {fileID: 11400000, guid: 8d27222dc50c92b40874ec90de911ccf, type: 2}
+  itemDestoryAudioEvent: {fileID: 0}
   itemType: 1
   isUseable: 1
   isCombinable: 1

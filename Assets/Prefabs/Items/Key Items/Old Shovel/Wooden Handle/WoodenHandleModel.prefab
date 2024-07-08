@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 981351898867017104}
   - component: {fileID: 4193323832721844789}
   - component: {fileID: 2149723932729564927}
+  - component: {fileID: -8987581630779911820}
+  - component: {fileID: 2294838835560481446}
   m_Layer: 0
   m_Name: WoodenHandleModel
   m_TagString: Untagged
@@ -83,3 +85,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &-8987581630779911820
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492483313402904362}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -2888938754493850432, guid: d82d137a413570f40b9db67138465745, type: 3}
+--- !u!114 &2294838835560481446
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 492483313402904362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5482eb3f84116e04782b50bbba00b1f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

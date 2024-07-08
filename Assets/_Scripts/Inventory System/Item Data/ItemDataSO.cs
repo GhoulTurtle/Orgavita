@@ -14,7 +14,7 @@ public class ItemDataSO : ScriptableObject{
     [Header("Item Visual")]
     [SerializeField] private Sprite itemIcon;
     [SerializeField] private Transform itemInventoryModelPrefab;
-    [SerializeField] private Transform itemInWorldModelPrefab;
+    [SerializeField] private ItemModel itemInWorldModelPrefab;
 
     [Header("Item Audio")]
     [SerializeField] private AudioEvent itemPickupAudioEvent;
@@ -49,7 +49,7 @@ public class ItemDataSO : ScriptableObject{
         return itemInventoryModelPrefab;
     }
 
-    public Transform GetItemInWorldModel(){
+    public ItemModel GetItemInWorldModel(){
         return itemInWorldModelPrefab;
     }
 

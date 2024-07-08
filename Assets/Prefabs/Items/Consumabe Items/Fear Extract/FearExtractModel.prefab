@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 7913030072978864539}
   - component: {fileID: 6521037955139401278}
   - component: {fileID: 9050993015626957556}
+  - component: {fileID: 6897115050491537642}
+  - component: {fileID: 2644551453612738054}
   m_Layer: 0
   m_Name: FearExtractModel
   m_TagString: Untagged
@@ -83,3 +85,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &6897115050491537642
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7393620043857339169}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7858314171656813136, guid: 655b627fa9080b74b975005e4d99192f, type: 3}
+--- !u!114 &2644551453612738054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7393620043857339169}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5482eb3f84116e04782b50bbba00b1f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

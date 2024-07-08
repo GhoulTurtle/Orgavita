@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 1190376411499900004}
   - component: {fileID: 2822290902133482433}
   - component: {fileID: 58051837628733195}
+  - component: {fileID: 1750078024861421063}
+  - component: {fileID: 9073980407509504188}
   m_Layer: 0
   m_Name: IncompleteKeyModel
   m_TagString: Untagged
@@ -83,3 +85,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &1750078024861421063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003751805330454238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5482eb3f84116e04782b50bbba00b1f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!64 &9073980407509504188
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003751805330454238}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5779609233462970744, guid: bc9187e89c601a04380b62098fc559ee, type: 3}

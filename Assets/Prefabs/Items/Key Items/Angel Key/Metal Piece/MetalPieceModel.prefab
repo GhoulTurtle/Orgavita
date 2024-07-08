@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 4025877857988898424}
   - component: {fileID: 31825371389682141}
   - component: {fileID: 2852439137508005143}
+  - component: {fileID: -5688857729663176554}
+  - component: {fileID: 2904811672799073433}
   m_Layer: 0
   m_Name: MetalPieceModel
   m_TagString: Untagged
@@ -83,3 +85,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &-5688857729663176554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4365424243374666946}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5482eb3f84116e04782b50bbba00b1f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!64 &2904811672799073433
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4365424243374666946}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 6631843062484254541, guid: 482c81530dd695240b53d0ba96dc5c45, type: 3}

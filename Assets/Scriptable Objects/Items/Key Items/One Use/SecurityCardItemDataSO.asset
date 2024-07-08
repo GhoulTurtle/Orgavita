@@ -21,14 +21,15 @@ MonoBehaviour:
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 5483053912421150451, guid: 05ed4b427e707e742badf0702987c181,
     type: 3}
-  itemInWorldModelPrefab: {fileID: 2154072955071523052, guid: 87fe42d19833d9c409a8650c65c93d86,
+  itemInWorldModelPrefab: {fileID: 7089965958495150066, guid: 87fe42d19833d9c409a8650c65c93d86,
     type: 3}
+  itemPickupAudioEvent: {fileID: 0}
+  itemUseAudioEvent: {fileID: 0}
+  itemDestoryAudioEvent: {fileID: 0}
   itemType: 0
   isUseable: 1
   isCombinable: 0
   isStackable: 0
   isDestroyable: 0
   maxStackSize: 1
-  itemSuccessfullyUseMessage: 
   itemCannotUseMessage: I can't use this here...
-  itemFailedUseMessage: 

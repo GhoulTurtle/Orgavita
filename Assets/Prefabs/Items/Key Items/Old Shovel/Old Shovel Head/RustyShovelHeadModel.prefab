@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6596134388086926852}
   - component: {fileID: 7792906113961681313}
   - component: {fileID: 5458645991143445867}
+  - component: {fileID: 8294084289672306704}
+  - component: {fileID: 3894466043287250976}
   m_Layer: 0
   m_Name: RustyShovelHeadModel
   m_TagString: Untagged
@@ -31,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 90}
 --- !u!33 &7792906113961681313
 MeshFilter:
@@ -83,3 +85,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &8294084289672306704
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5819211382219388094}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6180055709775838507, guid: a05344f84fd32da45bd1571ef7830ac3, type: 3}
+--- !u!114 &3894466043287250976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5819211382219388094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5482eb3f84116e04782b50bbba00b1f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -33,7 +33,7 @@ public class Health : MonoBehaviour, IDamagable{
 	private float warningStatusCutoff;
 	private float criticalStatusCutoff;
 
-	private void Awake(){
+	private void Start(){
 		currentHealth = maxHealth;
 
 		SetStatusCutoff();

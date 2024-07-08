@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FearPistolResourceDataSO
   m_EditorClassIdentifier: 
   itemDataToHold: {fileID: 11400000, guid: 680516230306fb34db74c7418d0cb551, type: 2}
-  currentStack: 0
+  currentStack: 20
   maxStack: 20
   resetResourceStack: 1
   defaultStack: 20

@@ -3341,6 +3341,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7793910636908847108, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: m_AmplitudeGain
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: bobbingAmplitude
+      value: 0.002
+      objectReference: {fileID: 0}
+    - target: {fileID: 7793910637263857227, guid: 80a0578531470ab4498ceedf1d7a27bc,
+        type: 3}
+      propertyPath: runningBobbingAmplitude
+      value: 0.0050000004
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

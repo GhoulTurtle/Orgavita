@@ -52,7 +52,7 @@ public class Fear : MonoBehaviour{
 
     private IEnumerator currentFearBuildCoroutine;
 
-    private void Awake() {
+    private void Start() {
         currentFearCells = 0;
         fearTickWaitTimer = new WaitForSeconds(fearCellsPerTick);
         

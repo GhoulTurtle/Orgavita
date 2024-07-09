@@ -9613,7 +9613,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_NoiseProfile: {fileID: 11400000, guid: 46965f9cbaf525742a6da4c2172a99cd, type: 2}
   m_PivotOffset: {x: 0, y: 0, z: 0}
-  m_AmplitudeGain: 0.75
+  m_AmplitudeGain: 0.5
   m_FrequencyGain: 1
   mNoiseOffsets: {x: 350.5759, y: -59.19156, z: 446.28735}
 --- !u!1 &7793910636912983559
@@ -10386,11 +10386,11 @@ MonoBehaviour:
   tiltTime: 0.5
   runningTiltAmount: 2
   tiltAmount: 0.5
-  bobbingAmplitude: 0.004
+  bobbingAmplitude: 0.002
   bobbingFrequency: 9
   crouchingBobbingAmplitude: 0.001
   crouchingBobbingFrequency: 6.5
-  runningBobbingAmplitude: 0.008
+  runningBobbingAmplitude: 0.0050000004
   runningBobbingFrequency: 19
   aimingBobbingAmplitude: 0.001
   aimingBobbingFrquency: 7
@@ -10979,7 +10979,7 @@ MonoBehaviour:
   defaultChildBehaviourData:
     lockPos: {fileID: 7793910638301438292}
     keepOffset: 1
-    offsetPos: {x: 0.3, y: -0.23, z: 0.45}
+    offsetPos: {x: 0.4, y: -0.3, z: 0.38}
     offsetRotation: {x: 0, y: 0, z: 0}
     delayPosUpdate: 1
     followSpeed: 50

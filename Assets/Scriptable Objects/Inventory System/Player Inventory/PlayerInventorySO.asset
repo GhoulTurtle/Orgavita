@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxInventorySize: 6
   inventory:
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
+  - heldItemData: {fileID: 11400000, guid: 98aaed525d743354b874e8450030fadd, type: 2}
+    currentItemStackAmount: 1
+  - heldItemData: {fileID: 11400000, guid: 680516230306fb34db74c7418d0cb551, type: 2}
+    currentItemStackAmount: 30
+  - heldItemData: {fileID: 11400000, guid: 680516230306fb34db74c7418d0cb551, type: 2}
+    currentItemStackAmount: 15
   - heldItemData: {fileID: 11400000, guid: 98aaed525d743354b874e8450030fadd, type: 2}
     currentItemStackAmount: 1
   - heldItemData: {fileID: 0}
@@ -27,8 +27,8 @@ MonoBehaviour:
   - heldItemData: {fileID: 0}
     currentItemStackAmount: 0
   equippedItem:
-    heldItemData: {fileID: 11400000, guid: 98aaed525d743354b874e8450030fadd, type: 2}
-    currentItemStackAmount: 1
+    heldItemData: {fileID: 0}
+    currentItemStackAmount: 0
   emergencyItem:
     heldItemData: {fileID: 0}
     currentItemStackAmount: 0

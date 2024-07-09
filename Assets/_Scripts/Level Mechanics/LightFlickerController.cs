@@ -50,6 +50,14 @@ public class LightFlickerController : MonoBehaviour{
         StopFlickeringCoroutine();
     }
 
+    public void StartControlledLightFlicker(float timeToFlicker){
+        StopFlickeringCoroutine();
+
+        currentFlickeringCoroutine = ControlledLightFlickerCoroutine(timeToFlicker);
+
+        StartCoroutine(currentFlickeringCoroutine);
+    }
+
     private void StartFlickeringCoroutine(){
         if(isFlickering){
             currentFlickeringCoroutine = LightFlickerCoroutine();
@@ -62,6 +70,12 @@ public class LightFlickerController : MonoBehaviour{
             StopCoroutine(currentFlickeringCoroutine);
             currentFlickeringCoroutine = null;
         }
+    }
+
+    private IEnumerator ControlledLightFlickerCoroutine(float timeToFlicker){
+        lightToFlicker.enabled = true;
+        yield return new WaitForSeconds(timeToFlicker);
+        lightToFlicker.enabled = false;
     }
 
     private IEnumerator LightFlickerCoroutine(){

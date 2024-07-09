@@ -22,6 +22,8 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     [SerializeField] private UnityEvent OnEmptyGunTriggered;
     [SerializeField] private UnityEvent OnGunFired;
     [SerializeField] private UnityEvent OnGunAimed;
+    [SerializeField] private UnityEvent OnGunReloadedStarted;
+    [SerializeField] private UnityEvent OnGunReloadedStopped;
     [SerializeField] private UnityEvent OnGunInspected;
 
     [Header("Debugging")]
@@ -89,16 +91,16 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     public override void WeaponAltUseInput(object sender, InputEventArgs e){
         if(currentWeaponState == WeaponState.Inspecting) return;
 
-        if(currentWeaponState == WeaponState.Reloading){
-            StopReloadAction();
-        }
-
         if(e.inputActionPhase == InputActionPhase.Performed){
+            if(currentWeaponState == WeaponState.Reloading){
+                StopReloadAction();
+            }
+
             ChangeWeaponState(WeaponState.Aiming);
             OnWeaponAltUse?.Invoke(this, EventArgs.Empty);
             OnGunAimed?.Invoke();
         }
-        else if(e.inputActionPhase == InputActionPhase.Canceled){
+        else if(e.inputActionPhase == InputActionPhase.Canceled && currentWeaponState != WeaponState.Reloading){
             ChangeWeaponState(WeaponState.Default);
             OnWeaponAltCancel?.Invoke(this, EventArgs.Empty);
         }
@@ -117,6 +119,7 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
 
         reloadCoroutineContainer.OnCoroutineDisposed += ReloadActionFinished;
 
+        OnGunReloadedStarted?.Invoke();
         OnReload?.Invoke(this, EventArgs.Empty);
     }
 
@@ -125,6 +128,7 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
             ChangeWeaponState(WeaponState.Default);
             reloadCoroutineContainer.OnCoroutineDisposed -= ReloadActionFinished;   
             reloadCoroutineContainer = null;
+            OnGunReloadedStopped?.Invoke();
         }
     }
 

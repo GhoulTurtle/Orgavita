@@ -3271,6 +3271,18 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1892480668, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: defaultChildBehaviourData.offsetPos.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1892480668, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: defaultChildBehaviourData.offsetPos.y
+      value: -0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1892480668, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: defaultChildBehaviourData.offsetPos.z
+      value: 0.38
+      objectReference: {fileID: 0}
     - target: {fileID: 982711692833290873, guid: 80a0578531470ab4498ceedf1d7a27bc,
         type: 3}
       propertyPath: m_AnchorMax.x

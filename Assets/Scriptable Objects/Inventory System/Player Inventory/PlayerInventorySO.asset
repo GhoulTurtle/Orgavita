@@ -20,18 +20,17 @@ MonoBehaviour:
     currentItemStackAmount: 0
   - heldItemData: {fileID: 0}
     currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
+  - heldItemData: {fileID: 11400000, guid: 98aaed525d743354b874e8450030fadd, type: 2}
+    currentItemStackAmount: 1
   - heldItemData: {fileID: 0}
     currentItemStackAmount: 0
   - heldItemData: {fileID: 0}
     currentItemStackAmount: 0
   equippedItem:
-    heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
+    heldItemData: {fileID: 11400000, guid: 98aaed525d743354b874e8450030fadd, type: 2}
+    currentItemStackAmount: 1
   emergencyItem:
     heldItemData: {fileID: 0}
     currentItemStackAmount: 0
-  unlockedTools: []
   cleanInventoryOnPlay: 1
   defaultMaxInventory: 6

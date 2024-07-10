@@ -1,8 +1,8 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 
 public class FearPistolBehaviour : EquippedItemBehaviour{
     [Header("Required References")]
@@ -11,10 +11,16 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
     [SerializeField] private TerrainDataList validBounceableTerrainDataList;
     [SerializeField] private TerrainAudioDataList impactSoundTerrainAudioDataList;
     [SerializeField] private LayerMask validHitLayermask;
+
+    [Header("Bullet Casing Spawn Variables")]
+    [SerializeField] private Vector3 localBulletCasingSpawnPoint;
+    [SerializeField] private Vector3 localBulletCasingForceDir;
+    [SerializeField, MinMaxRange(0f, 300f)] private RangedFloat bulletCasingForceStrength;
     
     [Header("Visual References")]
     [SerializeField] private FadeObject fearPistolBulletDecalHole;
     [SerializeField] private FadeObject fearPistolBulletDecalDent;
+    [SerializeField] private RigidbodyDetail fearPistolBulletCasing;
 
     [Header("Pistol Behaviour Events")]
     [SerializeField] private UnityEvent<TerrainType, AudioSource> OnTerrainImpacted;
@@ -66,7 +72,9 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
             if (playerInventory.HasItemInInventory(fearPistolResourceData.GetValidItemData())){
                 StartReloadAction();
             }
-            OnEmptyGunTriggered?.Invoke();
+            else{
+                OnEmptyGunTriggered?.Invoke();
+            }
             return;
         }
 
@@ -82,6 +90,7 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
         OnWeaponUse?.Invoke(this, EventArgs.Empty);
         OnGunFired?.Invoke();
 
+        HandleBulletCasingSpawn();
         HandleGunShotImpact(firedRay, 0);
         FireRateCooldown();
         AttemptTriggerKickback();
@@ -211,7 +220,7 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
             TerrainType terrainType = terrain.GetTerrainType();
             if(rayBounceCounter < fearPistolWeaponData.maxBounceCount && validBounceableTerrainDataList.IsEnteredTerrainValid(terrainType)){
                 BounceFearShot(hitInfo, ray, rayBounceCounter);
-                //TO-DO: Play fear pistol bounce sfx, play spark vfx
+                //TO-DO: Play spark vfx
                 fadeObject = SpawnBulletDecal(fearPistolBulletDecalDent, hitInfo.point, hitInfo.normal);
 
                 OnBulletBounced?.Invoke(fadeObject.GetFadeObjectAudioSource());
@@ -224,6 +233,24 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
 
         fadeObject = SpawnBulletDecal(fearPistolBulletDecalHole, hitInfo.point, hitInfo.normal);
         OnTerrainImpacted?.Invoke(TerrainType.None, fadeObject.GetFadeObjectAudioSource());
+    }
+
+    private void HandleBulletCasingSpawn(){
+        //Update bullet casing spawn point to be relative to the parent object
+        Vector3 worldbulletCasingSpawnPoint = transform.TransformPoint(localBulletCasingSpawnPoint);
+        Vector3 worldbulletCasingForceDir = transform.TransformDirection(localBulletCasingForceDir);
+
+        float randomBulletCasingLaunchStrength = Random.Range(bulletCasingForceStrength.minValue, bulletCasingForceStrength.maxValue);
+
+        SpawnBulletCasing(fearPistolBulletCasing, worldbulletCasingSpawnPoint, worldbulletCasingForceDir, randomBulletCasingLaunchStrength);
+    }
+
+    private RigidbodyDetail SpawnBulletCasing(RigidbodyDetail casingPrefab, Vector3 spawnPoint, Vector3 forceDir, float forceStrength){
+        RigidbodyDetail spawnedCasing = Instantiate(casingPrefab, spawnPoint, transform.rotation);
+
+        spawnedCasing.ApplyImpulseForce(forceDir, forceStrength);
+
+        return spawnedCasing;
     }
 
     private FadeObject SpawnBulletDecal(FadeObject decalPrefab, Vector3 hitPoint, Vector3 hitNormal){
@@ -316,5 +343,9 @@ public class FearPistolBehaviour : EquippedItemBehaviour{
         float bloomAngle = currentWeaponState == WeaponState.Aiming ? fearPistolWeaponData.steadiedBloomAngle : fearPistolWeaponData.baseBloomAngle;
 
         GizmoShapes.DrawCone(cameraTransform.position, cameraTransform.forward, bloomAngle, gizmosLength, gizmosCircleSides);
+
+        Vector3 bulletCasingSpawnPos = transform.TransformPoint(localBulletCasingSpawnPoint);
+
+        Gizmos.DrawSphere(bulletCasingSpawnPos, 0.1f);
     }
 }

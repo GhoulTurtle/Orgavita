@@ -10,11 +10,10 @@ public class FadeObject : MonoBehaviour{
     [SerializeField] private AudioSource fadeObjectAudioSource;
 
     [Header("Fade Variables")]
-    [SerializeField, Range(0.1f, 180f)] private float minFadeTime;
-    [SerializeField, Range(0.1f, 180f)] private float maxFadeTime;
+    [SerializeField, MinMaxRange(0.1f, 600f)] private RangedFloat fadeTimeValues = new RangedFloat();
 
     public void StartFadeTime(){
-        var fadeTime = Random.Range(minFadeTime, maxFadeTime);
+        var fadeTime = Random.Range(fadeTimeValues.minValue, fadeTimeValues.maxValue);
         
         StartCoroutine(FadeCoroutine(fadeTime));
     }

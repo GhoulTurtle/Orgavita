@@ -11,5 +11,5 @@ using UnityEngine;
 public abstract class AudioEvent : ScriptableObject{
 	public abstract void Play(AudioSource source);
 
-	public abstract void PlayOneShot(AudioSource source, Vector3 position);
+	public abstract void PlayOneShot(AudioSource source);
 }

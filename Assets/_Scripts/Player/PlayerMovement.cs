@@ -156,7 +156,7 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
 	public void StopAiming(){
-		if(nextPlayerMovementState != PlayerMovementState.Crouching){
+		if(nextPlayerMovementState != PlayerMovementState.Crouching && currentUnCrouchJob == null){
 			movementSpeed = walkSpeed;
 		}
 

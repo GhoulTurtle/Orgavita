@@ -19,7 +19,8 @@ MonoBehaviour:
   itemInventoryModelPrefab: {fileID: 0}
   itemInWorldModelPrefab: {fileID: 3480012577463363884, guid: 2bfab4c0ceaf50b4ca8566785930de4e,
     type: 3}
-  itemPickupAudioEvent: {fileID: 0}
+  itemPickupAudioEvent: {fileID: 11400000, guid: 946a417146b63e841ab1c364eee2353b,
+    type: 2}
   itemUseAudioEvent: {fileID: 0}
   itemDestoryAudioEvent: {fileID: 0}
   itemType: 3

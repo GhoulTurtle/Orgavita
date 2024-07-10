@@ -21,7 +21,7 @@ public class TerrainAudioDataList : ScriptableObject{
     public void PlayAudioFromTerrain(TerrainType terrainType, AudioSource audioSource){
         AudioEvent audioEvent = GetAudioEventFromTerrainType(terrainType);
         if(audioEvent != null){
-            audioEvent.PlayOneShot(audioSource, audioSource.transform.position);
+            audioEvent.PlayOneShot(audioSource);
         }
     }
 }

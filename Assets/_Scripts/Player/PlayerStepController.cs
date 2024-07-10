@@ -22,6 +22,6 @@ public class PlayerStepController : MonoBehaviour{
         AudioEvent terrainStepAudioEvent = playerStepDataList.GetAudioEventFromTerrainType(e.terrainType);
         if(terrainStepAudioEvent == null) return;
 
-        terrainStepAudioEvent.PlayOneShot(playerStepAudioSource, transform.position);    
+        terrainStepAudioEvent.PlayOneShot(playerStepAudioSource);    
     }
 }

@@ -37,7 +37,7 @@ public class CompositeAudioEvent : AudioEvent{
 		}
 	}
 
-    public override void PlayOneShot(AudioSource source, Vector3 position){
+    public override void PlayOneShot(AudioSource source){
 		float totalWeight = 0;
 		for (int i = 0; i < Entries.Length; ++i)
 			totalWeight += Entries[i].Weight;
@@ -49,7 +49,7 @@ public class CompositeAudioEvent : AudioEvent{
 					continue;
 				}
 
-			Entries[i].Event.PlayOneShot(source, position);
+			Entries[i].Event.PlayOneShot(source);
 			return;
 		}
     }

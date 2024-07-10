@@ -33,7 +33,7 @@ Transform:
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &384178547084807827
 MeshFilter:
@@ -98,8 +98,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeObjectAudioSource: {fileID: -5653520721236791400}
-  minFadeTime: 30
-  maxFadeTime: 180
+  fadeTimeValues:
+    minValue: 31.83056
+    maxValue: 129.44429
 --- !u!82 &-5653520721236791400
 AudioSource:
   m_ObjectHideFlags: 0

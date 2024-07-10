@@ -17,6 +17,8 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
     private EquippedItemBehaviour currentEmergencyItemBehaviour;
     private EquippedItemBehaviour currentWeaponItemBehaviour;
 
+    private EquippedItemBehaviour previousActiveItem;
+
     private PlayerInventorySO playerInventorySO;
 
     public EventHandler<ItemBehaviourSpawnedEventArgs> OnEmergencyItemBehaviourSpawned;
@@ -48,6 +50,26 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
 
         playerInventorySO.OnWeaponItemEquipped -= WeaponItemEquipped;
         playerInventorySO.OnWeaponItemUnequipped -= WeaponItemUnequipped;
+    }
+
+    public void HolsterEquippedItems(){
+        if(currentWeaponItemBehaviour != null && currentWeaponItemBehaviour.GetCurrentItemState() == EquippableItemState.Active){
+            currentWeaponItemBehaviour.ChangeItemState(EquippableItemState.Holstered);
+            previousActiveItem = currentWeaponItemBehaviour;
+            return;
+        }
+
+        if(currentEmergencyItemBehaviour != null && currentEmergencyItemBehaviour.GetCurrentItemState() == EquippableItemState.Active){
+            currentEmergencyItemBehaviour.ChangeItemState(EquippableItemState.Holstered);
+            previousActiveItem = currentEmergencyItemBehaviour;
+        }
+    }
+
+    public void AttemptUnholsterPreviousActiveItem(){
+        if(previousActiveItem != null){
+            previousActiveItem.ChangeItemState(EquippableItemState.Active);
+            previousActiveItem = null;
+        }
     }
 
     private void EmergencyItemEquipped(object sender, PlayerInventorySO.EquippedItemEventArgs e){
@@ -82,6 +104,10 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
     }
 
     private void DestroyEquippedItem(EquippedItemBehaviour equippedItemBehaviour){
+        if(previousActiveItem == equippedItemBehaviour){
+            previousActiveItem = null;
+        }
+
         if(equippedItemBehaviour != null){
             equippedItemBehaviour.SaveData();
 
@@ -105,7 +131,7 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
     }
 
     private void AssignDefaultItemState(EquippedItemBehaviour equippedItemBehaviour){
-    switch (equippedItemBehaviour.GetPlayerItemState()){
+    switch (equippedItemBehaviour.GetDefaultItemState()){
             case EquippableItemState.None: Debug.LogError("Item: " + equippedItemBehaviour + " is marked as NONE on the time of spawning. This is incorrect. Did you forget to change the behaviour PlayerItemState?");
                 return;
             case EquippableItemState.Active: Debug.LogError("Item: " + equippedItemBehaviour + " is marked as ACTIVE on the time of spawning. This is incorrect. Did you forget to change the behaviour PlayerItemState?");

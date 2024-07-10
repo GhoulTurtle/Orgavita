@@ -15,6 +15,7 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
     public UnityEvent OnDialogueEnd;
 
     protected PlayerInputHandler playerInputHandler;
+    protected PlayerEquippedItemHandler playerEquippedItemHandler;
 
     protected TextBoxUI textBoxUI => TextBoxUI.Instance;
 
@@ -27,9 +28,21 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
     }
 
     public virtual bool Interact(PlayerInteract player){
-        if(player.TryGetComponent(out playerInputHandler)){
+        if(playerInputHandler == null){
+            player.TryGetComponent(out playerInputHandler);
+        }
+
+        if(playerInputHandler != null){
             playerInputHandler.OnCancelInput += CancelDialogue;
             playerInputHandler.OnAcceptInput += ContinueDialogue;
+        }
+
+        if(playerEquippedItemHandler == null){
+            player.TryGetComponent(out playerEquippedItemHandler);
+        }
+
+        if(playerEquippedItemHandler != null){
+            playerEquippedItemHandler.HolsterEquippedItems();
         }
 
         StartDialogue();
@@ -63,6 +76,10 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
             playerInputHandler.OnAcceptInput -= ContinueDialogue;
         }
 
+        if(playerEquippedItemHandler != null){
+            playerEquippedItemHandler.AttemptUnholsterPreviousActiveItem();
+        }
+
         textBoxUI.OnCurrentDialogueFinished -= (sender, e) => EndDialogue();
                 
         OnDialogueEnd?.Invoke();
@@ -84,6 +101,10 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
         if(playerInputHandler != null){
             playerInputHandler.OnCancelInput -= CancelDialogue;
             playerInputHandler.OnAcceptInput -= ContinueDialogue;
+        }
+
+        if(playerEquippedItemHandler != null){
+            playerEquippedItemHandler.AttemptUnholsterPreviousActiveItem();
         }
 
         textBoxUI.OnCurrentDialogueFinished -= (sender, e) => EndDialogue();

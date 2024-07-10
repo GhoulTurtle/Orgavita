@@ -10355,20 +10355,22 @@ MonoBehaviour:
   playerEquippedItemHandler: {fileID: 6977103743592686637}
   characterController: {fileID: 7793910637263857228}
   playerOrientation: {fileID: 7793910637258231495}
+  cameraTransform: {fileID: 7793910636926104191}
   groundCheckTransform: {fileID: 7793910636251140206}
   groundLayers:
     serializedVersion: 2
     m_Bits: 64
   walkSpeed: 4.5
-  crouchMovementSpeed: 2.2
-  runSpeed: 7
-  aimingSpeed: 3
+  crouchSpeed: 2.5
+  sprintSpeed: 6
+  aimingSpeed: 3.5
   sprintCooldown: 0.5
   crouchTimeInSeconds: 0.75
   crouchCooldown: 0.5
   crouchHeight: 1
   gravity: -9.31
   groundedRadius: 0.35
+  drawGizmos: 1
 --- !u!114 &7793910637263857227
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -216,11 +216,15 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         return defaultItemHolsterType;
     }
 
-    public EquippableItemState GetPlayerItemState(){
+    public EquippableItemState GetDefaultItemState(){
         return defaultItemState;      
     }
 
-    public WeaponState GetWeaponState(){
+    public EquippableItemState GetCurrentItemState(){
+        return currentItemState;
+    }
+
+    public WeaponState GetCurrentWeaponState(){
         return currentWeaponState;
     }
 

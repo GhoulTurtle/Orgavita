@@ -9,13 +9,14 @@ public class PlayerMovement : MonoBehaviour{
 	[SerializeField] private PlayerEquippedItemHandler playerEquippedItemHandler;
 	[SerializeField] private CharacterController characterController;
 	[SerializeField] private Transform playerOrientation;
+	[SerializeField] private Transform cameraTransform;
 	[SerializeField] private Transform groundCheckTransform;
 	[SerializeField] private LayerMask groundLayers;
 
 	[Header("Base Movement Variables")]
 	[SerializeField] private float walkSpeed;
-	[SerializeField] private float crouchMovementSpeed;
-	[SerializeField] private float runSpeed;
+	[SerializeField] private float crouchSpeed;
+	[SerializeField] private float sprintSpeed;
 	[SerializeField] private float aimingSpeed;
 	[SerializeField] private float sprintCooldown;
 
@@ -27,6 +28,9 @@ public class PlayerMovement : MonoBehaviour{
 	[Header("Gravity Variables")]
 	[SerializeField] private float gravity = -9.31f;
 	[SerializeField] private float groundedRadius = 0.5f;
+
+	[Header("Debug Variables")]
+	[SerializeField] private bool drawGizmos = false;
 
 	public EventHandler<PlayerMovementStateChangedEventArgs> OnPlayerMovementStateChanged;
 	public class PlayerMovementStateChangedEventArgs : EventArgs{
@@ -46,8 +50,7 @@ public class PlayerMovement : MonoBehaviour{
 
 	private const float validSprintAngle = 0.55f;
 	private const float terminalVelocity = -53f;
-	private const float crouchSnapDistance = 0.001f;
-	private const float uncrouchRayDistance = 1.5f;
+	private const float crouchSnapDistance = 0.1f;
 	
 	private float xInput;
 	private float yInput;
@@ -55,12 +58,10 @@ public class PlayerMovement : MonoBehaviour{
 	private float movementSpeed;
 	private float standingHeight;
 
-	private bool canSprint = true;
-	private bool canCrouch = true;
 	private bool grounded;
+	private bool isAiming = false;
 
 	private PlayerMovementState currentPlayerMovementState = PlayerMovementState.Walking;
-	private PlayerMovementState nextPlayerMovementState = PlayerMovementState.Walking;
 
 	private TerrainType currentTerrainType = TerrainType.None;
 
@@ -70,15 +71,12 @@ public class PlayerMovement : MonoBehaviour{
 	private Vector3 initialCameraPosition;
 	private Vector3 initialGroundCheckPosition;
 
-	private WaitForSeconds sprintCooldownTimer;
-	private WaitForSeconds crouchCooldownTimer;
-
-	private IEnumerator currentUnCrouchJob;
-	private IEnumerator currentCrouchJob;
+	private IEnumerator currentSprintCooldown;
+	private IEnumerator currentCrouchCooldown;
+	private IEnumerator currentStandingCheck;
+	private IEnumerator currentCrouchLerpAnimation;
 
 	private void Awake() {
-		sprintCooldownTimer = new WaitForSeconds(sprintCooldown);
-		crouchCooldownTimer = new WaitForSeconds(crouchCooldown);
 		if(playerEquippedItemHandler != null){
 			playerEquippedItemHandler.OnWeaponItemBehaviourSpawned += SubscribeToWeaponStateEvent;
 			playerEquippedItemHandler.OnWeaponItemBehaviourDespawned += UnsubscribeToWeaponStateEvent;
@@ -86,9 +84,10 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
     private void Start() {
-		movementSpeed = walkSpeed;
+		UpdateMoveSpeedOnCurrentMovementState();
+
 		standingHeight = characterController.height;
-		initialCameraPosition = playerOrientation.localPosition;
+		initialCameraPosition = cameraTransform.localPosition;
 		initialGroundCheckPosition = groundCheckTransform.localPosition;
 	}
 
@@ -108,20 +107,6 @@ public class PlayerMovement : MonoBehaviour{
         Move();
     }
 
-    private void Move(){
-        moveDirection = playerOrientation.forward * yInput + playerOrientation.right * xInput;
-		if(moveDirection == Vector3.zero){
-			OnPlayerMovementStopped?.Invoke(this, EventArgs.Empty);
-		}
-
-		if(playerMoveInput != previousMoveInput){
-			OnPlayerMovementDirectionChanged?.Invoke(this, new PlayerMovementDirectionChangedEventArgs(playerMoveInput));
-		}
-
-        characterController.Move(movementSpeed * Time.deltaTime * moveDirection.normalized + new Vector3(0, verticalVelocity, 0) * Time.deltaTime);
-		previousMoveInput = playerMoveInput;
-    }
-
     public void MoveInput(InputAction.CallbackContext context){
 		xInput = context.ReadValue<Vector2>().x;
 		yInput = context.ReadValue<Vector2>().y;
@@ -131,20 +116,71 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
 	public void SprintInput(InputAction.CallbackContext context){
-		if(currentPlayerMovementState == PlayerMovementState.Crouching || currentPlayerMovementState == PlayerMovementState.Aiming) return;
+		if(currentPlayerMovementState == PlayerMovementState.Crouching) return;
 
 		if(context.canceled){
-			movementSpeed = walkSpeed;
 			UpdatePlayerMovementState(PlayerMovementState.Walking);
 			return;
 		}
 
-		if(!canSprint) return;
+		if(currentSprintCooldown != null) return;
 
 		UpdatePlayerMovementState(PlayerMovementState.Sprinting);
 		
-		movementSpeed = runSpeed;
-		StartCoroutine(SprintCooldownCoroutine());
+		currentSprintCooldown = SprintCooldownCoroutine();
+		StartCoroutine(currentSprintCooldown);
+	}
+
+	public void CrouchInput(InputAction.CallbackContext context){
+		if(currentPlayerMovementState == PlayerMovementState.Sprinting) return;
+
+		var state = context.canceled ? PlayerMovementState.Walking : PlayerMovementState.Crouching;
+
+		if(state == PlayerMovementState.Crouching){
+			if(currentCrouchCooldown != null) return;
+			StartCrouch();
+		}
+		else{
+			StopCrouch();
+		}
+	}
+
+	private void StartCrouch(){
+		StopCrouchCoroutines();
+
+		currentCrouchLerpAnimation = CrouchLerpAnimationCoroutine(crouchHeight);
+		StartCoroutine(currentCrouchLerpAnimation);
+		UpdatePlayerMovementState(PlayerMovementState.Crouching);
+		
+		currentCrouchCooldown = CrouchCooldownCoroutine();
+		StartCoroutine(currentCrouchCooldown);
+	}
+
+	private void StopCrouch(){
+		StopCrouchCoroutines();
+
+		if(!CanStand()){
+			currentStandingCheck = ValidStandingCheckCoroutine();
+			StartCoroutine(currentStandingCheck);
+			return;
+		}
+
+		currentCrouchLerpAnimation = CrouchLerpAnimationCoroutine(standingHeight);
+		StartCoroutine(currentCrouchLerpAnimation);
+
+		UpdatePlayerMovementState(PlayerMovementState.Walking);
+	}
+
+	private void StopCrouchCoroutines(){
+		if(currentCrouchLerpAnimation != null){
+			StopCoroutine(currentCrouchLerpAnimation);
+			currentCrouchLerpAnimation = null;
+		} 
+			
+		if(currentStandingCheck != null){
+			StopCoroutine(currentStandingCheck);
+			currentStandingCheck = null;
+		}
 	}
 
 	public void StartAiming(){
@@ -152,86 +188,46 @@ public class PlayerMovement : MonoBehaviour{
 			movementSpeed = aimingSpeed;
 		}
 
-		UpdatePlayerMovementState(PlayerMovementState.Aiming);
+		isAiming = true;
 	}
 
 	public void StopAiming(){
-		if(nextPlayerMovementState != PlayerMovementState.Crouching && currentUnCrouchJob == null){
-			movementSpeed = walkSpeed;
-		}
+		isAiming = false;
 
-		UpdatePlayerMovementState(nextPlayerMovementState);
-	}
-
-	public void CrouchInput(InputAction.CallbackContext context){
-		if(currentPlayerMovementState == PlayerMovementState.Sprinting) return;
-
-		var heightTarget = context.canceled ? standingHeight : crouchHeight;
-		
-		var speed = heightTarget == standingHeight ? walkSpeed : crouchMovementSpeed;
-
-		if(speed == walkSpeed && currentPlayerMovementState == PlayerMovementState.Aiming){
-			speed = aimingSpeed;
-		}
-
-		var state = heightTarget == standingHeight ? PlayerMovementState.Walking : PlayerMovementState.Crouching;
-
-		nextPlayerMovementState = state;
-
-		//Attempting to crouch but crouch is on cooldown so return.
-		if(state == PlayerMovementState.Crouching && !canCrouch) return;
-
-		// Attempting to uncrouch but hit a ceiling, start a uncrouch job
-		if(state == PlayerMovementState.Walking && Physics.Raycast(transform.position, Vector3.up, uncrouchRayDistance)){
-			currentUnCrouchJob = UnCrouchJob();
-			StartCoroutine(currentUnCrouchJob);
-			return;
-		}
-
-		if(currentCrouchJob != null) StopCoroutine(currentCrouchJob);
-		if(currentUnCrouchJob != null) StopCoroutine(currentUnCrouchJob);
-		currentCrouchJob = CrouchJobCoroutine(heightTarget);
-		StartCoroutine(currentCrouchJob);
-		movementSpeed = speed;
-		
-		if(currentPlayerMovementState != PlayerMovementState.Aiming){
-			UpdatePlayerMovementState(state);
-		}
-
-		if(state == PlayerMovementState.Crouching) StartCoroutine(CrouchCooldownCoroutine());
-	}
-
-	public bool IsMoving(){
-		return moveDirection != Vector3.zero;
-	}
-
-	public TerrainType GetCurrentTerrainType(){
-		return currentTerrainType;
-	}
-
-	private void UpdatePlayerMovementState(PlayerMovementState state){
-		if(currentPlayerMovementState == state) return;
-
-		currentPlayerMovementState = state;
-
+		UpdateMoveSpeedOnCurrentMovementState();
 		OnPlayerMovementStateChanged?.Invoke(this, new PlayerMovementStateChangedEventArgs(currentPlayerMovementState));
 	}
 
-	private void CheckValidSprint(){
-		if(yInput < validSprintAngle) {
-			movementSpeed = walkSpeed;
-			UpdatePlayerMovementState(PlayerMovementState.Walking);
+	private void Move(){
+        moveDirection = playerOrientation.forward * yInput + playerOrientation.right * xInput;
+		if(moveDirection == Vector3.zero){
+			OnPlayerMovementStopped?.Invoke(this, EventArgs.Empty);
 		}
-	}
+
+		if(playerMoveInput != previousMoveInput){
+			OnPlayerMovementDirectionChanged?.Invoke(this, new PlayerMovementDirectionChangedEventArgs(playerMoveInput));
+		}
+
+        characterController.Move(movementSpeed * Time.deltaTime * moveDirection.normalized + Time.deltaTime * verticalVelocity * Vector3.up);
+		previousMoveInput = playerMoveInput;
+    }
 
 	private void GroundCheck(){
 		grounded = Physics.CheckSphere(groundCheckTransform.position, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore);
-		if(grounded && Physics.Raycast(groundCheckTransform.position, Vector3.down, out RaycastHit hitInfo, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore) && hitInfo.collider.TryGetComponent(out Terrain terrain)){
-			currentTerrainType = terrain.GetTerrainType();
-		}
-		else{
+		
+		if(!grounded){
 			currentTerrainType = TerrainType.None;
+			return;
 		}
+
+		if(!Physics.Raycast(groundCheckTransform.position, Vector3.down, out RaycastHit hitInfo, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore)) return;
+		
+		if(!hitInfo.collider.TryGetComponent(out Terrain terrain)){
+			currentTerrainType = TerrainType.None;
+			return;
+		}
+		
+		currentTerrainType = terrain.GetTerrainType();
 	}
 
 	private void Gravity(){
@@ -245,6 +241,53 @@ public class PlayerMovement : MonoBehaviour{
 		}
 	}
 
+	private void CheckValidSprint(){
+		if(yInput < validSprintAngle) {
+			UpdatePlayerMovementState(PlayerMovementState.Walking);
+		}
+	}
+
+	private void UpdatePlayerMovementState(PlayerMovementState state){
+		if(currentPlayerMovementState == state) return;
+		currentPlayerMovementState = state;
+
+		if(isAiming){
+			if(currentPlayerMovementState != PlayerMovementState.Crouching){
+				movementSpeed = aimingSpeed;
+			}
+			else{
+				movementSpeed = crouchSpeed;
+			}
+			return;
+		}
+		
+		UpdateMoveSpeedOnCurrentMovementState();
+		OnPlayerMovementStateChanged?.Invoke(this, new PlayerMovementStateChangedEventArgs(currentPlayerMovementState));
+    }
+
+	private void UpdateMoveSpeedOnCurrentMovementState(){
+		switch (currentPlayerMovementState){
+		case PlayerMovementState.Walking: 
+			movementSpeed = walkSpeed;
+			break;
+		case PlayerMovementState.Sprinting: 
+			movementSpeed = sprintSpeed;
+			break;
+		case PlayerMovementState.Crouching: 
+			movementSpeed = crouchSpeed;
+			break;
+        }
+	}
+
+    private void EvaulateCurrentWeaponState(object sender, EquippedItemBehaviour.WeaponStateChangedEventArgs e){
+		if(isAiming && e.weaponState != WeaponState.Aiming){
+			StopAiming();
+		}
+		else if(e.weaponState == WeaponState.Aiming){
+			StartAiming();
+		}
+    }
+
 	private void SubscribeToWeaponStateEvent(object sender, PlayerEquippedItemHandler.ItemBehaviourSpawnedEventArgs e){
 		e.equippedItemBehaviour.OnWeaponStateChanged += EvaulateCurrentWeaponState;
     }
@@ -253,64 +296,63 @@ public class PlayerMovement : MonoBehaviour{
 		e.equippedItemBehaviour.OnWeaponStateChanged -= EvaulateCurrentWeaponState;
 	}
 
-    private void EvaulateCurrentWeaponState(object sender, EquippedItemBehaviour.WeaponStateChangedEventArgs e){
-		if(currentPlayerMovementState == PlayerMovementState.Aiming && e.weaponState != WeaponState.Aiming){
-			StopAiming();
-		}
-		else if(e.weaponState == WeaponState.Aiming){
-			StartAiming();
-		}
-    }
-
-	private IEnumerator CrouchJobCoroutine(float desiredHeight){
+	private IEnumerator CrouchLerpAnimationCoroutine(float desiredHeight){
 		float current = 0;
 
 		while(Mathf.Abs(characterController.height - desiredHeight) > crouchSnapDistance){
 			characterController.height = Mathf.Lerp(characterController.height, desiredHeight, current / crouchTimeInSeconds);
 
-			current += Time.deltaTime;
-
 			var halfHeightDifference = new Vector3(0, (standingHeight - characterController.height) / 2, 0);
 			var newCameraPos = initialCameraPosition - halfHeightDifference;
 
-			playerOrientation.localPosition = newCameraPos;
+			cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, newCameraPos, current / crouchTimeInSeconds) ;
 
 			var newGroundCheckPos = initialGroundCheckPosition + halfHeightDifference;
 			groundCheckTransform.localPosition = newGroundCheckPos;
+
+			current += Time.deltaTime;
 			yield return null;
 		}
 
 		characterController.height = desiredHeight;
 	}
 
-	private IEnumerator UnCrouchJob(){
-		while(Physics.Raycast(transform.position, Vector3.up, uncrouchRayDistance)){
+	private IEnumerator ValidStandingCheckCoroutine(){
+		while(Physics.Raycast(transform.position, Vector3.up, standingHeight)){
 			yield return null;
 		}
 
-		currentCrouchJob = CrouchJobCoroutine(standingHeight);
-		StartCoroutine(currentCrouchJob);
+		currentCrouchLerpAnimation = CrouchLerpAnimationCoroutine(standingHeight);
+		StartCoroutine(currentCrouchLerpAnimation);
 		
-		if(currentPlayerMovementState != PlayerMovementState.Aiming){
-			movementSpeed = walkSpeed;
-			UpdatePlayerMovementState(PlayerMovementState.Walking);
-		}
+		UpdatePlayerMovementState(PlayerMovementState.Walking);
 	}
 
-
 	private IEnumerator CrouchCooldownCoroutine(){
-		canCrouch = false;
-		yield return crouchCooldownTimer;
-		canCrouch = true;
+		yield return new WaitForSeconds(crouchCooldown);
+		currentCrouchCooldown = null;
 	}
 
 	private IEnumerator SprintCooldownCoroutine(){
-		canSprint = false;
-		yield return sprintCooldownTimer;
-		canSprint = true;
+		yield return new WaitForSeconds(sprintCooldown);
+		currentSprintCooldown = null;
 	}
 
-	private void OnDrawGizmosSelected() {
+	public bool CanStand(){
+		return !Physics.Raycast(transform.position, Vector3.up, standingHeight);
+	}
+
+	public bool IsMoving(){
+		return moveDirection != Vector3.zero;
+	}
+
+	public TerrainType GetCurrentTerrainType(){
+		return currentTerrainType;
+	}
+
+		private void OnDrawGizmosSelected() {
+		if(!drawGizmos) return;
+
 		Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
 		Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
 
@@ -318,6 +360,6 @@ public class PlayerMovement : MonoBehaviour{
 		else Gizmos.color = transparentRed;
 
 		Gizmos.DrawSphere(groundCheckTransform.position, groundedRadius);
-		Gizmos.DrawRay(transform.position, Vector3.up * uncrouchRayDistance);
-	}	
+		Gizmos.DrawRay(transform.position, Vector3.up * standingHeight);
+	}
 }

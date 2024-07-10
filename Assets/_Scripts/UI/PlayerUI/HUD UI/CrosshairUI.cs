@@ -50,7 +50,7 @@ public class CrosshairUI : MonoBehaviour{
             CalculateCrosshair(equippedItemWeaponData.baseBloomAngle);
         }
 
-        UpdateCrosshairBasedOnEquippedItemState(equippedItemBehaviour.GetPlayerItemState());
+        UpdateCrosshairBasedOnEquippedItemState(equippedItemBehaviour.GetDefaultItemState());
     }
 
     private void WeaponDespawned(object sender, PlayerEquippedItemHandler.ItemBehaviourSpawnedEventArgs e){
@@ -104,7 +104,7 @@ public class CrosshairUI : MonoBehaviour{
     private void WeaponFiredCrosshairAnimation(){
         StopAllCoroutines();
 
-        float currentWeaponBloomAngle = equippedItemBehaviour.GetWeaponState() == WeaponState.Aiming ? equippedItemWeaponData.steadiedBloomAngle : equippedItemWeaponData.baseBloomAngle;
+        float currentWeaponBloomAngle = equippedItemBehaviour.GetCurrentWeaponState() == WeaponState.Aiming ? equippedItemWeaponData.steadiedBloomAngle : equippedItemWeaponData.baseBloomAngle;
 
         for (int i = 0; i < playerWeaponCrosshair.Count; i++){
             playerWeaponCrosshair[i].localPosition = Vector3.zero;

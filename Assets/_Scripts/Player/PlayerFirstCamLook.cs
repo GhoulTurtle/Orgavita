@@ -97,9 +97,7 @@ public class PlayerFirstCamLook : MonoBehaviour{
 			playerEquippedItemHandler.OnWeaponItemBehaviourDespawned -= WeaponDespawned;
 		}
 
-		if(equippedWeaponItemBehaviour != null){
-			equippedWeaponItemBehaviour.OnKickbackApplied -= ApplyCurrentWeaponKickback;
-		}
+		UnsubscribeFromEquippedWeaponEvents();
 	}
 
 	public void Update(){
@@ -144,7 +142,7 @@ public class PlayerFirstCamLook : MonoBehaviour{
 		pos.x += Mathf.Cos(Time.time * currentFrequency / 2) * currentAmplitude * 2;
 		
 		if ((pos.y > 0 && !isMovingUpwards) || (pos.y < 0 && isMovingUpwards)){
-            // Footstep sound should play at the peak
+            // Footstep sound should play at the peak of the sin wave
             if (lastSinValue < 0 && pos.y >= 0){
                 OnTerrainStep?.Invoke(this, new TerrainStepEventArgs(playerMovement.GetCurrentTerrainType()));
             }
@@ -170,69 +168,64 @@ public class PlayerFirstCamLook : MonoBehaviour{
     }
 
 	private void EvaluatePlayerMovementState(object sender, PlayerMovement.PlayerMovementStateChangedEventArgs e){
-		Vector3 tiltDirection;
-
-		float nextCameraFOV = 0;
-
         switch (e.playerMovementState){
             case PlayerMovementState.Sprinting:
-				nextCameraFOV = cameraDefaultFOV;
-
-                tiltDirection = currentMovementVectorNormalized * runningTiltAmount;
-
-                currentAmplitude = runningBobbingAmplitude;
-                currentFrequency = runningBobbingFrequency;
+				UpdateCameraAnimation(cameraDefaultFOV, runningTiltAmount, runningBobbingAmplitude, runningBobbingFrequency);
                 break;
             case PlayerMovementState.Walking:
-				nextCameraFOV = cameraDefaultFOV;
-
-				tiltDirection = currentMovementVectorNormalized * tiltAmount;
-
-				currentAmplitude = bobbingAmplitude;
-				currentFrequency = bobbingFrequency;
+				UpdateCameraAnimation(cameraDefaultFOV, tiltAmount, bobbingAmplitude, bobbingFrequency);
                 break;
             case PlayerMovementState.Crouching:
-				nextCameraFOV = cameraDefaultFOV;
-
-				tiltDirection = currentMovementVectorNormalized * tiltAmount;
-
-				currentAmplitude = crouchingBobbingAmplitude;
-				currentFrequency = crouchingBobbingFrequency;
-                break;
-			case PlayerMovementState.Aiming: 
-				nextCameraFOV = cameraAimFOV;
-
-				tiltDirection = currentMovementVectorNormalized * tiltAmount;
-				
-				currentAmplitude = aimingBobbingAmplitude;
-				currentFrequency = aimingBobbingFrquency; 
-				break;
-            default:
-                tiltDirection = currentMovementVectorNormalized * tiltAmount;
+				UpdateCameraAnimation(cameraDefaultFOV, tiltAmount, crouchingBobbingAmplitude, crouchingBobbingFrequency);
                 break;
         }
+    }
 
-		if(playerCameraVisualHandler.GetCameraFOV() != nextCameraFOV){
+	private void WeaponAimedIn(){
+		UpdateCameraAnimation(cameraAimFOV, tiltAmount, aimingBobbingAmplitude, aimingBobbingFrquency);		
+	}
+
+	private void UpdateCameraAnimation(float cameraFOV, float tiltAmount, float bobbingAmplitude, float bobbingFrequency){
+		currentAmplitude = bobbingAmplitude;
+		currentFrequency = bobbingFrequency;
+		
+		Vector3 tiltDirection;
+		
+		tiltDirection = currentMovementVectorNormalized * tiltAmount;
+		
+		if(playerCameraVisualHandler.GetCameraFOV() != cameraFOV){
 			StopFOVAnimationCoroutine();
-			currentCameraFOVAnimationCoroutine = playerCameraVisualHandler.CameraFOVAnimationCoroutine(nextCameraFOV, cameraFOVAnimationTime);
+			currentCameraFOVAnimationCoroutine = playerCameraVisualHandler.CameraFOVAnimationCoroutine(cameraFOV, cameraFOVAnimationTime);
 			StartCoroutine(currentCameraFOVAnimationCoroutine);
 		}
 
         currentTiltVector = new Vector3(tiltDirection.y, 0, -tiltDirection.x);
 		cameraTransform.DOLocalRotate(currentTiltVector, tiltTime);
-    }
+	}
 
     private void WeaponSpawned(object sender, PlayerEquippedItemHandler.ItemBehaviourSpawnedEventArgs e){
 		equippedWeaponItemBehaviour = e.equippedItemBehaviour;
 
+		equippedWeaponItemBehaviour.OnWeaponStateChanged += EvaulateWeaponState;
 		equippedWeaponItemBehaviour.OnKickbackApplied += ApplyCurrentWeaponKickback;
     }
 
     private void WeaponDespawned(object sender, PlayerEquippedItemHandler.ItemBehaviourSpawnedEventArgs e){
+		UnsubscribeFromEquippedWeaponEvents();
+    }
+
+	private void UnsubscribeFromEquippedWeaponEvents(){
 		if(equippedWeaponItemBehaviour != null){
 			equippedWeaponItemBehaviour.OnKickbackApplied -= ApplyCurrentWeaponKickback;
-			
+			equippedWeaponItemBehaviour.OnWeaponStateChanged -= EvaulateWeaponState;
+
 			equippedWeaponItemBehaviour = null;
+		}
+	}
+
+	private void EvaulateWeaponState(object sender, EquippedItemBehaviour.WeaponStateChangedEventArgs e){
+		if(e.weaponState == WeaponState.Aiming){
+			WeaponAimedIn();
 		}
     }
 

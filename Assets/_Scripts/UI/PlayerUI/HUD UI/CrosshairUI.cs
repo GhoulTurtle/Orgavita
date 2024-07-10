@@ -28,6 +28,13 @@ public class CrosshairUI : MonoBehaviour{
         StopAllCoroutines();
         playerEquippedItemHandler.OnWeaponItemBehaviourSpawned -= WeaponSpawned;
         playerEquippedItemHandler.OnWeaponItemBehaviourDespawned -= WeaponDespawned;
+
+        if(equippedItemBehaviour != null){
+            equippedItemBehaviour.OnWeaponUse -= OnWeaponFired;
+            equippedItemBehaviour.OnWeaponAltUse -= OnWeaponAimed;
+            equippedItemBehaviour.OnWeaponAltCancel -= OnStopWeaponAimed;
+            equippedItemBehaviour.OnEquippedItemStateChanged -= EvaulateEquippedStateChanged; 
+        }
     }
 
     private void WeaponSpawned(object sender, PlayerEquippedItemHandler.ItemBehaviourSpawnedEventArgs e){
@@ -37,15 +44,13 @@ public class CrosshairUI : MonoBehaviour{
         equippedItemBehaviour.OnWeaponUse += OnWeaponFired;
         equippedItemBehaviour.OnWeaponAltUse += OnWeaponAimed;
         equippedItemBehaviour.OnWeaponAltCancel += OnStopWeaponAimed;
-
-        playerDotCrosshair.SetActive(false);
-        foreach (RectTransform crosshairGameobject in playerWeaponCrosshair){
-            crosshairGameobject.gameObject.SetActive(true);
-        }
+        equippedItemBehaviour.OnEquippedItemStateChanged += EvaulateEquippedStateChanged; 
 
         if(equippedItemWeaponData != null){
             CalculateCrosshair(equippedItemWeaponData.baseBloomAngle);
         }
+
+        UpdateCrosshairBasedOnEquippedItemState(equippedItemBehaviour.GetPlayerItemState());
     }
 
     private void WeaponDespawned(object sender, PlayerEquippedItemHandler.ItemBehaviourSpawnedEventArgs e){
@@ -53,15 +58,31 @@ public class CrosshairUI : MonoBehaviour{
             equippedItemBehaviour.OnWeaponUse -= OnWeaponFired;
             equippedItemBehaviour.OnWeaponAltUse -= OnWeaponAimed;
             equippedItemBehaviour.OnWeaponAltCancel -= OnStopWeaponAimed;
+            equippedItemBehaviour.OnEquippedItemStateChanged -= EvaulateEquippedStateChanged; 
 
             equippedItemBehaviour = null;
-            playerDotCrosshair.SetActive(true);
-            foreach (RectTransform crosshairGameobject in playerWeaponCrosshair){
-                crosshairGameobject.gameObject.SetActive(false);
-            }
         } 
 
         equippedItemWeaponData = null;
+    }
+
+    private void UpdateCrosshairBasedOnEquippedItemState(EquippableItemState itemState){
+        switch (itemState){
+            case EquippableItemState.None:
+                break;
+            case EquippableItemState.Active: TurnOnCrossCrosshair();
+                break;
+            case EquippableItemState.Holstered: TurnOnDotCrosshair();
+                break;
+            case EquippableItemState.Used: TurnOnDotCrosshair();
+                break;
+            case EquippableItemState.Passive: TurnOnDotCrosshair();
+                break;
+        }
+    }
+
+    private void EvaulateEquippedStateChanged(object sender, EquippedItemBehaviour.EquippedItemStateChangedEventArgs e){
+        UpdateCrosshairBasedOnEquippedItemState(e.state);
     }
 
     public void OnWeaponFired(object sender, EventArgs e){
@@ -103,6 +124,20 @@ public class CrosshairUI : MonoBehaviour{
                 default:
                 break;
             }
+        }
+    }
+
+    private void TurnOnDotCrosshair(){
+        playerDotCrosshair.SetActive(true);
+        foreach (RectTransform crosshairGameobject in playerWeaponCrosshair){
+            crosshairGameobject.gameObject.SetActive(false);
+        }
+    }
+
+    private void TurnOnCrossCrosshair(){
+        playerDotCrosshair.SetActive(false);
+        foreach (RectTransform crosshairGameobject in playerWeaponCrosshair){
+            crosshairGameobject.gameObject.SetActive(true);
         }
     }
 

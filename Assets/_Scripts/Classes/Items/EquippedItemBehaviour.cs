@@ -26,6 +26,14 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         }
     }
 
+    public EventHandler<EquippedItemStateChangedEventArgs> OnEquippedItemStateChanged;
+    public class EquippedItemStateChangedEventArgs : EventArgs{
+        public EquippableItemState state;
+        public EquippedItemStateChangedEventArgs(EquippableItemState _state){
+            state = _state;
+        }
+    }
+
     public EventHandler OnWeaponUse;
     public EventHandler OnWeaponAltUse;
     public EventHandler OnWeaponAltCancel;
@@ -42,6 +50,7 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
             kickbackAmount = _kickbackAmount;
         }
     }
+
 
     protected EquippableItemState currentItemState;
     protected EquippableItemHolsterType currentHolsterType;
@@ -171,6 +180,7 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
                 break;
         }
 
+        OnEquippedItemStateChanged?.Invoke(this, new EquippedItemStateChangedEventArgs(currentItemState));
         UpdateControlOnItemStateChange();
     }
 

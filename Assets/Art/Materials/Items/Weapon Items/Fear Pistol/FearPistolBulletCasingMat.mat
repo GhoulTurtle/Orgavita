@@ -16,7 +16,6 @@ Material:
   - _FOG_ON
   - _LIGHTING_BAKED_ON
   - _LIGHTING_DYNAMIC_ON
-  - _REFLECTION_ON
   - _SHADING_EVALUATION_MODE_PER_VERTEX
   - _TEXTURE_FILTER_MODE_TEXTURE_IMPORT_SETTINGS
   m_InvalidKeywords: []
@@ -44,7 +43,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectionTexture:
-        m_Texture: {fileID: 2800000, guid: d5b72eb3bdf6a4c4a98b82d823cb02a1, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
@@ -68,7 +67,7 @@ Material:
     - _PrecisionColorOverrideMode: 0
     - _PrecisionGeometryOverrideMode: 0
     - _PrecisionGeometryWeight: 1
-    - _Reflection: 1
+    - _Reflection: 0
     - _ReflectionBlendMode: 0
     - _ReflectionDirectionMode: 0
     - _RenderQueueCategory: 0
@@ -88,7 +87,7 @@ Material:
     - _MainColor: {r: 1, g: 1, b: 1, a: 1}
     - _PrecisionColorOverrideParameters: {r: 0, g: 0, b: 0, a: 0}
     - _PrecisionGeometryOverrideParameters: {r: 0, g: 0, b: 0, a: 0}
-    - _ReflectionColor: {r: 0.6275859, g: 0, b: 1, a: 1}
+    - _ReflectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _UVAnimationParameters: {r: 1, g: 1, b: 0, a: 0}
     - _UVAnimationParametersFrameLimit: {r: 0, g: 60, b: 0, a: 0}
   m_BuildTextureStacks: []

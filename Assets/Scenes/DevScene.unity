@@ -3538,21 +3538,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7793910636912983557, guid: 80a0578531470ab4498ceedf1d7a27bc,
-        type: 3}
-      propertyPath: m_Lens.FieldOfView
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 7793910638301438295, guid: 80a0578531470ab4498ceedf1d7a27bc,
-        type: 3}
-      propertyPath: field of view
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 7793910638301438295, guid: 80a0578531470ab4498ceedf1d7a27bc,
-        type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 3455
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

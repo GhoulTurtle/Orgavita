@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ShotgunWeaponDataSO
   m_EditorClassIdentifier: 
   weaponFireRateInSeconds: 0.8
-  weaponReloadTimeInSeconds: 0.75
+  weaponReloadTimeInSeconds: 1
   weaponAttackDamage: 3
   baseBloomAngle: 12
   steadiedBloomAngle: 4

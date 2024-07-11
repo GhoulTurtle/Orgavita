@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba00ede18d5e4fe47ad3809f5bad1750, type: 3}
-  m_Name: FearPistolAimedAudioEvent
+  m_Name: ShotgunLoadShellAudioEvent
   m_EditorClassIdentifier: 
   clips:
-  - {fileID: 8300000, guid: 3c96fa0d7f97cb0479e9774ed9d0f376, type: 3}
+  - {fileID: 8300000, guid: 7111cc23227c4df4d80ec765864aeaef, type: 3}
   volume:
-    minValue: 0.22482893
-    maxValue: 0.28347996
+    minValue: 0.5799934
+    maxValue: 0.64516133
   pitch:
-    minValue: 0.90518063
-    maxValue: 0.989899
+    minValue: 0.8862822
+    maxValue: 1.075269

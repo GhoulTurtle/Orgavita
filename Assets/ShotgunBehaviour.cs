@@ -7,7 +7,6 @@ public class ShotgunBehaviour : GunWeaponEquippedItemBehaviour{
     private ShotgunWeaponDataSO shotgunWeaponDataSO;
 
     public UnityEvent OnShellReloaded;
-    public UnityEvent OnReloadCompleted;
 
     public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler, PlayerInventoryHandler _playerInventoryHandler){
         base.SetupItemBehaviour(_inventoryItem, _playerInputHandler, _playerInventoryHandler);
@@ -69,6 +68,11 @@ public class ShotgunBehaviour : GunWeaponEquippedItemBehaviour{
     }
 
     protected override void ReloadActionFinished(object sender, CoroutineContainer.CoroutineDisposedEventArgs e){
+        if(weaponResourceData.IsFull()){
+            StopReloadAction();
+            return;
+        }
+
         playerInventory.AttemptRemoveItemAmountFromInventory(weaponResourceData.GetValidItemData(), 1, out int amountRemoved);
 
         if(amountRemoved > 0){
@@ -76,13 +80,6 @@ public class ShotgunBehaviour : GunWeaponEquippedItemBehaviour{
             OnShellReloaded?.Invoke();
         }
         else{
-            OnReloadCompleted?.Invoke();
-            StopReloadAction();
-            return;
-        }
-
-        if(weaponResourceData.IsFull()){
-            OnReloadCompleted?.Invoke();
             StopReloadAction();
             return;
         }

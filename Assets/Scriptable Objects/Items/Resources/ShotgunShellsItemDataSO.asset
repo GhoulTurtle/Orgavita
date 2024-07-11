@@ -20,13 +20,14 @@ MonoBehaviour:
     for clearing out groups of enemies or dealing massive damage to tougher foes.
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 0}
-  itemInWorldModelPrefab: {fileID: 0}
+  itemInWorldModelPrefab: {fileID: 5771749425091677146, guid: 732e3a44fc622bb47b6c15e9e8884488,
+    type: 3}
   itemPickupAudioEvent: {fileID: 0}
   itemUseAudioEvent: {fileID: 0}
-  itemDestoryEvent: {fileID: 0}
+  itemDestoryAudioEvent: {fileID: 0}
   itemType: 2
   isUseable: 0
   isCombinable: 1
   isStackable: 1
   isDestroyable: 1
-  maxStackSize: 15
+  maxStackSize: 12

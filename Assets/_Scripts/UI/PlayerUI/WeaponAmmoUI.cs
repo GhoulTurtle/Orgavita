@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -18,24 +17,24 @@ public class WeaponAmmoUI : MonoBehaviour{
     private void Awake() {
         if(weaponResourceData != null){
             weaponResourceData.OnMaxStackUpdated += UpdateWeaponAmmoUI;
-            weaponResourceData.OnResourceUpdated += (amount) => UpdateWeaponAmmoUI();
+            weaponResourceData.OnResourceUpdated += UpdateWeaponAmmoUI;
         }
     }
 
     private void Start() {
         if(weaponResourceData != null){
-            UpdateWeaponAmmoUI();
+            UpdateWeaponAmmoUI(0);
         }
     }
 
     private void OnDestroy() {
         if(weaponResourceData != null){
             weaponResourceData.OnMaxStackUpdated -= UpdateWeaponAmmoUI;
-            weaponResourceData.OnResourceUpdated -= (amount) => UpdateWeaponAmmoUI();
+            weaponResourceData.OnResourceUpdated -= UpdateWeaponAmmoUI;
         }
     }
 
-    private void UpdateWeaponAmmoUI(){
+    private void UpdateWeaponAmmoUI(int amount){
         ammoCountText.text = weaponResourceData.GetCurrentStackCount() + "/" + weaponResourceData.GetMaxStackCount();
 
         float sliderValue = (float)weaponResourceData.GetCurrentStackCount() / weaponResourceData.GetMaxStackCount();

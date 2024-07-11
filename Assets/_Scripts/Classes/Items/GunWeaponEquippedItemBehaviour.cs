@@ -1,0 +1,268 @@
+using System;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
+
+public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
+    [Header("Required References")]
+    [SerializeField] protected ResourceDataSO weaponResourceData;
+    [SerializeField] protected WeaponDataSO weaponData; 
+    [SerializeField] protected TerrainAudioDataList impactSoundTerrainAudioDataList;
+    [SerializeField] protected LayerMask validHitLayermask;
+
+    [Header("Bullet Casing Spawn Variables")]
+    [SerializeField] private Vector3 localBulletCasingSpawnPoint;
+    [SerializeField] private Vector3 localBulletCasingForceDir;
+    [SerializeField, MinMaxRange(0f, 300f)] private RangedFloat bulletCasingForceStrength;
+
+    [Header("Visual References")]
+    [SerializeField] protected FadeObject weaponBulletDecalHole;
+    [SerializeField] protected RigidbodyDetail fearPistolBulletCasing;
+
+    [Header("Debugging")]
+    [SerializeField] private bool showGizmos = true;
+    [SerializeField] private Color gizmosColor = Color.green;
+    [SerializeField, Range(0.5f, 3f)] private float gizmosLength = 1f;
+    [SerializeField, Range(3, 100f)] private int gizmosCircleSides = 36;
+
+    [Header("Weapon Unity Events")]
+    [SerializeField] protected UnityEvent<TerrainType, AudioSource> OnTerrainImpacted;  
+    [SerializeField] protected UnityEvent OnEmptyGunTriggered;
+    [SerializeField] protected UnityEvent OnGunFired;
+    [SerializeField] protected UnityEvent OnGunAltFire;
+    [SerializeField] protected UnityEvent OnGunReloadedStarted;
+    [SerializeField] protected UnityEvent OnGunReloadedStopped;
+    [SerializeField] protected UnityEvent OnGunInspected;  
+
+    protected CoroutineContainer kickbackCoroutineContainer;
+    protected CoroutineContainer fireRateCoroutineContainer;
+    protected CoroutineContainer reloadCoroutineContainer;
+
+    private int kickbackCounter;
+
+    public override void SaveData(){
+        DisposeCoroutineContainers();
+        playerInputHandler.OnHolsterWeapon -= HolsterWeaponInput;
+    }
+
+    public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler, PlayerInventoryHandler _playerInventoryHandler){
+        base.SetupItemBehaviour(_inventoryItem, _playerInputHandler, _playerInventoryHandler);
+        playerInputHandler.OnHolsterWeapon += HolsterWeaponInput;
+        playerInventoryHandler.OnInventoryStateChanged += EvaulateInventoryStateChanged;
+    }
+
+    public override void HolsterWeaponInput(object sender, InputEventArgs e){
+        DisposeCoroutineContainers();
+
+        base.HolsterWeaponInput(sender, e);
+    }
+    
+    public override void EvaulateInventoryStateChanged(object sender, PlayerInventoryHandler.InventoryStateChangedEventArgs e){
+        if(e.inventoryState != InventoryState.Closed && currentWeaponState == WeaponState.Reloading){
+            StopReloadAction();
+        }
+    }
+
+    public override ResourceDataSO GetEquippedItemResourceData(){
+        return weaponResourceData;
+    }
+
+    public override WeaponDataSO GetEquippedWeaponData(){
+        return weaponData;
+    }
+
+    protected void AimGun(InputActionPhase inputActionPhase){
+        if(currentWeaponState == WeaponState.Inspecting) return;
+
+        if(inputActionPhase == InputActionPhase.Performed){
+            if(currentWeaponState == WeaponState.Reloading){
+                StopReloadAction();
+            }
+
+            ChangeWeaponState(WeaponState.Aiming);
+            OnWeaponAltUse?.Invoke(this, EventArgs.Empty);
+            OnGunAltFire?.Invoke();
+        }
+        else if(inputActionPhase == InputActionPhase.Canceled && currentWeaponState != WeaponState.Reloading){
+            ChangeWeaponState(WeaponState.Default);
+            OnWeaponAltCancel?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    protected void InspectGun(InputActionPhase inputActionPhase){
+        if(currentWeaponState == WeaponState.Reloading) return;
+        if(inputActionPhase == InputActionPhase.Performed){
+            ChangeWeaponState(WeaponState.Inspecting);
+            OnInspectUse?.Invoke(this, EventArgs.Empty);
+            OnGunInspected?.Invoke();
+        }
+        else if(inputActionPhase == InputActionPhase.Canceled){
+            ChangeWeaponState(WeaponState.Default);
+            OnInspectCanceled?.Invoke(this, EventArgs.Empty);
+        }
+    }
+
+    protected void FireRateCooldown(){
+        fireRateCoroutineContainer = WeaponHelper.StartNewWeaponCoroutine(this, weaponData.weaponFireRateInSeconds);
+        fireRateCoroutineContainer.OnCoroutineDisposed += FireRateCooldownFinished;
+    }
+
+    protected void FireRateCooldownFinished(object sender, CoroutineContainer.CoroutineDisposedEventArgs e){
+        fireRateCoroutineContainer.OnCoroutineDisposed -= FireRateCooldownFinished;
+        fireRateCoroutineContainer = null;
+    }
+
+    protected void TriggerKickback(){
+        OnKickbackApplied?.Invoke(this, new KickbackAppliedEventArgs(weaponData.kickBackAmount));
+    }
+
+    protected virtual void StartReloadAction(){
+        ChangeWeaponState(WeaponState.Reloading);
+        
+        reloadCoroutineContainer = WeaponHelper.StartNewWeaponCoroutine(this, weaponData.weaponReloadTimeInSeconds);
+        reloadCoroutineContainer.OnCoroutineDisposed += ReloadActionFinished;
+
+        OnGunReloadedStarted?.Invoke();
+        OnReload?.Invoke(this, EventArgs.Empty);
+    }
+
+    protected void StopReloadAction(){
+        if(reloadCoroutineContainer != null){
+            ChangeWeaponState(WeaponState.Default);
+            reloadCoroutineContainer.OnCoroutineDisposed -= ReloadActionFinished;   
+            reloadCoroutineContainer = null;
+            OnGunReloadedStopped?.Invoke();
+        }
+    }
+
+    protected virtual void ReloadActionFinished(object sender, CoroutineContainer.CoroutineDisposedEventArgs e){
+        playerInventory.AttemptRemoveItemAmountFromInventory(weaponResourceData.GetValidItemData(), weaponResourceData.GetMissingStackCount(), out int amountRemoved);
+
+        if(amountRemoved > 0){
+            weaponResourceData.AddItemStack(amountRemoved);
+        }
+        
+        StopReloadAction();
+    }
+
+    protected void AttemptTriggerKickback(){
+        if(weaponData.minKickBackShotAmount == 0) return;
+
+        kickbackCounter++;
+
+        if(kickbackCounter >= weaponData.minKickBackShotAmount){
+            TriggerKickback();
+        }
+
+        if(kickbackCoroutineContainer != null){
+            RemoveKickbackTimer();
+        }
+
+        CreateKickbackTimer();
+    }
+
+    protected void RemoveKickbackTimer(){
+        kickbackCoroutineContainer.TryStopCoroutine();
+        kickbackCoroutineContainer.OnCoroutineDisposed -= KickbackWindowClosed;
+        kickbackCoroutineContainer = null;
+    }
+
+    protected void CreateKickbackTimer(){
+        kickbackCoroutineContainer = WeaponHelper.StartNewWeaponCoroutine(this, weaponData.kickBackWindowInSeconds);
+        kickbackCoroutineContainer.OnCoroutineDisposed += KickbackWindowClosed;
+    }
+
+    protected void KickbackWindowClosed(object sender, CoroutineContainer.CoroutineDisposedEventArgs e){
+        kickbackCounter = 0;
+        kickbackCoroutineContainer.OnCoroutineDisposed -= KickbackWindowClosed;
+        kickbackCoroutineContainer = null;
+    }
+
+    protected override void DisposeCoroutineContainers(){
+        if(fireRateCoroutineContainer != null){
+            fireRateCoroutineContainer.OnCoroutineDisposed -= FireRateCooldownFinished;
+            fireRateCoroutineContainer = null;
+        }
+
+        if(kickbackCoroutineContainer != null){
+            kickbackCoroutineContainer.OnCoroutineDisposed -= KickbackWindowClosed;
+            kickbackCoroutineContainer = null;
+        }
+
+        if(reloadCoroutineContainer != null){
+            ChangeWeaponState(WeaponState.Default);
+            reloadCoroutineContainer.OnCoroutineDisposed -= ReloadActionFinished;   
+            reloadCoroutineContainer = null;
+        }
+    }
+
+    protected void UseWeaponResource(){
+        weaponResourceData.RemoveItem();    
+    }
+
+    protected void SpawnBulletCasing(){
+        //Update bullet casing spawn point to be relative to the parent object
+        Vector3 worldbulletCasingSpawnPoint = transform.TransformPoint(localBulletCasingSpawnPoint);
+        Vector3 worldbulletCasingForceDir = transform.TransformDirection(localBulletCasingForceDir);
+
+        float randomBulletCasingLaunchStrength = Random.Range(bulletCasingForceStrength.minValue, bulletCasingForceStrength.maxValue);
+
+        CreateNewBulletCasing(fearPistolBulletCasing, worldbulletCasingSpawnPoint, worldbulletCasingForceDir, randomBulletCasingLaunchStrength);
+    }
+
+    protected RigidbodyDetail CreateNewBulletCasing(RigidbodyDetail casingPrefab, Vector3 spawnPoint, Vector3 forceDir, float forceStrength){
+        RigidbodyDetail spawnedCasing = Instantiate(casingPrefab, spawnPoint, transform.rotation);
+
+        spawnedCasing.ApplyImpulseForce(forceDir, forceStrength);
+
+        return spawnedCasing;
+    }
+
+    protected FadeObject SpawnBulletDecal(FadeObject decalPrefab, Vector3 hitPoint, Vector3 hitNormal){
+        Quaternion rot = Quaternion.LookRotation(-hitNormal);
+        FadeObject spawnedDecal = Instantiate(decalPrefab, hitPoint + hitNormal * 0.01f, rot);
+
+        spawnedDecal.transform.Rotate(90, 0, 180);
+        
+        spawnedDecal.StartFadeTime();
+
+        return spawnedDecal;
+    }
+
+    protected virtual void HandleGunShotImpact(Ray ray){
+        Debug.DrawRay(ray.origin, ray.direction, Color.white, 5f);
+        FadeObject fadeObject;
+
+        if(!Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, validHitLayermask, QueryTriggerInteraction.Ignore)) return;
+
+        if(hitInfo.collider.TryGetComponent(out IDamagable damagable)){
+            damagable.TakeDamage(weaponData.weaponAttackDamage);
+            //TO-DO: Figure out what we hit then spawn the right vfx and play the right impact sound.
+            return;
+        }
+
+        fadeObject = SpawnBulletDecal(weaponBulletDecalHole, hitInfo.point, hitInfo.normal);
+
+        if(hitInfo.collider.TryGetComponent(out Terrain terrain)){
+            TerrainType terrainType = terrain.GetTerrainType();
+
+            OnTerrainImpacted?.Invoke(terrainType, fadeObject.GetFadeObjectAudioSource());
+        }
+
+        OnTerrainImpacted?.Invoke(TerrainType.None, fadeObject.GetFadeObjectAudioSource());
+    }
+
+    private void OnDrawGizmos() {
+        if(!showGizmos || cameraTransform == null) return;
+        Gizmos.color = gizmosColor;
+
+        float bloomAngle = currentWeaponState == WeaponState.Aiming ? weaponData.steadiedBloomAngle : weaponData.baseBloomAngle;
+
+        GizmoShapes.DrawCone(cameraTransform.position, cameraTransform.forward, bloomAngle, gizmosLength, gizmosCircleSides);
+
+        Vector3 bulletCasingSpawnPos = transform.TransformPoint(localBulletCasingSpawnPoint);
+
+        Gizmos.DrawSphere(bulletCasingSpawnPos, 0.1f);
+    }
+}

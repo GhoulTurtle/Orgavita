@@ -26,7 +26,7 @@ public class ResourceDataSO : ScriptableObject{
 #endif
 
     public Action<int> OnResourceUpdated;
-    public Action OnMaxStackUpdated;
+    public Action<int> OnMaxStackUpdated;
 
     public virtual void AddItemStack(int stackAmount){
         currentStack += stackAmount;
@@ -46,7 +46,7 @@ public class ResourceDataSO : ScriptableObject{
 
     public virtual void IncreaseMaxStack(int amount){
         maxStack += amount;
-        OnMaxStackUpdated?.Invoke();
+        OnMaxStackUpdated?.Invoke(amount);
     }
 
     public virtual bool IsEmpty(){

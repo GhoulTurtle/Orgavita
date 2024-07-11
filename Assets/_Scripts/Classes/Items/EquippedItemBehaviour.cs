@@ -51,7 +51,6 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         }
     }
 
-
     protected EquippableItemState currentItemState;
     protected EquippableItemHolsterType currentHolsterType;
     protected Transform currentHolsterTransform;

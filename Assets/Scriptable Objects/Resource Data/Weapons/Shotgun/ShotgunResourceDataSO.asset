@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa5521816a7bf1841a1473184b046512, type: 3}
-  m_Name: FearPistolResourceDataSO
+  m_Name: ShotgunResourceDataSO
   m_EditorClassIdentifier: 
-  itemDataToHold: {fileID: 11400000, guid: 680516230306fb34db74c7418d0cb551, type: 2}
-  currentStack: 15
-  maxStack: 15
+  itemDataToHold: {fileID: 11400000, guid: e4bf030c2605e6248bb8b89ea471718b, type: 2}
+  currentStack: 6
+  maxStack: 6
   resetResourceStack: 1
-  defaultStack: 15
+  defaultStack: 6

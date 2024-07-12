@@ -84,15 +84,19 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
             OnWeaponAltUse?.Invoke(this, EventArgs.Empty);
             OnGunAltFire?.Invoke();
         }
-        else if(inputActionPhase == InputActionPhase.Canceled && currentWeaponState != WeaponState.Reloading){
+        else if(inputActionPhase == InputActionPhase.Canceled && currentWeaponState != WeaponState.Reloading && currentWeaponState == WeaponState.Aiming){
             ChangeWeaponState(WeaponState.Default);
             OnWeaponAltCancel?.Invoke(this, EventArgs.Empty);
         }
     }
 
     protected void InspectGun(InputActionPhase inputActionPhase){
-        if(currentWeaponState == WeaponState.Reloading) return;
+        if(currentWeaponState == WeaponState.Reloading || currentWeaponState == WeaponState.Aiming) return;
+
         if(inputActionPhase == InputActionPhase.Performed){
+            if(currentWeaponState == WeaponState.Aiming){
+                OnWeaponAltCancel?.Invoke(this, EventArgs.Empty);
+            }
             ChangeWeaponState(WeaponState.Inspecting);
             OnInspectUse?.Invoke(this, EventArgs.Empty);
             OnGunInspected?.Invoke();
@@ -118,6 +122,8 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
     }
 
     protected virtual void StartReloadAction(){
+        OnWeaponAltCancel?.Invoke(this, EventArgs.Empty);
+        
         ChangeWeaponState(WeaponState.Reloading);
         
         reloadCoroutineContainer = WeaponHelper.StartNewWeaponCoroutine(this, weaponData.weaponReloadTimeInSeconds);

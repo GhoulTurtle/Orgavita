@@ -545,6 +545,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8191257553825496478}
   - component: {fileID: 5044852702313443896}
+  - component: {fileID: 7336628899926530305}
   - component: {fileID: 5044852702313443897}
   m_Layer: 0
   m_Name: ShotgunInWorld
@@ -588,8 +589,29 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.06381653, y: 1.8225293, z: 0.35740218}
-  m_Center: {x: 0.0052855834, y: 0.27208874, z: -0.045578644}
+  m_Size: {x: 0.06381653, y: 1.6061172, z: 0.1238323}
+  m_Center: {x: 0.0052855834, y: 0.7514326, z: 0.071206294}
+--- !u!65 &7336628899926530305
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8856014155580221220}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.054416105, y: 0.75703406, z: 0.19766727}
+  m_Center: {x: 0.012155309, y: -0.46386012, z: -0.007628992}
 --- !u!114 &5044852702313443897
 MonoBehaviour:
   m_ObjectHideFlags: 0

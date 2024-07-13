@@ -157,7 +157,19 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
 
     public void TriggerDefaultState(){
         currentItemState = defaultItemState;
-        ChangeItemHolster(defaultHolsterTransform, true);
+        switch (currentItemState){
+            case EquippableItemState.None: ChangeItemHolster(defaultHolsterTransform, true);
+                break;
+            case EquippableItemState.Active: ChangeItemHolster(activeHolsterTransform, true);
+                break;
+            case EquippableItemState.Holstered: ChangeItemHolster(defaultHolsterTransform, true);
+                break;
+            case EquippableItemState.Used: ChangeItemHolster(null, true);
+                break;
+            case EquippableItemState.Passive: ChangeItemHolster(defaultHolsterTransform, true);
+                break;
+        }
+        
         UpdateControlOnItemStateChange();
     }
 

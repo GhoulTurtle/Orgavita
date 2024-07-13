@@ -42,11 +42,9 @@ public class ItemPickup : MonoBehaviour{
     public void PickupItem(PlayerInventorySO playerInventory){
         AudioEvent itemPickupAudioEvent = itemToPickup.GetPickupAudioEvent();
 
-        OnPickupEvent?.Invoke();
-
         var itemRemainder = playerInventory.AttemptToAddItemToInventory(itemToPickup, itemPickupStackAmount);
 
-        if(itemPickupAudioEvent != null){
+        if(itemPickupAudioEvent != null && itemRemainder != itemPickupStackAmount){
             itemPickupAudioEvent.Play(itemPickupAudioSource);
         }
 

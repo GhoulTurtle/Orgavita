@@ -134,10 +134,12 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
     switch (equippedItemBehaviour.GetDefaultItemState()){
             case EquippableItemState.None: Debug.LogError("Item: " + equippedItemBehaviour + " is marked as NONE on the time of spawning. This is incorrect. Did you forget to change the behaviour PlayerItemState?");
                 return;
-            case EquippableItemState.Active: Debug.LogError("Item: " + equippedItemBehaviour + " is marked as ACTIVE on the time of spawning. This is incorrect. Did you forget to change the behaviour PlayerItemState?");
-                return;
             case EquippableItemState.Used: Debug.LogError("Item: " + equippedItemBehaviour + " is marked as USED on the time of spawning. This is incorrect. Did you forget to change the behaviour PlayerItemState?");
                 return;
+        }
+
+        if(equippedItemBehaviour.GetDefaultItemState() == EquippableItemState.Active){
+            HolsterEquippedItems();
         }
 
         equippedItemBehaviour.TriggerDefaultState();

@@ -3701,7 +3701,7 @@ PrefabInstance:
     - target: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.77
+      value: 3.52
       objectReference: {fileID: 0}
     - target: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
         type: 3}
@@ -4060,12 +4060,12 @@ PrefabInstance:
     - target: {fileID: 7793910636912983557, guid: 80a0578531470ab4498ceedf1d7a27bc,
         type: 3}
       propertyPath: m_Lens.FieldOfView
-      value: 70
+      value: 69.98005
       objectReference: {fileID: 0}
     - target: {fileID: 7793910638301438295, guid: 80a0578531470ab4498ceedf1d7a27bc,
         type: 3}
       propertyPath: field of view
-      value: 70
+      value: 69.98005
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7ab3c419c8046c041af8cf995241ca26, type: 3}
-  m_Name: AssualtRifleWeaponDataSO
+  m_Name: AssaultRifleWeaponDataSO
   m_EditorClassIdentifier: 
-  weaponFireRateInSeconds: 0.25
+  weaponFireRateInSeconds: 0.27
   weaponReloadTimeInSeconds: 3.5
   weaponAttackDamage: 4
   baseBloomAngle: 5

@@ -13,7 +13,7 @@ public class AssaultRifleBehaviour : GunWeaponEquippedItemBehaviour{
         public WeaponFiringModeSwitchEventArgs(WeaponFiringMode _weaponFiringMode){
             weaponFiringMode = _weaponFiringMode;
         }
-    }
+    } 
 
     private WeaponFiringMode currentWeaponFiringMode = WeaponFiringMode.Automatic;
 
@@ -47,6 +47,7 @@ public class AssaultRifleBehaviour : GunWeaponEquippedItemBehaviour{
                 StartReloadAction();
             }
             else{
+                if(e.inputActionPhase != InputActionPhase.Performed) return;
                 OnEmptyGunTriggered?.Invoke();
             }
             return;

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab3c419c8046c041af8cf995241ca26, type: 3}
   m_Name: AssaultRifleWeaponDataSO
   m_EditorClassIdentifier: 
-  weaponFireRateInSeconds: 0.27
+  weaponFireRateInSeconds: 0.2
   weaponReloadTimeInSeconds: 3.5
   weaponAttackDamage: 4
-  baseBloomAngle: 5
-  steadiedBloomAngle: 2
+  baseBloomAngle: 4
+  steadiedBloomAngle: 1.5
   minKickBackShotAmount: 3
   kickBackWindowInSeconds: 0.8
   kickBackAmount: 2
@@ -29,5 +29,5 @@ MonoBehaviour:
   burstShotAmount: 3
   burstDamageAmount: 12
   burstKickBackAmount: 5
-  burstShotRateCooldownInSeconds: 0.18
-  burstFireRateInSeconds: 1.25
+  burstShotRateCooldownInSeconds: 0.16
+  burstFireRateInSeconds: 1.15

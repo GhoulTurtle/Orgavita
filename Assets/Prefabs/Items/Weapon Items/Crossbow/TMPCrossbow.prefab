@@ -9,8 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4022077603170971560}
-  - component: {fileID: 3081245356356937502}
   - component: {fileID: 1277949203857980645}
+  - component: {fileID: 3081245356356937502}
   m_Layer: 0
   m_Name: MakeshiftBowVisuals
   m_TagString: Untagged
@@ -25,14 +25,22 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2088778857926097129}
-  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
-  m_LocalPosition: {x: -0.25, y: 0.25, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0.2}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 4585298224384931057}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!33 &1277949203857980645
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2088778857926097129}
+  m_Mesh: {fileID: 3647328372970623360, guid: 312a373b86ea15f48bb1ea009ff2200c, type: 3}
 --- !u!23 &3081245356356937502
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -75,14 +83,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &1277949203857980645
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2088778857926097129}
-  m_Mesh: {fileID: 2534964839176971238, guid: 8371e65b8c735c34fa72336a50867871, type: 3}
 --- !u!1 &3812737836109606475
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4585298224384931057}
   - component: {fileID: -8744330432482327854}
   m_Layer: 0
-  m_Name: TMPMakeshiftBow
+  m_Name: TMPCrossbow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -153,3 +153,41 @@ MonoBehaviour:
     followSpeed: 0
   playHolsterAnimation: 1
   holsterAnimationDuration: 0.5
+  weaponResourceData: {fileID: 11400000, guid: 1794905b42f6a824db4ccf7afc77af17, type: 2}
+  weaponData: {fileID: 11400000, guid: 863b58a4aeef85d409b790f0212eadcb, type: 2}
+  impactSoundTerrainAudioDataList: {fileID: 0}
+  validHitLayermask:
+    serializedVersion: 2
+    m_Bits: 337
+  localBulletCasingSpawnPoint: {x: 0, y: 0, z: 0}
+  localBulletCasingForceDir: {x: 0, y: 0, z: 0}
+  bulletCasingForceStrength:
+    minValue: 0
+    maxValue: 0
+  weaponBulletDecalHole: {fileID: 0}
+  fearPistolBulletCasing: {fileID: 0}
+  showGizmos: 1
+  gizmosColor: {r: 0, g: 1, b: 0, a: 1}
+  gizmosLength: 1
+  gizmosCircleSides: 36
+  OnTerrainImpacted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnEmptyGunTriggered:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGunFired:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGunAltFire:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGunReloadedStarted:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGunReloadedStopped:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGunInspected:
+    m_PersistentCalls:
+      m_Calls: []

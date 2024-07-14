@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 4585298224384931057}
   - component: {fileID: 580291337731865428}
   - component: {fileID: 3452410076448329630}
-  - component: {fileID: 4046758101889323807}
+  - component: {fileID: -2247571547888973545}
   - component: {fileID: 4046758101889323800}
   m_Layer: 0
-  m_Name: TMPMakeshiftBowInWorld
+  m_Name: TMPCrossbowInWorld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,15 +27,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3812737836109606475}
-  m_LocalRotation: {x: 0.00000018216414, y: 0.00000037252903, z: 0.00000050663937,
-    w: -1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 360}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &580291337731865428
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -43,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3812737836109606475}
-  m_Mesh: {fileID: 2534964839176971238, guid: 8371e65b8c735c34fa72336a50867871, type: 3}
+  m_Mesh: {fileID: 3647328372970623360, guid: 312a373b86ea15f48bb1ea009ff2200c, type: 3}
 --- !u!23 &3452410076448329630
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -86,7 +85,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4046758101889323807
+--- !u!64 &-2247571547888973545
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +106,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
-  m_Mesh: {fileID: 2534964839176971238, guid: 8371e65b8c735c34fa72336a50867871, type: 3}
+  m_Mesh: {fileID: 3647328372970623360, guid: 312a373b86ea15f48bb1ea009ff2200c, type: 3}
 --- !u!114 &4046758101889323800
 MonoBehaviour:
   m_ObjectHideFlags: 0

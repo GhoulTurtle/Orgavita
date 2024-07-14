@@ -132,25 +132,25 @@ MonoBehaviour:
   defaultItemHolsterType: 2
   aimedChildData:
     lockPos: {fileID: 0}
-    keepOffset: 0
-    offsetPos: {x: 0, y: 0, z: 0}
+    keepOffset: 1
+    offsetPos: {x: 0.3, y: -0.3, z: 0.5}
     offsetRotation: {x: 0, y: 0, z: 0}
-    delayPosUpdate: 0
-    followSpeed: 0
+    delayPosUpdate: 1
+    followSpeed: 70
   inspectingChildData:
     lockPos: {fileID: 0}
-    keepOffset: 0
-    offsetPos: {x: 0, y: 0, z: 0}
-    offsetRotation: {x: 0, y: 0, z: 0}
-    delayPosUpdate: 0
-    followSpeed: 0
+    keepOffset: 1
+    offsetPos: {x: 0.3, y: -0.1, z: 0.35}
+    offsetRotation: {x: 0, y: -50, z: -25}
+    delayPosUpdate: 1
+    followSpeed: 50
   reloadingChildData:
     lockPos: {fileID: 0}
-    keepOffset: 0
-    offsetPos: {x: 0, y: 0, z: 0}
-    offsetRotation: {x: 0, y: 0, z: 0}
-    delayPosUpdate: 0
-    followSpeed: 0
+    keepOffset: 1
+    offsetPos: {x: 0.3, y: -0.4, z: 0.45}
+    offsetRotation: {x: 0, y: -30, z: -25}
+    delayPosUpdate: 1
+    followSpeed: 50
   playHolsterAnimation: 1
   holsterAnimationDuration: 0.5
   weaponResourceData: {fileID: 11400000, guid: 1794905b42f6a824db4ccf7afc77af17, type: 2}
@@ -191,3 +191,6 @@ MonoBehaviour:
   OnGunInspected:
     m_PersistentCalls:
       m_Calls: []
+  arrowProjectile: {fileID: 7891774132622279444, guid: 8cb69e138f1d3eb4eb0ec1b27f8b6ca4,
+    type: 3}
+  arrowSpawnPos: {x: 0, y: 0.1, z: 0.8}

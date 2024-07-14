@@ -56,7 +56,7 @@ public class ShotgunBehaviour : GunWeaponEquippedItemBehaviour{
     }
 
     public override void WeaponAltUseInput(object sender, InputEventArgs e){
-        AimGun(e.inputActionPhase);
+        AimWeapon(e.inputActionPhase);
     }
 
     public override void ReloadInput(object sender, InputEventArgs e){
@@ -91,7 +91,7 @@ public class ShotgunBehaviour : GunWeaponEquippedItemBehaviour{
     }
 
     public override void InspectInput(object sender, InputEventArgs e){
-        InspectGun(e.inputActionPhase);
+        InspectWeapon(e.inputActionPhase);
     }
 
     protected override void SubscribeToInputEvents(){

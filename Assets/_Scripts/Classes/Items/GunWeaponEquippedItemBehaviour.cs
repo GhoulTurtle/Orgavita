@@ -21,10 +21,10 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
     [SerializeField] protected RigidbodyDetail fearPistolBulletCasing;
 
     [Header("Debugging")]
-    [SerializeField] private bool showGizmos = true;
-    [SerializeField] private Color gizmosColor = Color.green;
-    [SerializeField, Range(0.5f, 3f)] private float gizmosLength = 1f;
-    [SerializeField, Range(3, 100f)] private int gizmosCircleSides = 36;
+    [SerializeField] protected bool showGizmos = true;
+    [SerializeField] protected Color gizmosColor = Color.green;
+    [SerializeField, Range(0.5f, 3f)] protected float gizmosLength = 1f;
+    [SerializeField, Range(3, 100f)] protected int gizmosCircleSides = 36;
 
     [Header("Weapon Unity Events")]
     [SerializeField] protected UnityEvent<TerrainType, AudioSource> OnTerrainImpacted;  
@@ -72,7 +72,7 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
         return weaponData;
     }
 
-    protected void AimGun(InputActionPhase inputActionPhase){
+    protected void AimWeapon(InputActionPhase inputActionPhase){
         if(currentWeaponState == WeaponState.Inspecting) return;
 
         if(inputActionPhase == InputActionPhase.Performed){
@@ -90,7 +90,7 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
         }
     }
 
-    protected void InspectGun(InputActionPhase inputActionPhase){
+    protected void InspectWeapon(InputActionPhase inputActionPhase){
         if(currentWeaponState == WeaponState.Reloading || currentWeaponState == WeaponState.Aiming) return;
 
         if(inputActionPhase == InputActionPhase.Performed){

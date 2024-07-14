@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CrossbowResourceDataSO
   m_EditorClassIdentifier: 
   itemDataToHold: {fileID: 11400000, guid: e222ff7dbb3df474e93e530ca4d68800, type: 2}
-  currentStack: 1
-  maxStack: 1
+  currentStack: 0
+  maxStack: 3
   resetResourceStack: 1
-  defaultStack: 1
+  defaultStack: 3

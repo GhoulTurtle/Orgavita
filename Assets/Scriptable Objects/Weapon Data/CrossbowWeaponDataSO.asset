@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: CrossbowWeaponDataSO
   m_EditorClassIdentifier: 
   weaponFireRateInSeconds: 0
-  weaponReloadTimeInSeconds: 5
+  weaponReloadTimeInSeconds: 2.5
   weaponAttackDamage: 50
   baseBloomAngle: 2
-  steadiedBloomAngle: 1
+  steadiedBloomAngle: 2
   minKickBackShotAmount: 0
   kickBackWindowInSeconds: 0
   kickBackAmount: 0
@@ -26,4 +26,6 @@ MonoBehaviour:
   cameraShakeDirection: {x: 0.2, y: 0, z: 0.2}
   shootCrosshairMagnitude: 12
   shootCrosshairAnimationTimeInSeconds: 0.25
-  arrowFlyDistance: 25
+  explosionForce: 15
+  explosionRadius: 15
+  arrowSpeed: 30

@@ -16,10 +16,6 @@ public class RigidbodyDetail : MonoBehaviour{
         }
     }
 
-    private void OnDestroy() {
-        StopAllCoroutines();
-    }
-
     private void OnCollisionEnter(Collision other) {
         if(hasCollided || !triggerEventOnFirstCollision) return;
 

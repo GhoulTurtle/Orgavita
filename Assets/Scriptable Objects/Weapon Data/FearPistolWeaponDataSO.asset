@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: FearPistolWeaponDataSO
   m_EditorClassIdentifier: 
   weaponFireRateInSeconds: 0.25
-  weaponReloadTimeInSeconds: 2.5
+  weaponReloadTimeInSeconds: 2
   weaponAttackDamage: 8
   baseBloomAngle: 4
   steadiedBloomAngle: 1

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: AssaultRifleWeaponDataSO
   m_EditorClassIdentifier: 
   weaponFireRateInSeconds: 0.2
-  weaponReloadTimeInSeconds: 3.5
+  weaponReloadTimeInSeconds: 3
   weaponAttackDamage: 4
   baseBloomAngle: 4
   steadiedBloomAngle: 1.5

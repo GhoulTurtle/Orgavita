@@ -64,6 +64,7 @@ public class CrosshairUI : MonoBehaviour{
         } 
 
         equippedItemWeaponData = null;
+        TurnOnDotCrosshair();
     }
 
     private void UpdateCrosshairBasedOnEquippedItemState(EquippableItemState itemState){

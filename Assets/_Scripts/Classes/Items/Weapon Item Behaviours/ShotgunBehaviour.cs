@@ -34,7 +34,6 @@ public class ShotgunBehaviour : GunWeaponEquippedItemBehaviour{
             StopReloadAction();
         }
 
-
         for (int i = 0; i < shotgunWeaponDataSO.pelletsPerShot; i++){
             float bloomAngle = currentWeaponState == WeaponState.Aiming ? weaponData.steadiedBloomAngle : weaponData.baseBloomAngle;
 

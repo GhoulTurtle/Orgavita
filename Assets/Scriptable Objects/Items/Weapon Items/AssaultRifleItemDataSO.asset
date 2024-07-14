@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23a00124d4b856446a2a1c8906b205bf, type: 3}
+  m_Name: AssaultRifleItemDataSO
+  m_EditorClassIdentifier: 
+  itemName: Assault Rifle
+  itemQuickDescription: 
+  itemInspectDescription: 
+  itemIcon: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 0}
+  itemInWorldModelPrefab: {fileID: -8662508037119115959, guid: cf8106c715ad86042949b8a5c4bad1d5,
+    type: 3}
+  itemPickupAudioEvent: {fileID: 0}
+  itemUseAudioEvent: {fileID: 0}
+  itemDestoryAudioEvent: {fileID: 0}
+  itemType: 3
+  isUseable: 0
+  isCombinable: 1
+  isStackable: 0
+  isDestroyable: 0
+  maxStackSize: 1
+  weaponItemBehaviour: {fileID: 4686474415131453484, guid: f1c3c72ec64aa3c4a99cbfe93631e350,
+    type: 3}

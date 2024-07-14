@@ -39,7 +39,7 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
     protected CoroutineContainer fireRateCoroutineContainer;
     protected CoroutineContainer reloadCoroutineContainer;
 
-    private int kickbackCounter;
+    protected int kickbackCounter;
 
     public override void SaveData(){
         DisposeCoroutineContainers();
@@ -107,7 +107,7 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
         }
     }
 
-    protected void FireRateCooldown(){
+    protected virtual void FireRateCooldown(){
         fireRateCoroutineContainer = WeaponHelper.StartNewWeaponCoroutine(this, weaponData.weaponFireRateInSeconds);
         fireRateCoroutineContainer.OnCoroutineDisposed += FireRateCooldownFinished;
     }
@@ -117,7 +117,7 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
         fireRateCoroutineContainer = null;
     }
 
-    protected void TriggerKickback(){
+    protected virtual void TriggerKickback(){
         OnKickbackApplied?.Invoke(this, new KickbackAppliedEventArgs(weaponData.kickBackAmount));
     }
 
@@ -152,7 +152,7 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
         StopReloadAction();
     }
 
-    protected void AttemptTriggerKickback(){
+    protected virtual void AttemptTriggerKickback(){
         if(weaponData.minKickBackShotAmount == 0) return;
 
         kickbackCounter++;

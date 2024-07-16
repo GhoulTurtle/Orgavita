@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   returnOneItem: 1
   combineItemDataOne: {fileID: 11400000, guid: 44b25b4cdc38f58478b7a4d77c8da2d7, type: 2}
-  combineItemDataTwo: {fileID: 11400000, guid: c49c17b4e9ae2234685e2797facbed45, type: 2}
+  combineItemDataTwo: {fileID: 11400000, guid: 3c62a3521111b0f4ba14d97c6e3c2640, type: 2}
   resultItemData: {fileID: 11400000, guid: e222ff7dbb3df474e93e530ca4d68800, type: 2}
   resultStackAmount: 1

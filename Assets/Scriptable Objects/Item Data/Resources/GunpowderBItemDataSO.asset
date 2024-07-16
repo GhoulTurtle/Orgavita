@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c388e5dcdca4ab4aa014ad0a6c0f04d, type: 3}
-  m_Name: GunpowderItemDataSO
+  m_Name: GunpowderBItemDataSO
   m_EditorClassIdentifier: 
-  itemName: Gunpowder
+  itemName: Gunpowder B
   itemQuickDescription: Explosive powder that can be used to craft ammunition and
     explosives.
   itemInspectDescription: Can be used to craft ammunition or explosives for weapons.
@@ -22,7 +22,7 @@ MonoBehaviour:
   itemInWorldModelPrefab: {fileID: 0}
   itemPickupAudioEvent: {fileID: 0}
   itemUseAudioEvent: {fileID: 0}
-  itemDestoryEvent: {fileID: 0}
+  itemDestoryAudioEvent: {fileID: 0}
   itemType: 2
   isUseable: 0
   isCombinable: 1

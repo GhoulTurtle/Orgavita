@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e281a804787a6244aa56859cf5db92ca, type: 3}
-  m_Name: FearAmmoItemRecipeSO
+  m_Name: GunpowderBItemRecipeSO
   m_EditorClassIdentifier: 
-  returnOneItem: 0
-  combineItemDataOne: {fileID: 11400000, guid: 02e0be30ea8ea9c41a69d45c17242766, type: 2}
-  combineItemDataTwo: {fileID: 11400000, guid: 60124f8804278084a8dbd9eb83a87d7b, type: 2}
-  resultItemData: {fileID: 11400000, guid: 680516230306fb34db74c7418d0cb551, type: 2}
-  resultStackAmount: 5
+  returnOneItem: 1
+  combineItemDataOne: {fileID: 11400000, guid: c49c17b4e9ae2234685e2797facbed45, type: 2}
+  combineItemDataTwo: {fileID: 11400000, guid: 44b25b4cdc38f58478b7a4d77c8da2d7, type: 2}
+  resultItemData: {fileID: 11400000, guid: 3c62a3521111b0f4ba14d97c6e3c2640, type: 2}
+  resultStackAmount: 1

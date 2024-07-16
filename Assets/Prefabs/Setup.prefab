@@ -1015,7 +1015,6 @@ GameObject:
   - component: {fileID: 44228164}
   - component: {fileID: 822731223}
   - component: {fileID: 1082326133367738561}
-  - component: {fileID: 1630968881}
   - component: {fileID: 1870531789}
   m_Layer: 5
   m_Name: PlayerInventory
@@ -1221,24 +1220,6 @@ MonoBehaviour:
   injuredColor: {r: 0, g: 1, b: 1, a: 1}
   warningColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
   criticalColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!114 &1630968881
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 361538583}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c488c691ec14fb74f813a6d96c2cd929, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerFear: {fileID: 612669994}
-  statusText: {fileID: 632597820522575730}
-  statusImage: {fileID: 630129841514502241}
-  calmColor: {r: 0, g: 1, b: 0, a: 1}
-  panicColor: {r: 1, g: 0, b: 1, a: 1}
-  terrifiedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &1870531789
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9986,7 +9967,6 @@ GameObject:
   - component: {fileID: 7793910637263857222}
   - component: {fileID: 7793910637263857224}
   - component: {fileID: 1474441831}
-  - component: {fileID: 612669994}
   - component: {fileID: 7793910637992359072}
   - component: {fileID: 1971513946}
   - component: {fileID: 6977103743592686637}
@@ -10469,25 +10449,6 @@ MonoBehaviour:
   playerInventory: {fileID: 11400000, guid: 43cda2997f2cc084b9d3e989d0cefc65, type: 2}
   playerInventoryRecipeList: {fileID: 11400000, guid: 8412b6203900fe741acb73e16df6d9f8,
     type: 2}
---- !u!114 &612669994
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7793910637263857235}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 00875fcff0f358948a376c37cbfba3e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxFearCells: 10
-  safeSpaceBuildMaxPercent: 0.5
-  fearBuildTimeInSeconds: 90
-  fearGracePeriodInSeconds: 30
-  calmPercentCutoff: 0.39999998
-  panicPercentCutoff: 0.7
-  terrifiedPercentCutoff: 1
 --- !u!114 &7793910637992359072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10574,7 +10535,7 @@ MonoBehaviour:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    m_ImpulseDuration: 0.15
+    m_ImpulseDuration: 0.25
     m_ImpulseType: 0
     m_DissipationRate: 0.25
     m_RawSignal: {fileID: 0}

@@ -29,7 +29,7 @@ public class WeaponProjectile : MonoBehaviour{
         foreach (Collider hit in colliders){
 
             if(hit.TryGetComponent(out IDamagable hitDamagable)){
-                hitDamagable.TakeDamage(damageAmount);
+                hitDamagable.TakeDamage(damageAmount, transform.position);
             }
 
             if (hit.TryGetComponent(out Rigidbody hitRigidbody)){

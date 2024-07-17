@@ -26,6 +26,6 @@ MonoBehaviour:
   cameraShakeDirection: {x: 0.2, y: 0, z: 0.2}
   shootCrosshairMagnitude: 12
   shootCrosshairAnimationTimeInSeconds: 0.25
-  explosionForce: 15
-  explosionRadius: 15
+  explosionForce: 10
+  explosionRadius: 5
   arrowSpeed: 30

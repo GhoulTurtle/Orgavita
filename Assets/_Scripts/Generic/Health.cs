@@ -44,7 +44,7 @@ public class Health : MonoBehaviour, IDamagable{
 		StopAllCoroutines();
 	}
 
-	public void TakeDamage(float damage){
+	public void TakeDamage(float damage, Vector3 damagePoint){
 		currentHealth -= damage;
 		if(currentHealth <= 0){
 			OnDeathEvent?.Invoke(this, EventArgs.Empty);

@@ -97,7 +97,7 @@ public class FearPistolBehaviour : GunWeaponEquippedItemBehaviour{
         }
 
         if(hitInfo.collider.TryGetComponent(out IDamagable damagable)){
-            damagable.TakeDamage(weaponData.weaponAttackDamage);
+            damagable.TakeDamage(weaponData.weaponAttackDamage, hitInfo.point);
             //TO-DO: Figure out what we hit then spawn the right vfx and play the right impact sound.
             return;
         }

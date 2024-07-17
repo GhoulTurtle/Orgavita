@@ -279,8 +279,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeObjectAudioSource: {fileID: 9134497834748898684}
   fadeTimeValues:
-    minValue: 4.162299
-    maxValue: 4.162299
+    minValue: 0.1
+    maxValue: 0.1
 --- !u!65 &5015059904386138706
 BoxCollider:
   m_ObjectHideFlags: 0

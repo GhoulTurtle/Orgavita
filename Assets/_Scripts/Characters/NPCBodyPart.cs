@@ -4,6 +4,7 @@ public class NPCBodyPart : MonoBehaviour, IDamagable{
     [Header("Required References")]
     [SerializeField] private NPCHealth nPCHealth;
     [SerializeField] private RagdollHandler characterRagdollHandler;
+    [SerializeField] private FadeObjectSpawner characterGibletsSpawner;
     
     [Header("NPCBodyPart Variables")]
     [SerializeField] private NPCBodyPartType bodyPartType;
@@ -16,9 +17,15 @@ public class NPCBodyPart : MonoBehaviour, IDamagable{
     private CharacterJoint bodyPartJoint;
 
     private const float RAGDOLL_FORCE_SCALER = 10f; 
+    private const float GIBLET_FORCE_SCALER = 15f;
+
     private const float LIMB_HEALTH_SCALER = 0.3f;
     private const float TORSO_HEALTH_SCALER = 0.7f;
     private const float HEAD_HEALTH_SCALER = 0.5f;
+
+    private const int LIMB_GIBLET_AMOUNT = 5;
+    private const int TORSO_GIBLET_AMOUNT = 20;
+    private const int HEAD_GIBLET_AMOUNT = 10;
 
     private void Awake() {
         if(nPCHealth != null){
@@ -29,9 +36,10 @@ public class NPCBodyPart : MonoBehaviour, IDamagable{
         TryGetComponent(out bodyPartRigidbody);
     }
 
-    public void SetupNPCBodyPart(NPCHealth _nPCHealth, RagdollHandler _characterRagdollHandler, NPCBodyPartType _bodyPartType){
+    public void SetupNPCBodyPart(NPCHealth _nPCHealth, RagdollHandler _characterRagdollHandler, FadeObjectSpawner _characterGibletsSpawner, NPCBodyPartType _bodyPartType){
         nPCHealth = _nPCHealth;
         characterRagdollHandler = _characterRagdollHandler;
+        characterGibletsSpawner = _characterGibletsSpawner;
         bodyPartType = _bodyPartType;
     }
 
@@ -51,10 +59,9 @@ public class NPCBodyPart : MonoBehaviour, IDamagable{
 
         if(!nPCHealth.IsDead()) return;
         
-        // //Check if this body part should gib
-        // AttemptGibBodyPart(damageAmount);
+        AttemptGibBodyPart(damageAmount);
 
-        // if(isGibbed) return;
+        if(isGibbed) return;
 
         ApplyRagdollForce(damageAmount, damagePoint);
     }
@@ -62,15 +69,28 @@ public class NPCBodyPart : MonoBehaviour, IDamagable{
     private void AttemptGibBodyPart(float damageAmount){
         bodyPartHealth -= damageAmount;
 
-        if(bodyPartHealth < 0){
-            isGibbed = true;
-            if(characterRagdollHandler != null){
-                characterRagdollHandler.RemoveCharacterRagdollBodyPart(bodyPartJoint);
-            }
+        if(bodyPartHealth > 0) return;
 
-            //Spawn Gib Function Here
-            Debug.Log("Gibbing body part: " + gameObject.name);
+        isGibbed = true;
+        if(characterRagdollHandler != null && bodyPartJoint != null){
+            characterRagdollHandler.RemoveCharacterRagdollBodyPart(bodyPartJoint);
         }
+
+        int gibletAmount = 0;
+        switch (bodyPartType){
+            case NPCBodyPartType.Limb: gibletAmount = LIMB_GIBLET_AMOUNT;
+                break;
+            case NPCBodyPartType.Body: gibletAmount = TORSO_GIBLET_AMOUNT;
+                break;
+            case NPCBodyPartType.Head: gibletAmount = HEAD_GIBLET_AMOUNT;
+                break;
+        }
+
+        float forceToApply = damageAmount * GIBLET_FORCE_SCALER;
+
+        characterGibletsSpawner.SpawnRandomFadeObjects(transform.position, gibletAmount, true, forceToApply);
+
+        gameObject.SetActive(false);
     }
 
     private void ApplyRagdollForce(float damageAmount, Vector3 damagePoint){

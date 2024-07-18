@@ -8,6 +8,7 @@ using UnityEngine;
 public class NPCHealth : MonoBehaviour{
     [Header("Required References")]
     [SerializeField] private RagdollHandler characterRagdollHandler;
+    [SerializeField] private FadeObjectSpawner characterGibletsSpawner;
     [SerializeField] private CharacterDataSO characterDataSO;
 
     [Header("Editor Variables")]
@@ -50,7 +51,7 @@ public class NPCHealth : MonoBehaviour{
                 nPCBodyPart= ragdollGameObjects[i].AddComponent<NPCBodyPart>();
             }
 
-            nPCBodyPart.SetupNPCBodyPart(this, characterRagdollHandler, defaultGeneratedBodyPartType);
+            nPCBodyPart.SetupNPCBodyPart(this, characterRagdollHandler, characterGibletsSpawner, defaultGeneratedBodyPartType);
             nPCBodyParts.Add(nPCBodyPart);
         }
     }

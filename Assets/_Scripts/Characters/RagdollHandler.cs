@@ -18,12 +18,13 @@ public class RagdollHandler : MonoBehaviour{
             characterJoints.Remove(jointToRemove);
         }
 
-        if(jointToRemove.TryGetComponent(out Rigidbody rigidbody)){
-            if(rigidbodies.Contains(rigidbody)){
-                rigidbodies.Remove(rigidbody);
-            }
+        if(jointToRemove.TryGetComponent(out Rigidbody rigidbody) && rigidbodies.Contains(rigidbody)){
+            rigidbodies.Remove(rigidbody);
+        }
+        
+        Destroy(jointToRemove);
 
-            Destroy(jointToRemove);
+        if(rigidbody != null){
             Destroy(rigidbody);
         }
     }

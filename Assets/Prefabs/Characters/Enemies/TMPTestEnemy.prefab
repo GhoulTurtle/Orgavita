@@ -208,7 +208,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -271,6 +271,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 0
 --- !u!1 &833011999960436567
 GameObject:
@@ -579,7 +581,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -642,6 +644,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 0
 --- !u!1 &3217666304789867980
 GameObject:
@@ -1006,7 +1010,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1069,6 +1073,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 0
 --- !u!1 &3800270793222855766
 GameObject:
@@ -1217,7 +1223,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1280,6 +1286,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 1
 --- !u!1 &4203815042038231863
 GameObject:
@@ -1428,7 +1436,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1491,6 +1499,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 0
 --- !u!1 &4787014254543169058
 GameObject:
@@ -1572,7 +1582,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1635,6 +1645,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 2
 --- !u!1 &4856299626261394691
 GameObject:
@@ -1718,7 +1730,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -1781,6 +1793,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 0
 --- !u!1 &4937879137190535722
 GameObject:
@@ -1963,7 +1977,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -2026,6 +2040,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 0
 --- !u!1 &5923753520958089595
 GameObject:
@@ -2107,7 +2123,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -2170,6 +2186,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 0
 --- !u!1 &5972227596517208787
 GameObject:
@@ -2250,7 +2268,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -2267,6 +2285,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 1
 --- !u!1 &6262343723683263198
 GameObject:
@@ -2415,7 +2435,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -2478,6 +2498,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 0
 --- !u!1 &7435088983632752253
 GameObject:
@@ -2593,7 +2615,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -2656,6 +2678,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 0
 --- !u!1 &7556612060820565647
 GameObject:
@@ -2803,7 +2827,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -2866,6 +2890,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 0
 --- !u!1 &7918097379673042963
 GameObject:
@@ -2981,7 +3007,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -3044,6 +3070,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 0
 --- !u!1 &8404851070766226243
 GameObject:
@@ -3150,8 +3178,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8101905658257546863}
-  - component: {fileID: 2033866893}
   - component: {fileID: 2033866894}
+  - component: {fileID: 2033866893}
+  - component: {fileID: 5989635022934838558}
   m_Layer: 0
   m_Name: TMPTestEnemy
   m_TagString: Untagged
@@ -3174,8 +3203,41 @@ Transform:
   - {fileID: 3487599622859446420}
   - {fileID: 8721207028834490253}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2033866894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8873235761535337685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53320902f09062f4d97d6c5b465d0fc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
+  characterDataSO: {fileID: 11400000, guid: ec875f80004e75a4da7cf862ed3fdcc5, type: 2}
+  nPCBodyParts:
+  - {fileID: 7167764891965052300}
+  - {fileID: 7347586198777635888}
+  - {fileID: 4733465578581814258}
+  - {fileID: 4517130858630771319}
+  - {fileID: 6480229916636871886}
+  - {fileID: 1328514077}
+  - {fileID: 6304023235543043548}
+  - {fileID: 5634182063093722301}
+  - {fileID: 1247841363}
+  - {fileID: 8953712801204519150}
+  - {fileID: 7423418366415092709}
+  - {fileID: 1478469267}
+  - {fileID: 5493221400577483335}
+  - {fileID: 6532528710926347985}
+  - {fileID: 1612484092}
+  defaultGeneratedBodyPartType: 0
+  currentHealth: 0
 --- !u!114 &2033866893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3219,7 +3281,7 @@ MonoBehaviour:
   - {fileID: 5493221400577483332}
   - {fileID: 6532528710926347981}
   - {fileID: 1612484090}
---- !u!114 &2033866894
+--- !u!114 &5989635022934838558
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3228,27 +3290,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8873235761535337685}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53320902f09062f4d97d6c5b465d0fc6, type: 3}
+  m_Script: {fileID: 11500000, guid: 2e5374e45e6a6aa45bad5c89948ee160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterRagdollHandler: {fileID: 2033866893}
-  nPCBodyParts:
-  - {fileID: 7167764891965052300}
-  - {fileID: 7347586198777635888}
-  - {fileID: 4733465578581814258}
-  - {fileID: 4517130858630771319}
-  - {fileID: 6480229916636871886}
-  - {fileID: 1328514077}
-  - {fileID: 6304023235543043548}
-  - {fileID: 5634182063093722301}
-  - {fileID: 1247841363}
-  - {fileID: 8953712801204519150}
-  - {fileID: 7423418366415092709}
-  - {fileID: 1478469267}
-  - {fileID: 5493221400577483335}
-  - {fileID: 6532528710926347985}
-  - {fileID: 1612484092}
-  defaultGeneratedBodyPartType: 0
+  fadeObjectPrefabDataList: {fileID: 11400000, guid: e6c403896fa665b438cb957082b69f81,
+    type: 2}
 --- !u!1 &8877993149681835144
 GameObject:
   m_ObjectHideFlags: 0
@@ -3364,7 +3410,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 0
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
@@ -3427,4 +3473,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nPCHealth: {fileID: 2033866894}
+  characterRagdollHandler: {fileID: 2033866893}
+  characterGibletsSpawner: {fileID: 5989635022934838558}
   bodyPartType: 0

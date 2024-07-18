@@ -4,18 +4,25 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Data List/AI State Data List", fileName = "AIStateDataList")]
 public class AIStateDataList : ScriptableObject{
     [Header("AI State Data")]
-    public List<AIStateType> aIStates= new List<AIStateType>();
+    public List<AIStateType> aIStates = new List<AIStateType>();
+    public List<AIStateTransitionDefinition> aIStateTransitions = new List<AIStateTransitionDefinition>();
 
-    public Dictionary<AIStateType, AIState> GetAIStateDictionary(){
+    public void GetAIStateDictionary(Dictionary<AIStateType, BaseState<AIStateType>> stateDictionary){
         if(aIStates.Count == 0){
             Debug.LogWarning("No valid state types are inputted into the aIStates list.");
-            return null;
+            return;
         }
-        
-        Dictionary<AIStateType, AIState> aIStateDictionary = new Dictionary<AIStateType, AIState>(); 
+
+        if(aIStateTransitions.Count == 0){
+            Debug.LogWarning("No valid transitions are inputted into the aIStateTransitions list.");
+            return;
+        }
 
         for (int i = 0; i < aIStates.Count; i++){
-            if(aIStateDictionary.ContainsKey(aIStates[i])) continue;
+            if(stateDictionary.ContainsKey(aIStates[i])){
+                aIStates.Remove(aIStates[i]);
+                continue;
+            }
 
             switch (aIStates[i]){
                 case AIStateType.Idle: 
@@ -32,8 +39,5 @@ public class AIStateDataList : ScriptableObject{
                     break;
             }
         }
-
-        return aIStateDictionary;
     }
-
 }

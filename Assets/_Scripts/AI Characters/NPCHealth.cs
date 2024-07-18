@@ -9,7 +9,7 @@ public class NPCHealth : MonoBehaviour{
     [Header("Required References")]
     [SerializeField] private RagdollHandler characterRagdollHandler;
     [SerializeField] private FadeObjectSpawner characterGibletsSpawner;
-    [SerializeField] private CharacterDataSO characterDataSO;
+    [SerializeField] private AICharacterDataSO aICharacterDataSO;
 
     [Header("Editor Variables")]
     [SerializeField] private List<NPCBodyPart> nPCBodyParts = new List<NPCBodyPart>();
@@ -25,8 +25,8 @@ public class NPCHealth : MonoBehaviour{
     public Action OnCharacterDeath;
 
     private void Awake() {
-        if(characterDataSO != null){
-            currentHealth = characterDataSO.maxHealth;
+        if(aICharacterDataSO != null){
+            currentHealth = aICharacterDataSO.maxHealth;
         }
     }
 
@@ -72,8 +72,8 @@ public class NPCHealth : MonoBehaviour{
         if(isDead || amount == 0) return;
 
         currentHealth += amount;
-        if(characterDataSO != null && currentHealth > characterDataSO.maxHealth){
-            currentHealth = characterDataSO.maxHealth;
+        if(aICharacterDataSO != null && currentHealth > aICharacterDataSO.maxHealth){
+            currentHealth = aICharacterDataSO.maxHealth;
         }
 
         OnCharacterHealed?.Invoke(currentHealth);
@@ -90,6 +90,6 @@ public class NPCHealth : MonoBehaviour{
     }
 
     public float GetMaxHealth(){
-        return characterDataSO != null ? characterDataSO.maxHealth : 0; 
+        return aICharacterDataSO != null ? aICharacterDataSO.maxHealth : 0; 
     }
 }   

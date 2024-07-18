@@ -11,19 +11,9 @@ public class ConsumableJob{
         switch (jobType){
             case ConsumableJobType.None: 
             break;
-            case ConsumableJobType.LowerFearInstant: consumableJob = new LowerFearInstant();
-            break;
-            case ConsumableJobType.LowerFearOverTime: consumableJob = new LowerFearOverTime(time);
-            break;
-            case ConsumableJobType.RaiseFearInstant: consumableJob = new RaiseFearInstant(amount);
-            break;
-            case ConsumableJobType.RaiseFearOverTime: consumableJob = new RaiseFearOverTime(amount, time);
-            break;
             case ConsumableJobType.RaiseHealthInstant: consumableJob = new RaiseHealthInstant();
             break;
             case ConsumableJobType.RaiseHealthOverTime: consumableJob = new RaiseHealthOverTime(time);
-            break;
-            case ConsumableJobType.RaiseMaxFear: consumableJob = new RaiseMaxFear();
             break;
             case ConsumableJobType.RaiseMaxHealth: consumableJob = new RaiseMaxHealth();
             break;
@@ -44,19 +34,9 @@ public class ConsumableJob{
         switch (jobType){
             case ConsumableJobType.None: 
             break;
-            case ConsumableJobType.LowerFearInstant: consumableJob = new LowerFearInstant();
-            break;
-            case ConsumableJobType.LowerFearOverTime: consumableJob = new LowerFearOverTime(time);
-            break;
-            case ConsumableJobType.RaiseFearInstant: consumableJob = new RaiseFearInstant(amount);
-            break;
-            case ConsumableJobType.RaiseFearOverTime: consumableJob = new RaiseFearOverTime(amount, time);
-            break;
             case ConsumableJobType.RaiseHealthInstant: consumableJob = new RaiseHealthInstant();
             break;
             case ConsumableJobType.RaiseHealthOverTime: consumableJob = new RaiseHealthOverTime(time);
-            break;
-            case ConsumableJobType.RaiseMaxFear: consumableJob = new RaiseMaxFear();
             break;
             case ConsumableJobType.RaiseMaxHealth: consumableJob = new RaiseMaxHealth();
             break;

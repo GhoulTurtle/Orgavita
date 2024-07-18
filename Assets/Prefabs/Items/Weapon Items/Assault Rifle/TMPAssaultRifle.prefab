@@ -212,7 +212,7 @@ MonoBehaviour:
   impactSoundTerrainAudioDataList: {fileID: 0}
   validHitLayermask:
     serializedVersion: 2
-    m_Bits: 337
+    m_Bits: 8529
   localBulletCasingSpawnPoint: {x: -0.1, y: 0.1, z: 0.35}
   localBulletCasingForceDir: {x: -0.1, y: 0.1, z: 0}
   bulletCasingForceStrength:

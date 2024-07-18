@@ -734,7 +734,7 @@ MonoBehaviour:
     type: 2}
   validHitLayermask:
     serializedVersion: 2
-    m_Bits: 337
+    m_Bits: 8529
   localBulletCasingSpawnPoint: {x: -0.15, y: 0.2, z: 0.1}
   localBulletCasingForceDir: {x: -0.1, y: 0.1, z: 0}
   bulletCasingForceStrength:

@@ -10,8 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ae28d450e9baa094db51a5372d946a63, type: 3}
-  m_Name: TestEnemyCharacterDataSO
+  m_Name: TestEnemyAICharacterDataSO
   m_EditorClassIdentifier: 
   maxHealth: 50
   movementSpeed: 3
-  enemyAttackDamage: 15
+  attackDamage: 0
+  visionRange: 10
+  visionAngle: 45
+  maxTargets: 10

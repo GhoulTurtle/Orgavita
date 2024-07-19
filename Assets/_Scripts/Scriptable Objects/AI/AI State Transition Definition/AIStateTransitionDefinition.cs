@@ -1,14 +1,36 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class AIStateTransitionDefinition : ScriptableObject{
+/// <summary>
+/// A scriptable object that represents a AI state transition from one state to another.
+/// </summary>
+[CreateAssetMenu(menuName = "AI/AI State Transition Definition", fileName = "NewAIStateTransitionDefinitionSO")]
+public class AIStateTransitionDefinition : ScriptableObject{
     [Header("Transition Data")]
     public AIStateType fromAIState;
     public AIStateType toAIState;
+    public List<AIStateTransitionConditionEntry> aIStateTransitionConditions = new List<AIStateTransitionConditionEntry>();
 
     public virtual bool IsValidStateTransition(AIStateType aIState){
         if(fromAIState == aIState) return true;
         return false;
     }
 
-    public abstract bool AttemptTriggerTransition(AIStateMachine stateMachine, AIStateType aIState);
+    public virtual bool AttemptTransition(AIStateMachine stateMachine, out AIStateType aIStateType){
+        if(aIStateTransitionConditions.Count == 0){
+            Debug.LogWarning("No transition conditions are inputted for the aIStateTransitionConditions list.");
+            aIStateType = AIStateType.Idle;
+            return false;
+        }
+
+        bool validTransition = true;
+        aIStateType = toAIState;
+
+        for (int i = 0; i < aIStateTransitionConditions.Count; i++){
+            validTransition = aIStateTransitionConditions[i].AttemptTransition(stateMachine);
+            if(!validTransition) return false;
+        }
+
+        return validTransition;
+    }
 }

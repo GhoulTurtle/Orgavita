@@ -10,11 +10,32 @@ public class AILineOfSight : MonoBehaviour{
     [SerializeField] private Color detectionSphereLOSGizmosColor = Color.green;
     [SerializeField] private Color detectionAngleLOSGizmosColor = Color.red;
 
+    private Transform currentTarget;
     private Collider[] targetsInView;
 
     private void Awake() {
         if(aICharacterDataSO != null){
             targetsInView = new Collider[aICharacterDataSO.maxTargets];
+        }
+    }
+
+    public Transform GetCurrentTarget(){
+        if(currentTarget == null){
+            return null;
+        }
+
+        return currentTarget;
+    }
+
+    public bool IsCurrentTargetInLOS(){
+        if(currentTarget == null) return false;
+        return IsTargetValid(currentTarget);
+    }
+
+    public void ChooseRandomTarget(){
+        if (GetTargets(out Collider[] validTargets)){
+            int randomTargetIndex = Random.Range(0, validTargets.Length);
+            currentTarget = validTargets[randomTargetIndex].transform;
         }
     }
 
@@ -34,13 +55,7 @@ public class AILineOfSight : MonoBehaviour{
 
             for(int i = 0; i < targetsFound; i++){
                 Collider target = targetsInView[i];
-                Vector3 directionToTarget = (target.transform.position - transform.position).normalized;
-
-                if(Vector3.Angle(transform.forward, directionToTarget) > aICharacterDataSO.visionAngle / 2) continue;
-
-                float distanceToTarget = Vector3.Distance(transform.position, target.transform.position);
-
-                if(Physics.Raycast(transform.position, directionToTarget, distanceToTarget, aITargetDefinition.GetObstructionLayerMask())) continue;
+                if(!IsTargetValid(target.transform)) continue;
 
                 validTargets[i] = target;
 
@@ -49,6 +64,18 @@ public class AILineOfSight : MonoBehaviour{
 
             return foundValidTarget;
         }
+    }
+
+    private bool IsTargetValid(Transform target){
+        Vector3 directionToTarget = (target.position - transform.position).normalized;
+
+        if (Vector3.Angle(transform.forward, directionToTarget) > aICharacterDataSO.visionAngle / 2) return false;
+
+        float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
+        if (Physics.Raycast(transform.position, directionToTarget, distanceToTarget, aITargetDefinition.GetObstructionLayerMask())) return false;
+
+        return true;
     }
 
     private void OnDrawGizmosSelected(){

@@ -18,6 +18,10 @@ using UnityEngine;
 		DetectStateChange();
 	}
 
+	public EState GetCurrentState(){
+		return CurrentState.StateKey;
+	}
+
 	protected virtual void DetectStateChange(){
 		EState nextStateKey = CurrentState.GetNextState();
 

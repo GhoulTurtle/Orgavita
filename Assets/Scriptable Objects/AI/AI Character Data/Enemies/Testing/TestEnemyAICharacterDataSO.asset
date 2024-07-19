@@ -15,6 +15,16 @@ MonoBehaviour:
   maxHealth: 50
   movementSpeed: 3
   attackDamage: 0
+  attackRange: 0
   visionRange: 10
   visionAngle: 45
   maxTargets: 10
+  idleTime:
+    minValue: 3.4395635
+    maxValue: 13.758251
+  searchTime:
+    minValue: 13.758254
+    maxValue: 58.472576
+  patrolTime:
+    minValue: 30.956072
+    maxValue: 306.12115

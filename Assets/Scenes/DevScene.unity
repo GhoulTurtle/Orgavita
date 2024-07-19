@@ -4902,6 +4902,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 354062080, guid: f7122275738192046aab3bbde66a4317, type: 3}
+      propertyPath: drawGizmos
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8101905658257546863, guid: f7122275738192046aab3bbde66a4317,
         type: 3}
       propertyPath: m_RootOrder

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,19 +14,27 @@ public class AIStateMachine : StateMachine<AIStateType>{
     [SerializeField] private bool showGizmos;
     [SerializeField] private Color attackRangeGizmosColor = Color.red;
 
-    private Dictionary<AIStateTransitionType, AIStateTransitionConditionJob> transitionJobs = new Dictionary<AIStateTransitionType, AIStateTransitionConditionJob>();
+    private Dictionary<AIStateTransitionType, AIStateTransitionConditionJob> aIStateTransitionJobs = new Dictionary<AIStateTransitionType, AIStateTransitionConditionJob>();
+
+    private AICommandType currentAICommand = AICommandType.None;
+    private ICommandIssuer currentCommandIssuer;
+
+    public Action<AICommandType> OnStartCommand;
+    public Action<AICommandType> OnStopCommand;
 
     //TODO: Add a coroutine container list with functions so that states and transition jobs can use coroutines.
 
     private void Awake() {
         if(aIStateDataList != null){
-            aIStateDataList.GetAIStateDictionary(States, out AIStateType firstState);
+            aIStateDataList.GetAIStateDictionary(States, out AIStateType firstState); 
             CurrentState = States[firstState];
+
+            aIStateDataList.GenerateAIStateTransitionJobDictionary(this);
         }
     }
-
+    
     private void OnDestroy() {
-        transitionJobs.Clear();
+        aIStateTransitionJobs.Clear();
     }
 
     private void Update() {
@@ -45,13 +54,47 @@ public class AIStateMachine : StateMachine<AIStateType>{
     }
 
     public void AddStateTransitionConditionJob(AIStateTransitionType transitionType, AIStateTransitionConditionJob transitionJob){
-        if(transitionJobs.ContainsKey(transitionType)) return;
-        transitionJobs.Add(transitionType, transitionJob);
+        if(aIStateTransitionJobs.ContainsKey(transitionType)) return;
+        Debug.Log("Added: " + transitionType + " to the transition job dictionary");
+        aIStateTransitionJobs.Add(transitionType, transitionJob);
+        transitionJob.SetupConditionJob(this);
+    }
+
+    public void StartAICommand(AICommandType aICommandType, ICommandIssuer commandIssuer){
+        if(currentAICommand != AICommandType.None){
+            currentCommandIssuer.CommandInterrupted(this, currentAICommand);
+            StopAICommand();
+        }
+        
+        if(currentCommandIssuer != null && currentCommandIssuer != commandIssuer){
+            currentCommandIssuer = null;
+            currentCommandIssuer = commandIssuer;
+        }
+
+        currentAICommand = aICommandType;
+        if(currentAICommand != AICommandType.None){
+            OnStartCommand?.Invoke(currentAICommand);
+        }
+    }
+
+    public void StopAICommand(){
+        if(currentAICommand == AICommandType.None) return;
+
+        OnStopCommand?.Invoke(currentAICommand);
+        currentAICommand = AICommandType.None;
+    }
+
+    public AICommandType GetCurrentCommand(){
+        return currentAICommand;
+    }
+
+    public ICommandIssuer GetCurrentCommandIssuer(){
+        return currentCommandIssuer;
     }
 
     public AIStateTransitionConditionJob AttemptGetTransitionConditionJob(AIStateTransitionType transitionType){
-        if(!transitionJobs.ContainsKey(transitionType)) return null;
-        return transitionJobs[transitionType];
+        if(!aIStateTransitionJobs.ContainsKey(transitionType)) return null;
+        return aIStateTransitionJobs[transitionType];
     }
 
     public AILineOfSight GetAILineOfSight(){

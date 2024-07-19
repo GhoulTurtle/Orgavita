@@ -5,4 +5,6 @@ public enum AIStateType{
    Search,
    Attack,
    Follow,
+   Dialogue,
+   Cutscene
 }

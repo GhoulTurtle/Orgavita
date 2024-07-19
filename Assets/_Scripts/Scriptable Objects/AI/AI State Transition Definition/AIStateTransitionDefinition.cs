@@ -16,15 +16,13 @@ public class AIStateTransitionDefinition : ScriptableObject{
         return false;
     }
 
-    public virtual bool AttemptTransition(AIStateMachine stateMachine, out AIStateType aIStateType){
+    public virtual bool AttemptTransition(AIStateMachine stateMachine){
         if(aIStateTransitionConditions.Count == 0){
             Debug.LogWarning("No transition conditions are inputted for the aIStateTransitionConditions list.");
-            aIStateType = AIStateType.Idle;
             return false;
         }
 
         bool validTransition = true;
-        aIStateType = toAIState;
 
         for (int i = 0; i < aIStateTransitionConditions.Count; i++){
             validTransition = aIStateTransitionConditions[i].AttemptTransition(stateMachine);
@@ -32,5 +30,15 @@ public class AIStateTransitionDefinition : ScriptableObject{
         }
 
         return validTransition;
+    }
+
+    public void GenerateTransitionJobs(AIStateMachine aIStateMachine){
+        for (int i = 0; i < aIStateTransitionConditions.Count; i++){
+            aIStateTransitionConditions[i].AddTransitionJobsToDictionary(aIStateMachine);
+        }
+    }
+
+    public AIStateType GetToAIState(){
+        return toAIState;
     }
 }

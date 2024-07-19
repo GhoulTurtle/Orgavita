@@ -29,7 +29,7 @@ public class AIStateDataList : ScriptableObject{
             switch (aIStates[i]){
                 case AIStateType.Idle: stateDictionary.Add(AIStateType.Idle, new AIIdleState(AIStateType.Idle));
                     break;
-                case AIStateType.Patrol: stateDictionary.Add(AIStateType.Patrol, new AIPatrolState(AIStateType.Patrol));
+                case AIStateType.Patrol:stateDictionary.Add(AIStateType.Patrol, new AIPatrolState(AIStateType.Patrol));
                     break;
                 case AIStateType.Chase: stateDictionary.Add(AIStateType.Chase, new AIChaseState(AIStateType.Chase));
                     break;
@@ -39,10 +39,20 @@ public class AIStateDataList : ScriptableObject{
                     break;
                 case AIStateType.Follow: stateDictionary.Add(AIStateType.Follow, new AIFollowState(AIStateType.Follow));
                     break;
+                case AIStateType.Dialogue: stateDictionary.Add(AIStateType.Dialogue, new AIDialogueState(AIStateType.Dialogue));
+                    break;
+                case AIStateType.Cutscene: stateDictionary.Add(AIStateType.Cutscene, new AICutsceneState(AIStateType.Cutscene));
+                    break;
             }
         }
 
         firstState = aIStates[0];
+    }
+
+    public void GenerateAIStateTransitionJobDictionary(AIStateMachine aIStateMachine){
+        for (int i = 0; i < aIStateTransitions.Count; i++){
+            aIStateTransitions[i].GenerateTransitionJobs(aIStateMachine);
+        }
     }
 
     public void NextStateTransition(AIStateMachine aIStateMachine){
@@ -51,8 +61,9 @@ public class AIStateDataList : ScriptableObject{
         AIStateType nextAIState = currentAIState;
         for (int i = 0; i < aIStateTransitions.Count; i++){
             if(!aIStateTransitions[i].IsValidStateTransition(currentAIState)) continue;
-            if(!aIStateTransitions[i].AttemptTransition(aIStateMachine, out nextAIState)) continue;
+            if(!aIStateTransitions[i].AttemptTransition(aIStateMachine)) continue;
             else{
+                nextAIState = aIStateTransitions[i].GetToAIState();
                 Debug.Log("Transition Triggered! Going to the: " + nextAIState + " state!");
                 break;
             }

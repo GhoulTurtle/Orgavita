@@ -7,7 +7,7 @@ using UnityEngine;
 [System.Serializable]
 public class AIStateTransitionConditionEntry{
     public List<AIStateTransitionType> aIStateTransitionTypes = new List<AIStateTransitionType>();
-    public CheckOperationType checkOperationType = CheckOperationType.NONE;
+    public CheckOperationType checkOperationType = CheckOperationType.None;
 
     public bool AttemptTransition(AIStateMachine aIStateMachine){
         if(aIStateTransitionTypes.Count == 0){
@@ -26,17 +26,17 @@ public class AIStateTransitionConditionEntry{
             bool conditionResult = aIStateTransitionConditionJob.EvaluateTransitionCondition(aIStateMachine);
 
             switch (checkOperationType){
-                case CheckOperationType.NONE: validTransition = conditionResult;
+                case CheckOperationType.None: validTransition = conditionResult;
                     if(!validTransition) return false;
                     break;
-                case CheckOperationType.AND: validTransition &= conditionResult;
+                case CheckOperationType.And: validTransition &= conditionResult;
                     if(!validTransition) return false;
                     break;
-                case CheckOperationType.OR: 
+                case CheckOperationType.Or: 
                     validTransition |= conditionResult;
                     if(validTransition) return true;
                     break;
-                case CheckOperationType.NOT: 
+                case CheckOperationType.Not: 
                     validTransition = !conditionResult;
                     if(!validTransition) return false;
                 break;
@@ -45,6 +45,14 @@ public class AIStateTransitionConditionEntry{
             if(!validTransition) break;
         }
         return validTransition;
+    }
+
+    public void AddTransitionJobsToDictionary(AIStateMachine aIStateMachine){
+        for (int i = 0; i < aIStateTransitionTypes.Count; i++){
+            if(aIStateMachine.AttemptGetTransitionConditionJob(aIStateTransitionTypes[i]) == null){
+                AddNewTransitionJob(aIStateTransitionTypes[i], aIStateMachine);
+            }
+        }
     }
 
     private AIStateTransitionConditionJob AddNewTransitionJob(AIStateTransitionType aIStateTransitionType, AIStateMachine aIStateMachine){

@@ -1,6 +1,6 @@
 public enum CheckOperationType{
-    NONE,
-    AND,
-    OR,
-    NOT,
+    None,
+    And,
+    Or,
+    Not,
 }

@@ -39,7 +39,7 @@ public class CrossbowBehaviour : GunWeaponEquippedItemBehaviour{
         Quaternion shootQuaternion = Quaternion.LookRotation(cameraTransform.forward);
 
         WeaponProjectile spawnedProjectile = Instantiate(arrowProjectile, worldArrowSpawnPoint, shootQuaternion);
-        spawnedProjectile.SetupProjectile(cameraTransform.forward, crossbowWeaponDataSO, validHitLayermask);
+        spawnedProjectile.SetupProjectile(cameraTransform.forward, crossbowWeaponDataSO, playerReference, validHitLayermask);
         
         FireRateCooldown();
         AttemptTriggerKickback();

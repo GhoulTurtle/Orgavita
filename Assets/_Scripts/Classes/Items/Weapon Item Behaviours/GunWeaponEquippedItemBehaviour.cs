@@ -41,6 +41,8 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
 
     protected int kickbackCounter;
 
+    protected IDamagable playerReference;
+
     public override void SaveData(){
         DisposeCoroutineContainers();
         playerInputHandler.OnHolsterWeapon -= HolsterWeaponInput;
@@ -48,6 +50,9 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
 
     public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler, PlayerInventoryHandler _playerInventoryHandler){
         base.SetupItemBehaviour(_inventoryItem, _playerInputHandler, _playerInventoryHandler);
+        if(playerReference == null){
+            playerInputHandler.TryGetComponent(out playerReference);
+        }
         playerInputHandler.OnHolsterWeapon += HolsterWeaponInput;
         playerInventoryHandler.OnInventoryStateChanged += EvaulateInventoryStateChanged;
     }
@@ -243,7 +248,7 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
         if(!Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, validHitLayermask, QueryTriggerInteraction.Ignore)) return;
 
         if(hitInfo.collider.TryGetComponent(out IDamagable damagable)){
-            damagable.TakeDamage(weaponData.weaponAttackDamage, hitInfo.point);
+            damagable.TakeDamage(weaponData.weaponAttackDamage, playerReference, hitInfo.point);
             //TO-DO: Figure out what we hit then spawn the right vfx and play the right impact sound.
             return;
         }

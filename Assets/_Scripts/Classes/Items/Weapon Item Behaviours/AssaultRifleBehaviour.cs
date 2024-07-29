@@ -209,7 +209,7 @@ public class AssaultRifleBehaviour : GunWeaponEquippedItemBehaviour{
 
         if(hitInfo.collider.TryGetComponent(out IDamagable damagable)){
             float damageAmount = currentWeaponFiringMode == WeaponFiringMode.Automatic ? weaponData.weaponAttackDamage : assaultRifleWeaponDataSO.burstDamageAmount;
-            damagable.TakeDamage(damageAmount, hitInfo.point);
+            damagable.TakeDamage(damageAmount, playerReference, hitInfo.point);
             //TO-DO: Figure out what we hit then spawn the right vfx and play the right impact sound.
             return;
         }

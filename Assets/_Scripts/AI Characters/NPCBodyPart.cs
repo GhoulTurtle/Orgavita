@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class NPCBodyPart : MonoBehaviour, IDamagable{
@@ -15,6 +16,7 @@ public class NPCBodyPart : MonoBehaviour, IDamagable{
 
     private Rigidbody bodyPartRigidbody;
     private CharacterJoint bodyPartJoint;
+    private Action CharacterDeathActionReference;
 
     private const float RAGDOLL_FORCE_SCALER = 10f; 
     private const float GIBLET_FORCE_SCALER = 15f;
@@ -41,9 +43,10 @@ public class NPCBodyPart : MonoBehaviour, IDamagable{
         characterRagdollHandler = _characterRagdollHandler;
         characterGibletsSpawner = _characterGibletsSpawner;
         bodyPartType = _bodyPartType;
+        CharacterDeathActionReference = nPCHealth.GetCharacterDeathAction();
     }
 
-    public void TakeDamage(float damageAmount, Vector3 damagePoint){
+    public void TakeDamage(float damageAmount, IDamagable damageDealer, Vector3 damagePoint){
         if(nPCHealth == null) return;
 
         float adjustedDamageAmount = damageAmount;
@@ -55,7 +58,7 @@ public class NPCBodyPart : MonoBehaviour, IDamagable{
                 break;
         }
 
-        nPCHealth.DamageCharacter(adjustedDamageAmount);
+        nPCHealth.DamageCharacter(adjustedDamageAmount, damageDealer);
 
         if(!nPCHealth.IsDead()) return;
         
@@ -64,6 +67,16 @@ public class NPCBodyPart : MonoBehaviour, IDamagable{
         if(isGibbed) return;
 
         ApplyRagdollForce(damageAmount, damagePoint);
+    }
+
+    public Transform GetDamageableTransform(){
+        return nPCHealth.transform;
+    }
+
+    public Action GetDeathAction(){
+        if(CharacterDeathActionReference == null) return null;
+        
+        return CharacterDeathActionReference;
     }
 
     private void AttemptGibBodyPart(float damageAmount){

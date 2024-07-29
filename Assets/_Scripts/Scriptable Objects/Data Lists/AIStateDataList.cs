@@ -7,7 +7,7 @@ public class AIStateDataList : ScriptableObject{
     public List<AIStateType> aIStates = new List<AIStateType>();
     public List<AIStateTransitionDefinition> aIStateTransitions = new List<AIStateTransitionDefinition>();
 
-    public void GetAIStateDictionary(Dictionary<AIStateType, BaseState<AIStateType>> stateDictionary, out AIStateType firstState){
+    public void GetAIStateDictionary(Dictionary<AIStateType, BaseState<AIStateType>> stateDictionary, StateMachine<AIStateType> stateMachine, out AIStateType firstState){
         if(aIStates.Count == 0){
             Debug.LogWarning("No valid state types are inputted into the aIStates list.");
             firstState = AIStateType.Idle;
@@ -27,21 +27,45 @@ public class AIStateDataList : ScriptableObject{
             }
 
             switch (aIStates[i]){
-                case AIStateType.Idle: stateDictionary.Add(AIStateType.Idle, new AIIdleState(AIStateType.Idle));
+                case AIStateType.Idle: 
+                    AIIdleState aIIdleState = new(AIStateType.Idle);
+                    aIIdleState.SetupState(stateMachine);
+                    stateDictionary.Add(AIStateType.Idle, aIIdleState);
                     break;
-                case AIStateType.Patrol:stateDictionary.Add(AIStateType.Patrol, new AIPatrolState(AIStateType.Patrol));
+                case AIStateType.Patrol:
+                    AIPatrolState aIPatrolState = new(AIStateType.Patrol);
+                    aIPatrolState.SetupState(stateMachine);
+                    stateDictionary.Add(AIStateType.Patrol, aIPatrolState);
                     break;
-                case AIStateType.Chase: stateDictionary.Add(AIStateType.Chase, new AIChaseState(AIStateType.Chase));
+                case AIStateType.Chase: 
+                    AIChaseState aIChaseState = new(AIStateType.Chase);
+                    aIChaseState.SetupState(stateMachine);
+                    stateDictionary.Add(AIStateType.Chase, aIChaseState);
                     break;
-                case AIStateType.Search: stateDictionary.Add(AIStateType.Search, new AISearchState(AIStateType.Search));
+                case AIStateType.Search: 
+                    AISearchState aISearchState = new(AIStateType.Search);
+                    aISearchState.SetupState(stateMachine);
+                    stateDictionary.Add(AIStateType.Search, aISearchState);
                     break;
-                case AIStateType.Attack: stateDictionary.Add(AIStateType.Attack, new AIAttackState(AIStateType.Attack));
+                case AIStateType.Attack: 
+                    AIAttackState aIAttackState = new(AIStateType.Attack);
+                    aIAttackState.SetupState(stateMachine);
+                    stateDictionary.Add(AIStateType.Attack, aIAttackState);
                     break;
-                case AIStateType.Follow: stateDictionary.Add(AIStateType.Follow, new AIFollowState(AIStateType.Follow));
+                case AIStateType.Follow: 
+                    AIFollowState aIFollowState = new(AIStateType.Follow);
+                    aIFollowState.SetupState(stateMachine);
+                    stateDictionary.Add(AIStateType.Follow, aIFollowState);
                     break;
-                case AIStateType.Dialogue: stateDictionary.Add(AIStateType.Dialogue, new AIDialogueState(AIStateType.Dialogue));
+                case AIStateType.Dialogue: 
+                    AIDialogueState aIDialogueState = new(AIStateType.Dialogue);
+                    aIDialogueState.SetupState(stateMachine);
+                    stateDictionary.Add(AIStateType.Dialogue, aIDialogueState);
                     break;
-                case AIStateType.Cutscene: stateDictionary.Add(AIStateType.Cutscene, new AICutsceneState(AIStateType.Cutscene));
+                case AIStateType.Cutscene: 
+                    AICutsceneState aICutsceneState = new(AIStateType.Cutscene);
+                    aICutsceneState.SetupState(stateMachine);
+                    stateDictionary.Add(AIStateType.Cutscene, aICutsceneState);
                     break;
             }
         }

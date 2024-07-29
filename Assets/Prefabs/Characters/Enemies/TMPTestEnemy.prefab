@@ -3183,7 +3183,10 @@ GameObject:
   - component: {fileID: 2033866893}
   - component: {fileID: 5989635022934838558}
   - component: {fileID: 354062077}
+  - component: {fileID: 1066393783}
   - component: {fileID: 354062080}
+  - component: {fileID: 1066393782}
+  - component: {fileID: 3215729175240041451}
   - component: {fileID: 354062079}
   m_Layer: 13
   m_Name: TMPTestEnemy
@@ -3207,7 +3210,7 @@ Transform:
   - {fileID: 3487599622859446420}
   - {fileID: 8721207028834490253}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &354062078
 NavMeshAgent:
@@ -3222,7 +3225,7 @@ NavMeshAgent:
   m_Speed: 3.5
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 360
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -3336,6 +3339,27 @@ MonoBehaviour:
   navMeshAgent: {fileID: 354062078}
   aICharacterDataSO: {fileID: 11400000, guid: ec875f80004e75a4da7cf862ed3fdcc5, type: 2}
   nPCHealth: {fileID: 2033866894}
+--- !u!114 &1066393783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8873235761535337685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfbc18570eae3924e8923300f75148ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aITargetDefinition: {fileID: 11400000, guid: 0589c301e2cd0ad40bef7082a981745b, type: 2}
+  aIMover: {fileID: 354062077}
+  patrolType: 0
+  patrolPositions:
+  - {fileID: 0}
+  homePointWanderRange: 15
+  maxPointSearchLoops: 20
+  showGizmos: 1
+  gizmosColor: {r: 0, g: 1, b: 1, a: 1}
 --- !u!114 &354062080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3353,6 +3377,31 @@ MonoBehaviour:
   drawGizmos: 0
   detectionSphereLOSGizmosColor: {r: 0, g: 1, b: 0, a: 1}
   detectionAngleLOSGizmosColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &1066393782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8873235761535337685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9371195bfb361e44f851cc44d8f37996, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nPCHealth: {fileID: 2033866894}
+--- !u!114 &3215729175240041451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8873235761535337685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c2204a53c22497946bd6fec157b750a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &354062079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3369,9 +3418,10 @@ MonoBehaviour:
   aICharacterDataSO: {fileID: 11400000, guid: ec875f80004e75a4da7cf862ed3fdcc5, type: 2}
   aILineOfSight: {fileID: 354062080}
   aIMover: {fileID: 354062077}
+  aIPatrol: {fileID: 1066393783}
+  aIAggression: {fileID: 1066393782}
+  aIAttack: {fileID: 3215729175240041451}
   nPCHealth: {fileID: 2033866894}
-  showGizmos: 0
-  attackRangeGizmosColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &8877993149681835144
 GameObject:
   m_ObjectHideFlags: 0

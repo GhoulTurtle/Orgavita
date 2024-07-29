@@ -19,8 +19,8 @@ public class NPCHealth : MonoBehaviour{
 
     private bool isDead = false;
 
-    public Action<float> OnCharacterDamaged;
-    public Action<float> OnCharacterHealed;
+    public Action<float, IDamagable> OnCharacterDamaged;
+    public Action<float, IDamagable> OnCharacterHealed;
 
     public Action OnCharacterDeath;
 
@@ -56,7 +56,7 @@ public class NPCHealth : MonoBehaviour{
         }
     }
 
-    public void DamageCharacter(float amount){
+    public void DamageCharacter(float amount, IDamagable damagerDealer){
         if(isDead || amount == 0) return;
 
         currentHealth -= amount;
@@ -65,10 +65,10 @@ public class NPCHealth : MonoBehaviour{
             return;
         }
 
-        OnCharacterDamaged?.Invoke(currentHealth);
+        OnCharacterDamaged?.Invoke(currentHealth, damagerDealer);
     }
 
-    public void HealCharacter(float amount){
+    public void HealCharacter(float amount, IDamagable healSource){
         if(isDead || amount == 0) return;
 
         currentHealth += amount;
@@ -76,7 +76,7 @@ public class NPCHealth : MonoBehaviour{
             currentHealth = aICharacterDataSO.maxHealth;
         }
 
-        OnCharacterHealed?.Invoke(currentHealth);
+        OnCharacterHealed?.Invoke(currentHealth, healSource);
     }
 
     private void TriggerCharacterDealth(){
@@ -91,5 +91,9 @@ public class NPCHealth : MonoBehaviour{
 
     public float GetMaxHealth(){
         return aICharacterDataSO != null ? aICharacterDataSO.maxHealth : 0; 
+    }
+    
+    public Action GetCharacterDeathAction(){
+        return OnCharacterDeath;
     }
 }   

@@ -29,12 +29,17 @@ public class AIMover : MonoBehaviour{
 		navMeshAgent.SetDestination(_goalPosition);
 	}
 
-    public bool CheckValidPosition(Vector3 position){
-		return NavMesh.SamplePosition(position, out NavMeshHit hitInfo, 1, NavMesh.AllAreas);
+    public bool CheckValidPosition(Vector3 position, out Vector3 validPosition, float rangeCheck = 1f){
+        bool result = NavMesh.SamplePosition(position, out NavMeshHit hitInfo, rangeCheck, NavMesh.AllAreas);
+        validPosition = hitInfo.position;
+
+		return result;
 	}
 
     public void SetNavMeshIsStopped(bool state){
         if(navMeshAgent == null) return;
+        if(!navMeshAgent.isOnNavMesh) return;
+
 
         navMeshAgent.isStopped = state;
     }

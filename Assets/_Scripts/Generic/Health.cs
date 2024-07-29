@@ -13,7 +13,7 @@ public class Health : MonoBehaviour, IDamagable{
 	public EventHandler OnDamagedEvent;
 	public EventHandler OnHealedEvent;
 	public EventHandler OnMaxIncreasedEvent;
-	public EventHandler OnDeathEvent;
+	public Action OnDeathEvent;
 	public EventHandler<HealthStateChangedEventArgs> OnHealthStateChanged;
 	public class HealthStateChangedEventArgs : EventArgs{
 		public HealthState healthState;
@@ -44,10 +44,11 @@ public class Health : MonoBehaviour, IDamagable{
 		StopAllCoroutines();
 	}
 
-	public void TakeDamage(float damage, Vector3 damagePoint){
+	public void TakeDamage(float damage, IDamagable damageDealer, Vector3 damagePoint){
 		currentHealth -= damage;
+
 		if(currentHealth <= 0){
-			OnDeathEvent?.Invoke(this, EventArgs.Empty);
+			OnDeathEvent?.Invoke();
 			return;
 		}
 
@@ -74,6 +75,10 @@ public class Health : MonoBehaviour, IDamagable{
 	public bool IsActiveHealOverTimeJob(){
 		return currentHealOverTimeJob != null;
 	}
+
+    public Transform GetDamageableTransform(){
+        return transform;
+    }
 
 	public void IncreaseMaxHealth(float amount){
 		if(IsHealthFull()){
@@ -125,4 +130,8 @@ public class Health : MonoBehaviour, IDamagable{
 
 		currentHealOverTimeJob = null;
 	}
+
+    public Action GetDeathAction(){
+        return OnDeathEvent;
+    }
 }

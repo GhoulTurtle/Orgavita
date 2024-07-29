@@ -10,13 +10,17 @@ public class WeaponProjectile : MonoBehaviour{
     private float explosionRadius;
     private LayerMask damageLayerMask;
 
-    public void SetupProjectile(Vector3 shootVector, CrossbowWeaponDataSO crossbowWeaponDataSO, LayerMask _damageLayerMask){
+    private IDamagable entityDamageable;
+
+    public void SetupProjectile(Vector3 shootVector, CrossbowWeaponDataSO crossbowWeaponDataSO, IDamagable _entityDamageable, LayerMask _damageLayerMask){
         transform.rotation = Quaternion.LookRotation(shootVector);
         myRigidbody.AddForce(shootVector * crossbowWeaponDataSO.arrowSpeed, ForceMode.Impulse);
         
         damageAmount = crossbowWeaponDataSO.weaponAttackDamage;
         explosionForce = crossbowWeaponDataSO.explosionForce;
         explosionRadius = crossbowWeaponDataSO.explosionRadius;
+
+        entityDamageable = _entityDamageable;
 
         damageLayerMask = _damageLayerMask;
     }
@@ -29,7 +33,7 @@ public class WeaponProjectile : MonoBehaviour{
         foreach (Collider hit in colliders){
 
             if(hit.TryGetComponent(out IDamagable hitDamagable)){
-                hitDamagable.TakeDamage(damageAmount, transform.position);
+                hitDamagable.TakeDamage(damageAmount, entityDamageable, transform.position);
             }
 
             if (hit.TryGetComponent(out Rigidbody hitRigidbody)){

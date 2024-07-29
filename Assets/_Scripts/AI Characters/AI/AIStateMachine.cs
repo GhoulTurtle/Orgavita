@@ -8,11 +8,10 @@ public class AIStateMachine : StateMachine<AIStateType>{
     [SerializeField] private AICharacterDataSO aICharacterDataSO;
     [SerializeField] private AILineOfSight aILineOfSight;
     [SerializeField] private AIMover aIMover;
+    [SerializeField] private AIPatrol aIPatrol;
+    [SerializeField] private AIAggression aIAggression;
+    [SerializeField] private AIAttack aIAttack;
     [SerializeField] private NPCHealth nPCHealth;
-
-    [Header("AI Debugging")]
-    [SerializeField] private bool showGizmos;
-    [SerializeField] private Color attackRangeGizmosColor = Color.red;
 
     private Dictionary<AIStateTransitionType, AIStateTransitionConditionJob> aIStateTransitionJobs = new Dictionary<AIStateTransitionType, AIStateTransitionConditionJob>();
 
@@ -26,7 +25,7 @@ public class AIStateMachine : StateMachine<AIStateType>{
 
     private void Awake() {
         if(aIStateDataList != null){
-            aIStateDataList.GetAIStateDictionary(States, out AIStateType firstState); 
+            aIStateDataList.GetAIStateDictionary(States, this, out AIStateType firstState); 
             CurrentState = States[firstState];
 
             aIStateDataList.GenerateAIStateTransitionJobDictionary(this);
@@ -39,7 +38,6 @@ public class AIStateMachine : StateMachine<AIStateType>{
 
     private void Update() {
         if (CurrentState == null || aIStateDataList == null) return;
-        Debug.Log(CurrentState.StateKey);
 		aIStateDataList.NextStateTransition(this);
     }
 
@@ -107,6 +105,21 @@ public class AIStateMachine : StateMachine<AIStateType>{
         return aIMover;
     }
 
+    public AIPatrol GetAIPatrol(){
+        if(aIPatrol == null) return null;
+        return aIPatrol;
+    }
+
+    public AIAggression GetAIAggression(){
+        if(aIAggression == null) return null;
+        return aIAggression;
+    }
+
+    public AIAttack GetAIAttack(){
+        if(aIAttack == null) return null;
+        return aIAttack;
+    }
+
     public NPCHealth GetNPCHealth(){
         if(nPCHealth == null) return null;
         return nPCHealth;
@@ -115,13 +128,5 @@ public class AIStateMachine : StateMachine<AIStateType>{
     public AICharacterDataSO GetAICharacterDataSO(){
         if(aICharacterDataSO == null) return null;
         return aICharacterDataSO;
-    }
-
-    private void OnDrawGizmosSelected() {
-        if(!showGizmos || aICharacterDataSO == null) return;
-
-        Gizmos.color = attackRangeGizmosColor;
-
-        Gizmos.DrawWireSphere(transform.position, aICharacterDataSO.attackRange);
     }
 }

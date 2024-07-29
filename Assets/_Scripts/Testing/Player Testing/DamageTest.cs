@@ -13,7 +13,7 @@ public class DamageTest : MonoBehaviour{
                 return;
             }
 
-            health.TakeDamage(damageAmount, transform.position);
+            health.TakeDamage(damageAmount, null, transform.position);
         }
     }
 }

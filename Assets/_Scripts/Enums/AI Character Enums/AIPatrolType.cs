@@ -1,4 +1,5 @@
 public enum AIPatrolType{
     Homepoint,
-    Patrolling,    
+    Patrolling,
+    Patrolling_Reverse,    
 }

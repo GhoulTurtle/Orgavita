@@ -19,6 +19,8 @@ public class AIPatrol : MonoBehaviour{
 
     private Vector3 currentGoalPoint;
 
+    private bool travellingReverse = false;
+
     private void Awake() {
         if(patrolPositions.Count == 0){
             Debug.LogError("No patrol points set on AIPatrol, " + gameObject.name + "this is not allowed!");
@@ -33,6 +35,8 @@ public class AIPatrol : MonoBehaviour{
                 break;
             case AIPatrolType.Patrolling: GenerateGoalPoint();
                 break;
+            case AIPatrolType.Patrolling_Reverse: GenerateGoalPoint();
+            break;
         }
     }
 
@@ -59,6 +63,7 @@ public class AIPatrol : MonoBehaviour{
         return patrolType switch{
             AIPatrolType.Homepoint => GetHomepointGoalPoint(),
             AIPatrolType.Patrolling => GetPatrollingGoalPoint(),
+            AIPatrolType.Patrolling_Reverse => GetReversePatrollingGoalPoint(),
             _ => currentGoalPoint,
         };
     }
@@ -97,26 +102,10 @@ public class AIPatrol : MonoBehaviour{
     }
 
     private Vector3 GetPatrollingGoalPoint(){
-        //Find which patrol point index we are at
-        int currentPatrolIndex = patrolPositions.FindIndex(p => Vector3.Distance(p.position, transform.position) <= 1.5f);
+        int currentPatrolIndex = FindCurrentPatrolIndex();
 
-        //If we didn't find the patrol index then find the closest patrol point and set the current goal pos to it.
         if(currentPatrolIndex == -1){
-            Transform closestPointTransform = null;
-            float closestPoint = float.MaxValue;
-            for (int i = 0; i < patrolPositions.Count; i++){
-                float distance = Vector3.Distance(transform.position, patrolPositions[i].position);
-                if(distance < closestPoint){
-                    closestPointTransform = patrolPositions[i];
-                    closestPoint = distance;
-                }
-            }
-            
-            if(!aIMover.CheckValidPosition(closestPointTransform.position, out Vector3 validPosition)){
-                Debug.LogError(closestPointTransform.gameObject.name + " is not close enough to a valid Navmesh position!");
-            }
-
-            return validPosition;
+            return FindClosestPatrolPoint();
         }
 
         //Get the next patrol index, and wrap around if the patrol index is the last on on the list
@@ -131,6 +120,56 @@ public class AIPatrol : MonoBehaviour{
         }
 
         return validIndexPosition;
+    }
+
+    private Vector3 GetReversePatrollingGoalPoint(){
+        int currentPatrolIndex = FindCurrentPatrolIndex();
+
+        if (currentPatrolIndex == -1){
+            return FindClosestPatrolPoint();
+        }
+
+        //Get the next patrol index based on if we are travelling in reverse or not
+        int nextPatrolIndex = travellingReverse ? currentPatrolIndex - 1 : currentPatrolIndex + 1;
+
+        if (nextPatrolIndex <= -1){
+            travellingReverse = false;
+            nextPatrolIndex = 1;
+        }
+
+        if (nextPatrolIndex >= patrolPositions.Count){
+            travellingReverse = true;
+            nextPatrolIndex = patrolPositions.Count - 2;
+        }
+
+        if (!aIMover.CheckValidPosition(patrolPositions[nextPatrolIndex].position, out Vector3 validIndexPosition)){
+            Debug.LogError(patrolPositions[nextPatrolIndex].gameObject.name + " is not close enough to a valid Navmesh position!");
+        }
+
+        return validIndexPosition;
+    }
+
+    private Vector3 FindClosestPatrolPoint(){
+        Transform closestPointTransform = null;
+        float closestPoint = float.MaxValue;
+        for (int i = 0; i < patrolPositions.Count; i++){
+            float distance = Vector3.Distance(transform.position, patrolPositions[i].position);
+            if (distance < closestPoint){
+                closestPointTransform = patrolPositions[i];
+                closestPoint = distance;
+            }
+        }
+
+        if (!aIMover.CheckValidPosition(closestPointTransform.position, out Vector3 validPosition)){
+            Debug.LogError(closestPointTransform.gameObject.name + " is not close enough to a valid Navmesh position!");
+        }
+
+        return validPosition;
+    }
+
+    private int FindCurrentPatrolIndex(){
+        //Find the closest patrol point index we are at
+        return patrolPositions.FindIndex(p => Vector3.Distance(p.position, transform.position) <= 1.5f);
     }
 
     private bool PointInLOS(Vector3 checkOrigin, Vector3 point){
@@ -148,6 +187,7 @@ public class AIPatrol : MonoBehaviour{
         return true;
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos() {
         if(!showGizmos || currentGoalPoint == null) return;
 
@@ -156,12 +196,29 @@ public class AIPatrol : MonoBehaviour{
             Gizmos.color = Color.green;
         }
 
-        Gizmos.DrawLine(transform.position, currentGoalPoint);
-
         if(patrolPositions[0].position == null) return;
 
-        if(patrolType != AIPatrolType.Homepoint) return;
-
-        Gizmos.DrawWireSphere(patrolPositions[0].position, homePointWanderRange);
+        switch (patrolType){
+            case AIPatrolType.Homepoint: Gizmos.DrawWireSphere(patrolPositions[0].position, homePointWanderRange);
+                break;
+            case AIPatrolType.Patrolling: DrawPath(true);
+                break;
+            case AIPatrolType.Patrolling_Reverse: DrawPath(false);
+                break;
+        }
     }
+
+    private void DrawPath(bool drawAsLoop){
+        for (int i = 0; i < patrolPositions.Count; i++){
+            if(i >= 1){
+                Gizmos.color = gizmosColor;
+                Gizmos.DrawLine(patrolPositions[i-1].position, patrolPositions[i].position);
+            }
+        }
+        
+        if(drawAsLoop){
+            Gizmos.DrawLine(patrolPositions[patrolPositions.Count - 1].position, patrolPositions[0].position);
+        }
+    }
+#endif
 }

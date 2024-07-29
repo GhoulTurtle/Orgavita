@@ -10,7 +10,6 @@ public class AILineOfSight : MonoBehaviour{
     [SerializeField] private Color detectionSphereLOSGizmosColor = Color.green;
     [SerializeField] private Color detectionAngleLOSGizmosColor = Color.red;
 
-    private Transform currentTarget;
     private Collider[] targetsInView;
 
     private void Awake() {
@@ -19,24 +18,23 @@ public class AILineOfSight : MonoBehaviour{
         }
     }
 
-    public Transform GetCurrentTarget(){
-        if(currentTarget == null){
-            return null;
-        }
-
-        return currentTarget;
+    public bool ValidTargetInLOS(){
+        return GetTargets(out Collider[] validTargets);
     }
 
-    public bool IsCurrentTargetInLOS(){
-        if(currentTarget == null) return false;
-        return IsTargetValid(currentTarget);
-    }
-
-    public void ChooseRandomTarget(){
+    public IDamagable ChooseRandomTargetInLOS(){
         if (GetTargets(out Collider[] validTargets)){
-            int randomTargetIndex = Random.Range(0, validTargets.Length);
-            currentTarget = validTargets[randomTargetIndex].transform;
+            int initalRandomTargetIndex = Random.Range(0, validTargets.Length);
+
+            for (int i = 0; i < validTargets.Length; i++){
+                int currentIndex = (initalRandomTargetIndex + i) % validTargets.Length;   
+                if(validTargets[currentIndex].TryGetComponent(out IDamagable damagable)){
+                    return damagable;
+                }
+            }
         }
+
+        return null;
     }
 
     public bool GetTargets(out Collider[] validTargets){

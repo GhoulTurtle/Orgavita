@@ -8,6 +8,6 @@ public class TargetInLOS : AIStateTransitionConditionJob{
     }
 
     public override bool EvaluateTransitionCondition(AIStateMachine aIStateMachine){
-        return aILineOfSight.IsCurrentTargetInLOS();
+        return aILineOfSight.ValidTargetInLOS();
     }
 }

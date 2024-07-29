@@ -8,10 +8,13 @@ public class AIStateMachine : StateMachine<AIStateType>{
     [SerializeField] private AICharacterDataSO aICharacterDataSO;
     [SerializeField] private AILineOfSight aILineOfSight;
     [SerializeField] private AIMover aIMover;
+    [SerializeField] private NPCHealth nPCHealth;
+
+    [Header("AI State References")]
     [SerializeField] private AIPatrol aIPatrol;
     [SerializeField] private AIAggression aIAggression;
     [SerializeField] private AIAttack aIAttack;
-    [SerializeField] private NPCHealth nPCHealth;
+    [SerializeField] private AISearch aISearch;
 
     private Dictionary<AIStateTransitionType, AIStateTransitionConditionJob> aIStateTransitionJobs = new Dictionary<AIStateTransitionType, AIStateTransitionConditionJob>();
 
@@ -118,6 +121,11 @@ public class AIStateMachine : StateMachine<AIStateType>{
     public AIAttack GetAIAttack(){
         if(aIAttack == null) return null;
         return aIAttack;
+    }
+
+    public AISearch GetAISearch(){
+        if(aISearch == null) return null;
+        return aISearch;
     }
 
     public NPCHealth GetNPCHealth(){

@@ -98,7 +98,7 @@ public class AIPatrol : MonoBehaviour{
 
     private Vector3 GetPatrollingGoalPoint(){
         //Find which patrol point index we are at
-        int currentPatrolIndex = patrolPositions.FindIndex(p => p.position == currentGoalPoint);
+        int currentPatrolIndex = patrolPositions.FindIndex(p => Vector3.Distance(p.position, transform.position) <= 1.5f);
 
         //If we didn't find the patrol index then find the closest patrol point and set the current goal pos to it.
         if(currentPatrolIndex == -1){

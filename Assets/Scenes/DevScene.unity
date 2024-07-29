@@ -2853,7 +2853,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015373009}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.83, y: 1.2318769, z: 4.81}
+  m_LocalPosition: {x: 6.98, y: 1.2318769, z: 9.35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3954,7 +3954,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1685543205}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.17000002, y: 1.2318769, z: -0.69000006}
+  m_LocalPosition: {x: 3.22, y: 1.2318769, z: -1.34}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5029,11 +5029,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1066393783, guid: f7122275738192046aab3bbde66a4317, type: 3}
       propertyPath: patrolType
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1066393783, guid: f7122275738192046aab3bbde66a4317, type: 3}
       propertyPath: showGizmos
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1066393783, guid: f7122275738192046aab3bbde66a4317, type: 3}
       propertyPath: homePointWanderRange

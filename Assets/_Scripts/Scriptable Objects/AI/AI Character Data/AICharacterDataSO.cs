@@ -16,7 +16,7 @@ public class AICharacterDataSO : ScriptableObject{
     [Header("Base Timer Variables")]
     [Tooltip("The amount of time that the AI will be idle.")]
     [MinMaxRange(1f, 600f)] public RangedFloat idleTimeInSeconds;
-    [Tooltip("The amount of time that the AI will chase before becoming uninterested from a target.")]
+    [Tooltip("The amount of time that the AI will keep track of the player while the player isn't in the LOS while attacking.")]
     [MinMaxRange(1f, 600f)] public RangedFloat looseTimeInSeconds;
     [Tooltip("The total amount of time that the AI will search for a target in a area.")]
     [MinMaxRange(1f, 600f)] public RangedFloat searchTimeInSeconds;

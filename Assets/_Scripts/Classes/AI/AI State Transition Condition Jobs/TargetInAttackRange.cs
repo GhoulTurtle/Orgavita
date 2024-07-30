@@ -6,4 +6,8 @@ public class TargetInAttackRange : AIStateTransitionConditionJob{
     public override bool EvaluateTransitionCondition(AIStateMachine aIStateMachine){
         return false;
     }
+    
+    public override void ResetConditionJob(){
+
+    }
 }

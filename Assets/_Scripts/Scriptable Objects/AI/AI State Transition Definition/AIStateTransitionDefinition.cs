@@ -38,6 +38,10 @@ public class AIStateTransitionDefinition : ScriptableObject{
         }
     }
 
+    public List<AIStateTransitionConditionEntry> GetAIStateTransitionConditionEntries(){
+        return aIStateTransitionConditions;
+    }
+
     public AIStateType GetToAIState(){
         return toAIState;
     }

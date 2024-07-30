@@ -3211,7 +3211,7 @@ Transform:
   - {fileID: 3487599622859446420}
   - {fileID: 8721207028834490253}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &354062078
 NavMeshAgent:
@@ -3354,7 +3354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aITargetDefinition: {fileID: 11400000, guid: 0589c301e2cd0ad40bef7082a981745b, type: 2}
   aIMover: {fileID: 354062077}
-  patrolType: 1
+  patrolType: 2
   patrolPositions:
   - {fileID: 0}
   - {fileID: 0}
@@ -3377,7 +3377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aICharacterDataSO: {fileID: 11400000, guid: ec875f80004e75a4da7cf862ed3fdcc5, type: 2}
   aITargetDefinition: {fileID: 11400000, guid: 0589c301e2cd0ad40bef7082a981745b, type: 2}
-  drawGizmos: 1
+  drawGizmos: 0
   detectionSphereLOSGizmosColor: {r: 0, g: 1, b: 0, a: 1}
   detectionAngleLOSGizmosColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1066393782
@@ -3417,6 +3417,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3325e4373d909d4492fc80187610b2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aIMover: {fileID: 354062077}
+  searchRadius: 30
+  aISearchType: 0
+  maxSearchPointLoops: 20
+  showGizmos: 1
+  gizmosColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &354062079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3433,11 +3439,11 @@ MonoBehaviour:
   aICharacterDataSO: {fileID: 11400000, guid: ec875f80004e75a4da7cf862ed3fdcc5, type: 2}
   aILineOfSight: {fileID: 354062080}
   aIMover: {fileID: 354062077}
+  nPCHealth: {fileID: 2033866894}
   aIPatrol: {fileID: 1066393783}
   aIAggression: {fileID: 1066393782}
   aIAttack: {fileID: 3215729175240041451}
   aISearch: {fileID: 415276464184728903}
-  nPCHealth: {fileID: 2033866894}
 --- !u!1 &8877993149681835144
 GameObject:
   m_ObjectHideFlags: 0

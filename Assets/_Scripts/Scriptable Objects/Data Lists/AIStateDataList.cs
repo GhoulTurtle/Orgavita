@@ -88,6 +88,23 @@ public class AIStateDataList : ScriptableObject{
             if(!aIStateTransitions[i].AttemptTransition(aIStateMachine)) continue;
             else{
                 nextAIState = aIStateTransitions[i].GetToAIState();
+                
+                //Reset the transition jobs
+                List<AIStateTransitionType> transitionsToReset = new List<AIStateTransitionType>();
+
+                List<AIStateTransitionConditionEntry> conditionEntries = aIStateTransitions[i].GetAIStateTransitionConditionEntries();
+
+                for (int j = 0; j < conditionEntries.Count; j++){
+                    List<AIStateTransitionType> aIStateTransitionTypes = conditionEntries[j].GetAIStateTransitionTypes();
+                    for(int k = 0; k < aIStateTransitionTypes.Count; k++){
+                        if(transitionsToReset.Contains(aIStateTransitionTypes[k])) continue;
+                        Debug.Log("Resetting Transition Job Type: " + aIStateTransitionTypes[k]);
+                        transitionsToReset.Add(aIStateTransitionTypes[k]);
+                    }
+                }
+
+                aIStateMachine.ResetTransitionConditionJobs(transitionsToReset);
+
                 Debug.Log("Transition Triggered! Going to the: " + nextAIState + " state!");
                 break;
             }

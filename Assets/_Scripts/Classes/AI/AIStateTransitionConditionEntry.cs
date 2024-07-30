@@ -55,6 +55,10 @@ public class AIStateTransitionConditionEntry{
         }
     }
 
+    public List<AIStateTransitionType> GetAIStateTransitionTypes(){
+        return aIStateTransitionTypes;
+    }
+
     private AIStateTransitionConditionJob AddNewTransitionJob(AIStateTransitionType aIStateTransitionType, AIStateMachine aIStateMachine){
         AIStateTransitionConditionJob aIStateTransitionConditionJob = null;
         

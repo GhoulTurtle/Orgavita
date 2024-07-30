@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +25,7 @@ public class AIStateMachine : StateMachine<AIStateType>{
     public Action<AICommandType> OnStartCommand;
     public Action<AICommandType> OnStopCommand;
 
-    //TODO: Add a coroutine container list with functions so that states and transition jobs can use coroutines.
+    private List<CoroutineContainer> coroutineContainerList = new();
 
     private void Awake() {
         if(aIStateDataList != null){
@@ -37,6 +38,11 @@ public class AIStateMachine : StateMachine<AIStateType>{
     
     private void OnDestroy() {
         aIStateTransitionJobs.Clear();
+        for (int i = 0; i < coroutineContainerList.Count; i++){
+            coroutineContainerList[i].Dispose();
+        }
+
+        StopAllCoroutines();
     }
 
     private void Update() {
@@ -61,6 +67,14 @@ public class AIStateMachine : StateMachine<AIStateType>{
         transitionJob.SetupConditionJob(this);
     }
 
+    //Reset the transition jobs for the from state
+    public void ResetTransitionConditionJobs(List<AIStateTransitionType> transitionsToReset){
+        for (int i = 0; i < transitionsToReset.Count; i++){
+            if(!aIStateTransitionJobs.ContainsKey(transitionsToReset[i])) continue;
+            aIStateTransitionJobs[transitionsToReset[i]].ResetConditionJob();
+        }
+    }
+
     public void StartAICommand(AICommandType aICommandType, ICommandIssuer commandIssuer){
         if(currentAICommand != AICommandType.None){
             currentCommandIssuer.CommandInterrupted(this, currentAICommand);
@@ -83,6 +97,28 @@ public class AIStateMachine : StateMachine<AIStateType>{
 
         OnStopCommand?.Invoke(currentAICommand);
         currentAICommand = AICommandType.None;
+    }
+
+    public void StartNewCoroutineContainer(CoroutineContainer coroutineContainer){
+        coroutineContainer.OnCoroutineDisposed += DisposeCoroutineContainer;
+        coroutineContainer.StartCoroutine();
+        coroutineContainerList.Add(coroutineContainer);
+    }
+
+    public void StartNewCoroutineContainer(IEnumerator coroutine){
+        CoroutineContainer coroutineContainer = new(this, coroutine);
+        coroutineContainer.OnCoroutineDisposed += DisposeCoroutineContainer;
+        coroutineContainer.StartCoroutine();
+        coroutineContainerList.Add(coroutineContainer);
+    }
+
+    private void DisposeCoroutineContainer(object sender, CoroutineContainer.CoroutineDisposedEventArgs e){
+        CoroutineContainer coroutineContainer = e.coroutineContainer;
+        if(coroutineContainerList.Contains(coroutineContainer)){
+            coroutineContainerList.Remove(coroutineContainer);
+        }
+
+        coroutineContainer.OnCoroutineDisposed -= DisposeCoroutineContainer;
     }
 
     public AICommandType GetCurrentCommand(){

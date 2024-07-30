@@ -5027,18 +5027,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 354062080, guid: f7122275738192046aab3bbde66a4317, type: 3}
-      propertyPath: drawGizmos
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1066393783, guid: f7122275738192046aab3bbde66a4317, type: 3}
-      propertyPath: patrolType
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1066393783, guid: f7122275738192046aab3bbde66a4317, type: 3}
-      propertyPath: showGizmos
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1066393783, guid: f7122275738192046aab3bbde66a4317, type: 3}
       propertyPath: patrolPositions.Array.data[0]
       value: 
@@ -5051,6 +5039,11 @@ PrefabInstance:
       propertyPath: patrolPositions.Array.data[2]
       value: 
       objectReference: {fileID: 1685543206}
+    - target: {fileID: 415276464184728903, guid: f7122275738192046aab3bbde66a4317,
+        type: 3}
+      propertyPath: aISearchType
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8101905658257546863, guid: f7122275738192046aab3bbde66a4317,
         type: 3}
       propertyPath: m_RootOrder

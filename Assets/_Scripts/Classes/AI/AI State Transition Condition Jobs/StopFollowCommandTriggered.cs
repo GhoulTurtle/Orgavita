@@ -6,4 +6,8 @@ public class StopFollowCommandTriggered : AIStateTransitionConditionJob{
     public override bool EvaluateTransitionCondition(AIStateMachine aIStateMachine){
         return false;
     }
+
+    public override void ResetConditionJob(){
+
+    }
 }

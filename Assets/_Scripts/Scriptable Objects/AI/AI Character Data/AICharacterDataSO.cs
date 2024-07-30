@@ -14,8 +14,16 @@ public class AICharacterDataSO : ScriptableObject{
     public int maxTargets;
 
     [Header("Base Timer Variables")]
-    [MinMaxRange(1f, 600f)] public RangedFloat idleTime;
-    [MinMaxRange(1f, 600f)] public RangedFloat looseTime;
-    [MinMaxRange(1f, 600f)] public RangedFloat searchTime;
-    [MinMaxRange(1f, 600f)] public RangedFloat patrolTime;
+    [Tooltip("The amount of time that the AI will be idle.")]
+    [MinMaxRange(1f, 600f)] public RangedFloat idleTimeInSeconds;
+    [Tooltip("The amount of time that the AI will chase before becoming uninterested from a target.")]
+    [MinMaxRange(1f, 600f)] public RangedFloat looseTimeInSeconds;
+    [Tooltip("The total amount of time that the AI will search for a target in a area.")]
+    [MinMaxRange(1f, 600f)] public RangedFloat searchTimeInSeconds;
+    [Tooltip("The amount of time that the AI will stand at a search vector.")]
+    [MinMaxRange(1f, 600f)] public RangedFloat searchIdleTimeInSeconds;
+    [Tooltip("The total amount of time that the AI will patrol.")]
+    [MinMaxRange(1f, 600f)] public RangedFloat patrolTimeInSeconds;
+    [Tooltip("The amount of time that the AI will stand at a patrol vector.")]
+    [MinMaxRange(1f, 600f)] public RangedFloat patrolIdleTimeInSeconds;
 }

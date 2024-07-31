@@ -10,6 +10,8 @@ public class AIMover : MonoBehaviour{
     private void Awake() {
         if(aICharacterDataSO != null){
             navMeshAgent.speed = aICharacterDataSO.movementSpeed;
+            navMeshAgent.angularSpeed = aICharacterDataSO.turningSpeed;
+            navMeshAgent.acceleration = aICharacterDataSO.accelerationSpeed;
         }
 
         if(nPCHealth != null){

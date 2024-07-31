@@ -8,7 +8,7 @@ public class AISearch : MonoBehaviour{
     [Header("Search Variables")]
     [SerializeField] private float searchRadius;
     [SerializeField] private AISearchType aISearchType;
-    [SerializeField] private float maxSearchPointLoops = 20;
+    [SerializeField] private int maxSearchPointLoops = 20;
 
     [Header("Debugging")]
     [SerializeField] private bool showGizmos = false;
@@ -69,34 +69,7 @@ public class AISearch : MonoBehaviour{
     }   
 
     private Vector3 GetRandomSearchVector(){
-        Vector2 randomCirclePos = Random.insideUnitCircle * searchRadius;
-        Vector3 randomPos = new(lastKnownTargetPosition.x + randomCirclePos.x, lastKnownTargetPosition.y, lastKnownTargetPosition.z + randomCirclePos.y); 
-        Ray randomPosGroundRay = new(){
-            origin = randomPos,
-            direction = Vector3.down
-        };
-
-        for (int i = 0; i < maxSearchPointLoops; i++){
-            //Translate the Y level to ground level at that random pos
-            if(Physics.Raycast(randomPosGroundRay, out RaycastHit hitInfo)){
-                randomPos.y = hitInfo.point.y;
-            }
-
-            //Check if the random point is valid
-            if(aIMover.CheckValidPosition(randomPos, out Vector3 validPosition)){
-                return validPosition;
-            }   
-            
-            //Select another random point
-            randomCirclePos = Random.insideUnitCircle * searchRadius;
-            randomPos.Set(lastKnownTargetPosition.x + randomCirclePos.x, lastKnownTargetPosition.y, lastKnownTargetPosition.z + randomCirclePos.y);
-        }
-
-        //Return the last known position if no valid search point was found within the loop
-        if(!aIMover.CheckValidPosition(lastKnownTargetPosition, out Vector3 validHomePosition)){
-            Debug.LogError(lastKnownTargetPosition + " is not close enough to a valid Navmesh position!");
-        }
-        return validHomePosition;
+        return AIHelper.GetRandomCirclePosition(aIMover, lastKnownTargetPosition, searchRadius, maxSearchPointLoops);
     }
 
     private void OnDrawGizmos() {

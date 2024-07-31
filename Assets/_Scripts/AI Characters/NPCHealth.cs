@@ -92,6 +92,14 @@ public class NPCHealth : MonoBehaviour{
     public float GetMaxHealth(){
         return aICharacterDataSO != null ? aICharacterDataSO.maxHealth : 0; 
     }
+
+    public float GetCurrentHealth(){
+        return currentHealth;
+    }
+
+    public float GetHealthFraction(){
+        return aICharacterDataSO != null ? currentHealth / aICharacterDataSO.maxHealth : 0; 
+    }
     
     public Action GetCharacterDeathAction(){
         return OnCharacterDeath;

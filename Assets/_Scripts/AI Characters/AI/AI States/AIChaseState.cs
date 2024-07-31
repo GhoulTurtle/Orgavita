@@ -7,6 +7,7 @@ public class AIChaseState : BaseState<AIStateType>{
     private AILineOfSight aILineOfSight;
     private AIMover aIMover;
     private AISearch aISearch;
+    private AIAttack aIAttack;
 
     private IDamagable currentChaseTarget;
     private Action currentChaseTargetDeathAction;
@@ -22,6 +23,7 @@ public class AIChaseState : BaseState<AIStateType>{
         aILineOfSight = aIStateMachine.GetAILineOfSight();
         aIMover = aIStateMachine.GetAIMover();
         aISearch = aIStateMachine.GetAISearch();
+        aIAttack = aIStateMachine.GetAIAttack();
     }
 
     public override void EnterState(){
@@ -63,11 +65,12 @@ public class AIChaseState : BaseState<AIStateType>{
         
         //If we don't have a top aggressor check if we have a target in our LOS
         if(currentChaseTarget == null){
-            currentChaseTarget = aILineOfSight.ChooseRandomTargetInLOS();
+            currentChaseTarget = aILineOfSight.ChooseRandomDamagableTargetInLOS();
         }
 
         if(currentChaseTarget == null) return;
 
+        aIAttack.SetCurrentDamagableTarget(currentChaseTarget);
         aISearch.SetCurrentTargetTransform(currentChaseTargetTransform);
         currentChaseTargetTransform = currentChaseTarget.GetDamageableTransform();
         currentChaseTargetDeathAction = currentChaseTarget.GetDeathAction();

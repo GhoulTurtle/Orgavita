@@ -22,7 +22,7 @@ public class AILineOfSight : MonoBehaviour{
         return GetTargets(out Collider[] validTargets);
     }
 
-    public IDamagable ChooseRandomTargetInLOS(){
+    public IDamagable ChooseRandomDamagableTargetInLOS(){
         if (GetTargets(out Collider[] validTargets)){
             int initalRandomTargetIndex = Random.Range(0, validTargets.Length);
 
@@ -64,7 +64,19 @@ public class AILineOfSight : MonoBehaviour{
         }
     }
 
-    private bool IsTargetValid(Transform target){
+    public bool IsTargetValid(Transform target, Vector3 position){
+        Vector3 directionToTarget = (target.position - position).normalized;
+
+        if (Vector3.Angle(transform.forward, directionToTarget) > aICharacterDataSO.visionAngle / 2) return false;
+
+        float distanceToTarget = Vector3.Distance(position, target.position);
+
+        if (Physics.Raycast(transform.position, directionToTarget, distanceToTarget, aITargetDefinition.GetObstructionLayerMask())) return false;
+
+        return true;
+    }
+
+    public bool IsTargetValid(Transform target){
         Vector3 directionToTarget = (target.position - transform.position).normalized;
 
         if (Vector3.Angle(transform.forward, directionToTarget) > aICharacterDataSO.visionAngle / 2) return false;

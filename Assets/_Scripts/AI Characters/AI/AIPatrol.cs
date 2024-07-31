@@ -69,36 +69,7 @@ public class AIPatrol : MonoBehaviour{
     }
 
     private Vector3 GetHomepointGoalPoint(){
-        Vector2 randomCirclePos = Random.insideUnitCircle * homePointWanderRange;
-        Vector3 randomPos = new(patrolPositions[0].position.x + randomCirclePos.x, patrolPositions[0].position.y, patrolPositions[0].position.z + randomCirclePos.y); 
-        Ray randomPosGroundRay = new(){
-            origin = randomPos,
-            direction = Vector3.down
-        };
-
-        for (int i = 0; i < maxPointSearchLoops; i++){
-            //Translate the Y level to ground level at that random pos
-            if(Physics.Raycast(randomPosGroundRay, out RaycastHit hitInfo)){
-                randomPos.y = hitInfo.point.y;
-            }
-
-            //Check if the random point is valid and is in LOS
-            if(aIMover.CheckValidPosition(randomPos, out Vector3 validPosition)){
-                if(PointInLOS(patrolPositions[0].position, validPosition)){
-                    return validPosition;
-                }
-            }   
-            
-            //Select another random point
-            randomCirclePos = Random.insideUnitCircle * homePointWanderRange;
-            randomPos.Set(patrolPositions[0].position.x + randomCirclePos.x, patrolPositions[0].position.y, patrolPositions[0].position.z + randomCirclePos.y);
-        }
-
-        //Return the homepoint position if no valid point was found within the loop
-        if(!aIMover.CheckValidPosition( patrolPositions[0].position, out Vector3 validHomePosition)){
-            Debug.LogError( patrolPositions[0].gameObject.name + " is not close enough to a valid Navmesh position!");
-        }
-        return validHomePosition;
+        return AIHelper.GetRandomCirclePosition(aIMover, patrolPositions[0].position, homePointWanderRange, maxPointSearchLoops);
     }
 
     private Vector3 GetPatrollingGoalPoint(){

@@ -3211,7 +3211,7 @@ Transform:
   - {fileID: 3487599622859446420}
   - {fileID: 8721207028834490253}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!195 &354062078
 NavMeshAgent:
@@ -3377,7 +3377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aICharacterDataSO: {fileID: 11400000, guid: ec875f80004e75a4da7cf862ed3fdcc5, type: 2}
   aITargetDefinition: {fileID: 11400000, guid: 0589c301e2cd0ad40bef7082a981745b, type: 2}
-  drawGizmos: 0
+  drawGizmos: 1
   detectionSphereLOSGizmosColor: {r: 0, g: 1, b: 0, a: 1}
   detectionAngleLOSGizmosColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1066393782
@@ -3405,6 +3405,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2204a53c22497946bd6fec157b750a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  aIMover: {fileID: 354062077}
+  aILineOfSight: {fileID: 354062080}
+  aIAttackDodgeType: 0
+  aIAttackDefinitionList: []
+  maxDodgePointSearchLoops: 20
 --- !u!114 &415276464184728903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3419,9 +3424,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aIMover: {fileID: 354062077}
   searchRadius: 30
-  aISearchType: 0
+  aISearchType: 1
   maxSearchPointLoops: 20
-  showGizmos: 1
+  showGizmos: 0
   gizmosColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &354062079
 MonoBehaviour:

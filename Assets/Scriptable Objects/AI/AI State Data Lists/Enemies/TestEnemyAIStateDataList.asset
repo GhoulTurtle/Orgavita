@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a7777de31f1ba84fa148318a0ea56d2, type: 3}
   m_Name: TestEnemyAIStateDataList
   m_EditorClassIdentifier: 
-  aIStates: 00000000010000000200000003000000
+  aIStates: 00000000020000000300000004000000
   aIStateTransitions:
-  - {fileID: 11400000, guid: 49de22d780ab61f45a62f628b5f8e37e, type: 2}
-  - {fileID: 11400000, guid: 16fbc68e4cc020c4185b95d792bc8046, type: 2}
   - {fileID: 11400000, guid: fb9183438bc9ac44ebd78ed455a07120, type: 2}
-  - {fileID: 11400000, guid: a46ba7b89047867448529e9dc4fea144, type: 2}
+  - {fileID: 11400000, guid: 1a76d48a50915a844a2b19b653d2ea3e, type: 2}
+  - {fileID: 11400000, guid: 709a96d4a4816504aa167dddf1a3516c, type: 2}
+  - {fileID: 11400000, guid: ca009aceedd13a745ae0365585870831, type: 2}
+  - {fileID: 11400000, guid: 5b0213146b307eb4ea60a98aef2db144, type: 2}

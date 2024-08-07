@@ -5,6 +5,7 @@ public class TargetOutLOSForSearchTime : AIStateTransitionConditionJob{
     private AIStateMachine aIStateMachine;
     private AICharacterDataSO aICharacterDataSO;
     private AILineOfSight aILineOfSight;
+    private AIAttack aIAttack;
 
     private CoroutineContainer searchTimeCoroutineContainer;
 
@@ -30,7 +31,7 @@ public class TargetOutLOSForSearchTime : AIStateTransitionConditionJob{
     }
 
     public override bool EvaluateTransitionCondition(AIStateMachine aIStateMachine){        
-        if(searchTimeCoroutineContainer.IsCoroutineRunning() || aILineOfSight.IsValidTargetInLOS()){
+        if(searchTimeCoroutineContainer.IsCoroutineRunning() || aILineOfSight.IsTargetValid(aIAttack.GetCurrentTargetTransform())){
             return false;
         }
         else{

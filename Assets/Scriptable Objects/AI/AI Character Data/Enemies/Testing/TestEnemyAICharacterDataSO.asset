@@ -17,8 +17,8 @@ MonoBehaviour:
   turningSpeed: 500
   accelerationSpeed: 10
   dodgeRange:
-    minValue: 0
-    maxValue: 0
+    minValue: 3.5970418
+    maxValue: 4.1349173
   visionRange: 10
   visionAngle: 45
   maxTargets: 10

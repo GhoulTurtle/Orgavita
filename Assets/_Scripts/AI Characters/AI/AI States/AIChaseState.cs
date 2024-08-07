@@ -8,6 +8,8 @@ public class AIChaseState : BaseState<AIStateType>{
     private AIMover aIMover;
     private AISearch aISearch;
     private AIAttack aIAttack;
+    
+    private TargetInLOSForTargetTime targetInLOSForTargetTime;
 
     private IDamagable currentChaseTarget;
     private Action currentChaseTargetDeathAction;
@@ -27,6 +29,10 @@ public class AIChaseState : BaseState<AIStateType>{
     }
 
     public override void EnterState(){
+        if(targetInLOSForTargetTime == null){
+            targetInLOSForTargetTime = (TargetInLOSForTargetTime)aIStateMachine.AttemptGetTransitionConditionJob(AIStateTransitionType.TargetInLOSForTargetTime);
+        }
+
         ChooseTarget();
     }
 
@@ -63,7 +69,12 @@ public class AIChaseState : BaseState<AIStateType>{
         //Set our current target to the top aggressor
         currentChaseTarget = aIAggression.GetTopAggressor();
         
-        //If we don't have a top aggressor check if we have a target in our LOS
+        //If we don't have a top aggressor, then check our TargetInLosForTargetTime for the target that triggered the transition
+        if(currentChaseTarget == null && targetInLOSForTargetTime != null){
+            currentChaseTarget = targetInLOSForTargetTime.GetTargetThatTriggeredTransition();
+        }
+
+        //If we don't have a target that triggered the transition then choose a random target in our LOS
         if(currentChaseTarget == null){
             currentChaseTarget = aILineOfSight.ChooseRandomDamagableTargetInLOS();
         }

@@ -1,9 +1,15 @@
+using System.Collections;
 using UnityEngine;
 
 public class AIPatrolState : BaseState<AIStateType>{
     private AIStateMachine aIStateMachine;
+    private AICharacterDataSO aICharacterDataSO;
     private AIPatrol aIPatrol;
     private AIMover aIMover;
+
+    private PatrolTimeExpired patrolTimeExpired;
+
+    private CoroutineContainer patrolIdleCoroutineContainer;
 
     public AIPatrolState(AIStateType key) : base(key){
 
@@ -13,27 +19,44 @@ public class AIPatrolState : BaseState<AIStateType>{
         aIStateMachine = (AIStateMachine)stateMachine;
         aIPatrol = aIStateMachine.GetAIPatrol();
         aIMover = aIStateMachine.GetAIMover();
+        aICharacterDataSO = aIStateMachine.GetAICharacterDataSO();
+        
+        patrolIdleCoroutineContainer = new CoroutineContainer(aIStateMachine);
     }
 
     public override void EnterState(){
-        //Just using 1.5 as a placeholder, can update if needed.
-        if(aIPatrol.AtGoalPoint(1.5f)){
-            aIPatrol.GenerateGoalPoint();
+        if(patrolTimeExpired == null){
+            patrolTimeExpired = (PatrolTimeExpired)aIStateMachine.AttemptGetTransitionConditionJob(AIStateTransitionType.PatrolTimeExpired);
         }
 
-        aIMover.SetDestination(aIPatrol.GetCurrentGoalPoint());
+        patrolIdleCoroutineContainer.OnCoroutineDisposed += GetNextPatrolPoint;
+
+        GetNextPatrolPoint(null, null);
     }
 
     public override void UpdateState(){
-        if(aIPatrol.AtGoalPoint(1.5f)){
-            aIPatrol.GenerateGoalPoint();
-            //Need a coroutine here to pause before we move to the next point
-            aIMover.SetDestination(aIPatrol.GetCurrentGoalPoint());
+        if(aIPatrol.AtGoalPoint(1.5f) && !patrolTimeExpired.IsPatrolTimerExpired() && !patrolIdleCoroutineContainer.IsCoroutineRunning()){
+            float pointIdleTime = Random.Range(aICharacterDataSO.patrolIdleTimeInSeconds.minValue, aICharacterDataSO.patrolIdleTimeInSeconds.maxValue);
+            
+            patrolIdleCoroutineContainer.SetCoroutine(PatrolPointIdleCoroutine(patrolIdleCoroutineContainer, pointIdleTime));
+            aIStateMachine.StartNewCoroutineContainer(patrolIdleCoroutineContainer);
         }
     }
 
+    private void GetNextPatrolPoint(object sender, CoroutineContainer.CoroutineDisposedEventArgs e){
+        aIPatrol.GenerateGoalPoint();
+        aIMover.SetDestination(aIPatrol.GetCurrentGoalPoint());        
+    }
+
     public override void ExitState(){
+        patrolIdleCoroutineContainer.OnCoroutineDisposed -= GetNextPatrolPoint;
+
         aIMover.SetDestination(aIStateMachine.transform.position);
+    }
+
+    private IEnumerator PatrolPointIdleCoroutine(CoroutineContainer coroutineContainer, float waitTime){
+        yield return new WaitForSeconds(waitTime);
+        coroutineContainer.Dispose();
     }
 
     public override AIStateType GetNextState(){

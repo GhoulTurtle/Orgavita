@@ -18,7 +18,7 @@ public class AILineOfSight : MonoBehaviour{
         }
     }
 
-    public bool ValidTargetInLOS(){
+    public bool IsValidTargetInLOS(){
         return GetTargets(out Collider[] validTargets);
     }
 

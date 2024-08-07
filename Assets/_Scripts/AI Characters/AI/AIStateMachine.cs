@@ -33,6 +33,9 @@ public class AIStateMachine : StateMachine<AIStateType>{
             CurrentState = States[firstState];
 
             aIStateDataList.GenerateAIStateTransitionJobDictionary(this);
+
+            //Start the current state transition timers
+            aIStateDataList.StartTransitionTimers(this, firstState);
         }
     }
     
@@ -62,7 +65,6 @@ public class AIStateMachine : StateMachine<AIStateType>{
 
     public void AddStateTransitionConditionJob(AIStateTransitionType transitionType, AIStateTransitionConditionJob transitionJob){
         if(aIStateTransitionJobs.ContainsKey(transitionType)) return;
-        Debug.Log("Added: " + transitionType + " to the transition job dictionary");
         aIStateTransitionJobs.Add(transitionType, transitionJob);
         transitionJob.SetupConditionJob(this);
     }
@@ -72,6 +74,13 @@ public class AIStateMachine : StateMachine<AIStateType>{
         for (int i = 0; i < transitionsToReset.Count; i++){
             if(!aIStateTransitionJobs.ContainsKey(transitionsToReset[i])) continue;
             aIStateTransitionJobs[transitionsToReset[i]].ResetConditionJob();
+        }
+    }
+
+    public void StartTransitionTimers(List<AIStateTransitionType> transitionsTypes){
+        for (int i = 0; i < transitionsTypes.Count; i++){
+            if(!aIStateTransitionJobs.ContainsKey(transitionsTypes[i])) continue;
+            aIStateTransitionJobs[transitionsTypes[i]].StartTransitionTimer();
         }
     }
 

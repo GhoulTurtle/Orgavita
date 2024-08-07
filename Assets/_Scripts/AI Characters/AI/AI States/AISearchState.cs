@@ -22,11 +22,14 @@ public class AISearchState : BaseState<AIStateType>{
         aISearch = aIStateMachine.GetAISearch();
         aIMover = aIStateMachine.GetAIMover();
         aICharacterDataSO = aIStateMachine.GetAICharacterDataSO();
-        targetOutLOSForSearchTime = (TargetOutLOSForSearchTime)aIStateMachine.AttemptGetTransitionConditionJob(AIStateTransitionType.TargetOutLOSForSearchTime);
         coroutineContainer = new(aIStateMachine);
     }
 
     public override void EnterState(){
+        if(targetOutLOSForSearchTime == null){
+            targetOutLOSForSearchTime = (TargetOutLOSForSearchTime)aIStateMachine.AttemptGetTransitionConditionJob(AIStateTransitionType.TargetOutLOSForSearchTime);
+        }
+
         coroutineContainer.OnCoroutineDisposed += CalculateNextSearchPoint;
     
         CalculateNextSearchPoint(null, null);

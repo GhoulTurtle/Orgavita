@@ -35,8 +35,19 @@ public class AIMover : MonoBehaviour{
         bool result = NavMesh.SamplePosition(position, out NavMeshHit hitInfo, rangeCheck, NavMesh.AllAreas);
         validPosition = hitInfo.position;
 
+        //Need to update to check if this navmesh can reach that result position
+
 		return result;
 	}
+
+    public bool IsAgentAtMovementTarget(){
+    if(navMeshAgent.enabled == false) return false;
+    if(navMeshAgent.pathPending) return false;
+    if(navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance) return false;
+    if(navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude != 0f) return false;
+    
+    return true;
+}
 
     public void SetNavMeshIsStopped(bool state){
         if(navMeshAgent == null) return;

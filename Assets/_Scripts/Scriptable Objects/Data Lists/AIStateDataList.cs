@@ -90,20 +90,22 @@ public class AIStateDataList : ScriptableObject{
                 nextAIState = aIStateTransitions[i].GetToAIState();
                 
                 //Reset the transition jobs
-                List<AIStateTransitionType> transitionsToReset = new List<AIStateTransitionType>();
-
+                List<AIStateTransitionType> transitions = new List<AIStateTransitionType>();
+                List<AIStateTransitionType> aIStateTransitionTypes = new List<AIStateTransitionType>();
                 List<AIStateTransitionConditionEntry> conditionEntries = aIStateTransitions[i].GetAIStateTransitionConditionEntries();
 
                 for (int j = 0; j < conditionEntries.Count; j++){
-                    List<AIStateTransitionType> aIStateTransitionTypes = conditionEntries[j].GetAIStateTransitionTypes();
+                    aIStateTransitionTypes = conditionEntries[j].GetAIStateTransitionTypes();
                     for(int k = 0; k < aIStateTransitionTypes.Count; k++){
-                        if(transitionsToReset.Contains(aIStateTransitionTypes[k])) continue;
-                        Debug.Log("Resetting Transition Job Type: " + aIStateTransitionTypes[k]);
-                        transitionsToReset.Add(aIStateTransitionTypes[k]);
+                        if(transitions.Contains(aIStateTransitionTypes[k])) continue;
+                        transitions.Add(aIStateTransitionTypes[k]);
                     }
                 }
 
-                aIStateMachine.ResetTransitionConditionJobs(transitionsToReset);
+                aIStateMachine.ResetTransitionConditionJobs(transitions);            
+
+                //Setup timers for the next state transition jobs
+                StartTransitionTimers(aIStateMachine, nextAIState);
 
                 Debug.Log("Transition Triggered! Going to the: " + nextAIState + " state!");
                 break;
@@ -111,5 +113,26 @@ public class AIStateDataList : ScriptableObject{
         }
 
         aIStateMachine.UpdateState(nextAIState);
+    }
+
+    public void StartTransitionTimers(AIStateMachine aIStateMachine, AIStateType aIStateType){
+        List<AIStateTransitionType> transitions = new List<AIStateTransitionType>();
+        List<AIStateTransitionType> aIStateTransitionTypes = new List<AIStateTransitionType>();
+        List<AIStateTransitionConditionEntry> conditionEntries = new List<AIStateTransitionConditionEntry>();
+
+        for (int i = 0; i < aIStateTransitions.Count; i++){
+            if(!aIStateTransitions[i].IsValidStateTransition(aIStateType)) continue;
+
+            conditionEntries = aIStateTransitions[i].GetAIStateTransitionConditionEntries();
+            for(int z = 0; z < conditionEntries.Count; z++){
+                aIStateTransitionTypes = conditionEntries[z].GetAIStateTransitionTypes();
+                for (int x = 0; x < aIStateTransitionTypes.Count; x++){
+                    if(transitions.Contains(aIStateTransitionTypes[x])) continue;
+                    transitions.Add(aIStateTransitionTypes[x]);
+                }
+            }
+        }
+
+        aIStateMachine.StartTransitionTimers(transitions);
     }
 }

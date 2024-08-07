@@ -23,16 +23,15 @@ public class TargetOutLOSForSearchTime : AIStateTransitionConditionJob{
         }
     }
 
-    public override bool EvaluateTransitionCondition(AIStateMachine aIStateMachine){
-        if(!searchTimeCoroutineContainer.IsCoroutineRunning()){
-            currentTotalSearchTime = Random.Range(aICharacterDataSO.searchTimeInSeconds.minValue, aICharacterDataSO.searchTimeInSeconds.maxValue);
-            searchTimeCoroutineContainer.SetCoroutine(SearchTimeCoroutine(searchTimeCoroutineContainer));
-            aIStateMachine.StartNewCoroutineContainer(searchTimeCoroutineContainer);
-        }
-        
-        //Might be wrong, needs testing.
-        if(searchTimeCoroutineContainer.IsCoroutineRunning()){
-            return aILineOfSight.ValidTargetInLOS();
+    public override void StartTransitionTimer(){
+        currentTotalSearchTime = Random.Range(aICharacterDataSO.searchTimeInSeconds.minValue, aICharacterDataSO.searchTimeInSeconds.maxValue);
+        searchTimeCoroutineContainer.SetCoroutine(SearchTimeCoroutine(searchTimeCoroutineContainer));
+        aIStateMachine.StartNewCoroutineContainer(searchTimeCoroutineContainer);
+    }
+
+    public override bool EvaluateTransitionCondition(AIStateMachine aIStateMachine){        
+        if(searchTimeCoroutineContainer.IsCoroutineRunning() || aILineOfSight.IsValidTargetInLOS()){
+            return false;
         }
         else{
             return true;

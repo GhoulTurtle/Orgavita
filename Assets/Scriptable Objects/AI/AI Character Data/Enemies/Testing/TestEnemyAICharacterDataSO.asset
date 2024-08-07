@@ -14,17 +14,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 50
   movementSpeed: 3
-  attackDamage: 0
-  attackRange: 0
+  turningSpeed: 500
+  accelerationSpeed: 10
+  dodgeRange:
+    minValue: 0
+    maxValue: 0
   visionRange: 10
   visionAngle: 45
   maxTargets: 10
-  idleTime:
-    minValue: 3.4395635
-    maxValue: 13.758251
-  searchTime:
-    minValue: 13.758254
-    maxValue: 58.472576
-  patrolTime:
-    minValue: 30.956072
-    maxValue: 306.12115
+  looseTimeInSeconds: 0
+  spotTimeInSeconds: 0
+  idleTimeInSeconds:
+    minValue: 5.369789
+    maxValue: 5.369789
+  searchTimeInSeconds:
+    minValue: 0
+    maxValue: 0
+  searchIdleTimeInSeconds:
+    minValue: 0
+    maxValue: 0
+  patrolTimeInSeconds:
+    minValue: 10.739578
+    maxValue: 26.848946
+  patrolIdleTimeInSeconds:
+    minValue: 1
+    maxValue: 3.6848946

@@ -1,9 +1,9 @@
 public enum AIStateTransitionType{
     TargetInLOSForTargetTime,
     TargetOutLOSForLooseTime,
-    TargetOutLOSForSearchTime,
     TargetInLOS,
     TargetInAttackRange,
+    SearchTimeExpired,
     IdleTimeExpired,
     PatrolTimeExpired,
     ReachedMovementTarget,

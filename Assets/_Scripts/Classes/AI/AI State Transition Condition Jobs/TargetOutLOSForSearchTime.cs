@@ -1,11 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class TargetOutLOSForSearchTime : AIStateTransitionConditionJob{
+public class SearchTimeExpired : AIStateTransitionConditionJob{
     private AIStateMachine aIStateMachine;
     private AICharacterDataSO aICharacterDataSO;
-    private AILineOfSight aILineOfSight;
-    private AIAttack aIAttack;
 
     private CoroutineContainer searchTimeCoroutineContainer;
 
@@ -15,7 +13,6 @@ public class TargetOutLOSForSearchTime : AIStateTransitionConditionJob{
     public override void SetupConditionJob(AIStateMachine _aIStateMachine){
         if(aIStateMachine == null){
             aIStateMachine = _aIStateMachine;
-            aILineOfSight = aIStateMachine.GetAILineOfSight();
             aICharacterDataSO = aIStateMachine.GetAICharacterDataSO();
         }
 
@@ -25,18 +22,21 @@ public class TargetOutLOSForSearchTime : AIStateTransitionConditionJob{
     }
 
     public override void StartTransitionTimer(){
+        if(searchTimeCoroutineContainer.IsCoroutineRunning()){
+            searchTimeCoroutineContainer.Dispose();
+        }
+
         currentTotalSearchTime = Random.Range(aICharacterDataSO.searchTimeInSeconds.minValue, aICharacterDataSO.searchTimeInSeconds.maxValue);
         searchTimeCoroutineContainer.SetCoroutine(SearchTimeCoroutine(searchTimeCoroutineContainer));
         aIStateMachine.StartNewCoroutineContainer(searchTimeCoroutineContainer);
     }
 
-    public override bool EvaluateTransitionCondition(AIStateMachine aIStateMachine){        
-        if(searchTimeCoroutineContainer.IsCoroutineRunning() || aILineOfSight.IsTargetValid(aIAttack.GetCurrentTargetTransform())){
+    public override bool EvaluateTransitionCondition(AIStateMachine aIStateMachine){
+        if(searchTimeCoroutineContainer.IsCoroutineRunning()){
             return false;
         }
-        else{
-            return true;
-        }
+
+        return true;
     }
 
     public override void ResetConditionJob(){

@@ -49,7 +49,7 @@ public class AIStateMachine : StateMachine<AIStateType>{
     }
 
     private void Update() {
-        if (CurrentState == null || aIStateDataList == null) return;
+        if (CurrentState == null || aIStateDataList == null || nPCHealth.IsDead()) return;
 		aIStateDataList.NextStateTransition(this);
     }
 

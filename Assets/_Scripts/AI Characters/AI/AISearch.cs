@@ -1,5 +1,4 @@
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class AISearch : MonoBehaviour{
     [Header("Required References")]
@@ -44,28 +43,11 @@ public class AISearch : MonoBehaviour{
     private Vector3 GetFunnelSearchVector(Vector3 currentAIPos, float currentSearchProgress){
         Vector3 currentTargetPos = currentTargetTransform.position;
 
-        float distanceToTarget = Vector3.Distance(currentTargetPos, currentAIPos);
+        Vector3 searchPosCenter = Vector3.Lerp(currentAIPos, currentTargetPos, currentSearchProgress);
 
-        //Target is within the search radius, narrow down the search area to be toward the target depending on the search time
-        if(distanceToTarget <= searchRadius){
-            Vector3 directionToTarget = (currentTargetPos - currentAIPos).normalized;
-            float searchDistance = distanceToTarget * currentSearchProgress;
-             //Check if the point is valid
-            if(aIMover.CheckValidPosition(currentAIPos + directionToTarget * searchDistance, out Vector3 validPosition)){
-                return validPosition;
-            }
-            return currentAIPos;
-        }
+        Vector3 finalPos = AIHelper.GetRandomCirclePosition(aIMover, searchPosCenter, searchRadius, maxSearchPointLoops);
+        return finalPos;
 
-        float angle = currentSearchProgress * 360f;
-        float radius = currentSearchProgress * searchRadius;
-
-        Vector3 offset = new(Mathf.Cos(angle) * radius, 0, Mathf.Sin(angle) * radius);
-        //Check if the point is valid
-        if(aIMover.CheckValidPosition(lastKnownTargetPosition + offset, out Vector3 validCirclePosition)){
-                return validCirclePosition;
-        }
-        return currentAIPos;
     }   
 
     private Vector3 GetRandomSearchVector(){

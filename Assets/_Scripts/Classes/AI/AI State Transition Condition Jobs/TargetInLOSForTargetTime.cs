@@ -42,6 +42,7 @@ public class TargetInLOSForTargetTime : AIStateTransitionConditionJob{
             CoroutineContainer coroutineContainer = new CoroutineContainer(aIStateMachine);
             coroutineContainer.SetCoroutine(TargetTimeCoroutine(coroutineContainer, aICharacterDataSO.spotTimeInSeconds));
             aIStateMachine.StartNewCoroutineContainer(coroutineContainer);
+            targetTimerCoroutineDictionary.Add(targetColliders[i], coroutineContainer);
         }
 
         foreach (Collider targetCollider in targetTimerCoroutineDictionary.Keys){

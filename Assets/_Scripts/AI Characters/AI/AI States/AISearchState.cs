@@ -7,9 +7,9 @@ public class AISearchState : BaseState<AIStateType>{
     private AISearch aISearch;
     private AIMover aIMover;
 
-    private TargetOutLOSForSearchTime targetOutLOSForSearchTime;
+    private SearchTimeExpired targetOutLOSForSearchTime;
 
-    private CoroutineContainer coroutineContainer;
+    private CoroutineContainer searchCoroutineContainer;
 
     private Vector3 currentSearchPoint;
 
@@ -22,28 +22,27 @@ public class AISearchState : BaseState<AIStateType>{
         aISearch = aIStateMachine.GetAISearch();
         aIMover = aIStateMachine.GetAIMover();
         aICharacterDataSO = aIStateMachine.GetAICharacterDataSO();
-        coroutineContainer = new(aIStateMachine);
+        searchCoroutineContainer = new(aIStateMachine);
     }
 
     public override void EnterState(){
         if(targetOutLOSForSearchTime == null){
-            targetOutLOSForSearchTime = (TargetOutLOSForSearchTime)aIStateMachine.AttemptGetTransitionConditionJob(AIStateTransitionType.TargetOutLOSForSearchTime);
+            targetOutLOSForSearchTime = (SearchTimeExpired)aIStateMachine.AttemptGetTransitionConditionJob(AIStateTransitionType.SearchTimeExpired);
         }
 
-        coroutineContainer.OnCoroutineDisposed += CalculateNextSearchPoint;
+        searchCoroutineContainer.OnCoroutineDisposed += CalculateNextSearchPoint;
     
         CalculateNextSearchPoint(null, null);
     }
 
     private void CalculateNextSearchPoint(object sender, CoroutineContainer.CoroutineDisposedEventArgs e){
-        //Just using 1.5 as a placeholder, can update if needed.
-        if(Vector3.Distance(aIStateMachine.transform.position, currentSearchPoint) <= 1.5f){
+        if(aIMover.IsAgentAtMovementTarget()){
             currentSearchPoint = aISearch.GetNextSearchVector(aIStateMachine.transform.position, targetOutLOSForSearchTime.GetCurrentSearchTimeProgress());
             aIMover.SetDestination(currentSearchPoint);
         }
 
-        coroutineContainer.SetCoroutine(SearchPointIdleCoroutine(coroutineContainer));
-        aIStateMachine.StartNewCoroutineContainer(coroutineContainer);
+        searchCoroutineContainer.SetCoroutine(SearchPointIdleCoroutine(searchCoroutineContainer));
+        aIStateMachine.StartNewCoroutineContainer(searchCoroutineContainer);
     }
 
     public override void UpdateState(){
@@ -51,10 +50,10 @@ public class AISearchState : BaseState<AIStateType>{
     }
 
     public override void ExitState(){
-        coroutineContainer.OnCoroutineDisposed -= CalculateNextSearchPoint;
+        searchCoroutineContainer.OnCoroutineDisposed -= CalculateNextSearchPoint;
         
-        if(coroutineContainer.IsCoroutineRunning()){
-            coroutineContainer.Dispose();
+        if(searchCoroutineContainer.IsCoroutineRunning()){
+            searchCoroutineContainer.Dispose();
         }
     }
 

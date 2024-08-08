@@ -67,7 +67,7 @@ public class AIStateTransitionConditionEntry{
                 break;
             case AIStateTransitionType.TargetOutLOSForLooseTime: aIStateTransitionConditionJob = new TargetOutLOSForLooseTime();
                 break;
-            case AIStateTransitionType.TargetOutLOSForSearchTime: aIStateTransitionConditionJob = new TargetOutLOSForSearchTime();
+            case AIStateTransitionType.SearchTimeExpired: aIStateTransitionConditionJob = new SearchTimeExpired();
                 break;
             case AIStateTransitionType.TargetInLOS: aIStateTransitionConditionJob = new TargetInLOS();
                 break;

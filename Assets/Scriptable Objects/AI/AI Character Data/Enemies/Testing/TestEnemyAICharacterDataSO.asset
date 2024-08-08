@@ -20,19 +20,19 @@ MonoBehaviour:
     minValue: 3.5970418
     maxValue: 4.1349173
   visionRange: 10
-  visionAngle: 45
+  visionAngle: 170
   maxTargets: 10
-  looseTimeInSeconds: 0
-  spotTimeInSeconds: 0
+  looseTimeInSeconds: 2
+  spotTimeInSeconds: 0.5
   idleTimeInSeconds:
     minValue: 5.369789
     maxValue: 5.369789
   searchTimeInSeconds:
-    minValue: 0
-    maxValue: 0
+    minValue: 12.008083
+    maxValue: 12.008083
   searchIdleTimeInSeconds:
-    minValue: 0
-    maxValue: 0
+    minValue: 1
+    maxValue: 6.638294
   patrolTimeInSeconds:
     minValue: 10.739578
     maxValue: 26.848946

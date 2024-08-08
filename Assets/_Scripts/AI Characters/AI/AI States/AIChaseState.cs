@@ -82,8 +82,8 @@ public class AIChaseState : BaseState<AIStateType>{
         if(currentChaseTarget == null) return;
 
         aIAttack.SetCurrentDamagableTarget(currentChaseTarget);
-        aISearch.SetCurrentTargetTransform(currentChaseTargetTransform);
         currentChaseTargetTransform = currentChaseTarget.GetDamageableTransform();
+        aISearch.SetCurrentTargetTransform(currentChaseTargetTransform);
         currentChaseTargetDeathAction = currentChaseTarget.GetDeathAction();
         currentChaseTargetDeathAction += ClearCurrentTargetReferences;
     }

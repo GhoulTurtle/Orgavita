@@ -16,7 +16,7 @@ public class AICharacterDataSO : ScriptableObject{
 
     [Header("Base Timer Variables")]
     [Tooltip("The total amount of time that the AI will search for a target in a area.")]
-    [Range(5f, 30f)] public float looseTimeInSeconds;
+    [Range(1f, 30f)] public float looseTimeInSeconds;
     [Tooltip("The total amount of time that the AI will take to spot a target with LOS.")]
     [Range(0.5f, 3.5f)] public float spotTimeInSeconds;
     [Tooltip("The amount of time that the AI will be idle.")]

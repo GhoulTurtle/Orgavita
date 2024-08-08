@@ -83,6 +83,8 @@ public class AIStateTransitionConditionEntry{
                 break;
             case AIStateTransitionType.StopFollowCommandTriggered: aIStateTransitionConditionJob = new StopFollowCommandTriggered();
                 break;
+            case AIStateTransitionType.CurrentAttackFinished: aIStateTransitionConditionJob = new CurrentAttackFinished();
+                break;
         }
 
         aIStateMachine.AddStateTransitionConditionJob(aIStateTransitionType, aIStateTransitionConditionJob);

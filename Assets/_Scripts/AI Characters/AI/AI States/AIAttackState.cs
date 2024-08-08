@@ -14,6 +14,8 @@ public class AIAttackState : BaseState<AIStateType>{
 
     private CoroutineContainer attackDodgeCoroutineContainer;
 
+    private bool isDodging = false;
+
     public AIAttackState(AIStateType key) : base(key){
 
     }
@@ -34,19 +36,21 @@ public class AIAttackState : BaseState<AIStateType>{
     }
 
     public override void UpdateState(){
-        if(currentAttack == null){
+        if(currentAttack == null && !isDodging){
             PerformBestAttack();
         }
     }
 
     public override void ExitState(){
         ClearCurrentAttack();
+        isDodging = false;
     }
 
     private void PerformBestAttack(){
         SelectBestAttack();
 
         if(currentAttack != null){
+            Debug.Log("Attacking!");
             currentAttack.PerformAttack(aIStateMachine, aIAttack.GetCurrentTargetTransform());
         }
     }
@@ -70,14 +74,19 @@ public class AIAttackState : BaseState<AIStateType>{
         currentAttack = aIAttack.GetBestAttack(distanceFromTarget, healthFraction);
         if(currentAttack == null) return;
         currentAttack.OnAttackEnd += CurrentAttackFinished;
+        aIAttack.SetIsAttacking(true);
     }
 
     private void CurrentAttackFinished(){
+        Debug.Log("Dodging");
+        aIAttack.SetIsAttacking(false);
+
         //Start the attack dodge coroutine
         float amountToDodgeInSeconds = Random.Range(currentAttack.attackDodgePeriodInSeconds.minValue, currentAttack.attackDodgePeriodInSeconds.maxValue);
 
         attackDodgeCoroutineContainer.SetCoroutine(AttackDodgeCoroutine(amountToDodgeInSeconds));
         aIStateMachine.StartNewCoroutineContainer(attackDodgeCoroutineContainer);
+        isDodging = true;
 
         ClearCurrentAttack();
     }
@@ -98,6 +107,8 @@ public class AIAttackState : BaseState<AIStateType>{
 
             yield return null;
         }
+
+        isDodging = false;
     }
 
     public override AIStateType GetNextState(){

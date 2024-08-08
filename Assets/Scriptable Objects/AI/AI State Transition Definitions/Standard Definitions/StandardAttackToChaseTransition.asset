@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d3568dffd120c7e4c931a357c4cd41ce, type: 3}
-  m_Name: StandardChaseToAttackTransition
+  m_Name: StandardAttackToChaseTransition
   m_EditorClassIdentifier: 
-  fromAIState: 2
-  toAIState: 4
+  fromAIState: 4
+  toAIState: 2
   aIStateTransitionConditions:
-  - aIStateTransitionTypes: 0300000002000000
-    checkOperationType: 1
+  - aIStateTransitionTypes: 03000000
+    checkOperationType: 3
+  - aIStateTransitionTypes: 08000000
+    checkOperationType: 0

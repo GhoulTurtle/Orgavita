@@ -7,6 +7,7 @@ public enum AIStateTransitionType{
     IdleTimeExpired,
     PatrolTimeExpired,
     ReachedMovementTarget,
+    CurrentAttackFinished,
     FollowCommandTriggered,
     StopFollowCommandTriggered,
 }

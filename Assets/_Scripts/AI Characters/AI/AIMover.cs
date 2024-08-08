@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -23,6 +24,8 @@ public class AIMover : MonoBehaviour{
         if(nPCHealth != null){
             nPCHealth.OnCharacterDeath -= CharacterDeath;
         }
+
+        StopAllCoroutines();
     }
 
     public void SetDestination(Vector3 _goalPosition){
@@ -67,5 +70,24 @@ public class AIMover : MonoBehaviour{
         if(navMeshAgent == null) return;
 
         navMeshAgent.enabled = false;
+    }
+
+    public void ApplyForce(Vector3 force){
+        if(navMeshAgent == null) return;
+        
+        navMeshAgent.velocity = force;
+    }
+
+    public void SetNavMeshAgentSpeed(float speed, float acceleration = -1f){
+        navMeshAgent.speed = speed;
+
+        if(acceleration == -1f) return;
+
+        navMeshAgent.acceleration = acceleration;
+    }
+
+    public void ResetNavMeshAgentSpeed(){
+        navMeshAgent.speed = aICharacterDataSO.movementSpeed;
+        navMeshAgent.acceleration = aICharacterDataSO.accelerationSpeed;
     }
 }

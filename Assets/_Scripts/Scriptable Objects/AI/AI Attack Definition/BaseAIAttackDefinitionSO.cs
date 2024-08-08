@@ -10,7 +10,7 @@ public class BaseAIAttackDefinitionSO : ScriptableObject{
     [MinMaxRange(0.5f, 5f)] public RangedFloat attackDodgePeriodInSeconds;
     [Tooltip("The amount of damage this attack will do.")]
     public float attackDamage;
-    [MinMaxRange(0.5f, 300f)] public RangedFloat attackRange;
+    [MinMaxRange(0f, 300f)] public RangedFloat attackRange;
 
     [Header("Attack Score Evaulation Curves")]
     [Tooltip("The curve that will be used in evaulating the distance from the target.")]
@@ -23,6 +23,8 @@ public class BaseAIAttackDefinitionSO : ScriptableObject{
     public AnimationCurve attackDamageEvaulationCurve = new(attackDamageEvaulationDefaultKeyframes);
 
     public Action OnAttackStart;
+    public Action OnAttackPerformed;
+    public Action OnAttackRest;
     public Action OnAttackEnd;
 
     private static readonly float evaulationTotal = 4f;

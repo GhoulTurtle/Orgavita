@@ -12,6 +12,8 @@ public class AIAttack : MonoBehaviour{
     private IDamagable currentTarget;
     private Transform currentTargetTransform;
 
+    private bool isAttacking = false;
+
     public void SetCurrentDamagableTarget(IDamagable target){
         currentTarget = target;
         currentTargetTransform = currentTarget.GetDamageableTransform();
@@ -75,12 +77,20 @@ public class AIAttack : MonoBehaviour{
         return currentPosition;
     }
 
-    public IDamagable GetCurrentDamableTarget(){
+    public IDamagable GetCurrentDamagableTarget(){
         return currentTarget;
     }
 
     public Transform GetCurrentTargetTransform(){
         return currentTargetTransform;
+    }
+
+    public void SetIsAttacking(bool _isAttacking){
+        isAttacking = _isAttacking;
+    }
+
+    public bool GetIsAttacking(){
+        return isAttacking;
     }
 
     public bool IsInAttackRange(float distanceFromTarget){
@@ -111,7 +121,7 @@ public class AIAttack : MonoBehaviour{
             }
         }
 
-        if(bestAIAttack != null){
+        if(bestAIAttack == null){
             return null;
         }
 

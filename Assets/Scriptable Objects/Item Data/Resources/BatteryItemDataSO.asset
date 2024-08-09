@@ -19,7 +19,11 @@ MonoBehaviour:
     as the days go by, better keep a high stock.
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 0}
-  itemInWorldModelPrefab: {fileID: 0}
+  itemInWorldModelPrefab: {fileID: 5771749425091677146, guid: c9203ded3f7c357449bdc4019ec1f735,
+    type: 3}
+  itemPickupAudioEvent: {fileID: 0}
+  itemUseAudioEvent: {fileID: 0}
+  itemDestoryAudioEvent: {fileID: 0}
   itemType: 2
   isUseable: 0
   isCombinable: 1

@@ -10500,10 +10500,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 354062080, guid: f7122275738192046aab3bbde66a4317, type: 3}
-      propertyPath: drawGizmos
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1066393783, guid: f7122275738192046aab3bbde66a4317, type: 3}
       propertyPath: patrolPositions.Array.data[0]
       value: 
@@ -10516,32 +10512,11 @@ PrefabInstance:
       propertyPath: patrolPositions.Array.data[2]
       value: 
       objectReference: {fileID: 1685543206}
-    - target: {fileID: 415276464184728903, guid: f7122275738192046aab3bbde66a4317,
-        type: 3}
-      propertyPath: showGizmos
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 415276464184728903, guid: f7122275738192046aab3bbde66a4317,
-        type: 3}
-      propertyPath: aISearchType
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3215729175240041451, guid: f7122275738192046aab3bbde66a4317,
         type: 3}
       propertyPath: aIAttackDodgeType
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3215729175240041451, guid: f7122275738192046aab3bbde66a4317,
-        type: 3}
-      propertyPath: aIAttackDefinitionList.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3215729175240041451, guid: f7122275738192046aab3bbde66a4317,
-        type: 3}
-      propertyPath: aIAttackDefinitionList.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 274e5c25530f94142b6ed75bab82d828,
-        type: 2}
     - target: {fileID: 8101905658257546863, guid: f7122275738192046aab3bbde66a4317,
         type: 3}
       propertyPath: m_RootOrder

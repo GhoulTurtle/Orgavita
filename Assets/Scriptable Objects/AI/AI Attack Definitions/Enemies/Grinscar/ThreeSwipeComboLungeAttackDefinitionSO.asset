@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 169fa12860c9f1040ba05fa7f6994dab, type: 3}
   m_Name: ThreeSwipeComboLungeAttackDefinitionSO
   m_EditorClassIdentifier: 
-  attackSpeedInSeconds: 0
+  attackSpeedInSeconds: 2
   attackDodgePeriodInSeconds:
-    minValue: 0
-    maxValue: 0
-  attackDamage: 0
+    minValue: 3.5339758
+    maxValue: 5
+  attackDamage: 8
   attackRange:
     minValue: 0
-    maxValue: 0
+    maxValue: 12.696927
   rangeEvaulationCurve:
     serializedVersion: 2
     m_Curve:
@@ -33,14 +33,14 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.5
+      time: 0.75416565
       value: 1
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 136
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 0
@@ -82,7 +82,7 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -90,14 +90,14 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.75
-      value: 0.5
+      time: 0.5041641
+      value: 0.9999888
       inSlope: 0
       outSlope: 0
-      tangentMode: 0
+      tangentMode: 136
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 0
@@ -123,8 +123,17 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
+      time: 0.5005204
+      value: 0.998419
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
       time: 1
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -134,5 +143,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  lungeAmount: 1
-  lungeForce: 0
+  lungeAmount: 3
+  lungeForce: 5

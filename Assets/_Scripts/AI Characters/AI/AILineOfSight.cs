@@ -88,6 +88,31 @@ public class AILineOfSight : MonoBehaviour{
         return true;
     }
 
+    public Vector3 FindValidLOSPosition(Vector3 currentPosition, Transform target, AIMover aIMover){
+        // Define the maximum search radius and the number of search angles
+        float searchRadius = 5f;
+        int numberOfRays = 36;
+        
+        // Calculate the angle increment based on the number of rays
+        float angleIncrement = 360f / numberOfRays;
+
+        // Loop through the potential positions around the current position
+        for (int i = 0; i < numberOfRays; i++){
+            // Calculate the direction of the ray based on the current angle
+            float angle = i * angleIncrement;
+            Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+            
+            // Calculate the potential new position
+            Vector3 potentialPosition = currentPosition + direction * searchRadius;
+
+            if(IsTargetValid(target, potentialPosition) && aIMover.CheckValidPosition(potentialPosition, out Vector3 finalPos)){
+                return finalPos;
+            }
+        }
+
+        return currentPosition;
+    }
+
     private void OnDrawGizmosSelected(){
         if(drawGizmos){
             if(aICharacterDataSO == null) return;

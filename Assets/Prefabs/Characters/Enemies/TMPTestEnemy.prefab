@@ -3354,7 +3354,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aITargetDefinition: {fileID: 11400000, guid: 0589c301e2cd0ad40bef7082a981745b, type: 2}
   aIMover: {fileID: 354062077}
-  patrolType: 2
+  patrolType: 1
   patrolPositions:
   - {fileID: 0}
   - {fileID: 0}
@@ -3377,7 +3377,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aICharacterDataSO: {fileID: 11400000, guid: ec875f80004e75a4da7cf862ed3fdcc5, type: 2}
   aITargetDefinition: {fileID: 11400000, guid: 0589c301e2cd0ad40bef7082a981745b, type: 2}
-  drawGizmos: 1
+  drawGizmos: 0
   detectionSphereLOSGizmosColor: {r: 0, g: 1, b: 0, a: 1}
   detectionAngleLOSGizmosColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &1066393782
@@ -3407,8 +3407,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aIMover: {fileID: 354062077}
   aILineOfSight: {fileID: 354062080}
-  aIAttackDodgeType: 0
-  aIAttackDefinitionList: []
+  aIAttackDodgeType: 1
+  aIAttackDefinitionList:
+  - {fileID: 11400000, guid: 274e5c25530f94142b6ed75bab82d828, type: 2}
+  - {fileID: 11400000, guid: 35ed173f68f113f489ce3e7a91775c09, type: 2}
+  - {fileID: 11400000, guid: cb95a214f7f575e4ea97991c1ca39f65, type: 2}
   maxDodgePointSearchLoops: 20
 --- !u!114 &415276464184728903
 MonoBehaviour:

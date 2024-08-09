@@ -5,9 +5,16 @@ using UnityEngine;
 public class BaseAIAttackDefinitionSO : ScriptableObject{
     [Header("Base Attack Variables")]
     [Tooltip("The amount of time that this attack takes to perform.")]
-    public float attackSpeedInSeconds;
+    [SerializeField] private float attackSpeedInSeconds;
+    public float AttackSpeedInSeconds{
+        get { return attackSpeedInSeconds;}
+        set{
+            attackSpeedInSeconds = value;
+            OnBaseAttackSpeedValueChanged();
+        }
+    }
     [Tooltip("The amount of time the AI will have to perform dodges in order to be able to attack again.")]
-    [MinMaxRange(0.5f, 5f)] public RangedFloat attackDodgePeriodInSeconds;
+    [MinMaxRange(0.5f, 10f)] public RangedFloat attackDodgePeriodInSeconds;
     [Tooltip("The amount of damage this attack will do.")]
     public float attackDamage;
     [MinMaxRange(0f, 300f)] public RangedFloat attackRange;
@@ -76,5 +83,13 @@ public class BaseAIAttackDefinitionSO : ScriptableObject{
     public bool IsDistanceInAttackRange(float distance){
         if (distance > attackRange.maxValue || distance < attackRange.minValue) return false;
         return true;
+    }
+
+    private void OnValidate() {
+        OnBaseAttackSpeedValueChanged();    
+    }
+
+    protected virtual void OnBaseAttackSpeedValueChanged(){
+        // Base implementation (if any) or leave empty
     }
 }

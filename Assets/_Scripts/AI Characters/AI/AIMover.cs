@@ -37,8 +37,15 @@ public class AIMover : MonoBehaviour{
     public bool CheckValidPosition(Vector3 position, out Vector3 validPosition, float rangeCheck = 1f){
         bool result = NavMesh.SamplePosition(position, out NavMeshHit hitInfo, rangeCheck, NavMesh.AllAreas);
         validPosition = hitInfo.position;
+        
+        if(!result) return result;
 
-        //Need to update to check if this navmesh can reach that result position
+        // Check if the navmesh can reach the valid position
+        NavMeshPath path = new NavMeshPath();
+        result = NavMesh.CalculatePath(position, validPosition, NavMesh.AllAreas, path);
+        if (result && path.status != NavMeshPathStatus.PathComplete){
+            result = false; // The path is not complete, so it's not a valid position
+        }
 
 		return result;
 	}
@@ -55,7 +62,7 @@ public class AIMover : MonoBehaviour{
     public void SetNavMeshIsStopped(bool state){
         if(navMeshAgent == null) return;
         if(!navMeshAgent.isOnNavMesh) return;
-
+        if(navMeshAgent.isStopped == state) return;
 
         navMeshAgent.isStopped = state;
     }

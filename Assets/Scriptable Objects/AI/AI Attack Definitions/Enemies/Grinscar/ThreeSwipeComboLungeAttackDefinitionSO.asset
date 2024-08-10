@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 169fa12860c9f1040ba05fa7f6994dab, type: 3}
   m_Name: ThreeSwipeComboLungeAttackDefinitionSO
   m_EditorClassIdentifier: 
-  attackSpeedInSeconds: 2
+  attackSpeedInSeconds: 4
   attackDodgePeriodInSeconds:
     minValue: 3.5339758
     maxValue: 5
   attackDamage: 8
   attackRange:
     minValue: 0
-    maxValue: 12.696927
+    maxValue: 16.929234
   rangeEvaulationCurve:
     serializedVersion: 2
     m_Curve:
@@ -33,19 +33,10 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.75416565
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      value: 1
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -59,18 +50,18 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -90,7 +81,7 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.5041641
+      time: 0.70416105
       value: 0.9999888
       inSlope: 0
       outSlope: 0
@@ -123,19 +114,10 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.5005204
-      value: 0.998419
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      value: 1
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -144,4 +126,11 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   lungeAmount: 3
-  lungeForce: 5
+  lungeForce: 2
+  lungeSpeed: 7.5
+  lungleDamageRangeRadius: 0.5
+  maxLungeTargetsHit: 5
+  lungeChargeTime: 0.8
+  lungePerformTime: 0.2
+  lungeRecoveryTime: 0.2
+  lungeWindupTime: 0.13333334

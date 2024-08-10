@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ShotgunResourceDataSO
   m_EditorClassIdentifier: 
   itemDataToHold: {fileID: 11400000, guid: e4bf030c2605e6248bb8b89ea471718b, type: 2}
-  currentStack: 6
+  currentStack: 0
   maxStack: 6
   resetResourceStack: 1
-  defaultStack: 6
+  defaultStack: 0

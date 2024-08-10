@@ -6,6 +6,7 @@ public class AICharacterDataSO : ScriptableObject{
     public float maxHealth;
     public float movementSpeed;
     public float turningSpeed = 500f;
+    public float rotationSpeed = 10;
     public float accelerationSpeed = 10f;
     [MinMaxRange(3f, 15f)] public RangedFloat dodgeRange;
     

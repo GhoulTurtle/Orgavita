@@ -8,11 +8,14 @@ public class AIMover : MonoBehaviour{
     [SerializeField] private AICharacterDataSO aICharacterDataSO;
     [SerializeField] private NPCHealth nPCHealth;
 
+    private IEnumerator rotationCoroutine;
+
     private void Awake() {
         if(aICharacterDataSO != null){
             navMeshAgent.speed = aICharacterDataSO.movementSpeed;
             navMeshAgent.angularSpeed = aICharacterDataSO.turningSpeed;
             navMeshAgent.acceleration = aICharacterDataSO.accelerationSpeed;
+            SetNavMeshUpdateRotation(false);
         }
 
         if(nPCHealth != null){
@@ -28,11 +31,46 @@ public class AIMover : MonoBehaviour{
         StopAllCoroutines();
     }
 
+    private void Update() {
+        if(navMeshAgent == null || navMeshAgent.enabled == false || rotationCoroutine != null) return;
+
+        Vector3 dir = navMeshAgent.velocity;
+        if(dir == Vector3.zero) return;
+
+        SetAIRotationVector(dir);
+    }
+
     public void SetDestination(Vector3 _goalPosition){
         if(nPCHealth.IsDead()) return;
 
 		navMeshAgent.SetDestination(_goalPosition);
 	}
+
+    public Vector3 GetAIRotationVector(){
+        return transform.rotation.eulerAngles;
+    }
+
+    public void SetAIRotationVector(Vector3 dir){
+        Quaternion targetRotation = Quaternion.LookRotation(dir);
+
+        Quaternion yRotation =  Quaternion.Slerp(transform.rotation, targetRotation, aICharacterDataSO.rotationSpeed * Time.deltaTime);
+            
+        transform.rotation = Quaternion.Euler(0, yRotation.eulerAngles.y, 0);
+    }
+
+    public void StartAIRotationJob(Vector3 dir){
+        StopAIRotationJob();
+
+        rotationCoroutine = RotationJobCoroutine(dir);
+        StartCoroutine(rotationCoroutine);
+    }
+
+    public void StopAIRotationJob(){
+        if(rotationCoroutine != null){
+            StopCoroutine(rotationCoroutine);
+            rotationCoroutine = null;
+        }
+    }
 
     public bool CheckValidPosition(Vector3 position, out Vector3 validPosition, float rangeCheck = 1f){
         bool result = NavMesh.SamplePosition(position, out NavMeshHit hitInfo, rangeCheck, NavMesh.AllAreas);
@@ -51,18 +89,22 @@ public class AIMover : MonoBehaviour{
 	}
 
     public bool IsAgentAtMovementTarget(){
-    if(navMeshAgent.enabled == false) return false;
-    if(navMeshAgent.pathPending) return false;
-    if(navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance) return false;
-    if(navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude != 0f) return false;
-    
-    return true;
-}
+        if(navMeshAgent.enabled == false) return false;
+        if(navMeshAgent.pathPending) return false;
+        if(navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance) return false;
+        if(navMeshAgent.hasPath || navMeshAgent.velocity.sqrMagnitude != 0f) return false;
+        
+        return true;
+    }
 
     public void SetNavMeshIsStopped(bool state){
         if(navMeshAgent == null) return;
         if(!navMeshAgent.isOnNavMesh) return;
         if(navMeshAgent.isStopped == state) return;
+
+        if(state && navMeshAgent.hasPath){
+            navMeshAgent.ResetPath();
+        }
 
         navMeshAgent.isStopped = state;
     }
@@ -73,16 +115,15 @@ public class AIMover : MonoBehaviour{
 		navMeshAgent.updateRotation = state;
 	}
 
-    private void CharacterDeath(){
-        if(navMeshAgent == null) return;
-
-        navMeshAgent.enabled = false;
-    }
-
-    public void ApplyForce(Vector3 force){
-        if(navMeshAgent == null) return;
+    public void ApplyForce(Vector3 dir, float forceAmount, float forceSpeed){
+        if(navMeshAgent == null || navMeshAgent.enabled == false) return;
         
-        navMeshAgent.velocity = force;
+        dir = dir.normalized;
+        
+        SetNavMeshAgentSpeed(forceSpeed, forceSpeed * 2);
+        Vector3 newDestination = navMeshAgent.transform.position + dir * forceAmount;
+        
+        navMeshAgent.SetDestination(newDestination);
     }
 
     public void SetNavMeshAgentSpeed(float speed, float acceleration = -1f){
@@ -96,5 +137,29 @@ public class AIMover : MonoBehaviour{
     public void ResetNavMeshAgentSpeed(){
         navMeshAgent.speed = aICharacterDataSO.movementSpeed;
         navMeshAgent.acceleration = aICharacterDataSO.accelerationSpeed;
+    }
+
+    private void CharacterDeath(){
+        if(navMeshAgent == null) return;
+
+        navMeshAgent.enabled = false;
+    }
+
+    private IEnumerator RotationJobCoroutine(Vector3 dir){
+        Quaternion targetRotation = Quaternion.LookRotation(dir);
+        float timeElapsed = 0f;
+        Quaternion startRotation = transform.rotation;
+
+        while(timeElapsed < 1f){
+            timeElapsed += aICharacterDataSO.rotationSpeed * Time.deltaTime;
+            Quaternion yRotation =  Quaternion.Slerp(startRotation, targetRotation, timeElapsed);
+            
+            transform.rotation = Quaternion.Euler(0, yRotation.eulerAngles.y, 0);
+            
+            yield return null;
+        }
+
+        transform.rotation = Quaternion.Euler(0, targetRotation.eulerAngles.y, 0);
+        rotationCoroutine = null;
     }
 }

@@ -3407,7 +3407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aIMover: {fileID: 354062077}
   aILineOfSight: {fileID: 354062080}
-  aIAttackDodgeType: 1
+  aIAttackDodgeType: 0
   aIAttackDefinitionList:
   - {fileID: 11400000, guid: 274e5c25530f94142b6ed75bab82d828, type: 2}
   - {fileID: 11400000, guid: 35ed173f68f113f489ce3e7a91775c09, type: 2}

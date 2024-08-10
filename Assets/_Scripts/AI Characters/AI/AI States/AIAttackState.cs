@@ -50,7 +50,6 @@ public class AIAttackState : BaseState<AIStateType>{
         SelectBestAttack();
 
         if(currentAttack != null){
-            Debug.Log("Attacking!");
             currentAttack.PerformAttack(aIStateMachine, aIAttack.GetCurrentTargetTransform());
         }
     }
@@ -78,7 +77,6 @@ public class AIAttackState : BaseState<AIStateType>{
     }
 
     private void CurrentAttackFinished(){
-        Debug.Log("Dodging");
         aIAttack.SetIsAttacking(false);
 
         //Start the attack dodge coroutine

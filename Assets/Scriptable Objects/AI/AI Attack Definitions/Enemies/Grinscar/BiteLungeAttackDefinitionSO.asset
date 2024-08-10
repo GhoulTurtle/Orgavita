@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 169fa12860c9f1040ba05fa7f6994dab, type: 3}
   m_Name: BiteLungeAttackDefinitionSO
   m_EditorClassIdentifier: 
-  attackSpeedInSeconds: 8
+  attackSpeedInSeconds: 5
   attackDodgePeriodInSeconds:
     minValue: 5
     maxValue: 5
   attackDamage: 20
   attackRange:
-    minValue: 0
-    maxValue: 52.198444
+    minValue: 4.2323065
+    maxValue: 42.32306
   rangeEvaulationCurve:
     serializedVersion: 2
     m_Curve:
@@ -59,8 +59,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -74,18 +74,18 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 1
-      outSlope: 1
-      tangentMode: 34
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -98,8 +98,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0
-      inSlope: 2
-      outSlope: 2
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -107,8 +107,8 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 1
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
@@ -117,4 +117,11 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   lungeAmount: 1
-  lungeForce: 4
+  lungeForce: 6
+  lungeSpeed: 6
+  lungleDamageRangeRadius: 0.5
+  maxLungeTargetsHit: 5
+  lungeChargeTime: 3
+  lungePerformTime: 0.75
+  lungeRecoveryTime: 0.75
+  lungeWindupTime: 0.5

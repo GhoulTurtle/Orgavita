@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae28d450e9baa094db51a5372d946a63, type: 3}
   m_Name: TestEnemyAICharacterDataSO
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 40
   movementSpeed: 3
   turningSpeed: 500
+  rotationSpeed: 6
   accelerationSpeed: 10
   dodgeRange:
     minValue: 3.5970418

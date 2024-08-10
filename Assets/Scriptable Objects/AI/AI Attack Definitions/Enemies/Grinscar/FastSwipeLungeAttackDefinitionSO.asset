@@ -14,32 +14,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackSpeedInSeconds: 0.75
   attackDodgePeriodInSeconds:
-    minValue: 2.0797086
+    minValue: 2.3030803
     maxValue: 2.9896545
   attackDamage: 10
   attackRange:
     minValue: 0
-    maxValue: 5.005562
+    maxValue: 5.0055623
   rangeEvaulationCurve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 136
+      value: 1
+      inSlope: -0.009437657
+      outSlope: -0.009437657
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.20832825
-      value: 0.9999982
-      inSlope: -0.17521754
-      outSlope: -0.17521754
-      tangentMode: 0
+      time: 0.49999493
+      value: 0.9952812
+      inSlope: -0.018875122
+      outSlope: -0.018875122
+      tangentMode: 136
       weightedMode: 0
-      inWeight: 0.8399961
+      inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
@@ -59,20 +59,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 0.9999914
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: -0.9999914
+      outSlope: -0.9999914
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: -0.9999914
+      outSlope: -0.9999914
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -83,29 +83,20 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.75
-      value: 0.5
       inSlope: -1
       outSlope: -1
-      tangentMode: 136
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0.33333334
+      inWeight: 0
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0
+      inWeight: 0.33333334
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -116,27 +107,30 @@ MonoBehaviour:
     - serializedVersion: 3
       time: 0
       value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
-      outWeight: 0
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
       weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   lungeAmount: 1
-  lungeForce: 8
-  lungeChargeTime: 0.33749998
+  lungeForce: 6
+  lungeSpeed: 12
+  lungleDamageRangeRadius: 0.5
+  maxLungeTargetsHit: 5
+  lungeChargeTime: 0.45000002
   lungePerformTime: 0.112500004
   lungeRecoveryTime: 0.112500004
-  lungeWindupTime: 0.1875
+  lungeWindupTime: 0.075

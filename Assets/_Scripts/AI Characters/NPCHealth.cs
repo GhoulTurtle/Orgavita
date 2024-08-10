@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+using Random = UnityEngine.Random;
+
 /// <summary>
 /// Handles heath relating to non playable characters. Handles character death, ragdolling, and gibbing.  
 /// </summary>
@@ -77,6 +79,11 @@ public class NPCHealth : MonoBehaviour{
         }
 
         OnCharacterHealed?.Invoke(currentHealth, healSource);
+    }
+
+    public IDamagable GetRandomDamagableBodyPart(){
+        int randomPart = Random.Range(0, nPCBodyParts.Count);
+        return nPCBodyParts[randomPart];
     }
 
     private void TriggerCharacterDealth(){

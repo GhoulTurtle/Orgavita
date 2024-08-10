@@ -113,6 +113,10 @@ public class AILineOfSight : MonoBehaviour{
         return currentPosition;
     }
 
+    public AITargetDefinition GetAITargetDefinition(){
+        return aITargetDefinition;
+    }
+
     private void OnDrawGizmosSelected(){
         if(drawGizmos){
             if(aICharacterDataSO == null) return;

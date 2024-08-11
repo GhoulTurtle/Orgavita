@@ -10,6 +10,8 @@ public class Health : MonoBehaviour, IDamagable{
 	[SerializeField, Range(0f, 1f)] private float warningPercentCutoff = 0.3f;
 	[SerializeField, Range(0f, 1f)] private float criticalPercentCutoff = 0.1f;
 
+	public Action OnStartHealingOverTime;
+	public Action OnFinishedHealingOverTime;
 	public EventHandler OnDamagedEvent;
 	public EventHandler OnHealedEvent;
 	public EventHandler OnMaxIncreasedEvent;
@@ -64,6 +66,7 @@ public class Health : MonoBehaviour, IDamagable{
 	}
 
 	public void HealHealthOverTime(float totalAmount, float totalTime){
+		OnStartHealingOverTime?.Invoke();
 		currentHealOverTimeJob = HealOverTimeJob(totalAmount, totalTime);
 		StartCoroutine(currentHealOverTimeJob);
 	}
@@ -128,6 +131,7 @@ public class Health : MonoBehaviour, IDamagable{
 			totalAmount -= 1;
 		}
 
+		OnFinishedHealingOverTime();
 		currentHealOverTimeJob = null;
 	}
 

@@ -9,6 +9,7 @@ public class HealthUI : MonoBehaviour{
     [Header("UI References")]
     [SerializeField] private TextMeshProUGUI statusText;
     [SerializeField] private Image statusImage;
+    [SerializeField] private GameObject healingUIParent;
 
     [Header("HealthUI Variables")]
     [SerializeField] private Color healthyColor = Color.blue;
@@ -18,10 +19,16 @@ public class HealthUI : MonoBehaviour{
 
     private void Awake() {
         playerHealth.OnHealthStateChanged += UpdateHealthUI;
+        playerHealth.OnStartHealingOverTime += ShowHealingUI;
+        playerHealth.OnFinishedHealingOverTime += HideHealingUI;
+
+        HideHealingUI();
     }
 
     private void OnDestroy() {
         playerHealth.OnHealthStateChanged -= UpdateHealthUI;
+        playerHealth.OnStartHealingOverTime -= ShowHealingUI;
+        playerHealth.OnFinishedHealingOverTime -= HideHealingUI;
     }
 
     private void UpdateHealthUI(object sender, Health.HealthStateChangedEventArgs e){
@@ -43,5 +50,13 @@ public class HealthUI : MonoBehaviour{
                 statusImage.color = criticalColor;
                 break;
         }
+    }
+
+    private void ShowHealingUI(){
+        healingUIParent.SetActive(true);
+    }
+
+    private void HideHealingUI(){
+        healingUIParent.SetActive(false);
     }
 }

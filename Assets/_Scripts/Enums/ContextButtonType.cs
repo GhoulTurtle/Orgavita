@@ -3,6 +3,8 @@ public enum ContextButtonType{
     Equip,
     UnEquip,
     Inspect,
+    Assign,
+    Move,
     Combine,
     Destroy
 }

@@ -33,7 +33,7 @@ MonoBehaviour:
   isCombinable: 1
   isStackable: 1
   isDestroyable: 1
-  maxStackSize: 6
+  maxStackSize: 4
   consumableItemJobList:
   - jobType: 2
     amount: 15

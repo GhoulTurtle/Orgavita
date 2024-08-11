@@ -19,17 +19,18 @@ public class ItemUI : MonoBehaviour, ISelectHandler{
     [SerializeField] private Color maxStackAmountTextColor = Color.red;
 
     private InventoryUI inventoryUI;
-
+    private PlayerInventoryHandler playerInventoryHandler;
     private InventoryItem associatedInventoryItem;
 
     private ResourceDataSO associatedItemResourceData;
 
     private bool isEquipmentSlot = false;
 
-    public void SetupItemUI(InventoryUI _inventoryUI, InventoryItem _associatedInventoryItem, bool _isEquipmentSlot = false){
+    public void SetupItemUI(InventoryUI _inventoryUI, PlayerInventoryHandler _playerInventoryHandler, InventoryItem _associatedInventoryItem, bool _isEquipmentSlot = false){
         isEquipmentSlot = _isEquipmentSlot;
 
         inventoryUI = _inventoryUI;
+        playerInventoryHandler = _playerInventoryHandler;
     
         associatedInventoryItem = _associatedInventoryItem;
 
@@ -147,7 +148,7 @@ public class ItemUI : MonoBehaviour, ISelectHandler{
     }
 
     public void OnClick(){
-        if(associatedInventoryItem.IsEmpty()) return;
+        if(associatedInventoryItem.IsEmpty() && playerInventoryHandler.CurrentInventoryState != InventoryState.Move || playerInventoryHandler.CurrentInventoryState == InventoryState.Move && isEquipmentSlot) return;
         
         inventoryUI.ClickedSelectedItemUI(this);
     }

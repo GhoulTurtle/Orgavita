@@ -179,6 +179,16 @@ public class PlayerInventorySO : ScriptableObject{
 
     }
 
+    public void MoveItem(InventoryItem inventoryItemToMove, InventoryItem inventoryItemMoveLocation){
+        if(!inventoryItemMoveLocation.IsEmpty()){
+            SwapInventoryItems(inventoryItemToMove, inventoryItemMoveLocation);
+        }
+        else{
+            inventoryItemMoveLocation.SetItem(inventoryItemToMove.GetHeldItem(), inventoryItemToMove.GetCurrentStack());
+            inventoryItemToMove.ClearItem();
+        }
+    }
+
     public string AttemptItemCombination(InventoryItem initalComboItem, InventoryItem incomingItem, PlayerInventoryRecipeListSO playerInventoryRecipeListSO){
         ComboResult newComboResult = new ComboResult();
 
@@ -304,7 +314,7 @@ public class PlayerInventorySO : ScriptableObject{
         return maxInventorySize;
     }
 
-    private void SwapInventoryItems(InventoryItem item1, InventoryItem item2){
+    public void SwapInventoryItems(InventoryItem item1, InventoryItem item2){
         if(item1.IsEmpty() && item2.IsEmpty()) return;
 
         var item1Data = item1.GetHeldItem();

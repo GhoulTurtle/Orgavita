@@ -22,14 +22,15 @@ public class ContextButtonUI : MonoBehaviour{
         button.onClick.AddListener(contextButton.GetButtonAction());
     }
 
-
     public string GetButtonText(){
         return contextButton.GetContextButtonType() switch{
             ContextButtonType.Use => "Use",
             ContextButtonType.Equip => "Equip",
             ContextButtonType.UnEquip => "Unequip",
             ContextButtonType.Inspect => "Inspect",
+            ContextButtonType.Assign => "Assign",
             ContextButtonType.Combine => "Combine",
+            ContextButtonType.Move => "Move",
             ContextButtonType.Destroy => "Destroy",
             _ => "",
         };

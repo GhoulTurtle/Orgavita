@@ -1,3 +1,4 @@
+using System;
 using UnityEngine.Events;
 
 public class ContextButton{
@@ -29,7 +30,9 @@ public class ContextButton{
             ContextButtonType.Equip => EquipAction,
             ContextButtonType.UnEquip => UnEquipAction,
             ContextButtonType.Inspect => InspectAction,
+            ContextButtonType.Assign => AssignAction,
             ContextButtonType.Combine => CombineAction,
+            ContextButtonType.Move => MoveAction,
             ContextButtonType.Destroy => DestroyAction,
             _ => null,
         };
@@ -45,8 +48,16 @@ public class ContextButton{
         playerInventoryHandler.UpdateInventoryState(InventoryState.Inspect);
     }
 
+    private void AssignAction(){
+        playerInventoryHandler.UpdateInventoryState(InventoryState.Assign);
+    }
+
     private void CombineAction(){
         playerInventoryHandler.UpdateInventoryState(InventoryState.Combine);
+    }
+
+    private void MoveAction(){
+        playerInventoryHandler.UpdateInventoryState(InventoryState.Move);
     }
 
     private void DestroyAction(){

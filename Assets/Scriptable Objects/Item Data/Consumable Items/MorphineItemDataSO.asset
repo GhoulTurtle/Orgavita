@@ -10,13 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f02916338d89b3488692c96945d797b, type: 3}
-  m_Name: BoosterShotItemDataSO
+  m_Name: MorphineItemDataSO
   m_EditorClassIdentifier: 
-  itemName: Booster Shot
-  itemQuickDescription: Increases maximum health permanetly.
-  itemInspectDescription: The Booster Shot is a rare and potent healing item that
-    offers a unique benefit. Upon consumption, it fortifies the user's body, permanently
-    increasing their maximum health by hardening their skin.
+  itemName: Morphine
+  itemQuickDescription: 'A injection that will relieve a small amount of health instantly. '
+  itemInspectDescription: 
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 0}
   itemInWorldModelPrefab: {fileID: 8967305202571421445, guid: c1407835baff04f41ad16c6ac1ffee2a,
@@ -27,11 +25,11 @@ MonoBehaviour:
   itemType: 1
   isUseable: 1
   isCombinable: 1
-  isStackable: 0
+  isStackable: 1
   isDestroyable: 1
-  maxStackSize: 1
+  maxStackSize: 3
   consumableItemJobList:
-  - jobType: 3
-    amount: 20
+  - jobType: 1
+    amount: 15
     time: 0
   itemUsedMessage: 

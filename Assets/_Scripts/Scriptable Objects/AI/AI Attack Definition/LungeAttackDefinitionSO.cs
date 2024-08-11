@@ -37,7 +37,6 @@ public class LungeAttackDefinitionSO : BaseAIAttackDefinitionSO{
         CoroutineContainer lungeCoroutineContainer = new CoroutineContainer(aIStateMachine);
         lungeCoroutineContainer.SetCoroutine(LungeAttackCoroutine(lungeCoroutineContainer, aIMover, aILineOfSight, nPCHealth, targetTransform));
         aIStateMachine.StartNewCoroutineContainer(lungeCoroutineContainer);
-
     }
 
     private IEnumerator LungeAttackCoroutine(CoroutineContainer coroutineContainer, AIMover aIMover, AILineOfSight aILineOfSight, NPCHealth nPCHealth, Transform targetTransform){

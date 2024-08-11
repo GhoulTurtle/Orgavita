@@ -71,7 +71,9 @@ public class AIStateTransitionConditionEntry{
                 break;
             case AIStateTransitionType.TargetInLOS: aIStateTransitionConditionJob = new TargetInLOS();
                 break;
-            case AIStateTransitionType.TargetInAttackRange: aIStateTransitionConditionJob = new TargetInAttackRange();
+                case AIStateTransitionType.TargetNotInLOS: aIStateTransitionConditionJob = new TargetNotInLOS();
+                break;
+            case AIStateTransitionType.TargetNotInAttackRange: aIStateTransitionConditionJob = new TargetNotInAttackRange();
                 break;
             case AIStateTransitionType.IdleTimeExpired: aIStateTransitionConditionJob = new IdleTimeExpired();
                 break;

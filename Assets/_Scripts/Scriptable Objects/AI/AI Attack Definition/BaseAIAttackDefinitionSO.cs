@@ -90,6 +90,6 @@ public class BaseAIAttackDefinitionSO : ScriptableObject{
     }
 
     protected virtual void OnBaseAttackSpeedValueChanged(){
-        // Base implementation (if any) or leave empty
+
     }
 }

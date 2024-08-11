@@ -26,7 +26,7 @@ MonoBehaviour:
     type: 3}
   itemPickupAudioEvent: {fileID: 0}
   itemUseAudioEvent: {fileID: 0}
-  itemDestoryEvent: {fileID: 0}
+  itemDestoryAudioEvent: {fileID: 0}
   itemType: 1
   isUseable: 1
   isCombinable: 1
@@ -34,7 +34,7 @@ MonoBehaviour:
   isDestroyable: 1
   maxStackSize: 3
   consumableItemJobList:
-  - jobType: 6
+  - jobType: 2
     amount: 30
     time: 0.15
   itemUsedMessage: 

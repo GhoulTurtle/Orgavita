@@ -113,8 +113,19 @@ public class AIPatrol : MonoBehaviour{
             nextPatrolIndex = patrolPositions.Count - 2;
         }
 
-        if (!aIMover.CheckValidPosition(patrolPositions[nextPatrolIndex].position, out Vector3 validIndexPosition)){
-            Debug.LogError(patrolPositions[nextPatrolIndex].gameObject.name + " is not close enough to a valid Navmesh position!");
+        Ray randomPosGroundRay = new(){
+            origin = patrolPositions[nextPatrolIndex].position,
+            direction = Vector3.down
+        };
+
+        Vector3 finalPos = patrolPositions[nextPatrolIndex].position;
+
+        if(Physics.Raycast(randomPosGroundRay, out RaycastHit hitInfo)){
+           finalPos.y = hitInfo.point.y;
+        }
+
+        if (!aIMover.CheckValidPosition(finalPos, out Vector3 validIndexPosition)){
+            // Debug.LogError(patrolPositions[nextPatrolIndex].gameObject.name + " is not close enough to a valid Navmesh position!");
         }
 
         return validIndexPosition;

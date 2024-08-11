@@ -75,9 +75,13 @@ public class PlayerInventoryHandler : MonoBehaviour{
                 break;
             case InventoryState.ContextUI: ContextUIInventoryState();
                 break;
+            case InventoryState.Move: MoveInventoryState();
+                break;
             case InventoryState.Combine: CombineInventoryState();
                 break;
             case InventoryState.Inspect: InspectInventoryState();
+                break;
+            case InventoryState.Assign: AssignInventoryState();
                 break;
         }
 
@@ -119,6 +123,12 @@ public class PlayerInventoryHandler : MonoBehaviour{
         playerInputHandler.OnNavigateInput += NavigationInput;
     }
 
+    private void AssignInventoryState(){
+        playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
+        playerInputHandler.OnCancelInput -= ReturnDefaultInventoryUIInput;
+        playerInputHandler.OnCancelInput += ReturnToContextUIInput;
+    }
+
     private void NavigationInput(object sender, InputEventArgs e){
         navigationInput = e.callbackContext.ReadValue<Vector2>();
     }
@@ -135,6 +145,12 @@ public class PlayerInventoryHandler : MonoBehaviour{
         playerInputHandler.OnNavigateInput -= NavigationInput;
         navigationInput = Vector2.zero;
         playerInputHandler.OnCancelInput += ReturnDefaultInventoryUIInput;
+    }
+
+    private void MoveInventoryState(){
+        playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
+        playerInputHandler.OnCancelInput -= ReturnDefaultInventoryUIInput;
+        playerInputHandler.OnCancelInput += ReturnToContextUIInput;
     }
 
     private void DefaultInventoryState(){

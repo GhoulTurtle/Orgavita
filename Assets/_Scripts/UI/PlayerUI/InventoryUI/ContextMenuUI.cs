@@ -20,7 +20,7 @@ public class ContextMenuUI : MonoBehaviour{
 
     [Header("Context Menu Variables")]
     [SerializeField] private float startingContextButtonSpacing = -100;
-    [SerializeField] private float addContextButtonSpacing = 25;
+    [SerializeField] private float addContextButtonSpacing = 15;
 
     [Header("Context Menu Text")]
     [SerializeField] private Dialogue destroyConfirmationText;
@@ -50,7 +50,7 @@ public class ContextMenuUI : MonoBehaviour{
     private IEnumerator currentDescriptionPrint;
     private IEnumerator currentContextUIAnimation;
 
-    private bool inCombineState = false;
+    private bool updateItemDescription = false;
 
     private void Awake() {
         currentContextButtons = new List<ContextButtonUI>();
@@ -89,10 +89,8 @@ public class ContextMenuUI : MonoBehaviour{
 
     private void EvaluateInventoryState(object sender, PlayerInventoryHandler.InventoryStateChangedEventArgs e){
         switch (e.inventoryState){
-            case InventoryState.Closed:
-                break;
             case InventoryState.Default:
-                inCombineState = false;
+                updateItemDescription = true;
                 if(playerInventoryHandler.CurrentInventoryState == InventoryState.ContextUI){
                     HideContextUI();
                     StartQuickDescriptionPrint(inventoryUI.GetSelectedInventoryItem().GetHeldItem());
@@ -102,7 +100,7 @@ public class ContextMenuUI : MonoBehaviour{
                 if(playerInventoryHandler.CurrentInventoryState == InventoryState.Inspect){
                     ExitInspectAnimation();
                 }
-                if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine){
+                if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine || playerInventoryHandler.CurrentInventoryState == InventoryState.Move){
                     UpdateSelectedItemUI();
                 }
                 
@@ -114,6 +112,9 @@ public class ContextMenuUI : MonoBehaviour{
             case InventoryState.Inspect: 
                 HideContextUI();
                 EnterInspectAnimation();
+                break;
+                case InventoryState.Move:
+                ShowMoveUI();
                 break;
         }
     }
@@ -151,12 +152,22 @@ public class ContextMenuUI : MonoBehaviour{
     }
 
     private void ShowCombineUI(){
-        inCombineState = true;
+        updateItemDescription = false;
         HideContextUI();
         
         DescriptionFinishedPrinting();
 
         selectedItemDescriptionText.text = "Combine " + inventoryUI.GetSelectedItemData().GetItemName() + " with...";
+        selectedItemDescriptionText.color = Color.white;
+    }
+
+    private void ShowMoveUI(){
+        updateItemDescription = false;
+        HideContextUI();
+        
+        DescriptionFinishedPrinting();
+
+        selectedItemDescriptionText.text = "Move " + inventoryUI.GetSelectedItemData().GetItemName() + " to...";
         selectedItemDescriptionText.color = Color.white;
     }
 
@@ -206,7 +217,12 @@ public class ContextMenuUI : MonoBehaviour{
         else if(itemData.GetItemType() == ItemType.Weapon || itemData.GetItemType() == ItemType.Emergency_Item) AddNewContextUIButton(ContextButtonType.Equip, inventoryItem, playerInventoryHandler);
         else if(itemData.GetIsUseable()) AddNewContextUIButton(ContextButtonType.Use, inventoryItem, playerInventoryHandler);
 
-        AddNewContextUIButton(ContextButtonType.Inspect, inventoryItem, playerInventoryHandler);
+        //Keeping this here in case I want to add inspecting back into the game
+        // AddNewContextUIButton(ContextButtonType.Inspect, inventoryItem, playerInventoryHandler);
+        if(!inventoryUI.GetSelectedItemInEquipmentSlot()){
+            AddNewContextUIButton(ContextButtonType.Move, inventoryItem, playerInventoryHandler);
+        }
+        AddNewContextUIButton(ContextButtonType.Assign, inventoryItem, playerInventoryHandler);
 
         if(itemData.GetIsCombinable()){
             AddNewContextUIButton(ContextButtonType.Combine, inventoryItem, playerInventoryHandler);
@@ -249,7 +265,7 @@ public class ContextMenuUI : MonoBehaviour{
 
         selectedItemNameText.text = selectedItemData.GetItemName();
 
-        if (inCombineState) return;
+        if (!updateItemDescription) return;
 
         StartQuickDescriptionPrint(selectedItemData);
     }
@@ -288,7 +304,7 @@ public class ContextMenuUI : MonoBehaviour{
     private void ClearSelectionUI(){
         selectedItemNameText.text = "";
 
-        if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine) return;
+        if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine || playerInventoryHandler.CurrentInventoryState == InventoryState.Move) return;
         
         selectedItemDescriptionText.text = "";
     }

@@ -1,22 +1,21 @@
-using UnityEngine;
-
-public class TargetInAttackRange : AIStateTransitionConditionJob{
+public class TargetNotInLOS : AIStateTransitionConditionJob{
     private AIStateMachine aIStateMachine;
     private AIAttack aIAttack;
+    private AILineOfSight aILineOfSight;
 
     public override void SetupConditionJob(AIStateMachine _aIStateMachine){
         if(aIStateMachine == null){
             aIStateMachine = _aIStateMachine;
+            aILineOfSight = aIStateMachine.GetAILineOfSight();
             aIAttack = aIStateMachine.GetAIAttack();
         }
     }
 
     public override bool EvaluateTransitionCondition(AIStateMachine aIStateMachine){
-        float distanceFromTarget = Vector3.Distance(aIStateMachine.transform.position, aIAttack.GetCurrentTargetTransform().position);
-        return aIAttack.IsInAttackRange(distanceFromTarget);
+        return !aILineOfSight.IsTargetValid(aIAttack.GetCurrentTargetTransform());
     }
-    
-    public override void ResetConditionJob(){
 
+    public override void ResetConditionJob(){
+        
     }
 }

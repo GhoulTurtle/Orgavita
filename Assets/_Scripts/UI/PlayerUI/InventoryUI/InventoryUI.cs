@@ -12,6 +12,7 @@ public class InventoryUI : MonoBehaviour{
     [SerializeField] private ItemUI itemUITemplate;
     [SerializeField] private ItemUI equippedItemUI;
     [SerializeField] private ItemUI emergencyItemUI;
+    [SerializeField] private ItemUI[] quickSelectItemUI = new ItemUI[4]; 
 
     [Header("UI Animation Variables")]
     [SerializeField] private Vector2 closeScale;
@@ -46,11 +47,11 @@ public class InventoryUI : MonoBehaviour{
 
     private ItemUI currentSelectedItemUI;
 
-    private List<ItemUI> currentItemUI;
+    private List<ItemUI> itemUIList;
     private List<ItemSlotUI> currentItemSlotUI;
 
     private void Awake() {
-        currentItemUI = new List<ItemUI>();
+        itemUIList = new List<ItemUI>();
         currentItemSlotUI = new List<ItemSlotUI>();
 
         inventoryUISelector.DisableSelector();
@@ -78,8 +79,27 @@ public class InventoryUI : MonoBehaviour{
             return;
         }
 
-        if (playerInventoryHandler.CurrentInventoryState != InventoryState.Combine) return;
-        ShowCombineAttempt(itemUIClicked);
+        if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine){
+            ShowCombineAttempt(itemUIClicked);
+            return;
+        }
+
+        if(playerInventoryHandler.CurrentInventoryState == InventoryState.Move){
+            MoveSelectedItem(itemUIClicked);
+            return;
+        }
+    }
+
+    private void MoveSelectedItem(ItemUI itemUIClicked){
+        if (currentSelectedItemUI == itemUIClicked){
+            playerInventoryHandler.UpdateInventoryState(InventoryState.ContextUI);
+            OnSlotSelected?.Invoke(this, new SlotSelectedEventArgs(currentSelectedItemUI.GetInventoryItem(), currentSelectedItemUI.GetInventoryItem().GetHeldItem()));
+            return;
+        }
+
+        playerInventoryHandler.GetInventory().MoveItem(currentSelectedItemUI.GetInventoryItem(), itemUIClicked.GetInventoryItem());
+
+        playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
     }
 
     private void ShowCombineAttempt(ItemUI itemUIClicked){
@@ -98,7 +118,10 @@ public class InventoryUI : MonoBehaviour{
 
     public void SelectItemUI(ItemUI itemUI){
         if(playerInventoryHandler.CurrentInventoryState != InventoryState.Combine){
-            currentSelectedItemUI = itemUI;
+            //The || is stupid
+            if(playerInventoryHandler.CurrentInventoryState != InventoryState.Move){
+                currentSelectedItemUI = itemUI;
+            }
         }
 
         var itemUIInventoryItem = itemUI.GetInventoryItem();
@@ -106,8 +129,8 @@ public class InventoryUI : MonoBehaviour{
     }
 
     private void SetupInventoryUI(object sender, PlayerInventoryHandler.SetupInventoryEventArgs e){
-        equippedItemUI.SetupItemUI(this, e.playerInventorySO.GetEquippedInventoryItem(), true);
-        emergencyItemUI.SetupItemUI(this, e.playerInventorySO.GetEmergencyInventoryItem(), true);
+        equippedItemUI.SetupItemUI(this, playerInventoryHandler, e.playerInventorySO.GetEquippedInventoryItem(), true);
+        emergencyItemUI.SetupItemUI(this, playerInventoryHandler, e.playerInventorySO.GetEmergencyInventoryItem(), true);
 
         playerInventoryHandler.GetInventory().OnMaxInventoryIncreased += (sender, e) => AddNewInventoryUI(e.newSlotsAdded);
 
@@ -116,18 +139,18 @@ public class InventoryUI : MonoBehaviour{
         AddNewInventoryUI(inventory);
         SetupInventorySelector();
 
-        SelectItemUI(currentItemUI[0]);
+        SelectItemUI(itemUIList[0]);
     }
 
     private void SetupInventorySelector(){
-        inventoryUISelector.SetCursorStartingSelection(currentItemUI[0].transform);
+        inventoryUISelector.SetCursorStartingSelection(itemUIList[0].transform);
     }
 
     private void AddNewInventoryUI(List<InventoryItem> newInventoryItemsAdded){
         foreach (InventoryItem item in newInventoryItemsAdded){
             var newItemUI = Instantiate(itemUITemplate, itemScrollContent);
-            newItemUI.SetupItemUI(this, item);
-            currentItemUI.Add(newItemUI);
+            newItemUI.SetupItemUI(this, playerInventoryHandler, item);
+            itemUIList.Add(newItemUI);
 
             var newItemSlotUI = Instantiate(itemSlotTemplate, itemSlotParent);
             newItemSlotUI.SetupItemSlotUI(this, item);
@@ -170,6 +193,10 @@ public class InventoryUI : MonoBehaviour{
                 DisableItemUIInteractivity();
                 break;
             case InventoryState.Combine:
+                EnableItemUIInteractivity();
+                MoveSelectorBackToSelectedItemUI();
+                break;
+            case InventoryState.Move:
                 EnableItemUIInteractivity();
                 MoveSelectorBackToSelectedItemUI();
                 break;
@@ -218,8 +245,12 @@ public class InventoryUI : MonoBehaviour{
     }
 
     private void DisableItemUIInteractivity(){
-        foreach (ItemUI itemUI in currentItemUI){
+        foreach (ItemUI itemUI in itemUIList){
             itemUI.DisableInteractivity();
+        }
+
+        for (int i = 0; i < quickSelectItemUI.Length; i++){
+            quickSelectItemUI[i].DisableInteractivity();
         }
 
         equippedItemUI.DisableInteractivity();
@@ -227,8 +258,12 @@ public class InventoryUI : MonoBehaviour{
     }
 
     private void EnableItemUIInteractivity(){
-        foreach (ItemUI itemUI in currentItemUI){
+        foreach (ItemUI itemUI in itemUIList){
             itemUI.EnableInteractivity();
+        }
+
+        for (int i = 0; i < quickSelectItemUI.Length; i++){
+            quickSelectItemUI[i].EnableInteractivity();
         }
 
         equippedItemUI.EnableInteractivity();

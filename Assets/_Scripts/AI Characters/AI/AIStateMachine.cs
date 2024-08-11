@@ -37,15 +37,27 @@ public class AIStateMachine : StateMachine<AIStateType>{
             //Start the current state transition timers
             aIStateDataList.StartTransitionTimers(this, firstState);
         }
+
+        if(nPCHealth != null){
+            nPCHealth.OnCharacterDeath += StopAICoroutines;
+        }
     }
-    
-    private void OnDestroy() {
+
+    private void OnDestroy(){
+        if(nPCHealth != null){
+            nPCHealth.OnCharacterDeath -= StopAICoroutines;
+        }
+
         aIStateTransitionJobs.Clear();
+        StopAllCoroutineContainers();
+
+        StopAllCoroutines();
+    }
+
+    private void StopAllCoroutineContainers(){
         for (int i = 0; i < coroutineContainerList.Count; i++){
             coroutineContainerList[i].Dispose();
         }
-
-        StopAllCoroutines();
     }
 
     private void Update() {
@@ -128,6 +140,11 @@ public class AIStateMachine : StateMachine<AIStateType>{
         }
 
         coroutineContainer.OnCoroutineDisposed -= DisposeCoroutineContainer;
+    }
+
+    private void StopAICoroutines(){
+        StopAllCoroutineContainers();
+        StopAllCoroutines();
     }
 
     public AICommandType GetCurrentCommand(){

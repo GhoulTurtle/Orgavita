@@ -15,7 +15,7 @@ MonoBehaviour:
   fromAIState: 4
   toAIState: 2
   aIStateTransitionConditions:
-  - aIStateTransitionTypes: 03000000
-    checkOperationType: 3
-  - aIStateTransitionTypes: 08000000
+  - aIStateTransitionTypes: 09000000
     checkOperationType: 0
+  - aIStateTransitionTypes: 0300000004000000
+    checkOperationType: 2

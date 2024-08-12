@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class CombineUI : MonoBehaviour{
     [Header("UI References")]
     [SerializeField] private Image itemImage;
-    [SerializeField] private TextMeshProUGUI itemStackAmount;
+    [SerializeField] private TextMeshProUGUI itemStackAmountText;
+    [SerializeField] private TextMeshProUGUI itemNameText;
 
     private CombineMenuUI combineMenuUI;
 
@@ -13,8 +14,9 @@ public class CombineUI : MonoBehaviour{
         combineMenuUI = _combineMenuUI;
     }
 
-    public void UpdateCombineUI(Sprite itemSprite, int stackAmount){
+    public void UpdateCombineUI(Sprite itemSprite, int stackAmount, string itemName){
         itemImage.sprite = itemSprite;
-        itemStackAmount.text = stackAmount.ToString();
+        itemNameText.text = itemName;
+        itemStackAmountText.text = stackAmount.ToString();
     }
 }

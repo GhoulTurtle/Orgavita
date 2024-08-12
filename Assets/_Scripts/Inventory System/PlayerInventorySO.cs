@@ -276,20 +276,20 @@ public class PlayerInventorySO : ScriptableObject{
         return "INVALID ITEM COMBINATION";
     }
 
-    public string AttemptCraftNewItem(InventoryItem initalComboItem, InventoryItem incomingItem, ComboResult newComboResult, InventoryItem attemptedItemCombo){
+    public string AttemptCraftNewItem(InventoryItem initalComboItem, InventoryItem incomingItem, ComboResult newComboResult, InventoryItem attemptedItemCombo, int amountToCraft = 1){
         ItemDataSO initalComboItemData = initalComboItem.GetHeldItem();
         ItemDataSO incomingItemData = incomingItem.GetHeldItem();
         
-        initalComboItem.RemoveFromStack(1);
-        incomingItem.RemoveFromStack(1);
+        initalComboItem.RemoveFromStack(amountToCraft);
+        incomingItem.RemoveFromStack(amountToCraft);
 
-        int remainingItemStack = AttemptToAddItemToInventory(attemptedItemCombo.GetHeldItem(), attemptedItemCombo.GetCurrentStack());
+        int remainingItemStack = AttemptToAddItemToInventory(attemptedItemCombo.GetHeldItem(), attemptedItemCombo.GetCurrentStack() * amountToCraft);
 
         //If the remaining item stack equals the craft amount then the inventory is full so add the crafting items back into the inventory
-        if (remainingItemStack == attemptedItemCombo.GetCurrentStack()){
+        if (remainingItemStack == attemptedItemCombo.GetCurrentStack() * amountToCraft){
             //Add back the items into the inventory
-            AttemptToAddItemToInventory(initalComboItemData, 1);
-            AttemptToAddItemToInventory(incomingItemData, 1);
+            AttemptToAddItemToInventory(initalComboItemData, amountToCraft);
+            AttemptToAddItemToInventory(incomingItemData, amountToCraft);
 
             return newComboResult.SetComboResult(ComboResultType.Full_Inventory, attemptedItemCombo);
         }

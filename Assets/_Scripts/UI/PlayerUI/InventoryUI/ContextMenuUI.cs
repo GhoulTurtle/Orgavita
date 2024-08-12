@@ -113,8 +113,11 @@ public class ContextMenuUI : MonoBehaviour{
                 HideContextUI();
                 EnterInspectAnimation();
                 break;
-                case InventoryState.Move:
+            case InventoryState.Move:
                 ShowMoveUI();
+                break;
+            case InventoryState.Assign: 
+                HideContextUI();
                 break;
         }
     }

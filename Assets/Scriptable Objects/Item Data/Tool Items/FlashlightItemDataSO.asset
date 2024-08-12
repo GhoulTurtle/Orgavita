@@ -28,5 +28,5 @@ MonoBehaviour:
   isStackable: 0
   isDestroyable: 0
   maxStackSize: 1
-  emergencyItemBehaviour: {fileID: 4290631168321002959, guid: 9bed159a317c4ac4bb15493a6a8f85d8,
+  toolBehaviour: {fileID: 4290631168321002959, guid: 9bed159a317c4ac4bb15493a6a8f85d8,
     type: 3}

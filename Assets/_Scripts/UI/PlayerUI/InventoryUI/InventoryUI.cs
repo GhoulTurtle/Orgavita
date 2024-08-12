@@ -12,7 +12,6 @@ public class InventoryUI : MonoBehaviour{
     [SerializeField] private ItemUI itemUITemplate;
     [SerializeField] private ItemUI equippedItemUI;
     [SerializeField] private ItemUI emergencyItemUI;
-    [SerializeField] private ItemUI[] quickSelectItemUI = new ItemUI[4]; 
 
     [Header("UI Animation Variables")]
     [SerializeField] private Vector2 closeScale;
@@ -193,6 +192,11 @@ public class InventoryUI : MonoBehaviour{
                     EnableItemUIInteractivity();
                     MoveSelectorBackToSelectedItemUI();
                 }
+
+                if(playerInventoryHandler.CurrentInventoryState == InventoryState.Move){
+                    equippedItemUI.EnableInteractivity();
+                    emergencyItemUI.EnableInteractivity();
+                }
                 
                 break;
             case InventoryState.ContextUI: 
@@ -211,12 +215,17 @@ public class InventoryUI : MonoBehaviour{
             break;
             case InventoryState.Move:
                 EnableItemUIInteractivity();
+                equippedItemUI.DisableInteractivity();
+                emergencyItemUI.DisableInteractivity();
                 MoveSelectorBackToSelectedItemUI();
                 break;
             case InventoryState.Inspect:
                 inventoryUISelector.DisableSelector();
                 DisableItemUIInteractivity();
                 break;
+            case InventoryState.Assign:
+                DisableItemUIInteractivity();
+            break;
         }
     }
 
@@ -262,10 +271,6 @@ public class InventoryUI : MonoBehaviour{
             itemUI.DisableInteractivity();
         }
 
-        for (int i = 0; i < quickSelectItemUI.Length; i++){
-            quickSelectItemUI[i].DisableInteractivity();
-        }
-
         equippedItemUI.DisableInteractivity();
         emergencyItemUI.DisableInteractivity();
     }
@@ -273,10 +278,6 @@ public class InventoryUI : MonoBehaviour{
     private void EnableItemUIInteractivity(){
         foreach (ItemUI itemUI in itemUIList){
             itemUI.EnableInteractivity();
-        }
-
-        for (int i = 0; i < quickSelectItemUI.Length; i++){
-            quickSelectItemUI[i].EnableInteractivity();
         }
 
         equippedItemUI.EnableInteractivity();

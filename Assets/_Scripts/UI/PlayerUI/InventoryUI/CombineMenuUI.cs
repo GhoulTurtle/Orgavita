@@ -1,4 +1,3 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -74,9 +73,8 @@ public class CombineMenuUI : MonoBehaviour{
         //Do stuff here
         PlayerInventorySO playerInventorySO = playerInventoryHandler.GetInventory();
         ComboResult comboResult = new ComboResult();
-        for (int i = 0; i < currentCombinationAmount; i++){
-            playerInventorySO.AttemptCraftNewItem(currentCombinationEventArgs.firstItem, currentCombinationEventArgs.secondItem, comboResult, currentCombinationEventArgs.resultItem);
-        }
+        
+        playerInventorySO.AttemptCraftNewItem(currentCombinationEventArgs.firstItem, currentCombinationEventArgs.secondItem, comboResult, currentCombinationEventArgs.resultItem, currentCombinationAmount);
 
         HideCombineUI();
         playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
@@ -161,9 +159,14 @@ public class CombineMenuUI : MonoBehaviour{
     }
 
     private void UpdateCombinationUI(){
-        firstCombineUI.UpdateCombineUI(currentCombinationEventArgs.firstItem.GetHeldItem().GetItemSprite(), currentCombinationAmount);
-        secondCombineUI.UpdateCombineUI(currentCombinationEventArgs.secondItem.GetHeldItem().GetItemSprite(), currentCombinationAmount);
+        firstCombineUI.UpdateCombineUI(currentCombinationEventArgs.firstItem.GetHeldItem().GetItemSprite(), currentCombinationAmount, 
+        currentCombinationEventArgs.firstItem.GetHeldItem().GetItemName());
+        
+        secondCombineUI.UpdateCombineUI(currentCombinationEventArgs.secondItem.GetHeldItem().GetItemSprite(), currentCombinationAmount, 
+        currentCombinationEventArgs.secondItem.GetHeldItem().GetItemName());
+        
         resultCombineUI.UpdateCombineUI(currentCombinationEventArgs.resultItem.GetHeldItem().GetItemSprite(), 
-        currentCombinationEventArgs.playerInventoryRecipeListSO.GetResultItemAmountByCombinations(currentCombinationEventArgs.resultItem.GetHeldItem(), currentCombinationAmount));
+        currentCombinationEventArgs.playerInventoryRecipeListSO.GetResultItemAmountByCombinations(currentCombinationEventArgs.resultItem.GetHeldItem(), 
+        currentCombinationAmount), currentCombinationEventArgs.resultItem.GetHeldItem().GetItemName());
     }
 }

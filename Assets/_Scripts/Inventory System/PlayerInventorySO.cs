@@ -42,7 +42,6 @@ public class PlayerInventorySO : ScriptableObject{
     public EventHandler OnWeaponItemUnequipped;
     public EventHandler<EquippedItemEventArgs> OnEmergencyItemEquipped;
     public EventHandler OnEmergencyItemUnequipped;
-
     public class EquippedItemEventArgs : EventArgs{
         public InventoryItem inventoryItem;
         public EquippedItemBehaviour equippedItemBehaviour;
@@ -50,6 +49,21 @@ public class PlayerInventorySO : ScriptableObject{
         public EquippedItemEventArgs(InventoryItem _inventoryItem, EquippedItemBehaviour _equippedItemBehaviour){
             inventoryItem = _inventoryItem;
             equippedItemBehaviour = _equippedItemBehaviour;
+        }
+    }
+
+    public EventHandler<OpenCombinationMenuEventArgs> OnOpenCombinationMenu;
+    public class OpenCombinationMenuEventArgs : EventArgs{
+        public InventoryItem firstItem;
+        public InventoryItem secondItem;
+        public InventoryItem resultItem;
+        public PlayerInventoryRecipeListSO playerInventoryRecipeListSO;
+        
+        public OpenCombinationMenuEventArgs(InventoryItem _firstItem, InventoryItem _secondItem, InventoryItem _resultItem, PlayerInventoryRecipeListSO _playerInventoryRecipeListSO){
+            firstItem = _firstItem;
+            secondItem = _secondItem;
+            resultItem = _resultItem;
+            playerInventoryRecipeListSO = _playerInventoryRecipeListSO;
         }
     }
 
@@ -241,24 +255,46 @@ public class PlayerInventorySO : ScriptableObject{
             return newComboResult.SetComboResult(ComboResultType.Invalid_Combo, null);
         }
 
-        if(attemptedItemCombo != null){
-            initalComboItem.RemoveFromStack(1);
-            incomingItem.RemoveFromStack(1);
-
-            int remainingItems = AttemptToAddItemToInventory(attemptedItemCombo.GetHeldItem(), attemptedItemCombo.GetCurrentStack());
-
-            if(remainingItems != 0){
-                //Add back the items into the inventory
-                AttemptToAddItemToInventory(initalComboItemData, 1);
-                AttemptToAddItemToInventory(incomingItemData, 1);
-
-                return newComboResult.SetComboResult(ComboResultType.Full_Inventory, attemptedItemCombo);
+        if(attemptedItemCombo != null)
+        {
+            //Check if both items are a resource or a consumable to use the comboination menu
+            if ((initalComboItemData.GetItemType() == ItemType.Consumable || initalComboItemData.GetItemType() == ItemType.Resource) &&
+                (incomingItemData.GetItemType() == ItemType.Consumable || incomingItemData.GetItemType() == ItemType.Resource))
+            {
+                //Check if more then 1 combination is possible
+                if (playerInventoryRecipeListSO.GetMaxAmountOfCombinations(initalComboItem, incomingItem, attemptedItemCombo.GetHeldItem()) > 1)
+                {
+                    //Trigger the combination menu
+                    OnOpenCombinationMenu?.Invoke(this, new OpenCombinationMenuEventArgs(initalComboItem, incomingItem, attemptedItemCombo, playerInventoryRecipeListSO));
+                    return newComboResult.SetComboResult(ComboResultType.Opened_Combination_Menu, attemptedItemCombo);
+                }
             }
 
-            return newComboResult.SetComboResult(ComboResultType.Valid_Combo, attemptedItemCombo);
+            return AttemptCraftNewItem(initalComboItem, incomingItem, newComboResult, attemptedItemCombo);
         }
 
         return "INVALID ITEM COMBINATION";
+    }
+
+    public string AttemptCraftNewItem(InventoryItem initalComboItem, InventoryItem incomingItem, ComboResult newComboResult, InventoryItem attemptedItemCombo){
+        ItemDataSO initalComboItemData = initalComboItem.GetHeldItem();
+        ItemDataSO incomingItemData = incomingItem.GetHeldItem();
+        
+        initalComboItem.RemoveFromStack(1);
+        incomingItem.RemoveFromStack(1);
+
+        int remainingItemStack = AttemptToAddItemToInventory(attemptedItemCombo.GetHeldItem(), attemptedItemCombo.GetCurrentStack());
+
+        //If the remaining item stack equals the craft amount then the inventory is full so add the crafting items back into the inventory
+        if (remainingItemStack == attemptedItemCombo.GetCurrentStack()){
+            //Add back the items into the inventory
+            AttemptToAddItemToInventory(initalComboItemData, 1);
+            AttemptToAddItemToInventory(incomingItemData, 1);
+
+            return newComboResult.SetComboResult(ComboResultType.Full_Inventory, attemptedItemCombo);
+        }
+
+        return newComboResult.SetComboResult(ComboResultType.Valid_Combo, attemptedItemCombo);
     }
 
     private string AttemptReloadResourceCombination(InventoryItem resourceInventoryItem, InventoryItem equipmentInventoryItem, ResourceDataSO resourceData, ComboResult comboResult, bool isWeapon){

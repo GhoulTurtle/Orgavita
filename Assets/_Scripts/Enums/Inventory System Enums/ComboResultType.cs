@@ -9,5 +9,6 @@ public enum ComboResultType{
     Valid_Emergency_Item_Resource_Combo,
     Full_Weapon,
     Full_Emergency_Item,
-    Full_Inventory
+    Full_Inventory,
+    Opened_Combination_Menu,
 }

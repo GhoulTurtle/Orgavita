@@ -79,6 +79,8 @@ public class PlayerInventoryHandler : MonoBehaviour{
                 break;
             case InventoryState.Combine: CombineInventoryState();
                 break;
+            case InventoryState.CombineUI: CombineUIInventoryState();
+            break;
             case InventoryState.Inspect: InspectInventoryState();
                 break;
             case InventoryState.Assign: AssignInventoryState();
@@ -137,6 +139,10 @@ public class PlayerInventoryHandler : MonoBehaviour{
         playerInputHandler.OnCancelInput -= ExitInventoryUIInput;
         playerInputHandler.OnCancelInput -= ReturnDefaultInventoryUIInput;
         playerInputHandler.OnCancelInput += ReturnToContextUIInput;
+    }
+
+    private void CombineUIInventoryState(){
+
     }
 
     private void ContextUIInventoryState(){

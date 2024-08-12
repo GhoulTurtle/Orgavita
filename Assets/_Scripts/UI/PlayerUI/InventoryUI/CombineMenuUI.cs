@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -5,6 +6,8 @@ using UnityEngine.UI;
 public class CombineMenuUI : MonoBehaviour{
     [Header("Required References")]
     [SerializeField] private InventoryUI inventoryUI;
+    [SerializeField] private MenuSelector menuSelector;
+    [SerializeField] private PlayerInventoryHandler playerInventoryHandler;
 
     [Header("UI References")]
     [SerializeField] private Transform combineMenuParent;
@@ -25,11 +28,21 @@ public class CombineMenuUI : MonoBehaviour{
 
     private IEnumerator combineMenuPopoutAnimationCoroutine;
 
+    private PlayerInventorySO.OpenCombinationMenuEventArgs currentCombinationEventArgs;
+
+    private int currentCombinationAmount = 1;
+    private int maxCombinationAmount;
+
     private void Awake() {
         DisableCombineMenuInteractivity();
 
         combineMenuOriginalPosition = combineMenuParent.localPosition;
         combineMenuPopupGoalPosition = combineMenuOriginalPosition + animationPopoutOffset;
+
+        if(playerInventoryHandler != null){
+            playerInventoryHandler.GetInventory().OnOpenCombinationMenu += SetupCombinationMenu;
+            playerInventoryHandler.OnInventoryStateChanged += EvaluateInventoryState;
+        }
     }
 
     private void Start() {
@@ -38,10 +51,15 @@ public class CombineMenuUI : MonoBehaviour{
 
     private void OnDestroy() {
         StopAllCoroutines();
+
+        if(playerInventoryHandler != null){
+            playerInventoryHandler.GetInventory().OnOpenCombinationMenu -= SetupCombinationMenu;
+        }
     }
 
     public void ShowCombineUI(){
         EnableCombineMenuInteractivity();
+        menuSelector.SetTarget(combineButton.transform);
         
         if(combineMenuPopoutAnimationCoroutine != null){
             StopCoroutine(combineMenuPopoutAnimationCoroutine);
@@ -50,11 +68,46 @@ public class CombineMenuUI : MonoBehaviour{
         
         combineMenuPopoutAnimationCoroutine = UIAnimator.LerpingAnimationCoroutine(combineMenuParent, combineMenuPopupGoalPosition, animationDuration, false);
         StartCoroutine(combineMenuPopoutAnimationCoroutine);
-
-        inventoryUI.GetInventoryMenuSelector().SetTarget(combineButton.transform);
     }
 
-    public void HideCombineUI(){        
+    public void CombineItems(){
+        //Do stuff here
+        PlayerInventorySO playerInventorySO = playerInventoryHandler.GetInventory();
+        ComboResult comboResult = new ComboResult();
+        for (int i = 0; i < currentCombinationAmount; i++){
+            playerInventorySO.AttemptCraftNewItem(currentCombinationEventArgs.firstItem, currentCombinationEventArgs.secondItem, comboResult, currentCombinationEventArgs.resultItem);
+        }
+
+        HideCombineUI();
+        playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
+    }
+
+    public void CancelCombineUI(){
+        HideCombineUI();
+        playerInventoryHandler.UpdateInventoryState(InventoryState.ContextUI);
+    }
+
+    public void IncreaseCombinationAmount(){
+        currentCombinationAmount++;
+
+        if(currentCombinationAmount > maxCombinationAmount){
+            currentCombinationAmount = maxCombinationAmount;
+        }
+
+        UpdateCombinationUI();
+    }
+
+    public void DecreaseCombinationAmount(){
+        currentCombinationAmount--;
+        if(currentCombinationAmount < 1){
+            currentCombinationAmount = 1;
+        }
+
+        UpdateCombinationUI();
+    }
+
+
+    private void HideCombineUI(){     
         DisableCombineMenuInteractivity();
 
         if(combineMenuPopoutAnimationCoroutine != null){
@@ -64,10 +117,14 @@ public class CombineMenuUI : MonoBehaviour{
 
         combineMenuPopoutAnimationCoroutine = UIAnimator.LerpingAnimationCoroutine(combineMenuParent, combineMenuOriginalPosition, animationDuration, false);
         StartCoroutine(combineMenuPopoutAnimationCoroutine);
+    
+        currentCombinationEventArgs = null;
     }
 
-    public void UpdateCombineMenuUI(InventoryItem firstInventoryItem, InventoryItem secondInventoryItem, InventoryItem resultingInventoryItem){
-        
+    private void EvaluateInventoryState(object sender, PlayerInventoryHandler.InventoryStateChangedEventArgs e){
+        if(e.inventoryState != InventoryState.CombineUI && combineButton.interactable == true){
+            HideCombineUI();
+        }
     }
 
     private void EnableCombineMenuInteractivity(){
@@ -88,5 +145,25 @@ public class CombineMenuUI : MonoBehaviour{
         firstCombineUI.SetupCombineUI(this);
         secondCombineUI.SetupCombineUI(this);
         resultCombineUI.SetupCombineUI(this);
+    }
+
+    private void SetupCombinationMenu(object sender, PlayerInventorySO.OpenCombinationMenuEventArgs e){
+        playerInventoryHandler.UpdateInventoryState(InventoryState.CombineUI);
+        
+        currentCombinationEventArgs = e;
+        
+        currentCombinationAmount = 1;
+        maxCombinationAmount = currentCombinationEventArgs.playerInventoryRecipeListSO.GetMaxAmountOfCombinations(e.firstItem, e.secondItem, e.resultItem.GetHeldItem());
+
+        UpdateCombinationUI();
+
+        ShowCombineUI();
+    }
+
+    private void UpdateCombinationUI(){
+        firstCombineUI.UpdateCombineUI(currentCombinationEventArgs.firstItem.GetHeldItem().GetItemSprite(), currentCombinationAmount);
+        secondCombineUI.UpdateCombineUI(currentCombinationEventArgs.secondItem.GetHeldItem().GetItemSprite(), currentCombinationAmount);
+        resultCombineUI.UpdateCombineUI(currentCombinationEventArgs.resultItem.GetHeldItem().GetItemSprite(), 
+        currentCombinationEventArgs.playerInventoryRecipeListSO.GetResultItemAmountByCombinations(currentCombinationEventArgs.resultItem.GetHeldItem(), currentCombinationAmount));
     }
 }

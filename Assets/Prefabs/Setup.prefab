@@ -894,11 +894,11 @@ RectTransform:
   m_Father: {fileID: 89104179}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0.5}
-  m_AnchorMax: {x: 1, y: 0.5}
-  m_AnchoredPosition: {x: -718, y: -295}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 8.249975, y: -295.00003}
   m_SizeDelta: {x: 467.5, y: 295.82}
-  m_Pivot: {x: 1, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &185653699
 GameObject:
   m_ObjectHideFlags: 0
@@ -1588,6 +1588,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 361538590}
+  menuSelector: {fileID: 1870531789}
+  playerInventoryHandler: {fileID: 1474441831}
   combineMenuParent: {fileID: 179197583}
   combineButton: {fileID: 1560214651}
   cancelButton: {fileID: 1543090815}
@@ -1597,7 +1599,7 @@ MonoBehaviour:
   secondCombineUI: {fileID: 2041300380}
   resultCombineUI: {fileID: 672659698}
   animationDuration: 0.5
-  animationPopoutOffset: {x: 0, y: 0}
+  animationPopoutOffset: {x: 0, y: 170}
 --- !u!114 &44228164
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -33,6 +33,7 @@ public class ComboResult{
             ComboResultType.Full_Weapon => GetResultItemName() + " is already loaded.",
             ComboResultType.Full_Emergency_Item => GetResultItemName() + " is already charged.",
             ComboResultType.Full_Inventory => "Can't hold anymore items.",
+            ComboResultType.Opened_Combination_Menu => "Use combination menu to choose the amount of items to make.",
             _ => "ERROR NO COMBO RESULT TYPE FOUND",
     };
 }

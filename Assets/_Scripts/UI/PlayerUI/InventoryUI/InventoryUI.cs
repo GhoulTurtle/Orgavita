@@ -101,7 +101,9 @@ public class InventoryUI : MonoBehaviour{
 
         OnSlotCombined?.Invoke(this, new SlotCombinedEventArgs(resultText));
 
-        playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
+        if(playerInventoryHandler.CurrentInventoryState != InventoryState.CombineUI){
+            playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
+        }
     }
 
     private void MoveSelectedItem(ItemUI itemUIClicked){
@@ -187,6 +189,11 @@ public class InventoryUI : MonoBehaviour{
                     }
                 }
 
+                if(playerInventoryHandler.CurrentInventoryState == InventoryState.CombineUI){
+                    EnableItemUIInteractivity();
+                    MoveSelectorBackToSelectedItemUI();
+                }
+                
                 break;
             case InventoryState.ContextUI: 
                 if(playerInventoryHandler.CurrentInventoryState == InventoryState.Inspect){
@@ -199,6 +206,9 @@ public class InventoryUI : MonoBehaviour{
                 EnableItemUIInteractivity();
                 MoveSelectorBackToSelectedItemUI();
                 break;
+            case InventoryState.CombineUI:
+                DisableItemUIInteractivity();
+            break;
             case InventoryState.Move:
                 EnableItemUIInteractivity();
                 MoveSelectorBackToSelectedItemUI();
@@ -273,7 +283,7 @@ public class InventoryUI : MonoBehaviour{
         emergencyItemUI.EnableInteractivity();
     }
 
-    private void MoveSelectorBackToSelectedItemUI(){
+    public void MoveSelectorBackToSelectedItemUI(){
         inventoryUISelector.SetTarget(currentSelectedItemUI.transform);
     }
 

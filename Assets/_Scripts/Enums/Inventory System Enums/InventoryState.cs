@@ -3,6 +3,7 @@ public enum InventoryState{
     Default,
     ContextUI,
     Combine,
+    CombineUI,
     Move,
     Inspect,
     Assign,

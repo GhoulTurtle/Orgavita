@@ -61,4 +61,41 @@ public class PlayerInventoryRecipeListSO : ScriptableObject{
 
         return new InventoryItem(validRecipe.GetResultItemData(), validRecipe.GetResultItemStackAmount());
     }
+
+    public int GetMaxAmountOfCombinations(InventoryItem firstItem, InventoryItem secondItem, ItemDataSO resultInventoryItemData){
+        bool validRecipe = false;
+        for (int i = 0; i < knownInventoryRecipes.Count; i++){
+            if(knownInventoryRecipes[i].GetResultItemData() == resultInventoryItemData){
+                validRecipe = true;
+                break;
+            }
+        }
+
+        if(!validRecipe) return 0;
+
+        int firstItemStack = firstItem.GetCurrentStack();
+        int secondItemStack = secondItem.GetCurrentStack();
+
+        int maxCombinations = Mathf.Min(firstItemStack, secondItemStack);
+
+        return maxCombinations;
+    }
+
+    public int GetResultItemAmountByCombinations(ItemDataSO resultInventoryItemData, int combinations){
+        bool validRecipe = false;
+        int amountOfItems = 0;
+        for (int i = 0; i < knownInventoryRecipes.Count; i++){
+            if(knownInventoryRecipes[i].GetResultItemData() == resultInventoryItemData){
+                validRecipe = true;
+                for (int j = 0; j < combinations; j++){
+                    amountOfItems += knownInventoryRecipes[i].GetResultItemStackAmount();
+                }
+                break;
+            }
+        }
+
+        if(!validRecipe) return 0;
+
+        return amountOfItems;
+    }
 }

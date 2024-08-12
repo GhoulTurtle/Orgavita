@@ -154,7 +154,7 @@ public class PlayerInventorySO : ScriptableObject{
             itemToEquip.ClearItem();
         }
         
-        if(itemDataSO is EmergencyItemDataSO emergencyItemDataSO){
+        if(itemDataSO is ToolItemDataSO emergencyItemDataSO){
             if(emergencyItemDataSO.GetEquippedItemBehaviour() != null){
                 OnEmergencyItemEquipped?.Invoke(this, new EquippedItemEventArgs(itemToEquip, emergencyItemDataSO.GetEquippedItemBehaviour()));
             }   
@@ -225,13 +225,13 @@ public class PlayerInventorySO : ScriptableObject{
             return AttemptReloadResourceCombination(incomingItem, initalComboItem, weaponResourceData, newComboResult, true);
         }
         
-        //if initalcomboitem is a resource and the incoming item is a emergency item then return either INVALIDTOOLRESOURCECOMBO, VALIDTOOLRESOUCECOMBO or FULLTOOL
-        if(initalComboItemData.GetItemType() == ItemType.Resource && incomingItemData.GetItemType() == ItemType.Emergency_Item && incomingItemData is EmergencyItemDataSO emergencyItemDataSO){
+        //if initalcomboitem is a resource and the incoming item is a tool then return either INVALIDTOOLRESOURCECOMBO, VALIDTOOLRESOUCECOMBO or FULLTOOL
+        if(initalComboItemData.GetItemType() == ItemType.Resource && incomingItemData.GetItemType() == ItemType.Tool && incomingItemData is ToolItemDataSO emergencyItemDataSO){
             ResourceDataSO emergencyItemResourceData = emergencyItemDataSO.GetEquippedItemBehaviour().GetEquippedItemResourceData();
             return AttemptReloadResourceCombination(initalComboItem, incomingItem, emergencyItemResourceData, newComboResult, false);
         }
 
-        if(initalComboItemData.GetItemType() == ItemType.Emergency_Item && incomingItemData.GetItemType() == ItemType.Resource && initalComboItemData is EmergencyItemDataSO _emergencyItemDataSO){
+        if(initalComboItemData.GetItemType() == ItemType.Tool && incomingItemData.GetItemType() == ItemType.Resource && initalComboItemData is ToolItemDataSO _emergencyItemDataSO){
             ResourceDataSO emergencyItemResourceData = _emergencyItemDataSO.GetEquippedItemBehaviour().GetEquippedItemResourceData();
             return AttemptReloadResourceCombination(incomingItem, initalComboItem, emergencyItemResourceData, newComboResult, false);
         }

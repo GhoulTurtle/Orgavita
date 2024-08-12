@@ -214,7 +214,7 @@ public class ContextMenuUI : MonoBehaviour{
 
     private void GenerateContextUIButtons(InventoryItem inventoryItem, ItemDataSO itemData){
         if(inventoryUI.GetSelectedItemInEquipmentSlot()) AddNewContextUIButton(ContextButtonType.UnEquip, inventoryItem, playerInventoryHandler);
-        else if(itemData.GetItemType() == ItemType.Weapon || itemData.GetItemType() == ItemType.Emergency_Item) AddNewContextUIButton(ContextButtonType.Equip, inventoryItem, playerInventoryHandler);
+        else if(itemData.GetItemType() == ItemType.Weapon || itemData.GetItemType() == ItemType.Tool) AddNewContextUIButton(ContextButtonType.Equip, inventoryItem, playerInventoryHandler);
         else if(itemData.GetIsUseable()) AddNewContextUIButton(ContextButtonType.Use, inventoryItem, playerInventoryHandler);
 
         //Keeping this here in case I want to add inspecting back into the game
@@ -222,7 +222,9 @@ public class ContextMenuUI : MonoBehaviour{
         if(!inventoryUI.GetSelectedItemInEquipmentSlot()){
             AddNewContextUIButton(ContextButtonType.Move, inventoryItem, playerInventoryHandler);
         }
-        AddNewContextUIButton(ContextButtonType.Assign, inventoryItem, playerInventoryHandler);
+        if(itemData.GetIsUseable()){
+            AddNewContextUIButton(ContextButtonType.Assign, inventoryItem, playerInventoryHandler);
+        }
 
         if(itemData.GetIsCombinable()){
             AddNewContextUIButton(ContextButtonType.Combine, inventoryItem, playerInventoryHandler);

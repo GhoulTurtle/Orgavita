@@ -19,7 +19,8 @@ MonoBehaviour:
     Becoming more and more scarce since fear weapons have been developed.
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 0}
-  itemInWorldModelPrefab: {fileID: 0}
+  itemInWorldModelPrefab: {fileID: 5771749425091677146, guid: fdb3e44185e932d4c99eb33c3fa46ae3,
+    type: 3}
   itemPickupAudioEvent: {fileID: 0}
   itemUseAudioEvent: {fileID: 0}
   itemDestoryAudioEvent: {fileID: 0}

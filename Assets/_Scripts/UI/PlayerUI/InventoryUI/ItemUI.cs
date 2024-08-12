@@ -1,4 +1,3 @@
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -90,8 +89,8 @@ public class ItemUI : MonoBehaviour, ISelectHandler{
                     itemStackAmountText.color = stackTextColor;                 
                 } 
                 break;
-            case ItemType.Emergency_Item: 
-                if(itemData is EmergencyItemDataSO _equippedItemBehaviour){
+            case ItemType.Tool: 
+                if(itemData is ToolItemDataSO _equippedItemBehaviour){
                     ResourceDataSO resourceDataSO = _equippedItemBehaviour.GetEquippedItemBehaviour().GetEquippedItemResourceData();
                     if(resourceDataSO is FlashlightResourceDataSO flashlightResourceDataSO){
                         SetAssociatedItemResourceData(flashlightResourceDataSO);

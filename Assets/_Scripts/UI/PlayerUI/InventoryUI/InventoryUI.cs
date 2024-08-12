@@ -90,18 +90,6 @@ public class InventoryUI : MonoBehaviour{
         }
     }
 
-    private void MoveSelectedItem(ItemUI itemUIClicked){
-        if (currentSelectedItemUI == itemUIClicked){
-            playerInventoryHandler.UpdateInventoryState(InventoryState.ContextUI);
-            OnSlotSelected?.Invoke(this, new SlotSelectedEventArgs(currentSelectedItemUI.GetInventoryItem(), currentSelectedItemUI.GetInventoryItem().GetHeldItem()));
-            return;
-        }
-
-        playerInventoryHandler.GetInventory().MoveItem(currentSelectedItemUI.GetInventoryItem(), itemUIClicked.GetInventoryItem());
-
-        playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
-    }
-
     private void ShowCombineAttempt(ItemUI itemUIClicked){
         if (currentSelectedItemUI == itemUIClicked){
             playerInventoryHandler.UpdateInventoryState(InventoryState.ContextUI);
@@ -116,9 +104,24 @@ public class InventoryUI : MonoBehaviour{
         playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
     }
 
+    private void MoveSelectedItem(ItemUI itemUIClicked){
+        if (currentSelectedItemUI == itemUIClicked){
+            playerInventoryHandler.UpdateInventoryState(InventoryState.ContextUI);
+            OnSlotSelected?.Invoke(this, new SlotSelectedEventArgs(currentSelectedItemUI.GetInventoryItem(), currentSelectedItemUI.GetInventoryItem().GetHeldItem()));
+            return;
+        }
+
+        playerInventoryHandler.GetInventory().MoveItem(currentSelectedItemUI.GetInventoryItem(), itemUIClicked.GetInventoryItem());
+
+        playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
+
+        currentSelectedItemUI = itemUIClicked;
+        OnSlotSelected?.Invoke(this, new SlotSelectedEventArgs(itemUIClicked.GetInventoryItem(), itemUIClicked.GetInventoryItem().GetHeldItem()));
+    }
+
     public void SelectItemUI(ItemUI itemUI){
         if(playerInventoryHandler.CurrentInventoryState != InventoryState.Combine){
-            //The || is stupid
+            //The || operator is stupid
             if(playerInventoryHandler.CurrentInventoryState != InventoryState.Move){
                 currentSelectedItemUI = itemUI;
             }

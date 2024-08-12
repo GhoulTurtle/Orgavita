@@ -19,10 +19,11 @@ MonoBehaviour:
     items to create ammunition for weapons.
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 0}
-  itemInWorldModelPrefab: {fileID: 0}
+  itemInWorldModelPrefab: {fileID: 5771749425091677146, guid: 2e7842602969b6247b00b5154c487f20,
+    type: 3}
   itemPickupAudioEvent: {fileID: 0}
   itemUseAudioEvent: {fileID: 0}
-  itemDestoryEvent: {fileID: 0}
+  itemDestoryAudioEvent: {fileID: 0}
   itemType: 2
   isUseable: 0
   isCombinable: 1

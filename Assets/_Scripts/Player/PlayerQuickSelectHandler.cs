@@ -98,6 +98,18 @@ public class PlayerQuickSelectHandler : MonoBehaviour{
                     }
                 }
                 else{
+                    if(playerEquippedItemHandler.IsCurrentWeaponActive()){
+                        //Check if we can swap off the current weapon
+                        GunWeaponEquippedItemBehaviour currentWeapon = (GunWeaponEquippedItemBehaviour)playerEquippedItemHandler.GetCurrentWeaponItemBehaviour();
+
+                        if(!currentWeapon.CanSwitchFromWeapon()){
+                            resultDialogue.Sentence = "Can't switch right now";
+                            resultDialogue.SentenceColor = Color.red;
+                            PopupUI.Instance.PrintText(resultDialogue, popupPrintSpeed, true, popupWaitTime, popupFadeTime);
+                            return;
+                        }
+                    }
+
                     playerInventoryHandler.GetInventory().EquipWeaponItem(inventoryItem);
                     resultDialogue.Sentence = "Equipped " + itemData.GetItemName();
                     quickSelectInputCooldownCoroutine = QuickSelectInputCooldownCoroutine();

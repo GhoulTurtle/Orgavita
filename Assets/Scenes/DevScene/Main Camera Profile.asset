@@ -174,10 +174,10 @@ MonoBehaviour:
   active: 1
   isFrameLimitEnabled:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   frameLimit:
     m_OverrideState: 1
-    m_Value: 60
+    m_Value: 999
   aspectMode:
     m_OverrideState: 1
     m_Value: 0

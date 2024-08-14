@@ -35,6 +35,11 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
     [SerializeField] protected UnityEvent OnGunReloadedStopped;
     [SerializeField] protected UnityEvent OnGunInspected;  
 
+    [Header("Can Not Switch Popup Variables")]
+    [SerializeField] private float popupPrintSpeed = 0.01f;
+    [SerializeField] private float popupWaitTime = 1.5f;
+    [SerializeField] private float popupFadeTime = 1f;
+
     protected CoroutineContainer kickbackCoroutineContainer;
     protected CoroutineContainer fireRateCoroutineContainer;
     protected CoroutineContainer reloadCoroutineContainer;
@@ -46,6 +51,8 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
     public override void SaveData(){
         DisposeCoroutineContainers();
         playerInputHandler.OnHolsterWeapon -= HolsterWeaponInput;
+        playerInventoryHandler.OnInventoryStateChanged -= EvaulateInventoryStateChanged;
+        weaponResourceData.OnResourceUpdated -= OnResourceUpdated;
     }
 
     public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler, PlayerInventoryHandler _playerInventoryHandler){
@@ -56,14 +63,38 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
         }
         playerInputHandler.OnHolsterWeapon += HolsterWeaponInput;
         playerInventoryHandler.OnInventoryStateChanged += EvaulateInventoryStateChanged;
+        weaponResourceData.OnResourceUpdated += OnResourceUpdated;
     }
 
+
     public override void HolsterWeaponInput(object sender, InputEventArgs e){
+        if(e.callbackContext.phase != InputActionPhase.Performed) return;
+
+        if(!CanSwitchFromWeapon()){
+            Dialogue canNotSwitchDialogue = new(){
+                Sentence = "Can't holster right now.",
+                SentenceColor = Color.red
+            };
+            PopupUI.Instance.PrintText(canNotSwitchDialogue, popupPrintSpeed, true, popupWaitTime, popupFadeTime);
+            return;
+        }
+        StopReloadAction();
         DisposeCoroutineContainers();
 
         base.HolsterWeaponInput(sender, e);
     }
-    
+
+    public override void ChangeItemState(EquippableItemState newState){
+        if(currentWeaponState == WeaponState.Aiming){
+            ChangeWeaponState(WeaponState.Default);
+        }
+
+        StopReloadAction();
+        DisposeCoroutineContainers();
+
+        base.ChangeItemState(newState);
+    }
+
     public override void EvaulateInventoryStateChanged(object sender, PlayerInventoryHandler.InventoryStateChangedEventArgs e){
         if(e.inventoryState != InventoryState.Closed && currentWeaponState == WeaponState.Reloading){
             StopReloadAction();
@@ -76,6 +107,10 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
 
     public override WeaponDataSO GetEquippedWeaponData(){
         return weaponData;
+    }
+
+    public bool CanSwitchFromWeapon(){
+        return fireRateCoroutineContainer == null;
     }
 
     protected void AimWeapon(InputActionPhase inputActionPhase){
@@ -172,6 +207,12 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
         }
 
         CreateKickbackTimer();
+    }
+
+    protected void OnResourceUpdated(int obj){
+        if(currentWeaponState != WeaponState.Reloading && obj >= 1){
+            OnGunReloadedStopped?.Invoke();
+        }
     }
 
     protected void RemoveKickbackTimer(){

@@ -106,8 +106,6 @@ public class AIStateDataList : ScriptableObject{
 
                 //Setup timers for the next state transition jobs
                 StartTransitionTimers(aIStateMachine, nextAIState);
-
-                Debug.Log("Transition Triggered! Going to the: " + nextAIState + " state!");
                 break;
             }
         }

@@ -153,6 +153,14 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
         return false;
     }
 
+    public EquippedItemBehaviour GetCurrentWeaponItemBehaviour(){
+        return currentWeaponItemBehaviour;
+    }
+
+    public EquippedItemBehaviour GetCurrentToolItemBehaviour(){
+        return currentToolItemBehaviour;
+    }
+
     private void ToolItemEquipped(object sender, PlayerInventorySO.EquippedItemEventArgs e){
         currentToolItemBehaviour = Instantiate(e.equippedItemBehaviour);
 

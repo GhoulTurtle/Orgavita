@@ -34,7 +34,7 @@ public class WeaponAmmoUI : MonoBehaviour{
         }
     }
 
-    private void UpdateWeaponAmmoUI(int amount){
+    private void UpdateWeaponAmmoUI(int stackAmount){
         ammoCountText.text = weaponResourceData.GetCurrentStackCount() + "/" + weaponResourceData.GetMaxStackCount();
 
         float sliderValue = (float)weaponResourceData.GetCurrentStackCount() / weaponResourceData.GetMaxStackCount();

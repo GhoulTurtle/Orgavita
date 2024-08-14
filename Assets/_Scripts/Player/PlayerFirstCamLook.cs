@@ -47,6 +47,7 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	private float camY;
 	private float currentAmplitude;
 	private float currentFrequency;
+	private float motionTime;
 
 	private Vector3 startPos;
 	private Vector3 currentMovementVectorNormalized;
@@ -101,29 +102,38 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	}
 
 	public void Update(){
-		cameraRoot.localRotation = Quaternion.Euler(camY, camX, 0);
-
-		characterOrientation.transform.localRotation = Quaternion.Euler(0, camX, 0);
-
 		CheckMotion();
 		ResetPosition();
 	}
 
 	public void OnLookInput(InputAction.CallbackContext context){
 		var inputVector = context.ReadValue<Vector2>();
-		camX += inputVector.x * camSens * Time.deltaTime;
-		camY -= inputVector.y * camSens * Time.deltaTime;
+		camX += inputVector.x * camSens;
+		camY -= inputVector.y * camSens;
 		camY = Mathf.Clamp(camY, -YClamp, YClamp);
+
+		UpdateCameraRotation();
 	}
 
 	public void LookInputInjected(Vector2 inputVector){
 		camX += inputVector.x;
 		camY -= inputVector.y;
 		camY = Mathf.Clamp(camY, -YClamp, YClamp);
+		
+		UpdateCameraRotation();
+	}
+
+	private void UpdateCameraRotation(){
+		cameraRoot.localRotation = Quaternion.Euler(camY, camX, 0);
+
+		characterOrientation.transform.localRotation = Quaternion.Euler(0, camX, 0);
 	}
 
 	private void CheckMotion(){
-		if(!playerMovement.IsMoving()) return;
+		if(!playerMovement.IsMoving()){
+			motionTime = 0;
+			return;
+		}
 		PlayMotion(StepMotionCalculation());
 	}
 
@@ -138,8 +148,9 @@ public class PlayerFirstCamLook : MonoBehaviour{
 
 	private Vector3 StepMotionCalculation(){
 		Vector3 pos = Vector3.zero;
-		pos.y += Mathf.Sin(Time.time * currentFrequency) * currentAmplitude;
-		pos.x += Mathf.Cos(Time.time * currentFrequency / 2) * currentAmplitude * 2;
+		motionTime += Time.deltaTime; 
+		pos.y += Mathf.Sin(motionTime * currentFrequency) * currentAmplitude;
+		pos.x += Mathf.Cos(motionTime * currentFrequency / 2) * currentAmplitude * 2;
 		
 		if ((pos.y > 0 && !isMovingUpwards) || (pos.y < 0 && isMovingUpwards)){
             // Footstep sound should play at the peak of the sin wave

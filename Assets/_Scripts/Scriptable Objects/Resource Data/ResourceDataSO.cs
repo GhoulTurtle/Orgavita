@@ -30,13 +30,13 @@ public class ResourceDataSO : ScriptableObject{
             currentStack = maxStack;
         }
 
-        OnResourceUpdated?.Invoke(currentStack);
+        OnResourceUpdated?.Invoke(stackAmount);
     }
 
     public virtual void RemoveItem(){
         if(!IsEmpty()){
             currentStack--;
-            OnResourceUpdated?.Invoke(currentStack);
+            OnResourceUpdated?.Invoke(-1);
         }
     }
 

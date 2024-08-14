@@ -137,7 +137,9 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
 
     public virtual void UpdateControlOnItemStateChange(){
         switch (currentItemState){
-            case EquippableItemState.Active: SubscribeToInputEvents();
+            case EquippableItemState.Active: 
+                if(currentHolsterAnimation != null) return;
+                SubscribeToInputEvents();
                 break;
             case EquippableItemState.Holstered: UnsubscribeFromInputEvents();
                 break;
@@ -174,7 +176,7 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         UpdateControlOnItemStateChange();
     }
 
-    public void ChangeItemState(EquippableItemState newState){
+    public virtual void ChangeItemState(EquippableItemState newState){
         if(newState == currentItemState) return;
 
         currentItemState = newState;
@@ -281,12 +283,10 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         transform.parent = null;
         float elapsedTime = 0f;
         
-        while(elapsedTime < holsterAnimationDuration){
+        while(elapsedTime <= holsterAnimationDuration){
+            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, holsterTransform.position, elapsedTime / holsterAnimationDuration), Quaternion.Slerp(transform.rotation, holsterTransform.rotation, elapsedTime / holsterAnimationDuration));
+
             elapsedTime += Time.deltaTime;
-
-            float t = Mathf.Clamp01(elapsedTime / holsterAnimationDuration);
-
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, holsterTransform.position, t), Quaternion.Slerp(transform.rotation, holsterTransform.rotation, t));
             yield return null;
         }
 
@@ -295,6 +295,9 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
 
         currentHolsterAnimation = null;
 
+        if(currentItemState == EquippableItemState.Active){
+            UpdateControlOnItemStateChange();
+        }
         OnHolsterAnimationCompleted?.Invoke();
     }
 }

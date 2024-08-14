@@ -12577,6 +12577,10 @@ PrefabInstance:
       propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1884264279, guid: 80a0578531470ab4498ceedf1d7a27bc, type: 3}
+      propertyPath: m_ImpulseDefinition.m_ImpulseDuration
+      value: 0.15
+      objectReference: {fileID: 0}
     - target: {fileID: 982711692833290873, guid: 80a0578531470ab4498ceedf1d7a27bc,
         type: 3}
       propertyPath: m_AnchorMax.x

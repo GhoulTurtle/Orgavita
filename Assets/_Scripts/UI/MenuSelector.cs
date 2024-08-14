@@ -22,10 +22,12 @@ public class MenuSelector : MonoBehaviour{
     private bool isActive;
     private bool isFirstActivation = true;
 
-    private void Awake() {
-        CurrentEventSystem = EventSystem.current;
-        
+    private void Awake() {        
         selectorImageTransform.TryGetComponent(out selectorRectTransform);
+    }
+
+    private void Start() {
+        CurrentEventSystem = EventSystem.current;
     }
 
     private void OnDestroy() {
@@ -125,7 +127,12 @@ public class MenuSelector : MonoBehaviour{
             currentMoveAnimation = null;
         }
         isActive = false;
-        CurrentEventSystem.SetSelectedGameObject(null);
+        if(CurrentEventSystem == null){
+            CurrentEventSystem = EventSystem.current;
+        }
+        if(CurrentEventSystem != null){
+            CurrentEventSystem.SetSelectedGameObject(null);
+        }
         HideSelectorVisual();
     }
 

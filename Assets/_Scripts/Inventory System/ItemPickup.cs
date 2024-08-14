@@ -10,6 +10,12 @@ public class ItemPickup : MonoBehaviour{
     [SerializeField] private ItemDataSO itemToPickup;
     [SerializeField] private int itemPickupStackAmount;
 
+    [Header("Item Popup Text Variables")]
+    [SerializeField] private bool displayPopup = true;
+    [SerializeField] private float popupPrintSpeed = 0.01f;
+    [SerializeField] private float popupWaitTime = 1f;
+    [SerializeField] private float popupFadeTime = 1.5f;
+
     [Header("Events")]
     [SerializeField] private UnityEvent OnPickupEvent;
 
@@ -44,8 +50,33 @@ public class ItemPickup : MonoBehaviour{
 
         var itemRemainder = playerInventory.AttemptToAddItemToInventory(itemToPickup, itemPickupStackAmount);
 
-        if(itemPickupAudioEvent != null && itemRemainder != itemPickupStackAmount){
-            itemPickupAudioEvent.Play(itemPickupAudioSource);
+        if(itemRemainder == itemPickupStackAmount){
+            //Full inventory
+            if(PopupUI.Instance != null && displayPopup){
+                Dialogue pickupDialogue = new Dialogue{
+                    Sentence = "Inventory full.",
+                    SentenceColor = Color.red
+                };
+
+                PopupUI.Instance.PrintText(pickupDialogue, popupPrintSpeed, true, popupWaitTime, popupFadeTime);
+            }
+        }
+
+        if(itemRemainder != itemPickupStackAmount){
+            //Picked up items
+            if(itemPickupAudioEvent != null){
+                itemPickupAudioEvent.Play(itemPickupAudioSource);
+            }
+
+            if(PopupUI.Instance != null && displayPopup){
+                int itemsPickedUp = itemPickupStackAmount - itemRemainder;
+                Dialogue pickupDialogue = new Dialogue{
+                    Sentence = itemPickupStackAmount != 1 ? "Picked up " + itemToPickup.GetItemName() + " X" + itemsPickedUp : "Picked up " + itemToPickup.GetItemName(),
+                    SentenceColor = Color.white
+                };
+
+                PopupUI.Instance.PrintText(pickupDialogue, popupPrintSpeed, true, popupWaitTime, popupFadeTime);
+            }
         }
 
         if(itemRemainder == 0){

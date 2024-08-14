@@ -73,6 +73,15 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""AttemptInteract"",
+                    ""type"": ""Button"",
+                    ""id"": ""2d6726fc-5a23-4d77-9ded-08fc6cc20a1b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Pause"",
                     ""type"": ""Button"",
                     ""id"": ""7259a5d6-d122-4f2b-82c5-f2835f4f5cd6"",
@@ -134,6 +143,15 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""QuickSelect"",
+                    ""type"": ""Value"",
+                    ""id"": ""1e71c11a-0488-4188-808d-54748dec525f"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -444,6 +462,127 @@ public partial class @Player: IInputActionCollection2, IDisposable
                     ""action"": ""ReloadWeapon"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""QuickSwapKeyboard"",
+                    ""id"": ""f449a3cd-5daf-4e92-a3fb-54154fbb2629"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickSelect"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""926ebfb0-312c-410a-ad94-43503f94e5e2"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""fd4ebdb2-cb19-4d58-9650-51ff320f378e"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""532b99c0-d15c-4568-a3c9-81572c61558f"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""63027af5-31a6-4731-b0dc-856cfa86c58f"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""QuickSwapGamepad"",
+                    ""id"": ""09590fd3-cd87-408b-a913-03f2bb3c388e"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickSelect"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""14904546-ff69-4ac5-ad01-8daa9a6fd2d9"",
+                    ""path"": ""<Gamepad>/dpad/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""e37af234-62d4-4c5a-84c9-886cee8c55e2"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""ba0af345-2474-498b-ace2-71a0c3295a72"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""323b58bc-8754-4426-8c41-fa0cf64f6e18"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""QuickSelect"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96c10895-2931-4dd4-bd8f-867d3f861770"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AttemptInteract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -632,6 +771,17 @@ public partial class @Player: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""3ff90359-cb9f-4342-a830-a0a607dc673f"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""1b5b1ce1-fcf5-440e-9784-bcf74cfa8249"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
@@ -714,6 +864,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         m_InGamePlayer_Crouch = m_InGamePlayer.FindAction("Crouch", throwIfNotFound: true);
         m_InGamePlayer_Look = m_InGamePlayer.FindAction("Look", throwIfNotFound: true);
         m_InGamePlayer_Interact = m_InGamePlayer.FindAction("Interact", throwIfNotFound: true);
+        m_InGamePlayer_AttemptInteract = m_InGamePlayer.FindAction("AttemptInteract", throwIfNotFound: true);
         m_InGamePlayer_Pause = m_InGamePlayer.FindAction("Pause", throwIfNotFound: true);
         m_InGamePlayer_Inventory = m_InGamePlayer.FindAction("Inventory", throwIfNotFound: true);
         m_InGamePlayer_EmergencyItemUse = m_InGamePlayer.FindAction("EmergencyItemUse", throwIfNotFound: true);
@@ -721,6 +872,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         m_InGamePlayer_WeaponAltUse = m_InGamePlayer.FindAction("WeaponAltUse", throwIfNotFound: true);
         m_InGamePlayer_ReloadWeapon = m_InGamePlayer.FindAction("ReloadWeapon", throwIfNotFound: true);
         m_InGamePlayer_HolsterWeapon = m_InGamePlayer.FindAction("HolsterWeapon", throwIfNotFound: true);
+        m_InGamePlayer_QuickSelect = m_InGamePlayer.FindAction("QuickSelect", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigation = m_UI.FindAction("Navigation", throwIfNotFound: true);
@@ -797,6 +949,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGamePlayer_Crouch;
     private readonly InputAction m_InGamePlayer_Look;
     private readonly InputAction m_InGamePlayer_Interact;
+    private readonly InputAction m_InGamePlayer_AttemptInteract;
     private readonly InputAction m_InGamePlayer_Pause;
     private readonly InputAction m_InGamePlayer_Inventory;
     private readonly InputAction m_InGamePlayer_EmergencyItemUse;
@@ -804,6 +957,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
     private readonly InputAction m_InGamePlayer_WeaponAltUse;
     private readonly InputAction m_InGamePlayer_ReloadWeapon;
     private readonly InputAction m_InGamePlayer_HolsterWeapon;
+    private readonly InputAction m_InGamePlayer_QuickSelect;
     public struct InGamePlayerActions
     {
         private @Player m_Wrapper;
@@ -813,6 +967,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         public InputAction @Crouch => m_Wrapper.m_InGamePlayer_Crouch;
         public InputAction @Look => m_Wrapper.m_InGamePlayer_Look;
         public InputAction @Interact => m_Wrapper.m_InGamePlayer_Interact;
+        public InputAction @AttemptInteract => m_Wrapper.m_InGamePlayer_AttemptInteract;
         public InputAction @Pause => m_Wrapper.m_InGamePlayer_Pause;
         public InputAction @Inventory => m_Wrapper.m_InGamePlayer_Inventory;
         public InputAction @EmergencyItemUse => m_Wrapper.m_InGamePlayer_EmergencyItemUse;
@@ -820,6 +975,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         public InputAction @WeaponAltUse => m_Wrapper.m_InGamePlayer_WeaponAltUse;
         public InputAction @ReloadWeapon => m_Wrapper.m_InGamePlayer_ReloadWeapon;
         public InputAction @HolsterWeapon => m_Wrapper.m_InGamePlayer_HolsterWeapon;
+        public InputAction @QuickSelect => m_Wrapper.m_InGamePlayer_QuickSelect;
         public InputActionMap Get() { return m_Wrapper.m_InGamePlayer; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -844,6 +1000,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
+            @AttemptInteract.started += instance.OnAttemptInteract;
+            @AttemptInteract.performed += instance.OnAttemptInteract;
+            @AttemptInteract.canceled += instance.OnAttemptInteract;
             @Pause.started += instance.OnPause;
             @Pause.performed += instance.OnPause;
             @Pause.canceled += instance.OnPause;
@@ -865,6 +1024,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @HolsterWeapon.started += instance.OnHolsterWeapon;
             @HolsterWeapon.performed += instance.OnHolsterWeapon;
             @HolsterWeapon.canceled += instance.OnHolsterWeapon;
+            @QuickSelect.started += instance.OnQuickSelect;
+            @QuickSelect.performed += instance.OnQuickSelect;
+            @QuickSelect.canceled += instance.OnQuickSelect;
         }
 
         private void UnregisterCallbacks(IInGamePlayerActions instance)
@@ -884,6 +1046,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
+            @AttemptInteract.started -= instance.OnAttemptInteract;
+            @AttemptInteract.performed -= instance.OnAttemptInteract;
+            @AttemptInteract.canceled -= instance.OnAttemptInteract;
             @Pause.started -= instance.OnPause;
             @Pause.performed -= instance.OnPause;
             @Pause.canceled -= instance.OnPause;
@@ -905,6 +1070,9 @@ public partial class @Player: IInputActionCollection2, IDisposable
             @HolsterWeapon.started -= instance.OnHolsterWeapon;
             @HolsterWeapon.performed -= instance.OnHolsterWeapon;
             @HolsterWeapon.canceled -= instance.OnHolsterWeapon;
+            @QuickSelect.started -= instance.OnQuickSelect;
+            @QuickSelect.performed -= instance.OnQuickSelect;
+            @QuickSelect.canceled -= instance.OnQuickSelect;
         }
 
         public void RemoveCallbacks(IInGamePlayerActions instance)
@@ -1053,6 +1221,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         void OnCrouch(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
+        void OnAttemptInteract(InputAction.CallbackContext context);
         void OnPause(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnEmergencyItemUse(InputAction.CallbackContext context);
@@ -1060,6 +1229,7 @@ public partial class @Player: IInputActionCollection2, IDisposable
         void OnWeaponAltUse(InputAction.CallbackContext context);
         void OnReloadWeapon(InputAction.CallbackContext context);
         void OnHolsterWeapon(InputAction.CallbackContext context);
+        void OnQuickSelect(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

@@ -81,6 +81,10 @@ MonoBehaviour:
   itemPickupAudioSource: {fileID: 5324876860431352673}
   itemToPickup: {fileID: 0}
   itemPickupStackAmount: 1
+  displayPopup: 1
+  popupPrintSpeed: 0.01
+  popupWaitTime: 1
+  popupFadeTime: 1
   OnPickupEvent:
     m_PersistentCalls:
       m_Calls: []

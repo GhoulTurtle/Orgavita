@@ -6,7 +6,7 @@ public class ToolItemDataSO : ItemDataSO{
     public EquippedItemBehaviour toolBehaviour;
 
     public override void UseItem(InventoryItem selectedItem, PlayerInventoryHandler playerInventoryHandler, out string resultMessage){
-        playerInventoryHandler.GetInventory().EquipEmergencyItem(selectedItem);
+        playerInventoryHandler.GetInventory().EquipToolItem(selectedItem);
         base.UseItem(selectedItem, playerInventoryHandler, out resultMessage);
     }
 

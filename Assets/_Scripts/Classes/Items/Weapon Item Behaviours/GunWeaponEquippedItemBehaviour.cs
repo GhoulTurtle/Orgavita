@@ -50,6 +50,7 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
 
     public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler, PlayerInventoryHandler _playerInventoryHandler){
         base.SetupItemBehaviour(_inventoryItem, _playerInputHandler, _playerInventoryHandler);
+        inventoryItem = _inventoryItem;
         if(playerReference == null){
             playerInputHandler.TryGetComponent(out playerReference);
         }

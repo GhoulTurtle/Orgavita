@@ -182,7 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48faef0ce5d865d4aa1f08c3e5c3c855, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultItemState: 1
+  defaultItemState: 2
   defaultItemHolsterType: 2
   aimedChildData:
     lockPos: {fileID: 0}

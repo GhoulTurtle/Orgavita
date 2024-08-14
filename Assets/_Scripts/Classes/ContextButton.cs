@@ -76,7 +76,7 @@ public class ContextButton{
             playerInventory.UnEquipWeaponItem();
         }
         else if(selectedInventoryItem.GetHeldItem().GetItemType() == ItemType.Tool){
-            playerInventory.UnEquipEmergencyItem();
+            playerInventory.UnEquipToolItem();
         }
 
         playerInventoryHandler.UpdateInventoryState(InventoryState.Default);
@@ -87,7 +87,7 @@ public class ContextButton{
             playerInventory.EquipWeaponItem(selectedInventoryItem);
         }
         else if(selectedInventoryItem.GetHeldItem().GetItemType() == ItemType.Tool){
-            playerInventory.EquipEmergencyItem(selectedInventoryItem);
+            playerInventory.EquipToolItem(selectedInventoryItem);
         }
 
         playerInventoryHandler.UpdateInventoryState(InventoryState.Default);

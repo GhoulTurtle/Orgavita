@@ -38,14 +38,14 @@ public class FlashlightBehaviour : EquippedItemBehaviour{
     }
 
     protected override void SubscribeToInputEvents(){
-        playerInputHandler.OnEmergencyItemUse += EmergencyItemUseInput;
+        playerInputHandler.OnEmergencyItemUse += ToolUseInput;
     }
 
     protected override void UnsubscribeFromInputEvents(){
-        playerInputHandler.OnEmergencyItemUse -= EmergencyItemUseInput;
+        playerInputHandler.OnEmergencyItemUse -= ToolUseInput;
     }
 
-    public override void EmergencyItemUseInput(object sender, InputEventArgs e){
+    public override void ToolUseInput(object sender, InputEventArgs e){
         if(e.inputActionPhase != UnityEngine.InputSystem.InputActionPhase.Performed) return;
         if(flashlightResourceData.IsEmpty()){ 
             if(!AttemptReloadFlashlight()){

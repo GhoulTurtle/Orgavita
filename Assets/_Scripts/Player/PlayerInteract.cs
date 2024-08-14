@@ -7,6 +7,7 @@ public class PlayerInteract : MonoBehaviour{
 	[Header("Required References")]
 	[SerializeField] private Transform playerCamera;
 	[SerializeField] private LayerMask playerLayer;
+	[SerializeField] private PlayerEquippedItemHandler playerEquippedItemHandler;
 
 	[Header("Interact Variables")]
 	[SerializeField] private float interactionRadius;
@@ -49,6 +50,11 @@ public class PlayerInteract : MonoBehaviour{
 			currentInteractable = interactable;
 			OnInteractHover?.Invoke(this, new InteractableEventArgs(currentInteractable));
 		}
+	}
+
+	public void AttemptInteract(InputAction.CallbackContext context){
+		if(playerEquippedItemHandler.IsCurrentWeaponActive() || !canInteract || playerCamera == null || context.phase != InputActionPhase.Performed) return;
+		Interact(context);
 	}
 
 	public void Interact(InputAction.CallbackContext context){

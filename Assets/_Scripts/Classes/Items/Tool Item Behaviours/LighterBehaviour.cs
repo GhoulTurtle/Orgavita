@@ -13,20 +13,20 @@ public class LighterBehaviour : EquippedItemBehaviour{
     }
 
     protected override void SubscribeToInputEvents(){
-        playerInputHandler.OnEmergencyItemUse += EmergencyItemUseInput;
+        playerInputHandler.OnEmergencyItemUse += ToolUseInput;
         playerInputHandler.OnWeaponUse += WeaponUseInput;
         playerInputHandler.OnAltWeaponUse += WeaponAltUseInput;
         playerInputHandler.OnHolsterWeapon += HolsterWeaponInput;
     }
 
     protected override void UnsubscribeFromInputEvents(){
-        playerInputHandler.OnEmergencyItemUse -= EmergencyItemUseInput;
+        playerInputHandler.OnEmergencyItemUse -= ToolUseInput;
         playerInputHandler.OnWeaponUse -= WeaponUseInput;
         playerInputHandler.OnAltWeaponUse -= WeaponAltUseInput;
         playerInputHandler.OnHolsterWeapon -= HolsterWeaponInput;
     }
 
-    public override void EmergencyItemUseInput(object sender, InputEventArgs e){
+    public override void ToolUseInput(object sender, InputEventArgs e){
 
     }
 

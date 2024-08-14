@@ -2375,6 +2375,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerInventorySO: {fileID: 11400000, guid: 43cda2997f2cc084b9d3e989d0cefc65, type: 2}
+  quickSelectDataSO: {fileID: 11400000, guid: 8c238b47ee2f11c45acfefb08630e4eb, type: 2}
+  resourceDataSOList:
+  - {fileID: 11400000, guid: 9ede48ca99753e240aa49303ea50a463, type: 2}
+  - {fileID: 11400000, guid: 1794905b42f6a824db4ccf7afc77af17, type: 2}
+  - {fileID: 11400000, guid: 9f43ca3173485d7408c22d992a0f1ee5, type: 2}
+  - {fileID: 11400000, guid: 8ab31a0f29f6a13409e9c9acce3f6268, type: 2}
+  - {fileID: 11400000, guid: 2ed6a1cd72ff74240aed3c09af93733b, type: 2}
 --- !u!1 &1057770486
 GameObject:
   m_ObjectHideFlags: 0

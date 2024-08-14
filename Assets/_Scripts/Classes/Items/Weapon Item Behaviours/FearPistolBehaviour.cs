@@ -18,7 +18,7 @@ public class FearPistolBehaviour : GunWeaponEquippedItemBehaviour{
     private int rayBounceCounter = 0;
 
     public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler, PlayerInventoryHandler _playerInventoryHandler){        
-        base.SetupItemBehaviour(inventoryItem, _playerInputHandler, _playerInventoryHandler);
+        base.SetupItemBehaviour(_inventoryItem, _playerInputHandler, _playerInventoryHandler);
         fearPistolWeaponDataSO = (FearPistolWeaponDataSO)weaponData;
     }
 

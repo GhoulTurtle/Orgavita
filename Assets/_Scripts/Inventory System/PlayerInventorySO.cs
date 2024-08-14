@@ -16,8 +16,8 @@ public class PlayerInventorySO : ScriptableObject{
 
     [Header("Inventory Data")]
     [SerializeField] private List<InventoryItem> inventory;
-    [SerializeField] private InventoryItem equippedItem;
-    [SerializeField] private InventoryItem emergencyItem;
+    [SerializeField] private InventoryItem weaponItem;
+    [SerializeField] private InventoryItem toolItem;
 
     #if UNITY_EDITOR
     [Header("Inventory Editor Variables")]
@@ -39,9 +39,9 @@ public class PlayerInventorySO : ScriptableObject{
     }
 
     public EventHandler<EquippedItemEventArgs> OnWeaponItemEquipped;
-    public EventHandler OnWeaponItemUnequipped;
-    public EventHandler<EquippedItemEventArgs> OnEmergencyItemEquipped;
-    public EventHandler OnEmergencyItemUnequipped;
+    public Action<InventoryItem> OnWeaponItemUnequipped;
+    public EventHandler<EquippedItemEventArgs> OnToolItemEquipped;
+    public Action<InventoryItem> OnToolItemUnequipped;
     public class EquippedItemEventArgs : EventArgs{
         public InventoryItem inventoryItem;
         public EquippedItemBehaviour equippedItemBehaviour;
@@ -84,8 +84,8 @@ public class PlayerInventorySO : ScriptableObject{
             inventory.Add(new InventoryItem(null));
         }
 
-        equippedItem = new InventoryItem(null);
-        emergencyItem = new InventoryItem(null);
+        weaponItem = new InventoryItem(null);
+        toolItem = new InventoryItem(null);
     }
 
     public void IncreaseMaxInventory(int amount){
@@ -126,65 +126,88 @@ public class PlayerInventorySO : ScriptableObject{
     }
 
     public void EquipWeaponItem(InventoryItem itemToEquip){
+
+        if(!weaponItem.IsEmpty()){
+            OnWeaponItemUnequipped?.Invoke(itemToEquip);
+            return;
+        }
+
         ItemDataSO itemDataSO = itemToEquip.GetHeldItem();
 
-        if(!equippedItem.IsEmpty()){
-            OnWeaponItemUnequipped?.Invoke(this, EventArgs.Empty);
-            SwapInventoryItems(equippedItem, itemToEquip);
-        }
-        else{
-            equippedItem.SetItem(itemToEquip.GetHeldItem(), itemToEquip.GetCurrentStack());
-            itemToEquip.ClearItem();
-        }
+        weaponItem.SetItem(itemToEquip.GetHeldItem(), itemToEquip.GetCurrentStack());
+        itemToEquip.ClearItem();
 
         if(itemDataSO is WeaponItemDataSO weaponItemDataSO){
             if(weaponItemDataSO.GetEquippedItemBehaviour() != null){
-                OnWeaponItemEquipped?.Invoke(this, new EquippedItemEventArgs(itemToEquip, weaponItemDataSO.GetEquippedItemBehaviour()));
+                OnWeaponItemEquipped?.Invoke(this, new EquippedItemEventArgs(weaponItem, weaponItemDataSO.GetEquippedItemBehaviour()));
+            }   
+        }
+    }
+
+    public void WeaponUnequipAnimationFinished(InventoryItem itemToEquip){
+        ItemDataSO itemDataSO = itemToEquip.GetHeldItem();
+
+        SwapInventoryItems(weaponItem, itemToEquip);
+
+        if(itemDataSO is WeaponItemDataSO weaponItemDataSO){
+            if(weaponItemDataSO.GetEquippedItemBehaviour() != null){
+                OnWeaponItemEquipped?.Invoke(this, new EquippedItemEventArgs(weaponItem, weaponItemDataSO.GetEquippedItemBehaviour()));
             }   
         }
     }
 
     public void UnEquipWeaponItem(){
-        if(equippedItem.IsEmpty()) return;
+        if(weaponItem.IsEmpty()) return;
         
         List<InventoryItem> emptyInventorySpaces = FindEmptyInventoryItems();
         
         if(emptyInventorySpaces.Count == 0) return;
 
-        AttemptToAddItemToInventory(equippedItem.GetHeldItem(), equippedItem.GetCurrentStack());
-        equippedItem.ClearItem();
-        OnWeaponItemUnequipped?.Invoke(this, EventArgs.Empty);
+        AttemptToAddItemToInventory(weaponItem.GetHeldItem(), weaponItem.GetCurrentStack());
+        weaponItem.ClearItem();
+        OnWeaponItemUnequipped?.Invoke(null);
     }
 
-    public void EquipEmergencyItem(InventoryItem itemToEquip){
+    public void EquipToolItem(InventoryItem itemToEquip){
+        if(!toolItem.IsEmpty()){
+            OnToolItemUnequipped?.Invoke(itemToEquip);
+            return;
+        }
+
         ItemDataSO itemDataSO = itemToEquip.GetHeldItem();
 
-        if(!emergencyItem.IsEmpty()){
-            OnEmergencyItemUnequipped?.Invoke(this, EventArgs.Empty);
-            SwapInventoryItems(emergencyItem, itemToEquip);
-        }
-        else{
-            emergencyItem.SetItem(itemToEquip.GetHeldItem(), itemToEquip.GetCurrentStack());
-            itemToEquip.ClearItem();
-        }
+        toolItem.SetItem(itemToEquip.GetHeldItem(), itemToEquip.GetCurrentStack());
+        itemToEquip.ClearItem();
         
         if(itemDataSO is ToolItemDataSO emergencyItemDataSO){
             if(emergencyItemDataSO.GetEquippedItemBehaviour() != null){
-                OnEmergencyItemEquipped?.Invoke(this, new EquippedItemEventArgs(itemToEquip, emergencyItemDataSO.GetEquippedItemBehaviour()));
+                OnToolItemEquipped?.Invoke(this, new EquippedItemEventArgs(toolItem, emergencyItemDataSO.GetEquippedItemBehaviour()));
             }   
         }
     }
 
-    public void UnEquipEmergencyItem(){
-        if(emergencyItem.IsEmpty()) return;
+    public void ToolUnequipAnimationFinished(InventoryItem itemToEquip){
+        ItemDataSO itemDataSO = itemToEquip.GetHeldItem();
+
+        SwapInventoryItems(toolItem, itemToEquip);
+        
+        if(itemDataSO is ToolItemDataSO emergencyItemDataSO){
+            if(emergencyItemDataSO.GetEquippedItemBehaviour() != null){
+                OnToolItemEquipped?.Invoke(this, new EquippedItemEventArgs(toolItem, emergencyItemDataSO.GetEquippedItemBehaviour()));
+            }   
+        }
+    }
+
+    public void UnEquipToolItem(){
+        if(toolItem.IsEmpty()) return;
         
         List<InventoryItem> emptyInventorySpaces = FindEmptyInventoryItems();
         
         if(emptyInventorySpaces.Count == 0) return;
 
-        AttemptToAddItemToInventory(emergencyItem.GetHeldItem(), emergencyItem.GetCurrentStack());
-        emergencyItem.ClearItem();
-        OnEmergencyItemUnequipped?.Invoke(this, EventArgs.Empty);
+        AttemptToAddItemToInventory(toolItem.GetHeldItem(), toolItem.GetCurrentStack());
+        toolItem.ClearItem();
+        OnToolItemUnequipped?.Invoke(null);
     }
 
     public void AttemptReloadEquippedItem(ResourceDataSO equippedItemResourceData){
@@ -335,11 +358,11 @@ public class PlayerInventorySO : ScriptableObject{
     }
 
     public InventoryItem GetEquippedInventoryItem(){
-        return equippedItem;
+        return weaponItem;
     }
 
     public InventoryItem GetEmergencyInventoryItem(){
-        return emergencyItem;
+        return toolItem;
     }
 
     public List<InventoryItem> GetCurrentInventory(){
@@ -361,6 +384,8 @@ public class PlayerInventorySO : ScriptableObject{
     }
 
     public bool HasItemInInventory(ItemDataSO itemDataSO){
+        if(weaponItem.GetHeldItem() == itemDataSO) return true;
+        if(toolItem.GetHeldItem() == itemDataSO) return true;
         return inventory.FirstOrDefault(inventoryItem => inventoryItem.GetHeldItem() == itemDataSO) != null;
     }
 
@@ -397,6 +422,14 @@ public class PlayerInventorySO : ScriptableObject{
         correspondingInventoryItemList = inventory.Where(inventoryItem => inventoryItem.GetHeldItem() == itemDataSO).ToList();
 
         return correspondingInventoryItemList;
+    }
+
+    public InventoryItem AttemptGetInventoryItem(ItemDataSO itemDataSO){
+        if(weaponItem.GetHeldItem() == itemDataSO) return weaponItem;
+        if(toolItem.GetHeldItem() == itemDataSO) return toolItem;
+        InventoryItem inventoryItem = inventory.FirstOrDefault(inventoryItem => inventoryItem.GetHeldItem() == itemDataSO);
+
+        return inventoryItem;
     }
 
     private List<InventoryItem> AddInventorySlots(int slotsToAdd){

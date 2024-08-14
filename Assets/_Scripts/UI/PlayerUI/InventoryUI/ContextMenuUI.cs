@@ -100,7 +100,8 @@ public class ContextMenuUI : MonoBehaviour{
                 if(playerInventoryHandler.CurrentInventoryState == InventoryState.Inspect){
                     ExitInspectAnimation();
                 }
-                if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine || playerInventoryHandler.CurrentInventoryState == InventoryState.Move){
+                if(playerInventoryHandler.CurrentInventoryState == InventoryState.Combine || playerInventoryHandler.CurrentInventoryState == InventoryState.Move 
+                || playerInventoryHandler.CurrentInventoryState == InventoryState.Assign){
                     UpdateSelectedItemUI();
                 }
                 
@@ -117,7 +118,7 @@ public class ContextMenuUI : MonoBehaviour{
                 ShowMoveUI();
                 break;
             case InventoryState.Assign: 
-                HideContextUI();
+                ShowAssignUI();
                 break;
         }
     }
@@ -171,6 +172,16 @@ public class ContextMenuUI : MonoBehaviour{
         DescriptionFinishedPrinting();
 
         selectedItemDescriptionText.text = "Move " + inventoryUI.GetSelectedItemData().GetItemName() + " to...";
+        selectedItemDescriptionText.color = Color.white;
+    }
+
+    private void ShowAssignUI(){
+        updateItemDescription = false;
+        HideContextUI();
+
+        DescriptionFinishedPrinting();
+    
+        selectedItemDescriptionText.text = "Assign " + inventoryUI.GetSelectedItemData().GetItemName() + " to...";
         selectedItemDescriptionText.color = Color.white;
     }
 

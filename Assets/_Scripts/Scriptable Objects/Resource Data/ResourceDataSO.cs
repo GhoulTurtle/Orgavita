@@ -11,17 +11,13 @@ public class ResourceDataSO : ScriptableObject{
     [SerializeField] protected int currentStack;    
     [SerializeField] protected int maxStack;
 
-#if UNITY_EDITOR
     [Header("Unity Editor Variables")]
     [SerializeField] protected bool resetResourceStack;
     [SerializeField] protected int defaultStack;
-#endif
     
 #if UNITY_EDITOR
     public void OnEnable(){
-        if(resetResourceStack){ 
-            currentStack = defaultStack;
-        }
+        ResetResourceData();
     }
 #endif
 
@@ -47,6 +43,12 @@ public class ResourceDataSO : ScriptableObject{
     public virtual void IncreaseMaxStack(int amount){
         maxStack += amount;
         OnMaxStackUpdated?.Invoke(amount);
+    }
+
+    public virtual void ResetResourceData(){
+        if(resetResourceStack){ 
+            currentStack = defaultStack;
+        }
     }
 
     public virtual bool IsEmpty(){

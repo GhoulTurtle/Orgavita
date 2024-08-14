@@ -50,6 +50,7 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
             kickbackAmount = _kickbackAmount;
         }
     }
+    public Action OnHolsterAnimationCompleted;
 
     protected EquippableItemState currentItemState;
     protected EquippableItemHolsterType currentHolsterType;
@@ -107,7 +108,7 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         
     }
 
-    public virtual void EmergencyItemUseInput(object sender, InputEventArgs e){
+    public virtual void ToolUseInput(object sender, InputEventArgs e){
        
     }
 
@@ -247,6 +248,10 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         return null;
     }
 
+    public ItemDataSO GetItemData(){
+        return inventoryItem.GetHeldItem();
+    }
+
     private void ChangeItemHolster(Transform holsterTransform, bool spawnHolster = false){
         currentHolsterTransform = holsterTransform;
 
@@ -268,6 +273,7 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         if(currentHolsterAnimation != null){
             StopCoroutine(currentHolsterAnimation);
             currentHolsterAnimation = null;
+            OnHolsterAnimationCompleted?.Invoke();
         }
     }
 
@@ -288,5 +294,7 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         transform.parent = currentHolsterTransform;
 
         currentHolsterAnimation = null;
+
+        OnHolsterAnimationCompleted?.Invoke();
     }
 }

@@ -14,12 +14,12 @@ public class RaiseHealthOverTime : ConsumableJob{
         }
 
         if(playerHealth.IsHealthFull()){
-            invalidConsumeJobMessage = "I don't need to use that, I feel fine.";
+            invalidConsumeJobMessage = "I feel fine.";
             return false;
         }
 
         if(playerHealth.IsActiveHealOverTimeJob()){
-            invalidConsumeJobMessage = "I am already healing, I need to wait until I'm done healing.";
+            invalidConsumeJobMessage = "Already healing.";
             return false;
         }
 

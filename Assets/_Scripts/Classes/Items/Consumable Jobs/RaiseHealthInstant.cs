@@ -8,7 +8,7 @@ public class RaiseHealthInstant : ConsumableJob{
         }
 
         if(playerHealth.IsHealthFull()){
-            invalidConsumeJobMessage = "I don't need to use that, I feel fine";
+            invalidConsumeJobMessage = "I feel fine.";
             return false;
         }
 

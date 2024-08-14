@@ -14,7 +14,7 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
     [SerializeField] private Transform inactiveEmergencyItemHolsterTransform;
     [SerializeField] private Transform flashlightHolsterTransform;
 
-    private EquippedItemBehaviour currentEmergencyItemBehaviour;
+    private EquippedItemBehaviour currentToolItemBehaviour;
     private EquippedItemBehaviour currentWeaponItemBehaviour;
 
     private EquippedItemBehaviour previousActiveItem;
@@ -34,22 +34,71 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
         } 
     }
 
+    private InventoryItem weaponInventoryItemToEquip;
+    private InventoryItem toolInventoryItemToEquip;
+
     private void Awake() {
         playerInventorySO = playerInventoryHandler.GetInventory();
         
-        playerInventorySO.OnEmergencyItemEquipped += EmergencyItemEquipped;
-        playerInventorySO.OnEmergencyItemUnequipped += EmergencyItemUnequipped;
+        playerInventorySO.OnToolItemEquipped += ToolItemEquipped;
+        playerInventorySO.OnToolItemUnequipped += ToolItemUnequipped;
 
         playerInventorySO.OnWeaponItemEquipped += WeaponItemEquipped;
         playerInventorySO.OnWeaponItemUnequipped += WeaponItemUnequipped;
     }
 
     private void OnDestroy() {
-        playerInventorySO.OnEmergencyItemEquipped -= EmergencyItemEquipped;
-        playerInventorySO.OnEmergencyItemUnequipped -= EmergencyItemUnequipped;
+        playerInventorySO.OnToolItemEquipped -= ToolItemEquipped;
+        playerInventorySO.OnToolItemUnequipped -= ToolItemUnequipped;
 
         playerInventorySO.OnWeaponItemEquipped -= WeaponItemEquipped;
         playerInventorySO.OnWeaponItemUnequipped -= WeaponItemUnequipped;
+    
+        if(currentToolItemBehaviour != null){
+            currentToolItemBehaviour.OnHolsterAnimationCompleted -= ToolUnequipAnimationCompleted;
+        }
+
+        if(currentWeaponItemBehaviour != null){
+            currentWeaponItemBehaviour.OnHolsterAnimationCompleted -= ToolUnequipAnimationCompleted;
+        }
+    }
+
+    public void HolsterActiveWeapon(){
+        if(currentWeaponItemBehaviour != null && currentWeaponItemBehaviour.GetCurrentItemState() == EquippableItemState.Active){
+            currentWeaponItemBehaviour.ChangeItemState(EquippableItemState.Holstered);
+        }
+    }
+
+    public void HolsterActiveTool(){
+        if(currentToolItemBehaviour != null && currentToolItemBehaviour.GetCurrentItemState() == EquippableItemState.Active){
+            currentToolItemBehaviour.ChangeItemState(EquippableItemState.Holstered);
+        }
+    }
+
+    public void UnholsterActiveWeapon(){
+        if(currentToolItemBehaviour != null && currentToolItemBehaviour.GetCurrentItemState() == EquippableItemState.Active){
+            currentToolItemBehaviour.ChangeItemState(EquippableItemState.Holstered);
+        }
+        
+        if(currentWeaponItemBehaviour != null && currentWeaponItemBehaviour.GetCurrentItemState() == EquippableItemState.Holstered){
+            currentWeaponItemBehaviour.ChangeItemState(EquippableItemState.Active);
+        }
+    }
+
+    public void UnholsterActiveTool(){
+        if(currentWeaponItemBehaviour != null && currentWeaponItemBehaviour.GetCurrentItemState() == EquippableItemState.Active){
+            currentWeaponItemBehaviour.ChangeItemState(EquippableItemState.Holstered);
+        }
+        
+        if(currentToolItemBehaviour != null && currentToolItemBehaviour.GetCurrentItemState() == EquippableItemState.Holstered){
+            currentToolItemBehaviour.ChangeItemState(EquippableItemState.Active);
+        }
+    }
+
+    public void ActivateActiveTool(){
+        if(currentToolItemBehaviour != null && currentToolItemBehaviour.GetCurrentItemState() == EquippableItemState.Holstered){
+            currentToolItemBehaviour.ChangeItemState(EquippableItemState.Active);
+        }
     }
 
     public void HolsterEquippedItems(){
@@ -59,9 +108,9 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
             return;
         }
 
-        if(currentEmergencyItemBehaviour != null && currentEmergencyItemBehaviour.GetCurrentItemState() == EquippableItemState.Active){
-            currentEmergencyItemBehaviour.ChangeItemState(EquippableItemState.Holstered);
-            previousActiveItem = currentEmergencyItemBehaviour;
+        if(currentToolItemBehaviour != null && currentToolItemBehaviour.GetCurrentItemState() == EquippableItemState.Active){
+            currentToolItemBehaviour.ChangeItemState(EquippableItemState.Holstered);
+            previousActiveItem = currentToolItemBehaviour;
         }
     }
 
@@ -72,16 +121,65 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
         }
     }
 
-    private void EmergencyItemEquipped(object sender, PlayerInventorySO.EquippedItemEventArgs e){
-        currentEmergencyItemBehaviour = Instantiate(e.equippedItemBehaviour);
+    public void SwitchActiveWeapon(){
 
-        SetupEquippedItem(e.inventoryItem, currentEmergencyItemBehaviour);
-        OnEmergencyItemBehaviourSpawned?.Invoke(this, new ItemBehaviourSpawnedEventArgs(currentEmergencyItemBehaviour));
     }
 
-    private void EmergencyItemUnequipped(object sender, EventArgs e){
-        OnEmergencyItemBehaviourDespawned?.Invoke(this, new ItemBehaviourSpawnedEventArgs(currentEmergencyItemBehaviour));
-        DestroyEquippedItem(currentEmergencyItemBehaviour);
+    public bool IsWeaponItemEquipped(ItemDataSO itemDataSO){
+        if(currentWeaponItemBehaviour == null) return false;
+
+        return currentWeaponItemBehaviour.GetItemData() == itemDataSO;
+    }
+
+    public bool IsToolItemEquipped(ItemDataSO itemDataSO){
+        if(currentToolItemBehaviour == null) return false;
+
+        return currentToolItemBehaviour.GetItemData() == itemDataSO;
+    }
+
+    public bool IsCurrentWeaponActive(){
+        if(currentWeaponItemBehaviour == null) return false;
+        
+        if(currentWeaponItemBehaviour.GetCurrentItemState() == EquippableItemState.Active || currentWeaponItemBehaviour.GetCurrentItemState() == EquippableItemState.Passive) return true;
+
+        return false;
+    }
+
+    public bool IsCurrentToolActive(){
+        if(currentToolItemBehaviour == null) return false;
+        
+        if(currentToolItemBehaviour.GetCurrentItemState() == EquippableItemState.Active || currentToolItemBehaviour.GetCurrentItemState() == EquippableItemState.Passive) return true;
+
+        return false;
+    }
+
+    private void ToolItemEquipped(object sender, PlayerInventorySO.EquippedItemEventArgs e){
+        currentToolItemBehaviour = Instantiate(e.equippedItemBehaviour);
+
+        SetupEquippedItem(e.inventoryItem, currentToolItemBehaviour);
+        OnEmergencyItemBehaviourSpawned?.Invoke(this, new ItemBehaviourSpawnedEventArgs(currentToolItemBehaviour));
+    }
+
+    private void ToolItemUnequipped(InventoryItem inventoryItem){
+        toolInventoryItemToEquip = inventoryItem;
+
+        if(currentToolItemBehaviour.GetCurrentItemState() == EquippableItemState.Active){
+            currentToolItemBehaviour.ChangeItemState(EquippableItemState.Holstered);
+            currentToolItemBehaviour.OnHolsterAnimationCompleted += ToolUnequipAnimationCompleted;
+            return;
+        }
+
+        ToolUnequipAnimationCompleted();
+    }
+
+    private void ToolUnequipAnimationCompleted(){
+        currentToolItemBehaviour.OnHolsterAnimationCompleted -= ToolUnequipAnimationCompleted;
+        OnEmergencyItemBehaviourDespawned?.Invoke(this, new ItemBehaviourSpawnedEventArgs(currentToolItemBehaviour));
+        DestroyEquippedItem(currentToolItemBehaviour);
+
+        if(toolInventoryItemToEquip != null){
+            playerInventoryHandler.GetInventory().ToolUnequipAnimationFinished(toolInventoryItemToEquip);
+        }
     }
 
     private void WeaponItemEquipped(object sender, PlayerInventorySO.EquippedItemEventArgs e){
@@ -91,10 +189,28 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
         OnWeaponItemBehaviourSpawned?.Invoke(this, new ItemBehaviourSpawnedEventArgs(currentWeaponItemBehaviour));
     }
 
-    private void WeaponItemUnequipped(object sender, EventArgs e){
+    private void WeaponItemUnequipped(InventoryItem inventoryItem){
+        weaponInventoryItemToEquip = inventoryItem;
+
+        if(currentWeaponItemBehaviour.GetCurrentItemState() == EquippableItemState.Active){
+            currentWeaponItemBehaviour.ChangeItemState(EquippableItemState.Holstered);
+            currentWeaponItemBehaviour.OnHolsterAnimationCompleted += WeaponUnequipAnimationCompleted;
+            return;
+        }
+
+        WeaponUnequipAnimationCompleted();
+    }
+
+    private void WeaponUnequipAnimationCompleted(){
+        currentWeaponItemBehaviour.OnHolsterAnimationCompleted -= ToolUnequipAnimationCompleted;
         OnWeaponItemBehaviourDespawned?.Invoke(this, new ItemBehaviourSpawnedEventArgs(currentWeaponItemBehaviour));
         DestroyEquippedItem(currentWeaponItemBehaviour);
+
+        if(weaponInventoryItemToEquip != null){
+            playerInventoryHandler.GetInventory().WeaponUnequipAnimationFinished(weaponInventoryItemToEquip);
+        }
     }
+
 
     private void SetupEquippedItem(InventoryItem inventoryItem, EquippedItemBehaviour equippedItemBehaviour){
         equippedItemBehaviour.SetupItemBehaviour(inventoryItem, playerInputHandler, playerInventoryHandler);
@@ -143,5 +259,9 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
         }
 
         equippedItemBehaviour.TriggerDefaultState();
+
+        if(equippedItemBehaviour.GetDefaultItemState() == EquippableItemState.Holstered){
+            equippedItemBehaviour.ChangeItemState(EquippableItemState.Active);
+        }
     }
 }

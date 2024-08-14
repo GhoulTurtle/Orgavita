@@ -12,8 +12,7 @@ public class FlashlightResourceDataSO : ResourceDataSO{
 
     #if UNITY_EDITOR
     private new void OnEnable() {
-        base.OnEnable();
-        currentBatteryTimeInSeconds = currentStack == 0 ? 0f : maxBatteryTimeInSeconds;
+        ResetResourceData();
     }
     #endif
 
@@ -33,6 +32,11 @@ public class FlashlightResourceDataSO : ResourceDataSO{
         currentBatteryTimeInSeconds = 0;
 
         OnResourceUpdated?.Invoke(currentStack);
+    }
+
+    public override void ResetResourceData(){
+        base.ResetResourceData();
+        currentBatteryTimeInSeconds = currentStack == 0 ? 0f : maxBatteryTimeInSeconds;
     }
 
     public override bool IsFull(){

@@ -50,7 +50,7 @@ public class CrosshairUI : MonoBehaviour{
             CalculateCrosshair(equippedItemWeaponData.baseBloomAngle);
         }
 
-        UpdateCrosshairBasedOnEquippedItemState(equippedItemBehaviour.GetDefaultItemState());
+        UpdateCrosshairBasedOnEquippedItemState(equippedItemBehaviour.GetCurrentItemState());
     }
 
     private void WeaponDespawned(object sender, PlayerEquippedItemHandler.ItemBehaviourSpawnedEventArgs e){

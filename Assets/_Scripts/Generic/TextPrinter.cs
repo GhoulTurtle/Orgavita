@@ -30,6 +30,8 @@ public static class TextPrinter{
             yield return printTime;
         }
 
-        OnFinishedPrintingCallback?.Invoke();
+        if(OnFinishedPrintingCallback != null){
+            OnFinishedPrintingCallback?.Invoke();
+        }
     }    
 }

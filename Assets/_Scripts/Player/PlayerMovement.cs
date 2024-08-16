@@ -232,7 +232,7 @@ public class PlayerMovement : MonoBehaviour{
 
 	private void Gravity(){
 		if(grounded){
-			verticalVelocity = 0f;
+			verticalVelocity = -5f;
 			return;
 		}
 

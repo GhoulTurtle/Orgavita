@@ -1684,7 +1684,7 @@ MonoBehaviour:
   equippedItemUI: {fileID: 6509136928955833643}
   emergencyItemUI: {fileID: 6509136928958871785}
   closeScale: {x: 0, y: 1}
-  animationDuration: 0.5
+  animationDuration: 0.75
   playerInventoryHandler: {fileID: 1474441831}
   inventoryUISelector: {fileID: 1870531789}
 --- !u!114 &7675127232587117695
@@ -15986,7 +15986,7 @@ MonoBehaviour:
   sprintCooldown: 0.5
   crouchTimeInSeconds: 0.75
   crouchCooldown: 0.5
-  crouchHeight: 1
+  crouchHeight: 0.8
   gravity: -9.31
   groundedRadius: 0.35
   drawGizmos: 1
@@ -16007,11 +16007,11 @@ MonoBehaviour:
   tiltTime: 0.5
   runningTiltAmount: 2
   tiltAmount: 0.5
-  bobbingAmplitude: 0.002
+  bobbingAmplitude: 0.0015
   bobbingFrequency: 9
   crouchingBobbingAmplitude: 0.001
   crouchingBobbingFrequency: 6.5
-  runningBobbingAmplitude: 0.0050000004
+  runningBobbingAmplitude: 0.003
   runningBobbingFrequency: 19
   aimingBobbingAmplitude: 0.001
   aimingBobbingFrquency: 7

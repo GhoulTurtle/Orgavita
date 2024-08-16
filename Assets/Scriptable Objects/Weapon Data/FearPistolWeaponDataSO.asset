@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: febb97c0c4ae476489bd14aff798720b, type: 3}
   m_Name: FearPistolWeaponDataSO
   m_EditorClassIdentifier: 
-  weaponFireRateInSeconds: 0.25
-  weaponReloadTimeInSeconds: 2
+  weaponFireRateInSeconds: 0.35
+  weaponReloadTimeInSeconds: 3.5
   weaponAttackDamage: 8
   baseBloomAngle: 4
-  steadiedBloomAngle: 1
+  steadiedBloomAngle: 1.5
   minKickBackShotAmount: 2
   kickBackWindowInSeconds: 0.5
   kickBackAmount: 2

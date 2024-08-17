@@ -9448,7 +9448,7 @@ Light:
   m_RenderingLayerMask: 1
   m_Lightmapping: 2
   m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 30, y: 30}
+  m_AreaSize: {x: 27.835144, y: 30}
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
@@ -16857,7 +16857,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1203ffd7c484034181fe8e540253b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrainType: 0
+  terrainType: 4
 --- !u!64 &636042630
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -39673,6 +39673,7 @@ GameObject:
   - component: {fileID: 1319790900}
   - component: {fileID: 1319790902}
   - component: {fileID: 1319790901}
+  - component: {fileID: 1319790903}
   m_Layer: 0
   m_Name: Metal Mesh (1)
   m_TagString: Untagged
@@ -39744,6 +39745,28 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1319790899}
+  m_Mesh: {fileID: 1248683746}
+--- !u!64 &1319790903
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1319790899}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
   m_Mesh: {fileID: 1248683746}
 --- !u!4 &1329391177 stripped
 Transform:

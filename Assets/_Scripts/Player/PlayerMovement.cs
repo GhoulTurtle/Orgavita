@@ -60,6 +60,7 @@ public class PlayerMovement : MonoBehaviour{
 
 	private bool grounded;
 	private bool isAiming = false;
+	private bool isMoving = false;
 
 	private PlayerMovementState currentPlayerMovementState = PlayerMovementState.Walking;
 
@@ -76,7 +77,7 @@ public class PlayerMovement : MonoBehaviour{
 	private IEnumerator currentStandingCheck;
 	private IEnumerator currentCrouchLerpAnimation;
 
-	private void Awake() {
+    private void Awake() {
 		if(playerEquippedItemHandler != null){
 			playerEquippedItemHandler.OnWeaponItemBehaviourSpawned += SubscribeToWeaponStateEvent;
 			playerEquippedItemHandler.OnWeaponItemBehaviourDespawned += UnsubscribeToWeaponStateEvent;
@@ -200,15 +201,31 @@ public class PlayerMovement : MonoBehaviour{
 
 	private void Move(){
         moveDirection = playerOrientation.forward * yInput + playerOrientation.right * xInput;
+
 		if(moveDirection == Vector3.zero){
 			OnPlayerMovementStopped?.Invoke(this, EventArgs.Empty);
+			isMoving = false;
 		}
 
+		Vector3 preMovePosition = characterController.transform.position;
+		characterController.Move(movementSpeed * Time.deltaTime * moveDirection.normalized + Time.deltaTime * verticalVelocity * Vector3.up);
+
+		Vector3 postMovePosition = characterController.transform.position;
+
+		Vector3 movementDelta = postMovePosition - preMovePosition;
+
+		if(movementDelta == Vector3.zero){
+			isMoving = false;
+			OnPlayerMovementStopped?.Invoke(this, EventArgs.Empty);
+		}
+		else{
+			isMoving = true;
+		}
+		
 		if(playerMoveInput != previousMoveInput){
 			OnPlayerMovementDirectionChanged?.Invoke(this, new PlayerMovementDirectionChangedEventArgs(playerMoveInput));
 		}
-
-        characterController.Move(movementSpeed * Time.deltaTime * moveDirection.normalized + Time.deltaTime * verticalVelocity * Vector3.up);
+		
 		previousMoveInput = playerMoveInput;
     }
 
@@ -318,7 +335,7 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
 	private IEnumerator ValidStandingCheckCoroutine(){
-		while(Physics.Raycast(transform.position, Vector3.up, standingHeight)){
+		while(Physics.SphereCast(transform.position, characterController.radius,  Vector3.up, out RaycastHit hitInfo, standingHeight)){
 			yield return null;
 		}
 
@@ -343,7 +360,7 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
 	public bool IsMoving(){
-		return moveDirection != Vector3.zero;
+		return isMoving;
 	}
 
 	public TerrainType GetCurrentTerrainType(){

@@ -15628,7 +15628,7 @@ CharacterController:
   m_Height: 2
   m_Radius: 0.4
   m_SlopeLimit: 90
-  m_StepOffset: 0.2
+  m_StepOffset: 0.01
   m_SkinWidth: 0.001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -15984,7 +15984,7 @@ MonoBehaviour:
   sprintSpeed: 6
   aimingSpeed: 3.5
   sprintCooldown: 0.5
-  crouchTimeInSeconds: 0.75
+  crouchTimeInSeconds: 4
   crouchCooldown: 0.5
   crouchHeight: 0.8
   gravity: -9.31
@@ -16103,6 +16103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pauseMenuUI: {fileID: 578899}
   playerInputHandler: {fileID: 7793910637263857222}
+  playerAudioListener: {fileID: 0}
 --- !u!114 &1971513946
 MonoBehaviour:
   m_ObjectHideFlags: 0

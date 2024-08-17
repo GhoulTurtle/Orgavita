@@ -125,19 +125,19 @@ MonoBehaviour:
     m_Value: 1
   bakedLightingMultiplier:
     m_OverrideState: 1
-    m_Value: 0.09
+    m_Value: 0.3
   vertexColorLightingMultiplier:
     m_OverrideState: 0
     m_Value: 0
   dynamicLightingMultiplier:
     m_OverrideState: 1
-    m_Value: 0.09
+    m_Value: 0.3
   dynamicLightsMaxCount:
-    m_OverrideState: 0
+    m_OverrideState: 1
     m_Value: 256
   dynamicLightsMaxPerObjectCount:
-    m_OverrideState: 0
-    m_Value: 4
+    m_OverrideState: 1
+    m_Value: 8
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,7 +338,7 @@ MonoBehaviour:
   active: 1
   isEnabled:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   fogFalloffMode:
     m_OverrideState: 1
     m_Value: 1
@@ -366,7 +366,7 @@ MonoBehaviour:
     m_Value: 30
   fogFalloffCurve:
     m_OverrideState: 1
-    m_Value: 0.33
+    m_Value: -0.03
   heightFalloffEnabled:
     m_OverrideState: 0
     m_Value: 0

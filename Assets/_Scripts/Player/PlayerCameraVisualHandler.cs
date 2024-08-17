@@ -59,8 +59,11 @@ public class PlayerCameraVisualHandler : MonoBehaviour{
 		float current = 0;
 
         while(Mathf.Abs(mainPlayerVirtualCamera.m_Lens.FieldOfView - fovTarget) > cameraFOVAnimationSnapDistance){
-            mainPlayerVirtualCamera.m_Lens.FieldOfView = Mathf.Lerp(mainPlayerVirtualCamera.m_Lens.FieldOfView, fovTarget, current / cameraFOVAnimationTime);
-            current += Time.deltaTime;
+            if(Time.timeScale != 0){
+                mainPlayerVirtualCamera.m_Lens.FieldOfView = Mathf.Lerp(mainPlayerVirtualCamera.m_Lens.FieldOfView, fovTarget, current / cameraFOVAnimationTime);
+                current += Time.deltaTime;
+            }
+            
             yield return null;
         }
 

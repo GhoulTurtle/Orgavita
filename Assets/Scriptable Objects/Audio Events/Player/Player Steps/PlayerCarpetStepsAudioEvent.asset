@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba00ede18d5e4fe47ad3809f5bad1750, type: 3}
-  m_Name: PlayerSoftStepsAudioEvent
+  m_Name: PlayerCarpetStepsAudioEvent
   m_EditorClassIdentifier: 
   clips:
   - {fileID: 8300000, guid: c7b0620a9f1a0c945a4e27dc06f48015, type: 3}
@@ -18,8 +18,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 7775fd34987f3f2489996e71f08ab88d, type: 3}
   - {fileID: 8300000, guid: 63d66590491a56145a8ff5b692cf14d5, type: 3}
   volume:
-    minValue: 0.4038748
-    maxValue: 0.4396423
+    minValue: 0.5080415
+    maxValue: 0.54380906
   pitch:
     minValue: 0.83159465
     maxValue: 1.129657

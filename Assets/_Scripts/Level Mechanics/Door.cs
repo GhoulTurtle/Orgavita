@@ -14,7 +14,6 @@ public class Door : MonoBehaviour, IInteractable{
     [SerializeField] private bool isLocked = false;
     [SerializeField] private float doorRotationSpeedInSeconds = 1f;
     [SerializeField] private float rotationAmount = 90f;
-    [SerializeField] private float forwardDirection = 0f;
 
     [Header("Door Events")]
     [SerializeField] private UnityEvent OnDoorOpen;
@@ -22,7 +21,6 @@ public class Door : MonoBehaviour, IInteractable{
     [SerializeField] private UnityEvent OnFailedOpen;
 
     private Vector3 startRotation;
-    private Vector3 forward;
 
     private IEnumerator currentDoorAnimation;
 
@@ -30,7 +28,6 @@ public class Door : MonoBehaviour, IInteractable{
 
     private void Awake() {
         startRotation = transform.rotation.eulerAngles;
-        forward = transform.forward;
     }
 
     private void OnDestroy() {
@@ -43,15 +40,14 @@ public class Door : MonoBehaviour, IInteractable{
             return false;
         }
 
-        Open(player.transform.position);
+        Open();
         return true;
     }
 
-    public void Open(Vector3 userPosition){
+    public void Open(){
         StopDoorAnimation();
 
-        float dot = Vector3.Dot(forward, (userPosition - transform.position).normalized);
-        currentDoorAnimation = DoorAnimation(dot, !isOpen);
+        currentDoorAnimation = DoorAnimation(!isOpen);
         StartCoroutine(currentDoorAnimation);
     }
 
@@ -59,17 +55,13 @@ public class Door : MonoBehaviour, IInteractable{
         isLocked = false;
     }
 
-    private IEnumerator DoorAnimation(float forwardAmount, bool openingDoor){
+    private IEnumerator DoorAnimation(bool openingDoor){
         Quaternion doorStartRotation = transform.rotation;
         Quaternion endRotation;
 
         if(!openingDoor){
             OnDoorClose?.Invoke();
             endRotation = Quaternion.Euler(startRotation);
-        }
-        else if(forwardAmount >= forwardDirection){
-            OnDoorOpen?.Invoke();
-            endRotation = Quaternion.Euler(new Vector3(0, doorStartRotation.y - rotationAmount, 0));
         }
         else{
             OnDoorOpen?.Invoke();
@@ -80,9 +72,12 @@ public class Door : MonoBehaviour, IInteractable{
 
         float current = 0;
 
-        while(current < 1.5){
-            transform.rotation = Quaternion.Slerp(transform.rotation, endRotation, current / doorRotationSpeedInSeconds);
-            current += Time.deltaTime;
+        while(current < doorRotationSpeedInSeconds){
+            if(Time.timeScale != 0){
+                transform.rotation = Quaternion.Slerp(transform.rotation, endRotation, current / doorRotationSpeedInSeconds);
+                current += Time.deltaTime;
+            }
+
             yield return null;
         }
 

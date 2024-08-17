@@ -9,6 +9,7 @@ public class PlayerPause : MonoBehaviour{
 
     [Header("Required References")]
     [SerializeField] private PlayerInputHandler playerInputHandler;
+    [SerializeField] private AudioListener playerAudioListener;
 
     private void Awake() {
         pauseMenuUI.SetActive(false);
@@ -22,14 +23,9 @@ public class PlayerPause : MonoBehaviour{
     }
 
     public void PausedInput(InputAction.CallbackContext context){
-        if(context.phase != InputActionPhase.Performed || GameManager.CurrentState != GameState.Game) return;
+        if (context.phase != InputActionPhase.Performed || GameManager.CurrentState != GameState.Game) return;
 
-        GameManager.UpdateGameState(GameState.UI);
-        pauseMenuUI.SetActive(true);
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        Time.timeScale = 0;
-        EventSystem.current.SetSelectedGameObject(null);
+        PauseGame();
     }
 
     public void InSubMenu(){
@@ -60,6 +56,20 @@ public class PlayerPause : MonoBehaviour{
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1;
+
+        AudioListener.pause = false;
+    }
+
+    private void PauseGame(){
+        GameManager.UpdateGameState(GameState.UI);
+        pauseMenuUI.SetActive(true);
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        Time.timeScale = 0;
+
+        AudioListener.pause = true;
+
+        EventSystem.current.SetSelectedGameObject(null);
     }
 
     public void ReturnToMainMenu(){

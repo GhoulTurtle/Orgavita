@@ -1,8 +1,10 @@
 public enum TerrainType{
     None,
-    Soft,
-    Hard,
+    Carpet,
+    Stone,
     Metal,
     Wood,
+    Grass,
+    
     
 }

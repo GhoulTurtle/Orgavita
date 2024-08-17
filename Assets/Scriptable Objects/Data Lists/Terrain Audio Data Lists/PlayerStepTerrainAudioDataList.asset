@@ -22,3 +22,9 @@ MonoBehaviour:
   - associatedTerrainType: 3
     associatedAudioEvent: {fileID: 11400000, guid: 425e2acac3c52ac4a921c4ad7f02255c,
       type: 2}
+  - associatedTerrainType: 4
+    associatedAudioEvent: {fileID: 11400000, guid: f3f1442f21f09564cbc060eecb7be115,
+      type: 2}
+  - associatedTerrainType: 5
+    associatedAudioEvent: {fileID: 11400000, guid: 76ebbfa0c267b0b4486eb640d89380cb,
+      type: 2}

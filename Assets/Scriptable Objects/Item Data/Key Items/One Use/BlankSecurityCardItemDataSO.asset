@@ -10,18 +10,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c32ba6731676be4e9ce5077ee6a8527, type: 3}
-  m_Name: SecurityCardItemDataSO
+  m_Name: BlankSecurityCardItemDataSO
   m_EditorClassIdentifier: 
-  itemName: Security Card
-  itemQuickDescription: A card that can be used to open the security office.
-  itemInspectDescription: The security card is a rectangular plastic card, similar
-    in size and shape to a credit card. It has a metallic strip on one side, which
-    is used to unlock electronic doors. The card is labeled with the name of the
-    security company and has a unique identification number printed on it.
+  itemName: Blank Security Card
+  itemQuickDescription: Blank card with a security strip attached, can be used to
+    print secruity key cards.
+  itemInspectDescription: 
   itemIcon: {fileID: 0}
-  itemInventoryModelPrefab: {fileID: 5483053912421150451, guid: 05ed4b427e707e742badf0702987c181,
+  itemInventoryModelPrefab: {fileID: 5483053912421150451, guid: 8e00c8b88e3f1a04faae08bbf430cd77,
     type: 3}
-  itemInWorldModelPrefab: {fileID: 7089965958495150066, guid: 87fe42d19833d9c409a8650c65c93d86,
+  itemInWorldModelPrefab: {fileID: 7089965958495150066, guid: b89fbcea97131534da516bd961ab3f44,
     type: 3}
   itemPickupAudioEvent: {fileID: 0}
   itemUseAudioEvent: {fileID: 0}

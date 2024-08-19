@@ -24,7 +24,7 @@ MonoBehaviour:
   itemUseAudioEvent: {fileID: 0}
   itemDestoryAudioEvent: {fileID: 0}
   itemType: 0
-  isUseable: 0
+  isUseable: 1
   isCombinable: 1
   isStackable: 0
   isDestroyable: 0

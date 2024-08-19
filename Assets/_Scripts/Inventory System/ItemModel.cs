@@ -31,4 +31,12 @@ public class ItemModel : MonoBehaviour, IInteractable{
         }
         InteractionPrompt = "Pickup " + itemName;
     }
+
+    public Mesh GetItemMesh(){
+        if(TryGetComponent(out MeshFilter meshFilter)){
+            return meshFilter.mesh;
+        }
+
+        else return null;
+    }
 }

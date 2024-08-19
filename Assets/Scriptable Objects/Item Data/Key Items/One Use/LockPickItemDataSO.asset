@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c32ba6731676be4e9ce5077ee6a8527, type: 3}
+  m_Name: LockPickItemDataSO
+  m_EditorClassIdentifier: 
+  itemName: Lock Pick
+  itemQuickDescription: A flimsy lock pick that I bought at the dollar store, hopefully
+    it doesn't break.
+  itemInspectDescription: 
+  itemIcon: {fileID: 0}
+  itemInventoryModelPrefab: {fileID: 1258914258834272217, guid: 761dfd713cb827f479e4c4ec1ea41188,
+    type: 3}
+  itemInWorldModelPrefab: {fileID: 1258914258834272197, guid: 4fa2ff19b4eb2854b8a5fe828216a70b,
+    type: 3}
+  itemPickupAudioEvent: {fileID: 0}
+  itemUseAudioEvent: {fileID: 0}
+  itemDestoryAudioEvent: {fileID: 0}
+  itemType: 0
+  isUseable: 1
+  isCombinable: 0
+  isStackable: 1
+  isDestroyable: 0
+  maxStackSize: 1
+  itemCannotUseMessage: I can't use this here...

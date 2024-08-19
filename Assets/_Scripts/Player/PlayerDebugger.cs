@@ -12,7 +12,7 @@ public class PlayerDebugger : MonoBehaviour{
     public int FramesPerSec { get; protected set; }
 
     public Action OnFrameRateCalcUpdated;
-
+ 
     private void Awake() {  
         if(setTargetFrameRate){
             Application.targetFrameRate = targetFrameRate;

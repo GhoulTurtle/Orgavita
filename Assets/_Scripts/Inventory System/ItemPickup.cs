@@ -4,6 +4,7 @@ using UnityEngine.Events;
 public class ItemPickup : MonoBehaviour{
     [Header("Required References")]
     [SerializeField] private Transform itemVisualParent;
+    [SerializeField] private ParticleSystem itemParticleSystem;
     [SerializeField] private AudioSource itemPickupAudioSource;
 
     [Header("Item Pickup Variables")]
@@ -83,6 +84,11 @@ public class ItemPickup : MonoBehaviour{
             if(currentItemModel != null){
                 Destroy(currentItemModel.gameObject);
             }
+
+            if(itemParticleSystem != null){
+                itemParticleSystem.Stop();
+            }
+
         }
 
         itemPickupStackAmount = itemRemainder;
@@ -99,6 +105,25 @@ public class ItemPickup : MonoBehaviour{
             currentItemModel = Instantiate(itemModel, itemVisualParent);
             currentItemModel.OnModelInteracted += PickupItem;
             currentItemModel.UpdateInteractionText(itemToPickup.GetItemName(), itemPickupStackAmount);
+        
+            if(itemParticleSystem == null) return;
+
+            Mesh itemMesh = currentItemModel.GetItemMesh();
+
+            if(itemMesh != null){
+                var particleShape = itemParticleSystem.shape;
+                if(particleShape.shapeType == ParticleSystemShapeType.Mesh){
+                    particleShape.mesh = itemMesh;
+                    
+                    particleShape.rotation = currentItemModel.transform.localEulerAngles;
+                    
+                    particleShape.scale = currentItemModel.transform.localScale;
+                }
+            }
         }
+
+        if(itemParticleSystem == null) return;
+
+        itemParticleSystem.Play(); 
     }
 }

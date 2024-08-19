@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -7,7 +8,7 @@ public class ItemLevelMechanic : MonoBehaviour{
     [SerializeField] private InspectInteractable inspectInteractable;
 
     [Header("Key Item Variables")]
-    [SerializeField] private KeyItemDataSO associatedKeyItemDataSO;
+    [SerializeField] private List<KeyItemDataSO> associatedKeyItemDataList = new List<KeyItemDataSO>();
     [SerializeField] private bool consumeItem = false;
     [SerializeField] private bool isOneShot = false;
 
@@ -38,12 +39,17 @@ public class ItemLevelMechanic : MonoBehaviour{
             return alreadyUnlockedMessage;
         }
         
-        if(keyItemDataSO != associatedKeyItemDataSO){
+        if(!associatedKeyItemDataList.Contains(keyItemDataSO)){
             return wrongItemMessage;
         }
 
         TriggerLevelMechanic(inventoryItem);
-        return correctItemMessage + keyItemDataSO.GetItemName() + ".";
+        if(correctItemMessage == "Used "){
+            return correctItemMessage + keyItemDataSO.GetItemName() + ".";
+        }
+        else{
+            return correctItemMessage;
+        }
     }
 
     public virtual void TriggerLevelMechanic(InventoryItem inventoryItem){

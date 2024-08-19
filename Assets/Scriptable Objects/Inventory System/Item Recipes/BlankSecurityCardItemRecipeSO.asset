@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e281a804787a6244aa56859cf5db92ca, type: 3}
+  m_Name: BlankSecurityCardItemRecipeSO
+  m_EditorClassIdentifier: 
+  returnOneItem: 1
+  combineItemDataOne: {fileID: 11400000, guid: a99fcebf2df0e9446aba4ca2f890b525, type: 2}
+  combineItemDataTwo: {fileID: 11400000, guid: 6a510c83f60ac944aa7e88a15363d6f8, type: 2}
+  resultItemData: {fileID: 11400000, guid: 4df4149bbb2161c449acb3c983a7ff4a, type: 2}
+  resultStackAmount: 1

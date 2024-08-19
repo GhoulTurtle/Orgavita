@@ -22,7 +22,7 @@ public class DebugUI : MonoBehaviour{
             playerDebugger.OnFrameRateCalcUpdated -= UpdateFPSCounter;
         }
     }
-
+ 
     private void UpdateFPSCounter(){
         fpsCounter.text = "FPS:" + playerDebugger.FramesPerSec;
     }

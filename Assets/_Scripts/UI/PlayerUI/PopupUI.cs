@@ -19,7 +19,7 @@ public class PopupUI : MonoBehaviour{
 
     private float currentWaitTime;
     private float currentFadeTime;
-
+ 
     private void Awake() {
         if(Instance == null){
             Instance = this;

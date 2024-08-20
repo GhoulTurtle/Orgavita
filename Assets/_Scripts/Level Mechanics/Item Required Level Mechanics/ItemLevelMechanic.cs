@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,6 +22,7 @@ public class ItemLevelMechanic : MonoBehaviour{
 
     [Header("Events")]
     public UnityEvent OnUnlockEvent;
+    public Action<ItemDataSO> OnUnlockAction;
 
     private PlayerInventoryHandler playerInventoryHandler;
 
@@ -53,6 +55,8 @@ public class ItemLevelMechanic : MonoBehaviour{
     }
 
     public virtual void TriggerLevelMechanic(InventoryItem inventoryItem){
+        ItemDataSO itemDataSO = inventoryItem.GetHeldItem();
+
         if(consumeItem){
             inventoryItem.RemoveFromStack(1);
         }
@@ -70,7 +74,25 @@ public class ItemLevelMechanic : MonoBehaviour{
         }
 
         OnUnlockEvent?.Invoke();
+        OnUnlockAction?.Invoke(itemDataSO);
         isUnlocked = true;
+    }
+
+    public void SetIsUnlocked(bool state){
+        if(isUnlocked == state) return;
+
+        isUnlocked = state;
+
+        if(!isUnlocked){
+            if(inspectInteractable != null){
+               inspectInteractable.SetInspectDialogue(hintDialogue);
+            }
+        }
+        else{
+            if(inspectInteractable != null){
+               inspectInteractable.SetInspectDialogue(unlockedDialogue);
+            }
+        }
     }
 
     private void OnTriggerEnter(Collider other) {

@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45c828af7e91e2c429906f2687ef5a3b, type: 3}
-  m_Name: DecayingApartment_OfficeEmailList
+  m_Name: ResearchOfficeNewbieEmailList
   m_EditorClassIdentifier: 
   EmailMessageList:
-  - Subject: New Code
+  - Subject: Welcome aboard!
     Sender: bobby-diamond
     Recipient: jenny-yu
-    Body: 'Hey Jenny, we change the emergency code for the shutter door on your floor,
-      the new code is: 9281.'
+    Body: Hey! Welcome to the team! On your desktop, Manwell created a text document
+      with the information that you need to get started. If you have any questions
+      don't be afraid to ask!

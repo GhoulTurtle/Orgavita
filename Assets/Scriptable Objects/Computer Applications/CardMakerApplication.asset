@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf1fc82fda0b2054c9015c9140e3a9a8, type: 3}
-  m_Name: SecurityApplication
+  m_Name: CardMakerApplication
   m_EditorClassIdentifier: 
-  Name: Security
-  Icon: {fileID: -900995967, guid: c021f5197cce1b4498ff44509e032f9c, type: 3}
+  Name: CARD PRInT
+  Icon: {fileID: -382858432, guid: c021f5197cce1b4498ff44509e032f9c, type: 3}
   LoadingWindowSprite: {fileID: 0}
-  ApplicationUI: {fileID: 418822996538019572, guid: e22caff9697329946978ba8233182359,
+  ApplicationUI: {fileID: 418822996538019572, guid: a5760bb36cc22104d82731ab343c2208,
     type: 3}
   LoadTime: 1.5

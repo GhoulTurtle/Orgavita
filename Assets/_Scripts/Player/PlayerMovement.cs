@@ -230,24 +230,26 @@ public class PlayerMovement : MonoBehaviour{
     }
 
 	private void GroundCheck(){
-		grounded = Physics.CheckSphere(groundCheckTransform.position, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore);
-		
-		if(!grounded){
-			currentTerrainType = TerrainType.None;
-			return;
-		}
+        grounded = Physics.CheckSphere(groundCheckTransform.position, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore);
+    }
 
-		if(!Physics.Raycast(groundCheckTransform.position, Vector3.down, out RaycastHit hitInfo, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore)) return;
-		
-		if(!hitInfo.collider.TryGetComponent(out Terrain terrain)){
-			currentTerrainType = TerrainType.None;
-			return;
-		}
-		
-		currentTerrainType = terrain.GetTerrainType();
-	}
+    private void CheckCurrentTerrainType(){
+        if (!grounded){
+            currentTerrainType = TerrainType.None;
+            return;
+        }
 
-	private void Gravity(){
+        if (!Physics.Raycast(groundCheckTransform.position, Vector3.down, out RaycastHit hitInfo, groundedRadius, groundLayers, QueryTriggerInteraction.Ignore)) return;
+
+        if (!hitInfo.collider.TryGetComponent(out Terrain terrain)){
+            currentTerrainType = TerrainType.None;
+            return;
+        }
+
+        currentTerrainType = terrain.GetTerrainType();
+    }
+
+    private void Gravity(){
 		if(grounded){
 			verticalVelocity = -5f;
 			return;
@@ -364,6 +366,8 @@ public class PlayerMovement : MonoBehaviour{
 	}
 
 	public TerrainType GetCurrentTerrainType(){
+		CheckCurrentTerrainType();
+		
 		return currentTerrainType;
 	}
 

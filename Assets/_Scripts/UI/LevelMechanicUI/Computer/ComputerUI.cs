@@ -29,6 +29,8 @@ public class ComputerUI : MonoBehaviour{
     public EventHandler OnEnableUI;
     public EventHandler OnDisableUI;
     public UnityEvent OnApplicationLaunched;
+    public Action<ComputerApplication> OnApplicationSetup;
+    public Action<ComputerApplication> OnApplicationClosed;
 
     private float cursorOffset = 2f;
 
@@ -150,6 +152,7 @@ public class ComputerUI : MonoBehaviour{
 
     private IEnumerator ClosingApplicationCoroutine(){
         yield return new WaitForSeconds(currentApplication.ApplicationSO.LoadTime);
+        OnApplicationClosed?.Invoke(currentApplication.ApplicationSO);
         Destroy(currentApplication.gameObject);
         
         UpdateCursor(ComputerCursorState.Default);
@@ -169,6 +172,8 @@ public class ComputerUI : MonoBehaviour{
         currentApplication = Instantiate(application.ApplicationUI, applicationParent);
 
         currentApplication.SetupApplicationUI(this, application);
+
+        OnApplicationSetup?.Invoke(application);
 
         if(!computerInteractable.GetIsSelected()){
             DisableComputerUIInteractivity();

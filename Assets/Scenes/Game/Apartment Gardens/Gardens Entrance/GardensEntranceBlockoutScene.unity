@@ -32657,6 +32657,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2085394630}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1122390862 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4176493515132248725, guid: b059d251216b7c644b11f7e9dc8bbc2b,
+    type: 3}
+  m_PrefabInstance: {fileID: 2077331012}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc8cc5070c4fa4f42bd00af5feb3cf2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1123641176 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 70334391852251209, guid: 62a08d8acc6996947844740c1b9518e2,
@@ -40547,7 +40559,6 @@ Transform:
   - {fileID: 347206884}
   - {fileID: 6815558}
   - {fileID: 197966381}
-  - {fileID: 2036900520}
   - {fileID: 1831487154}
   - {fileID: 1554583323}
   - {fileID: 1945707357}
@@ -40558,6 +40569,7 @@ Transform:
   - {fileID: 677949638}
   - {fileID: 892572799}
   - {fileID: 141325559}
+  - {fileID: 2036900520}
   - {fileID: 543450653623423266}
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -64597,6 +64609,10 @@ MonoBehaviour:
   resourceDataSO: {fileID: 11400000, guid: e49d15eb8aa9e7b41b4ca4350534c803, type: 2}
   itemLevelMechanic: {fileID: 919132149097810841}
   itemEjectPickup: {fileID: 194536984}
+  connectedComputerUI: {fileID: 1122390862}
+  correctComputerApplication: {fileID: 11400000, guid: 3b9d347db53741b4fa083cbf92e1f1b5,
+    type: 2}
+  canUpgradeCards: 0
 --- !u!1 &1663423732251871964
 GameObject:
   m_ObjectHideFlags: 0

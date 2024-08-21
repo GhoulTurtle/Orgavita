@@ -15,6 +15,6 @@ MonoBehaviour:
   Name: CARD PRInT
   Icon: {fileID: -382858432, guid: c021f5197cce1b4498ff44509e032f9c, type: 3}
   LoadingWindowSprite: {fileID: 0}
-  ApplicationUI: {fileID: 418822996538019572, guid: a5760bb36cc22104d82731ab343c2208,
+  ApplicationUI: {fileID: 3626781856150586905, guid: a5760bb36cc22104d82731ab343c2208,
     type: 3}
   LoadTime: 1.5

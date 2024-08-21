@@ -2,13 +2,20 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Resource Data/Card Printer Resource Data", fileName = "NewCardPrinterDataSO")]
 public class CardPrinterResourceDataSO : ResourceDataSO{
-    private ItemDataSO currentHeldItemData;
+    public ItemDataSO currentHeldItemData;
+
+    #if UNITY_EDITOR
+    public new void OnEnable(){
+        base.OnEnable();
+    }
+    #endif
 
     public void HoldNewItem(ItemDataSO itemDataToHold){
         if(IsHoldingItem()) return;
     
         currentHeldItemData = itemDataToHold;
         AddItemStack(1);
+        OnResourceUpdated?.Invoke(1);
     }
 
     public override void RemoveItem(){
@@ -33,5 +40,12 @@ public class CardPrinterResourceDataSO : ResourceDataSO{
 
     public ItemDataSO GetCurrentHeldItem(){
         return currentHeldItemData;
+    }
+
+    public override void ResetResourceData(){
+        if(resetResourceStack){ 
+            currentStack = defaultStack;
+            currentHeldItemData = null;
+        }
     }
 }

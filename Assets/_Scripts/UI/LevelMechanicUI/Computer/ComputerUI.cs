@@ -29,7 +29,7 @@ public class ComputerUI : MonoBehaviour{
     public EventHandler OnEnableUI;
     public EventHandler OnDisableUI;
     public UnityEvent OnApplicationLaunched;
-    public Action<ComputerApplication> OnApplicationSetup;
+    public Action<ComputerApplication, ApplicationUI> OnApplicationSetup;
     public Action<ComputerApplication> OnApplicationClosed;
 
     private float cursorOffset = 2f;
@@ -39,7 +39,7 @@ public class ComputerUI : MonoBehaviour{
     private Vector2 currentMousePosition = new Vector2();
 
     private DesktopUI currentSelectedApplication;
-    private ApplicationUI currentApplication;
+    private ApplicationUI currentApplicationUI;
 
     private ComputerCursorState currentCursorState = ComputerCursorState.Default;
 
@@ -112,7 +112,7 @@ public class ComputerUI : MonoBehaviour{
     }
 
     public void CloseApplication(){
-        if(currentApplication == null) return;
+        if(currentApplicationUI == null) return;
         
         UpdateCursor(ComputerCursorState.Loading);
         
@@ -151,9 +151,9 @@ public class ComputerUI : MonoBehaviour{
 
 
     private IEnumerator ClosingApplicationCoroutine(){
-        yield return new WaitForSeconds(currentApplication.ApplicationSO.LoadTime);
-        OnApplicationClosed?.Invoke(currentApplication.ApplicationSO);
-        Destroy(currentApplication.gameObject);
+        yield return new WaitForSeconds(currentApplicationUI.ApplicationSO.LoadTime);
+        OnApplicationClosed?.Invoke(currentApplicationUI.ApplicationSO);
+        Destroy(currentApplicationUI.gameObject);
         
         UpdateCursor(ComputerCursorState.Default);
 
@@ -169,11 +169,11 @@ public class ComputerUI : MonoBehaviour{
         
         UpdateCursor(ComputerCursorState.Default);
         
-        currentApplication = Instantiate(application.ApplicationUI, applicationParent);
+        currentApplicationUI = Instantiate(application.ApplicationUI, applicationParent);
 
-        currentApplication.SetupApplicationUI(this, application);
+        currentApplicationUI.SetupApplicationUI(this, application);
 
-        OnApplicationSetup?.Invoke(application);
+        OnApplicationSetup?.Invoke(application, currentApplicationUI);
 
         if(!computerInteractable.GetIsSelected()){
             DisableComputerUIInteractivity();

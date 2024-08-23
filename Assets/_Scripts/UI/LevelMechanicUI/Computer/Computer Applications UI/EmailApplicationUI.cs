@@ -48,6 +48,8 @@ public class EmailApplicationUI : ApplicationUI{
         
         computerUI.UpdateCursor(ComputerCursorState.Loading);
 
+        DisableApplicationUIInteractivity();
+
         StartCoroutine(EmailLoadCoroutine());
     }
 
@@ -64,6 +66,8 @@ public class EmailApplicationUI : ApplicationUI{
         yield return new WaitForSeconds(emailComputerApplication.EmailLoadingTime);
         
         computerUI.UpdateCursor(ComputerCursorState.Default);
+
+        EnableApplicationUIInteractivity();
 
         UpdateCurrentEmailUI();
     }

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cf1fc82fda0b2054c9015c9140e3a9a8, type: 3}
-  m_Name: CardMakerApplication
+  m_Name: CardPrinterApplication
   m_EditorClassIdentifier: 
   Name: CARD PRInT
   Icon: {fileID: -382858432, guid: c021f5197cce1b4498ff44509e032f9c, type: 3}

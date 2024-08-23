@@ -31,14 +31,14 @@ public class ApplicationUI : MonoBehaviour{
         computerUI.CloseApplication();
     }
 
-     private void EnableApplicationUIInteractivity(){
+    protected virtual void EnableApplicationUIInteractivity(){
         Selectable[] selectableUI = transform.GetComponentsInChildren<Selectable>(true);
         for (int i = 0; i < selectableUI.Length; i++){
             selectableUI[i].interactable = true;
         }
     }
 
-    private void DisableApplicationUIInteractivity(){
+    protected virtual void DisableApplicationUIInteractivity(){
         Selectable[] selectableUI = transform.GetComponentsInChildren<Selectable>(true);
         for (int i = 0; i < selectableUI.Length; i++){
             selectableUI[i].interactable = false;

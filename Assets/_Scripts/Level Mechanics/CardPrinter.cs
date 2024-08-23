@@ -62,25 +62,33 @@ public class CardPrinter : MonoBehaviour{
         resourceDataSO.RemoveItem();
 
         itemLevelMechanic.SetIsUnlocked(false);
+
+        UpdateCardPrinterStatus(0);
     }
 
     public CardPrinterResourceDataSO GetCardPrinterResourceData(){
         return resourceDataSO;
     }
 
-    private void EvaulateApplication(ComputerApplication application){
+    public CardPrinterStatus GetCardPrinterStatus(){
+        return cardPrinterStatus;
+    }
+
+    private void EvaulateApplication(ComputerApplication application, ApplicationUI applicationUIInstance){
         if(application == correctComputerApplication){
-            cardPrinterApplicationUI = (CardPrinterApplicationUI)application.ApplicationUI;
+            cardPrinterApplicationUI = (CardPrinterApplicationUI)applicationUIInstance;
             cardPrinterApplicationUI.OnCreateNewCard += CreateNewCard;
             cardPrinterApplicationUI.OnUpgradeCard += UpgradeCard;
             cardPrinterApplicationUI.OnEjectCard += EjectCard;
+
+            cardPrinterApplicationUI.SetupCardPrinterUI(this);
 
             cardPrinterApplicationUI.UpdateCardPrinterStatusUI(cardPrinterStatus);
         }    
     }
 
     private void EvaulateApplicationClosed(ComputerApplication application){
-        if(cardPrinterApplicationUI == (CardPrinterApplicationUI)application.ApplicationUI){
+        if(application == correctComputerApplication && cardPrinterApplicationUI != null){
             cardPrinterApplicationUI.OnCreateNewCard -= CreateNewCard;
             cardPrinterApplicationUI.OnUpgradeCard -= UpgradeCard;
             cardPrinterApplicationUI.OnEjectCard -= EjectCard;
@@ -114,6 +122,7 @@ public class CardPrinter : MonoBehaviour{
 
     private void EjectCard(){
         Debug.Log("Ejecting card...");
+        EjectHeldItem();
     }
 
     private void UpdateCardPrinterResouceData(ItemDataSO itemData){

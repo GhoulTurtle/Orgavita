@@ -19,10 +19,10 @@ public class CardPrinterResourceDataSO : ResourceDataSO{
     }
 
     public override void RemoveItem(){
-        if(!IsHoldingItem() || IsEmpty()) return;
+        if(!IsHoldingItem()) return;
         
         currentStack--;
-        if(IsEmpty()){
+        if(currentStack == 0){
             currentHeldItemData = null;
         }
         OnResourceUpdated?.Invoke(-1);

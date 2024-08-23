@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemDataToHold: {fileID: 11400000, guid: 4df4149bbb2161c449acb3c983a7ff4a, type: 2}
   currentStack: 0
-  maxStack: 0
+  maxStack: 1
   resetResourceStack: 1
   defaultStack: 0
+  currentHeldItemData: {fileID: 0}

@@ -28,6 +28,17 @@ public class CardPrinterResourceDataSO : ResourceDataSO{
         OnResourceUpdated?.Invoke(-1);
     }
 
+    public void ClearItem(){
+        if(!IsHoldingItem()) return;
+        
+        int amountRemoved = currentStack;
+
+        currentStack = 0;
+        currentHeldItemData = null;
+
+        OnResourceUpdated?.Invoke(amountRemoved);
+    }
+
     public bool IsHoldingItem(){
         return currentHeldItemData != null;
     }

@@ -40571,6 +40571,7 @@ Transform:
   - {fileID: 141325559}
   - {fileID: 2036900520}
   - {fileID: 543450653623423266}
+  - {fileID: 2094268982}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -62870,6 +62871,96 @@ MonoBehaviour:
     - EdgeIndices: 07000000060000000500000004000000
       TexGenIndex: 5
     Generation: 69
+--- !u!1001 &2094268981
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1334331321}
+    m_Modifications:
+    - target: {fileID: 568743245842335205, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: ShapeModule.alignToDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894365902178148913, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: itemToPickup
+      value: 
+      objectReference: {fileID: 11400000, guid: 4df4149bbb2161c449acb3c983a7ff4a,
+        type: 2}
+    - target: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 41.443
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.105
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.79335415
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.6087605
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -75
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894365902178148918, guid: 12c40ee05333fa249abbcc47410637a4,
+        type: 3}
+      propertyPath: m_Name
+      value: ItemPickupBasePrefab (3)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 12c40ee05333fa249abbcc47410637a4, type: 3}
+--- !u!4 &2094268982 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1894365902178148915, guid: 12c40ee05333fa249abbcc47410637a4,
+    type: 3}
+  m_PrefabInstance: {fileID: 2094268981}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2097370164
 GameObject:
   m_ObjectHideFlags: 0
@@ -64613,6 +64704,10 @@ MonoBehaviour:
   connectedComputerUI: {fileID: 1122390862}
   correctComputerApplication: {fileID: 11400000, guid: 3b9d347db53741b4fa083cbf92e1f1b5,
     type: 2}
+  upgradeCardItemDataList:
+  - {fileID: 11400000, guid: 3747e71cea721304cb73f4186d6dd3d6, type: 2}
+  - {fileID: 11400000, guid: b3c12c88c1582ff4b8dbf39c33f2f00c, type: 2}
+  - {fileID: 11400000, guid: 6bc8b7020b1ff0347851e7b095566c21, type: 2}
   canUpgradeCards: 0
 --- !u!1 &1663423732251871964
 GameObject:

@@ -19,8 +19,6 @@ public class ComputerInteractable : StateChangeInteractable{
     public EventHandler OnEnterComputerState;
     public EventHandler OnExitComputerState;
     public UnityEvent<Vector2> OnCursorMove;
-    public EventHandler OnCursorDown;
-    public EventHandler OnCursorUp;
     
     public EventHandler<ComputerApplicationSetupEventArgs> OnSetupComputerApplications;
 
@@ -50,11 +48,6 @@ public class ComputerInteractable : StateChangeInteractable{
         OnSetupComputerApplications?.Invoke(this, new ComputerApplicationSetupEventArgs(computerApplications));
     }
 
-    private void OnDestroy() {
-        if(playerInputHandler == null) return;
-        playerInputHandler.OnClickInput -= CursorInput;
-    }
-
     private void Update() {
         if(!isSelected || isLocked) return;
 
@@ -64,10 +57,6 @@ public class ComputerInteractable : StateChangeInteractable{
     public override void EnterState(){
         base.EnterState();
         
-        if(!isLocked){
-            playerInputHandler.OnClickInput += CursorInput;
-        }
-        
         isSelected = true;
         OnEnterComputerState?.Invoke(this, EventArgs.Empty);
     }
@@ -75,26 +64,12 @@ public class ComputerInteractable : StateChangeInteractable{
     public override void ExitState(object sender, InputEventArgs e){
         base.ExitState(sender, e);
 
-        if(!isLocked){
-            playerInputHandler.OnClickInput -= CursorInput;
-        }
-
         isSelected = false;
         OnExitComputerState?.Invoke(this, EventArgs.Empty);
     }
 
     public bool GetIsSelected(){
         return isSelected;
-    }
-
-    private void CursorInput(object sender, InputEventArgs e){
-        switch (e.inputActionPhase){
-            case UnityEngine.InputSystem.InputActionPhase.Performed: 
-                OnCursorDown?.Invoke(this, EventArgs.Empty);
-                break;
-            case UnityEngine.InputSystem.InputActionPhase.Canceled: OnCursorUp?.Invoke(this, EventArgs.Empty);
-                break;
-        }
     }
 
     private void DetectMousePosition(){

@@ -12,6 +12,9 @@ public class LoadingBarUI : MonoBehaviour{
     [Header("Loading Bar Variables")]
     [SerializeField] private float defaultMinTimeWaiting;
     [SerializeField] private float defaultMaxTimeWaiting;
+    [SerializeField] private float stutterChance = 0.25f;
+    [SerializeField] private float minStutterTimeInSeconds = 0.3f;
+    [SerializeField] private float maxStutterTimeInSeconds = 3f;
 
     public UnityEvent OnStartUnlock;
     public UnityEvent OnFinishUnlock;   
@@ -42,12 +45,13 @@ public class LoadingBarUI : MonoBehaviour{
         while(loadingBarSliderUI.value < loadingBarSliderUI.maxValue){
             yield return null;
             elapsedTime += Time.deltaTime;
+            
             loadingBarSliderUI.value = Mathf.Clamp(increment * elapsedTime, 0, loadingBarSliderUI.maxValue);
-        }
 
-        if (Random.value < 0.1f){
-            float stutterDuration = Random.Range(0.1f, 0.5f);
-            yield return new WaitForSeconds(stutterDuration);
+            if (Random.value < stutterChance){
+                float stutterDuration = Random.Range(minStutterTimeInSeconds, maxStutterTimeInSeconds);
+                yield return new WaitForSeconds(stutterDuration);
+            }
         }
 
         OnFinishUnlock?.Invoke();

@@ -156,14 +156,18 @@ public static class UIAnimator{
     /// <summary>
     /// A lerp animation that lerps a canvas group's alpha value.
     /// </summary>
-    public static IEnumerator CanvasGroupAlphaFadeCoroutine(CanvasGroup canvasGroup, float animationDuration, float alphaAmount = 0){
+    public static IEnumerator CanvasGroupAlphaFadeCoroutine(CanvasGroup canvasGroup, float animationDuration, float alphaStart, float alphaEnd = 0){
+        float startingAlpha = Mathf.Clamp01(alphaStart);
+        
+        canvasGroup.alpha = startingAlpha;
+
         float current = 0;
-        while(current >= animationDuration){
+        while(current <= animationDuration){
             current += Time.deltaTime;
-            canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, alphaAmount, current / animationDuration);            
+            canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, alphaEnd, current / animationDuration);            
             yield return null;
         }
 
-        canvasGroup.alpha  = alphaAmount;
+        canvasGroup.alpha  = alphaEnd;
     }
 }

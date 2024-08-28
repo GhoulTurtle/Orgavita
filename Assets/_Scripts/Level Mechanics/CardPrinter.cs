@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CardPrinter : MonoBehaviour{
@@ -7,6 +8,7 @@ public class CardPrinter : MonoBehaviour{
     [SerializeField] private ItemPickup itemEjectPickup;
     [SerializeField] private ComputerUI connectedComputerUI;
     [SerializeField] private ComputerApplication correctComputerApplication;
+    [SerializeField] private List<ItemDataSO> upgradeCardItemDataList;
 
     [Header("Card Printer Variables")]
     [SerializeField] private bool canUpgradeCards = false;
@@ -39,13 +41,6 @@ public class CardPrinter : MonoBehaviour{
             connectedComputerUI.OnApplicationSetup -= EvaulateApplication;
             connectedComputerUI.OnApplicationClosed -= EvaulateApplicationClosed;
         }
-
-        if(cardPrinterApplicationUI != null){
-            cardPrinterApplicationUI.OnCreateNewCard -= CreateNewCard;
-            cardPrinterApplicationUI.OnUpgradeCard -= UpgradeCard;
-            cardPrinterApplicationUI.OnEjectCard -= EjectCard;
-        }
-
         
         if(resourceDataSO != null){
             resourceDataSO.OnResourceUpdated -= UpdateCardPrinterStatus;
@@ -57,13 +52,27 @@ public class CardPrinter : MonoBehaviour{
 
         ItemDataSO itemDataSO = resourceDataSO.GetCurrentHeldItem();
 
-        itemEjectPickup.SetItemPickup(itemDataSO, 1);
+        itemEjectPickup.SetItemPickup(itemDataSO, resourceDataSO.GetCurrentStackCount());
 
-        resourceDataSO.RemoveItem();
+        resourceDataSO.ClearItem();
 
         itemLevelMechanic.SetIsUnlocked(false);
 
         UpdateCardPrinterStatus(0);
+    }
+
+    public bool CanUpgradeCard(){
+        if(!resourceDataSO.IsHoldingItem()) return false;
+
+        ItemDataSO itemDataSO = resourceDataSO.GetCurrentHeldItem();
+
+        if(!upgradeCardItemDataList.Contains(itemDataSO)) return false;
+
+        int cardLevelIndex = upgradeCardItemDataList.IndexOf(itemDataSO);
+        
+        if(cardLevelIndex == upgradeCardItemDataList.Count - 1) return false;
+        
+        return true;
     }
 
     public CardPrinterResourceDataSO GetCardPrinterResourceData(){
@@ -74,12 +83,19 @@ public class CardPrinter : MonoBehaviour{
         return cardPrinterStatus;
     }
 
+    public bool CanUpgradeCards(){
+        return canUpgradeCards;
+    }
+
+    public bool CanCreateNewCard(){
+        if(!resourceDataSO.IsHoldingItem()) return false;
+
+        return resourceDataSO.IsHeldItemCorrect();
+    }
+
     private void EvaulateApplication(ComputerApplication application, ApplicationUI applicationUIInstance){
         if(application == correctComputerApplication){
             cardPrinterApplicationUI = (CardPrinterApplicationUI)applicationUIInstance;
-            cardPrinterApplicationUI.OnCreateNewCard += CreateNewCard;
-            cardPrinterApplicationUI.OnUpgradeCard += UpgradeCard;
-            cardPrinterApplicationUI.OnEjectCard += EjectCard;
 
             cardPrinterApplicationUI.SetupCardPrinterUI(this);
 
@@ -89,9 +105,6 @@ public class CardPrinter : MonoBehaviour{
 
     private void EvaulateApplicationClosed(ComputerApplication application){
         if(application == correctComputerApplication && cardPrinterApplicationUI != null){
-            cardPrinterApplicationUI.OnCreateNewCard -= CreateNewCard;
-            cardPrinterApplicationUI.OnUpgradeCard -= UpgradeCard;
-            cardPrinterApplicationUI.OnEjectCard -= EjectCard;
             cardPrinterApplicationUI = null;
         }    
     }
@@ -110,19 +123,6 @@ public class CardPrinter : MonoBehaviour{
         if(cardPrinterApplicationUI != null){
             cardPrinterApplicationUI.UpdateCardPrinterStatusUI(cardPrinterStatus);
         }
-    }
-
-    private void CreateNewCard(){
-        Debug.Log("Creating a new card...");
-    }
-
-    private void UpgradeCard(){
-        Debug.Log("Upgrading card...");
-    }
-
-    private void EjectCard(){
-        Debug.Log("Ejecting card...");
-        EjectHeldItem();
     }
 
     private void UpdateCardPrinterResouceData(ItemDataSO itemData){

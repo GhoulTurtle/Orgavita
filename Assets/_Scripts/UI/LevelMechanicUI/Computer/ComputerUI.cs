@@ -29,6 +29,7 @@ public class ComputerUI : MonoBehaviour{
     public EventHandler OnEnableUI;
     public EventHandler OnDisableUI;
     public UnityEvent OnApplicationLaunched;
+    public UnityEvent OnMouseClick;
     public Action<ComputerApplication, ApplicationUI> OnApplicationSetup;
     public Action<ComputerApplication> OnApplicationClosed;
 
@@ -43,13 +44,25 @@ public class ComputerUI : MonoBehaviour{
 
     private ComputerCursorState currentCursorState = ComputerCursorState.Default;
 
+    protected bool isActive = false;
+
     private void Awake() {
         TryGetComponent(out canvasTransform);
         TryGetComponent(out graphicRaycaster);
         computerInteractable.OnSetupComputerApplications += SetupDesktopUI;
 
-        computerInteractable.OnEnterComputerState += (sender, e) => EnableComputerUIInteractivity();
-        computerInteractable.OnExitComputerState += (sender, e) => DisableComputerUIInteractivity(); 
+        computerInteractable.OnEnterComputerState += EnterComputerState;
+        computerInteractable.OnExitComputerState += ExitComputerState; 
+    }
+
+    private void EnterComputerState(object sender, EventArgs e){
+        isActive = true;
+        EnableComputerUIInteractivity();
+    }
+
+    private void ExitComputerState(object sender, EventArgs e){
+        isActive = false;
+        DisableComputerUIInteractivity();
     }
 
     private void Start() {
@@ -82,6 +95,8 @@ public class ComputerUI : MonoBehaviour{
     }
 
     private void EnableComputerUIInteractivity(){
+        if(!isActive) return;
+        
         Selectable[] selectableUI = transform.GetComponentsInChildren<Selectable>(true);
         for (int i = 0; i < selectableUI.Length; i++){
             selectableUI[i].interactable = true;
@@ -196,6 +211,8 @@ public class ComputerUI : MonoBehaviour{
         bool sendMouseUp = Input.GetMouseButtonUp(0);
         bool isMouseDown = Input.GetMouseButton(0);
 
+        bool hasTriggedMouseEvent = false;
+
         if(sendMouseUp){
             foreach(var target in dragTargets){
                 if(ExecuteEvents.Execute(target, mouseEvent, ExecuteEvents.endDragHandler)){
@@ -213,8 +230,12 @@ public class ComputerUI : MonoBehaviour{
 
             if(isMouseDown){
                 eventData.button = PointerEventData.InputButton.Left;
-
                 if(sendMouseDown){
+                    if(!hasTriggedMouseEvent){
+                        OnMouseClick?.Invoke(); 
+                        hasTriggedMouseEvent = true;
+                    }
+
                     if(ExecuteEvents.Execute(raycastResult.gameObject, eventData, ExecuteEvents.beginDragHandler)){
                         dragTargets.Add(raycastResult.gameObject);
                     }

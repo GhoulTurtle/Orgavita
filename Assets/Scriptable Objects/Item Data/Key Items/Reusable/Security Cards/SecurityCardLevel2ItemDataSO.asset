@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3c32ba6731676be4e9ce5077ee6a8527, type: 3}
-  m_Name: SecurityCardItemDataSO
+  m_Name: SecurityCardLevel2ItemDataSO
   m_EditorClassIdentifier: 
-  itemName: Security Card
-  itemQuickDescription: Low level security card that can get passed low level checkpoints.
+  itemName: Security Card [Level 2]
+  itemQuickDescription: Moderate level security card that can get passed most security
+    checkpoints.
   itemInspectDescription: 
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 5483053912421150451, guid: 05ed4b427e707e742badf0702987c181,

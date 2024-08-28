@@ -26,7 +26,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546775764304301690}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -35,8 +35,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000020980835, y: 62.801163}
-  m_SizeDelta: {x: 324.1045, y: 87.1976}
+  m_AnchoredPosition: {x: 5.626, y: 58.85}
+  m_SizeDelta: {x: 297.649, y: 117.7}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6999257217125862490
 CanvasRenderer:
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -226,7 +226,7 @@ GameObject:
   - component: {fileID: 7597187835691248592}
   - component: {fileID: 5874837544492231851}
   m_Layer: 7
-  m_Name: CardPrinterExtraPopupButton
+  m_Name: CardPrinterClosePopupButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -240,7 +240,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000652767609928303}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.000000012107}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -251,7 +251,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 240, y: 45}
+  m_SizeDelta: {x: 60, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8283151078972146678
 CanvasRenderer:
@@ -424,13 +424,14 @@ GameObject:
   - component: {fileID: 3652003000036888659}
   - component: {fileID: 7548957736903185186}
   - component: {fileID: 778562396744570333}
+  - component: {fileID: 683809559967769197}
   m_Layer: 7
   m_Name: CardPrinterPopup
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3652003000036888659
 RectTransform:
   m_ObjectHideFlags: 0
@@ -440,7 +441,7 @@ RectTransform:
   m_GameObject: {fileID: 1476163125211694487}
   m_LocalRotation: {x: -0, y: 0.00006848573, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -2.1978}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6449344589089889131}
@@ -454,8 +455,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.04798317, y: 4}
-  m_SizeDelta: {x: 441.55, y: 322.79}
+  m_AnchoredPosition: {x: 0.04798317, y: -492}
+  m_SizeDelta: {x: 441.55, y: 295}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &7548957736903185186
 CanvasRenderer:
@@ -495,6 +496,18 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!225 &683809559967769197
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476163125211694487}
+  m_Enabled: 1
+  m_Alpha: 0
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1485194765389959962
 GameObject:
   m_ObjectHideFlags: 0
@@ -561,7 +574,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: OK
+  m_text: ;lkhjl;kj
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5273c0e1ed4209148b0f3a70c875edff, type: 2}
   m_sharedMaterial: {fileID: 8997086975893053671, guid: 5273c0e1ed4209148b0f3a70c875edff,
@@ -640,6 +653,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2894369422557039508}
+  - component: {fileID: 9168987755730892018}
   - component: {fileID: 5261165682441955799}
   m_Layer: 7
   m_Name: CardPrinterPopupProgressSlider
@@ -668,9 +682,33 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000008214731, y: 0}
+  m_AnchoredPosition: {x: 0.000008214731, y: -20.3}
   m_SizeDelta: {x: 415, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &9168987755730892018
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535618415908764540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d811bd5589b562240acb66042cbecc01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingBarSliderUI: {fileID: 5261165682441955799}
+  defaultMinTimeWaiting: 1
+  defaultMaxTimeWaiting: 3
+  stutterChance: 0.01
+  minStutterTimeInSeconds: 0.01
+  maxStutterTimeInSeconds: 0.2
+  OnStartUnlock:
+    m_PersistentCalls:
+      m_Calls: []
+  OnFinishUnlock:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &5261165682441955799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1242,7 +1280,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3079026158955418956
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1261,7 +1299,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.000009536743, y: 0}
+  m_AnchoredPosition: {x: -0.000009536743, y: -28.7}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7574883152018517871
@@ -1285,7 +1323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.3301887, g: 0.3286312, b: 0.3286312, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1350,17 +1388,17 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 8
+  m_InputType: 2
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 4
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 1
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 0
+  m_CharacterLimit: 5
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -1389,7 +1427,7 @@ MonoBehaviour:
   m_CustomCaretColor: 0
   m_SelectionColor: {r: 0.65882355, g: 0.80784315, b: 1, a: 0.7529412}
   m_Text: 
-  m_CaretBlinkRate: 0.85
+  m_CaretBlinkRate: 1.25
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_RichText: 1
@@ -1424,7 +1462,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2843408583969480946}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.00063157}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1434,8 +1472,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.25}
   m_AnchorMax: {x: 1, y: 0.75}
-  m_AnchoredPosition: {x: -5, y: 0}
-  m_SizeDelta: {x: -20, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2941545641570578676
 GameObject:
@@ -1873,7 +1911,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2941545642881240281}
   - component: {fileID: 3626781856150586905}
-  - component: {fileID: 474140859169654806}
   - component: {fileID: 3624873396519747841}
   m_Layer: 7
   m_Name: CardPrinterApplicationUI
@@ -1918,28 +1955,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   windowNameText: {fileID: 2941545641914732124}
   closeButton: {fileID: 2941545641570578672}
-  createNewCardButton: {fileID: 5991393486292397947}
-  upgradeCardSecurityLevelButton: {fileID: 7129596985327686423}
-  ejectCardButton: {fileID: 2265676101777697106}
+  createNewCardBorder: {fileID: 606421931823116018}
+  upgradeCardSecurityLevelBorder: {fileID: 5545907319511215468}
+  ejectCardBorder: {fileID: 4029849874316943444}
   cardPrinterStatusText: {fileID: 6705325867469024420}
   cardPrinterStatusIconImageArray:
   - {fileID: 6038322797830860103}
   - {fileID: 8899163427617165399}
   cardPrinterStatusBackgroundImage: {fileID: 3681617579804841705}
+  popupWindowCanvasGroup: {fileID: 683809559967769197}
   popupWindowBackgroundImage: {fileID: 778562396744570333}
   windowPopupParent: {fileID: 3652003000036888659}
   popupWindowText: {fileID: 3087713807268103274}
   popupWindowButtonBorder: {fileID: 3747096384771705674}
   popupWindowButton: {fileID: 2833429228236826680}
   popupWindowButtonText: {fileID: 4089288481431286530}
-  extraPopupWindowBorder: {fileID: 8590016321136474814}
-  extraPopupWindowButton: {fileID: 5874837544492231851}
-  extraPopupWindowButtonText: {fileID: 1790952107189795830}
-  popupWindowAnimationTimeInSeconds: 0.5
+  closePopupWindowButtonBorder: {fileID: 8590016321136474814}
+  closePopupWindowButton: {fileID: 5874837544492231851}
+  closePopupWindowButtonText: {fileID: 1790952107189795830}
   popupWindowImageArray:
   - {fileID: 8779434255968084058}
   - {fileID: 1083141487494324502}
-  popupLoadingBarUI: {fileID: 474140859169654806}
+  popupLoadingBarUI: {fileID: 9168987755730892018}
   informationInputField: {fileID: 354872288529504594}
   invalidPrintColor: {r: 0.92941177, g: 0.34509805, b: 0.3764706, a: 1}
   validPrintColor: {r: 0.34901962, g: 0.92941177, b: 0.34509805, a: 1}
@@ -1954,28 +1991,11 @@ MonoBehaviour:
   maxCreateCardTimeInSeconds: 0
   minUpgradeCardTimeInSeconds: 0
   maxUpgradeCardTimeInSeconds: 0
+  popupWindowAnimationTimeInSeconds: 1.5
+  popupWindowOpenScale: {x: 1, y: 1}
+  popupWindowCloseScale: {x: 0.1, y: 0.1}
+  popupWindowOpenOffset: {x: 0, y: 497}
   cardPrinterPopupState: 0
---- !u!114 &474140859169654806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2941545642881240282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d811bd5589b562240acb66042cbecc01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  loadingBarSliderUI: {fileID: 5261165682441955799}
-  defaultMinTimeWaiting: 1
-  defaultMaxTimeWaiting: 3
-  OnStartUnlock:
-    m_PersistentCalls:
-      m_Calls: []
-  OnFinishUnlock:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!82 &3624873396519747841
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2760,7 +2780,7 @@ RectTransform:
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2892,7 +2912,7 @@ GameObject:
   - component: {fileID: 2966116887338723053}
   - component: {fileID: 7129596985327686423}
   m_Layer: 7
-  m_Name: UpdateCardSecruityLevelButton
+  m_Name: UpdateCardSecurityLevelButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3078,7 +3098,7 @@ GameObject:
   - component: {fileID: 4976961001636966005}
   - component: {fileID: 1790952107189795830}
   m_Layer: 7
-  m_Name: CardPrinterExtraPopupButtonText
+  m_Name: CardPrinterClosePopupButtonText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3132,7 +3152,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: OK
+  m_text: BACK
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5273c0e1ed4209148b0f3a70c875edff, type: 2}
   m_sharedMaterial: {fileID: 8997086975893053671, guid: 5273c0e1ed4209148b0f3a70c875edff,
@@ -3426,7 +3446,7 @@ GameObject:
   - component: {fileID: 3146386301718033087}
   - component: {fileID: 712312897041171576}
   m_Layer: 7
-  m_Name: UpdateSecruityBorder
+  m_Name: UpdateSecurityBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3673,15 +3693,16 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 5273c0e1ed4209148b0f3a70c875edff, type: 2}
+  m_sharedMaterial: {fileID: 8997086975893053671, guid: 5273c0e1ed4209148b0f3a70c875edff,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4292861929
+  m_fontColor: {r: 0.9150943, g: 0.876246, b: 0.876246, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -3698,15 +3719,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 14
-  m_fontSizeBase: 14
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -3941,7 +3962,7 @@ GameObject:
   - component: {fileID: 286066741298820593}
   - component: {fileID: 511380260291094070}
   m_Layer: 7
-  m_Name: UpdateCardSecruityLevelText
+  m_Name: UpdateCardSecurityLevelText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3995,7 +4016,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Update Card Secruity Level
+  m_text: 'Update Card Security Level
 
 '
   m_isRightToLeft: 0
@@ -4215,7 +4236,7 @@ GameObject:
   - component: {fileID: 7320057113274197871}
   - component: {fileID: 2442088848019768598}
   m_Layer: 7
-  m_Name: CardPrinterExtraPopupButtonBorder
+  m_Name: CardPrinterClosePopupButtonBorder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4229,7 +4250,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8590016321136474814}
   m_LocalRotation: {x: -0, y: -0.00006848573, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.1977932}
+  m_LocalPosition: {x: 0, y: 0, z: 2.1999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4239,8 +4260,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -0.0000053959084, y: 42.1}
-  m_SizeDelta: {x: 245, y: 50}
+  m_AnchoredPosition: {x: -185.043, y: 249.5}
+  m_SizeDelta: {x: 66.313, y: 35}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &7320057113274197871
 CanvasRenderer:

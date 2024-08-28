@@ -1929,7 +1929,7 @@ MonoBehaviour:
   popupWindowBackgroundImage: {fileID: 778562396744570333}
   windowPopupParent: {fileID: 3652003000036888659}
   popupWindowText: {fileID: 3087713807268103274}
-  popupWindowBorder: {fileID: 3747096384771705674}
+  popupWindowButtonBorder: {fileID: 3747096384771705674}
   popupWindowButton: {fileID: 2833429228236826680}
   popupWindowButtonText: {fileID: 4089288481431286530}
   extraPopupWindowBorder: {fileID: 8590016321136474814}

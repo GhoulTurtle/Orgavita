@@ -17,7 +17,7 @@ public class CardPrinterApplicationUI : ApplicationUI{
     [SerializeField] private Image popupWindowBackgroundImage;
     [SerializeField] private Transform windowPopupParent;
     [SerializeField] private TextMeshProUGUI popupWindowText;
-    [SerializeField] private GameObject popupWindowBorder;
+    [SerializeField] private GameObject popupWindowButtonBorder;
     [SerializeField] private Button popupWindowButton;
     [SerializeField] private TextMeshProUGUI popupWindowButtonText;
     [SerializeField] private GameObject extraPopupWindowBorder;
@@ -53,6 +53,8 @@ public class CardPrinterApplicationUI : ApplicationUI{
 
     private CardPrinter cardPrinter;
 
+    private IEnumerator currentLoadingCoroutine;
+
     public Action OnCreateNewCard;
     public Action OnUpgradeCard;
     public Action OnEjectCard;
@@ -75,20 +77,34 @@ public class CardPrinterApplicationUI : ApplicationUI{
     }
 
     //Update the cardPrinterPopupState in these methods
-    public void AttemptCreateNewCard(){
-        if(cardPrinter == null || cardPrinter.GetCardPrinterStatus() == CardPrinterStatus.Invalid_Print_No_Card) return;
-        StartCoroutine(ApplicationLoadCoroutine(createCardWindowOpenTimeInSeconds, OnCreateNewCard));
+    public void AttemptCreateNewCard()
+    {
+        if (cardPrinter == null || cardPrinter.GetCardPrinterStatus() == CardPrinterStatus.Invalid_Print_No_Card) return;
+        StopCurrentLoadingCoroutine();
+        currentLoadingCoroutine = ApplicationLoadCoroutine(createCardWindowOpenTimeInSeconds, OnCreateNewCard);
+        StartCoroutine(currentLoadingCoroutine);
     }
 
     public void AttemptUpgradeCard(){
         if(cardPrinter == null || cardPrinter.GetCardPrinterStatus() == CardPrinterStatus.Invalid_Print_No_Card) return;
-        StartCoroutine(ApplicationLoadCoroutine(upgradeCardWindowOpenTimeInSeconds, OnUpgradeCard));
+        StopCurrentLoadingCoroutine();
+        currentLoadingCoroutine = ApplicationLoadCoroutine(upgradeCardWindowOpenTimeInSeconds, OnUpgradeCard);
+        StartCoroutine(currentLoadingCoroutine);
     }
 
     public void AttemptEjectCard(){
         if(cardPrinter == null || cardPrinter.GetCardPrinterStatus() == CardPrinterStatus.Invalid_Print_No_Card) return;
         cardPrinterPopupState = CardPrinterPopupState.Eject_Popup_Card_Menu;
-        StartCoroutine(ApplicationLoadCoroutine(ejectCardWindowOpenTimeInSeconds, UpdateCardPopupUI));
+        StopCurrentLoadingCoroutine();
+        currentLoadingCoroutine = ApplicationLoadCoroutine(ejectCardWindowOpenTimeInSeconds, UpdateCardPopupUI);
+        StartCoroutine(currentLoadingCoroutine);
+    }
+
+    private void StopCurrentLoadingCoroutine(){
+        if (currentLoadingCoroutine != null){
+            StopCoroutine(currentLoadingCoroutine);
+            currentLoadingCoroutine = null;
+        }
     }
 
     public void SetupCardPrinterUI(CardPrinter _cardPrinter){
@@ -96,7 +112,6 @@ public class CardPrinterApplicationUI : ApplicationUI{
     }
 
     public void UpdateCardPrinterStatusUI(CardPrinterStatus currentStatus){
-
         switch (currentStatus){
             case CardPrinterStatus.Valid_Print:
                 cardPrinterStatusText.text = "Valid Card Inserted.";
@@ -122,7 +137,14 @@ public class CardPrinterApplicationUI : ApplicationUI{
     private void UpdateCardPopupUI(){
         switch (cardPrinterPopupState){
             case CardPrinterPopupState.None:
+                popupWindowButton.onClick.RemoveAllListeners();
+                extraPopupWindowButton.onClick.RemoveAllListeners();
+
+                //Play window popup animation
                 windowPopupParent.gameObject.SetActive(false);
+                createNewCardButton.gameObject.SetActive(true);
+                upgradeCardSecurityLevelButton.gameObject.SetActive(true);
+                ejectCardButton.gameObject.SetActive(true);
                 return;
             case CardPrinterPopupState.Create_Card_Menu:
                 break;
@@ -142,7 +164,7 @@ public class CardPrinterApplicationUI : ApplicationUI{
                 informationInputField.gameObject.SetActive(false);
 
                 popupWindowText.text = "Ejecting Card...";
-                popupWindowButton.interactable = false;
+                popupWindowButtonBorder.SetActive(false);
                 popupWindowButtonText.text = "OK";
                 extraPopupWindowBorder.SetActive(false);
                 popupWindowButton.onClick.AddListener(CloseCardPopupUI);
@@ -157,6 +179,10 @@ public class CardPrinterApplicationUI : ApplicationUI{
                 break;
         }
 
+        createNewCardButton.gameObject.SetActive(false);
+        upgradeCardSecurityLevelButton.gameObject.SetActive(false);
+        ejectCardButton.gameObject.SetActive(false);
+
         //Play window popup animation
         windowPopupParent.gameObject.SetActive(true);
 
@@ -165,19 +191,11 @@ public class CardPrinterApplicationUI : ApplicationUI{
     }
 
     private void CloseCardPopupUI(){
-        popupWindowButton.onClick.RemoveAllListeners();
-        extraPopupWindowButton.onClick.RemoveAllListeners();
-
-        //Play window popup animation
-        windowPopupParent.gameObject.SetActive(false);
-        createNewCardButton.gameObject.SetActive(true);
-        upgradeCardSecurityLevelButton.gameObject.SetActive(true);
-        ejectCardButton.gameObject.SetActive(true);
+        cardPrinterPopupState = CardPrinterPopupState.None;
+        UpdateCardPopupUI();
     }
 
     private void LoadingBarFinished(){
-        Debug.Log("FINISHED!");
-
         switch (cardPrinterPopupState){
             case CardPrinterPopupState.None:
                 break;
@@ -198,8 +216,9 @@ public class CardPrinterApplicationUI : ApplicationUI{
                 for (int i = 0; i < popupWindowImageArray.Length; i++){
                     popupWindowImageArray[i].gameObject.SetActive(true);
                 }
-                popupWindowButton.interactable = true;
+                popupWindowButtonBorder.SetActive(true);
                 popupLoadingBarUI.OnFinishAction -= LoadingBarFinished;
+                cardPrinter.EjectHeldItem();
                 break;
         }
     }
@@ -218,6 +237,7 @@ public class CardPrinterApplicationUI : ApplicationUI{
         yield return new WaitForSeconds(amount);
         computerUI.UpdateCursor(ComputerCursorState.Default);
         EnableApplicationUIInteractivity();
+        currentLoadingCoroutine = null;
         actionToTrigger?.Invoke();
     }
 }

@@ -3625,7 +3625,7 @@ MonoBehaviour:
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: DecayingApartmentsDemo
+          m_StringArgument: GardensEntranceBlockoutScene
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1861326827
@@ -3928,7 +3928,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 40
+  field of view: 70
   orthographic: 0
   orthographic size: 10
   m_Depth: 0
@@ -3953,8 +3953,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7793910638121661607}
-  m_LocalRotation: {x: -0.010088428, y: 0.0050101425, z: 0.0002276118, w: 0.9999366}
-  m_LocalPosition: {x: -0.000000004296181, y: -0.024000175, z: -0.41}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.70710677}
+  m_LocalPosition: {x: 0.453, y: 2.178, z: 0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

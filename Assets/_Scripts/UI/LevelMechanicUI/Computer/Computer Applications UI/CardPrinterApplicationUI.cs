@@ -46,12 +46,14 @@ public class CardPrinterApplicationUI : ApplicationUI{
     [SerializeField] private float upgradeCardWindowOpenTimeInSeconds = 0.5f;
 
     [Header("Card Loading Bar Wait Variables")]
-    [SerializeField] private float minEjectTimeInSeconds = 1.5f;
-    [SerializeField] private float maxEjectTimeInSeconds = 3f;
+    [SerializeField] private float minEjectTimeInSeconds = 0.5f;
+    [SerializeField] private float maxEjectTimeInSeconds = 2f;
     [SerializeField] private float minCreateCardTimeInSeconds;
     [SerializeField] private float maxCreateCardTimeInSeconds;
     [SerializeField] private float minUpgradeCardTimeInSeconds;
     [SerializeField] private float maxUpgradeCardTimeInSeconds;    
+    [SerializeField] private float minSearchTimeInSeconds = 2f;
+    [SerializeField] private float maxSearchTimeInSeconds = 3f;
 
     [Header("Card Popup Animation Variables")]
     [SerializeField] private float popupWindowAnimationTimeInSeconds = 0.5f;
@@ -70,6 +72,7 @@ public class CardPrinterApplicationUI : ApplicationUI{
     private IEnumerator currentPopupLerpCoroutine;
 
     public CardPrinterPopupState cardPrinterPopupState = CardPrinterPopupState.None;
+    private CardPrinterSearchResultType cardPrinterSearchResultType = CardPrinterSearchResultType.None;
 
     private void Awake() {
         popupWindowClosePos = windowPopupParent.localPosition;
@@ -82,6 +85,7 @@ public class CardPrinterApplicationUI : ApplicationUI{
         popupWindowButton.onClick.RemoveAllListeners();
         closePopupWindowButton.onClick.RemoveAllListeners();
         popupLoadingBarUI.OnFinishAction -= LoadingBarFinished;
+        popupLoadingBarUI.OnFinishAction -= SearchingFinished;
     }
 
     public override void CloseApplication(){
@@ -183,6 +187,16 @@ public class CardPrinterApplicationUI : ApplicationUI{
         }
     }
 
+    public void InputFieldUpdated(string input){
+        if(input.Length == informationInputField.characterLimit){
+            //enable the submit button
+            popupWindowButton.interactable = true;
+        }
+        else{
+            popupWindowButton.interactable = false;
+        }
+    }
+
     private void UpdateCardPopupUI(){
         switch (cardPrinterPopupState){
             case CardPrinterPopupState.None:
@@ -200,9 +214,12 @@ public class CardPrinterApplicationUI : ApplicationUI{
                 informationInputField.gameObject.SetActive(true);
 
                 informationInputField.text = "";
+                popupWindowButton.interactable = false;
 
                 SetPopupButtons(true, "SUBMIT", true, "BACK");
                 closePopupWindowButton.onClick.AddListener(CloseCardPopupUI);
+
+                popupWindowButton.onClick.AddListener(SearchForCard);
                 break;
             case CardPrinterPopupState.Upgrade_Card_Menu:
 
@@ -221,19 +238,19 @@ public class CardPrinterApplicationUI : ApplicationUI{
                 SetPopupButtons(false, "OK");
                 break;
             case CardPrinterPopupState.Create_Card_Error_Used_Card:
-                ErrorPopupWindowUI("ERROR CP04: Card is already in use. Insert a Blank Security Card.");
+                ErrorPopupWindowUI("ERROR C04: Card is already in use. Insert a Blank Security Card.");
                 break;
             case CardPrinterPopupState.Upgrade_Card_Error_Not_Available:
-                ErrorPopupWindowUI("ERROR CP03: No upgrade card module installed in connected printer. Contact your card printer manufacturer if this is incorrect.");
+                ErrorPopupWindowUI("ERROR C03: No upgrade card module installed in connected printer. Contact your card printer manufacturer if this is incorrect.");
                 break;
             case CardPrinterPopupState.Upgrade_Card_Error_Max_Level:
-                ErrorPopupWindowUI("ERROR CP02: Card detected as max security level. Contact administration if this is incorrect.");
+                ErrorPopupWindowUI("ERROR C02: Card detected as max security level. Contact administration if this is incorrect.");
                 break;
             case CardPrinterPopupState.Invalid_Print_Wrong_Card:
-                ErrorPopupWindowUI("ERROR CP01: No Security Strip detected on card. Attach Security Strip onto the card before attempting any operations.");
+                ErrorPopupWindowUI("ERROR C01: No Security Strip detected on card. Attach Security Strip onto the card before attempting any operations.");
                 break;
             case CardPrinterPopupState.Invalid_Print_No_Card:
-                ErrorPopupWindowUI("ERROR CP00: No card detected in connected card printer. Insert card into connected printer before attempting any operations.");
+                ErrorPopupWindowUI("ERROR C00: No card detected in connected card printer. Insert card into connected printer before attempting any operations.");
                 break;
         }
         SetActiveMenuButtons(false);
@@ -265,12 +282,12 @@ public class CardPrinterApplicationUI : ApplicationUI{
             popupWindowImageArray[i].gameObject.SetActive(popupIconsActive);
         }
 
-
-
         popupWindowText.text = popupText;
     }
 
     private void CloseCardPopupUI(){
+        popupWindowButton.interactable = true;
+        closePopupWindowButton.interactable = true;
         cardPrinterPopupState = CardPrinterPopupState.None;
         UpdateCardPopupUI();
     }
@@ -290,6 +307,59 @@ public class CardPrinterApplicationUI : ApplicationUI{
                 popupLoadingBarUI.OnFinishAction -= LoadingBarFinished;
                 cardPrinter.EjectHeldItem();
                 break;
+        }
+    }
+
+    private void SearchForCard(){
+        //Update the popup window to be in the searching state
+        SetPopupButtons(false, "OK");
+
+        popupWindowButton.onClick.RemoveAllListeners();
+        popupWindowText.text = "Searching...";
+
+        informationInputField.gameObject.SetActive(false);
+
+        popupLoadingBarUI.gameObject.SetActive(true);
+        popupLoadingBarUI.OnFinishAction += SearchingFinished;
+        popupLoadingBarUI.StartLoading(minSearchTimeInSeconds, maxSearchTimeInSeconds);
+
+        //Get the results for the search
+        cardPrinterSearchResultType = cardPrinter.AttemptCreateNewCard(informationInputField.text);
+    }
+
+    private void SearchingFinished(){
+        popupLoadingBarUI.OnFinishAction -= SearchingFinished;
+
+        //Update UI based on result type and the current popup state
+        if(cardPrinterPopupState == CardPrinterPopupState.Create_Card_Menu){
+            switch (cardPrinterSearchResultType){
+                case CardPrinterSearchResultType.None:
+                    CloseCardPopupUI();
+                    return;
+                case CardPrinterSearchResultType.Invalid_Code:
+                    ErrorPopupWindowUI("ERROR C05: Invalid employee code inputted. Contact administration if this is incorrect.");
+                    return;
+                case CardPrinterSearchResultType.Code_In_Use:
+                    ErrorPopupWindowUI("ERROR C06: Code is already in use by another employee. Contact administration if this is incorrect.");
+                    return;
+                case CardPrinterSearchResultType.Valid_Code:
+                    
+                    return;
+            }
+        }
+
+        if(cardPrinterPopupState == CardPrinterPopupState.Upgrade_Card_Menu){
+            switch (cardPrinterSearchResultType){
+                case CardPrinterSearchResultType.None:
+                    CloseCardPopupUI();
+                    return;
+                case CardPrinterSearchResultType.Invalid_Code:
+                    return;
+                case CardPrinterSearchResultType.Code_In_Use:
+                    return;
+                case CardPrinterSearchResultType.Valid_Code:
+                    return;
+            }
         }
     }
 

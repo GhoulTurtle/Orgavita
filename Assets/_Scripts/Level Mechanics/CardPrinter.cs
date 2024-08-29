@@ -9,6 +9,9 @@ public class CardPrinter : MonoBehaviour{
     [SerializeField] private ComputerUI connectedComputerUI;
     [SerializeField] private ComputerApplication correctComputerApplication;
     [SerializeField] private List<ItemDataSO> upgradeCardItemDataList;
+    
+    [SerializeField] private IntegarCodeSO correctNewCardCode;
+    [SerializeField] private List<IntegarCodeSO> inUseCardCodeList = new();
 
     [Header("Card Printer Variables")]
     [SerializeField] private bool canUpgradeCards = false;
@@ -73,6 +76,22 @@ public class CardPrinter : MonoBehaviour{
         if(cardLevelIndex == upgradeCardItemDataList.Count - 1) return false;
         
         return true;
+    }
+
+    public CardPrinterSearchResultType AttemptCreateNewCard(string codeInputted){
+        if(correctNewCardCode.IsCodeCorrect(codeInputted)){
+            return CardPrinterSearchResultType.Valid_Code;
+        }
+
+        if(inUseCardCodeList.Count == 0) return CardPrinterSearchResultType.Invalid_Code;
+        
+        for (int i = 0; i < inUseCardCodeList.Count; i++){
+            if(inUseCardCodeList[i].IsCodeCorrect(codeInputted)){
+                return CardPrinterSearchResultType.Code_In_Use;
+            }
+        }
+
+        return CardPrinterSearchResultType.Invalid_Code;
     }
 
     public CardPrinterResourceDataSO GetCardPrinterResourceData(){

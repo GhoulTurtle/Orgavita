@@ -49,6 +49,12 @@ public class CardPrinterResourceDataSO : ResourceDataSO{
         return currentHeldItemData == itemDataToHold;
     }
 
+    public void UpdateHeldItem(ItemDataSO itemDataSO){
+        if(!IsHoldingItem()) return;
+
+        currentHeldItemData = itemDataSO;
+    }
+
     public ItemDataSO GetCurrentHeldItem(){
         return currentHeldItemData;
     }

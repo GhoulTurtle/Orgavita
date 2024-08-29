@@ -2011,10 +2011,12 @@ MonoBehaviour:
   upgradeCardWindowOpenTimeInSeconds: 0.25
   minEjectTimeInSeconds: 4
   maxEjectTimeInSeconds: 6
-  minCreateCardTimeInSeconds: 0
-  maxCreateCardTimeInSeconds: 0
-  minUpgradeCardTimeInSeconds: 0
-  maxUpgradeCardTimeInSeconds: 0
+  minCreateCardTimeInSeconds: 10
+  maxCreateCardTimeInSeconds: 15
+  minUpgradeCardTimeInSeconds: 10
+  maxUpgradeCardTimeInSeconds: 15
+  minSearchTimeInSeconds: 2
+  maxSearchTimeInSeconds: 3
   popupWindowAnimationTimeInSeconds: 1.5
   popupWindowOpenScale: {x: 1, y: 1}
   popupWindowCloseScale: {x: 0.1, y: 0.1}

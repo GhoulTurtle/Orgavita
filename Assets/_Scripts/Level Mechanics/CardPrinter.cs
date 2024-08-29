@@ -10,6 +10,8 @@ public class CardPrinter : MonoBehaviour{
     [SerializeField] private ComputerApplication correctComputerApplication;
     [SerializeField] private List<ItemDataSO> upgradeCardItemDataList;
     
+    //Going to need to change this for different cards but this will work for now
+    [SerializeField] private ItemDataSO createCardItemData;
     [SerializeField] private IntegarCodeSO correctNewCardCode;
     [SerializeField] private List<IntegarCodeSO> inUseCardCodeList = new();
 
@@ -78,6 +80,10 @@ public class CardPrinter : MonoBehaviour{
         return true;
     }
 
+    public void CreateNewCard(){
+        resourceDataSO.UpdateHeldItem(createCardItemData);
+    }
+
     public CardPrinterSearchResultType AttemptCreateNewCard(string codeInputted){
         if(correctNewCardCode.IsCodeCorrect(codeInputted)){
             return CardPrinterSearchResultType.Valid_Code;
@@ -132,7 +138,7 @@ public class CardPrinter : MonoBehaviour{
         if(!resourceDataSO.IsHoldingItem()){
             cardPrinterStatus = CardPrinterStatus.Invalid_Print_No_Card;
         }   
-        else if(!resourceDataSO.IsHeldItemCorrect()){
+        else if(!resourceDataSO.IsHeldItemCorrect() && resourceDataSO.GetCurrentHeldItem() != createCardItemData){
             cardPrinterStatus = CardPrinterStatus.Invalid_Print_Wrong_Card;
         }
         else{

@@ -293,18 +293,19 @@ public class CardPrinterApplicationUI : ApplicationUI{
     }
 
     private void LoadingBarFinished(){
+        popupLoadingBarUI.OnFinishAction -= LoadingBarFinished;
+
         switch (cardPrinterPopupState){
             case CardPrinterPopupState.Create_Card_Menu:
+                PopupMenuWindowUI(true, "Card Successfully Created.");
+                popupWindowButtonBorder.SetActive(true);
+                cardPrinter.CreateNewCard();
                 break;
             case CardPrinterPopupState.Upgrade_Card_Menu:
                 break;
             case CardPrinterPopupState.Eject_Popup_Card_Menu:
-                popupWindowText.text = "Card Successfully Ejected.";            
-                for (int i = 0; i < popupWindowImageArray.Length; i++){
-                    popupWindowImageArray[i].gameObject.SetActive(true);
-                }
+                PopupMenuWindowUI(true, "Card Successfully Ejected.");
                 popupWindowButtonBorder.SetActive(true);
-                popupLoadingBarUI.OnFinishAction -= LoadingBarFinished;
                 cardPrinter.EjectHeldItem();
                 break;
         }
@@ -343,7 +344,13 @@ public class CardPrinterApplicationUI : ApplicationUI{
                     ErrorPopupWindowUI("ERROR C06: Code is already in use by another employee. Contact administration if this is incorrect.");
                     return;
                 case CardPrinterSearchResultType.Valid_Code:
-                    
+                    PopupMenuWindowUI(true, "Valid Code Found!");
+                    popupLoadingBarUI.gameObject.SetActive(false);
+                    informationInputField.gameObject.SetActive(false);
+                    popupWindowButton.onClick.AddListener(StartCardUpgrade);
+                    closePopupWindowButton.onClick.AddListener(CloseCardPopupUI);
+
+                    SetPopupButtons(true, "Print", true, "Back");
                     return;
             }
         }
@@ -361,6 +368,28 @@ public class CardPrinterApplicationUI : ApplicationUI{
                     return;
             }
         }
+    }
+
+    private void StartCardUpgrade(){
+        popupWindowButton.onClick.RemoveAllListeners();
+        closePopupWindowButton.onClick.RemoveAllListeners();
+
+        popupWindowButton.onClick.AddListener(CloseCardPopupUI);
+        popupLoadingBarUI.gameObject.SetActive(true);
+
+        SetPopupButtons(false, "OK");
+        switch (cardPrinterPopupState){
+            case CardPrinterPopupState.Create_Card_Menu:         
+                PopupMenuWindowUI(false, "Creating New Card, Please Wait...");
+                popupLoadingBarUI.StartLoading(minCreateCardTimeInSeconds, maxCreateCardTimeInSeconds);
+                break;
+            case CardPrinterPopupState.Upgrade_Card_Menu:
+                PopupMenuWindowUI(false, "Upgrading Card Level, Please Wait...");
+                popupLoadingBarUI.StartLoading(minUpgradeCardTimeInSeconds, minUpgradeCardTimeInSeconds);
+                break;
+        }
+
+        popupLoadingBarUI.OnFinishAction += LoadingBarFinished;
     }
 
     protected override void DisableApplicationUIInteractivity(){

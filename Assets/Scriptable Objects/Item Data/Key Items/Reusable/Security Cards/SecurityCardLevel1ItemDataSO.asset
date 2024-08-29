@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c32ba6731676be4e9ce5077ee6a8527, type: 3}
   m_Name: SecurityCardLevel1ItemDataSO
   m_EditorClassIdentifier: 
-  itemName: Security Card [Level 1]
+  itemName: Security Card [LV1]
   itemQuickDescription: Low level security card that can get passed a few security
     checkpoints.
   itemInspectDescription: 

@@ -13,9 +13,8 @@ MonoBehaviour:
   m_Name: ResearchOfficeNewbieEmailList
   m_EditorClassIdentifier: 
   EmailMessageList:
-  - Subject: Welcome aboard!
+  - Subject: Welcome!
     Sender: bobby-diamond
     Recipient: jenny-yu
-    Body: Hey! Welcome to the team! On your desktop, Manwell created a text document
-      with the information that you need to get started. If you have any questions
-      don't be afraid to ask!
+    Body: Hey! Welcome to the team! 36019 is your Employee Code, please use this
+      when we are making your security card.

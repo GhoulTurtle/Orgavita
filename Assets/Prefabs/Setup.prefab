@@ -15629,7 +15629,7 @@ CharacterController:
   m_Radius: 0.4
   m_SlopeLimit: 90
   m_StepOffset: 0.01
-  m_SkinWidth: 0.5
+  m_SkinWidth: 0.001
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7793910637263857226
@@ -16011,7 +16011,7 @@ MonoBehaviour:
   bobbingFrequency: 9
   crouchingBobbingAmplitude: 0.001
   crouchingBobbingFrequency: 6.5
-  runningBobbingAmplitude: 0.003
+  runningBobbingAmplitude: 0.002
   runningBobbingFrequency: 19
   aimingBobbingAmplitude: 0.001
   aimingBobbingFrquency: 7

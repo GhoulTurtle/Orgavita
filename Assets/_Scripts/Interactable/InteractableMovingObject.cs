@@ -10,6 +10,8 @@ public class InteractableMovingObject : MonoBehaviour, IInteractable{
     [SerializeField] private string startToGoalPrompt;
     [SerializeField] private string goalToStartPrompt;
     [SerializeField] private bool atGoalPos = false;
+    [SerializeField] private bool isInteractable = true;
+    [SerializeField] private bool isStoppable = true;
 
     [Header("Moving Object Events")]
     [SerializeField] private UnityEvent OnStartToGoalEvent;
@@ -38,15 +40,26 @@ public class InteractableMovingObject : MonoBehaviour, IInteractable{
     }
 
     public bool Interact(PlayerInteract player){
-        if(currentMovingCoroutine != null || !canMove) return false;
-
-        currentMovingCoroutine = MoveToPosition();
-        StartCoroutine(currentMovingCoroutine);
+        if (!canMove || !isInteractable) return false;
+        
+        MoveObject();
 
         return true;
     }
 
+    public void MoveObject(){
+        if (currentMovingCoroutine != null) return;
+        
+        currentMovingCoroutine = MoveToPosition();
+        StartCoroutine(currentMovingCoroutine);
+    }
+
     private void UpdateInteractionPrompt(){
+        if(!isInteractable){
+            interactionPrompt = "";
+            return;
+        } 
+        
         interactionPrompt = !atGoalPos ? startToGoalPrompt : goalToStartPrompt;
     }
 
@@ -85,7 +98,7 @@ public class InteractableMovingObject : MonoBehaviour, IInteractable{
     }
 
     private void OnTriggerEnter(Collider other) {
-        if(!other.CompareTag("Player")) return;
+        if(!other.CompareTag("Player") || !isStoppable) return;
 
         Vector3 startingPoint = transform.position;
         Vector3 endPoint = !atGoalPos ? offsetPos : startPos; 
@@ -106,7 +119,7 @@ public class InteractableMovingObject : MonoBehaviour, IInteractable{
     }
 
     private void OnTriggerStay(Collider other) {
-        if(!other.CompareTag("Player")) return;
+        if(!other.CompareTag("Player") || !isStoppable) return;
 
         Vector3 startingPoint = transform.position;
         Vector3 endPoint = !atGoalPos ? offsetPos : startPos; 
@@ -127,7 +140,7 @@ public class InteractableMovingObject : MonoBehaviour, IInteractable{
     }
 
     private void OnTriggerExit(Collider other) {
-        if(!other.CompareTag("Player")) return;
+        if(!other.CompareTag("Player") || !isStoppable) return;
 
         canMove = true;
     }

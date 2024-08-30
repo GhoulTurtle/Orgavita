@@ -14,18 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxInventorySize: 6
   inventory:
-  - heldItemData: {fileID: 11400000, guid: 4df4149bbb2161c449acb3c983a7ff4a, type: 2}
+  - heldItemData: {fileID: 11400000, guid: 52c347ab8903c484081f3e19f34d1535, type: 2}
+    currentItemStackAmount: 3
+  - heldItemData: {fileID: 11400000, guid: 02e0be30ea8ea9c41a69d45c17242766, type: 2}
+    currentItemStackAmount: 4
+  - heldItemData: {fileID: 11400000, guid: 3747e71cea721304cb73f4186d6dd3d6, type: 2}
     currentItemStackAmount: 1
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
+  - heldItemData: {fileID: 11400000, guid: a7e0fb93c8962944bbb5eebcd8c9a18b, type: 2}
+    currentItemStackAmount: 1
+  - heldItemData: {fileID: 11400000, guid: a7e0fb93c8962944bbb5eebcd8c9a18b, type: 2}
+    currentItemStackAmount: 1
+  - heldItemData: {fileID: 11400000, guid: a7e0fb93c8962944bbb5eebcd8c9a18b, type: 2}
+    currentItemStackAmount: 1
   weaponItem:
     heldItemData: {fileID: 0}
     currentItemStackAmount: 0

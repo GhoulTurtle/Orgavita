@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 6032998283278673442}
   - component: {fileID: 2186745774045305487}
   - component: {fileID: 1577473645322576964}
+  - component: {fileID: 1895328234}
+  - component: {fileID: 1895328233}
   m_Layer: 0
   m_Name: Chainlink Fence
   m_TagString: Untagged
@@ -83,6 +85,76 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1895328234
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279293934356268449}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.024000002, y: 0.024000004, z: 0.00003152912}
+  m_Center: {x: -0.012008249, y: 0.012000002, z: 0.0000157681}
+--- !u!114 &1895328233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 279293934356268449}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef07620412c50a24ab21b80a54110dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveTimeInSeconds: 0.5
+  movingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  goalPos: {x: -0.01639, y: 0, z: 0}
+  startToGoalPrompt: 
+  goalToStartPrompt: 
+  atGoalPos: 0
+  isInteractable: 0
+  OnStartToGoalEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGoalToStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  canMove: 1
 --- !u!1 &1242432285794184784
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,6 +166,7 @@ GameObject:
   - component: {fileID: 1242432285794184787}
   - component: {fileID: 1242432285794184797}
   - component: {fileID: 1242432285794184786}
+  - component: {fileID: 1954763271}
   m_Layer: 0
   m_Name: Pole (1)
   m_TagString: Untagged
@@ -166,50 +239,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!1 &1242432286205436460
-GameObject:
+--- !u!64 &1954763271
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1242432286205436456}
-  - component: {fileID: 1242432286205436463}
-  - component: {fileID: 1242432286205436469}
-  - component: {fileID: 1242432286205436458}
-  - component: {fileID: 1242432286205436459}
-  - component: {fileID: 8842843069238678396}
-  m_Layer: 0
-  m_Name: Chainlink Fence
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
---- !u!4 &1242432286205436456
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1242432286205436460}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 3, y: 3, z: 0.25}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 5400616498383872260}
-  m_Father: {fileID: 0}
-  m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!65 &1242432286205436463
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1242432286205436460}
+  m_GameObject: {fileID: 1242432285794184784}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -221,55 +257,44 @@ BoxCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!65 &1242432286205436469
-BoxCollider:
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3944073510091631902, guid: 7a196f12f2e1a984c8067ae6148a3a40, type: 3}
+--- !u!1 &1242432286205436460
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1242432286205436456}
+  - component: {fileID: 1242432286205436459}
+  - component: {fileID: 8842843069238678396}
+  m_Layer: 0
+  m_Name: Chainlink Fence
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1242432286205436456
+Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1242432286205436460}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 1
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 7.06221}
-  m_Center: {x: 0, y: 0, z: -3.031105}
---- !u!114 &1242432286205436458
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1242432286205436460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f91f561f44e07c44a0d21aaf1a3c06b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inspectInteractable: {fileID: 1242432286205436459}
-  associatedKeyItemDataSO: {fileID: 11400000, guid: a0065c308b03ac54b9a7f1ab9733c60b,
-    type: 2}
-  consumeItem: 0
-  isOneShot: 1
-  hintDialogue: {fileID: 11400000, guid: 3968c4b1d607b9a4295d3fdf2f9fa890, type: 2}
-  unlockedDialogue: {fileID: 0}
-  wrongItemMessage: That item won't work.
-  alreadyUnlockedMessage: ...
-  correctItemMessage: 'Used '
-  OnUnlockEvent:
-    m_PersistentCalls:
-      m_Calls: []
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 4, y: 3.25, z: 0.25}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5400616498383872260}
+  m_Father: {fileID: 0}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1242432286205436459
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,7 +328,7 @@ MonoBehaviour:
   OnDialogueEnd:
     m_PersistentCalls:
       m_Calls: []
-  inspectDialogue: {fileID: 0}
+  inspectDialogue: {fileID: 11400000, guid: 30f7a0759c444134c85d00fb234f52fd, type: 2}
 --- !u!82 &8842843069238678396
 AudioSource:
   m_ObjectHideFlags: 0
@@ -446,6 +471,7 @@ GameObject:
   - component: {fileID: 8279236446610579940}
   - component: {fileID: 2905441119670093966}
   - component: {fileID: 2099110186808810399}
+  - component: {fileID: 1244759547}
   m_Layer: 0
   m_Name: Pole
   m_TagString: Untagged
@@ -518,3 +544,25 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &1244759547
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5010677691923957058}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 3944073510091631902, guid: 7a196f12f2e1a984c8067ae6148a3a40, type: 3}

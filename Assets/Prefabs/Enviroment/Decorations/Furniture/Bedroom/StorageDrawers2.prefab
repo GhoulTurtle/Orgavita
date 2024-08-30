@@ -170,6 +170,7 @@ MonoBehaviour:
   startToGoalPrompt: Open
   goalToStartPrompt: Close
   atGoalPos: 0
+  isInteractable: 1
   OnStartToGoalEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -347,6 +348,7 @@ MonoBehaviour:
   startToGoalPrompt: Open
   goalToStartPrompt: Close
   atGoalPos: 0
+  isInteractable: 1
   OnStartToGoalEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -503,6 +505,7 @@ MonoBehaviour:
   startToGoalPrompt: Open
   goalToStartPrompt: Close
   atGoalPos: 0
+  isInteractable: 1
   OnStartToGoalEvent:
     m_PersistentCalls:
       m_Calls: []

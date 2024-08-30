@@ -30,6 +30,6 @@ MonoBehaviour:
   maxStackSize: 3
   consumableItemJobList:
   - jobType: 1
-    amount: 15
+    amount: 20
     time: 0
   itemUsedMessage: 

@@ -28,5 +28,5 @@ MonoBehaviour:
   isCombinable: 1
   isStackable: 0
   isDestroyable: 0
-  maxStackSize: 1
+  maxStackSize: 3
   itemCannotUseMessage: I can't use this here...

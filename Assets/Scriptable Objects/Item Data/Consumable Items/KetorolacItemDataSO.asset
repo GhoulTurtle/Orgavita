@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f02916338d89b3488692c96945d797b, type: 3}
-  m_Name: ReliverInjectorItemDataSO
+  m_Name: KetorolacItemDataSO
   m_EditorClassIdentifier: 
-  itemName: Reliever Injector
-  itemQuickDescription: A injection that heals a decent amount of health instantly.
+  itemName: Ketorolac
+  itemQuickDescription: A injection that heals a moderate amount of health instantly.
   itemInspectDescription: 
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 0}
@@ -30,6 +30,6 @@ MonoBehaviour:
   maxStackSize: 2
   consumableItemJobList:
   - jobType: 1
-    amount: 30
+    amount: 25
     time: 0
   itemUsedMessage: 

@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Booster Shot
   itemQuickDescription: Increases maximum health permanetly.
-  itemInspectDescription: The Booster Shot is a rare and potent healing item that
-    offers a unique benefit. Upon consumption, it fortifies the user's body, permanently
-    increasing their maximum health by hardening their skin.
+  itemInspectDescription: 
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 0}
   itemInWorldModelPrefab: {fileID: 8967305202571421445, guid: c1407835baff04f41ad16c6ac1ffee2a,
@@ -26,7 +24,7 @@ MonoBehaviour:
   itemDestoryAudioEvent: {fileID: 0}
   itemType: 1
   isUseable: 1
-  isCombinable: 1
+  isCombinable: 0
   isStackable: 0
   isDestroyable: 1
   maxStackSize: 1

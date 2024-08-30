@@ -10,16 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9c388e5dcdca4ab4aa014ad0a6c0f04d, type: 3}
-  m_Name: GunpowderAItemDataSO
+  m_Name: MutatedFleshItemDataSO
   m_EditorClassIdentifier: 
-  itemName: Gunpowder A
-  itemQuickDescription: Explosive powder that can be used to craft ammunition and
-    explosives.
-  itemInspectDescription: Can be used to craft ammunition or explosives for weapons.
-    Becoming more and more scarce since fear weapons have been developed.
+  itemName: Mutated Flesh
+  itemQuickDescription: 
+  itemInspectDescription: 
   itemIcon: {fileID: 0}
-  itemInventoryModelPrefab: {fileID: 0}
-  itemInWorldModelPrefab: {fileID: 5771749425091677146, guid: fdb3e44185e932d4c99eb33c3fa46ae3,
+  itemInventoryModelPrefab: {fileID: 8967305202571421445, guid: df81087c07e22264a8d95ba1b98ad157,
+    type: 3}
+  itemInWorldModelPrefab: {fileID: 8967305202571421445, guid: c1407835baff04f41ad16c6ac1ffee2a,
     type: 3}
   itemPickupAudioEvent: {fileID: 0}
   itemUseAudioEvent: {fileID: 0}

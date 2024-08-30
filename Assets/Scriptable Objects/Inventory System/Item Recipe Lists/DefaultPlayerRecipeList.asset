@@ -20,5 +20,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ed07adca968c78443acaeec873d0c637, type: 2}
   - {fileID: 11400000, guid: f612e219b72e6b14da3a292701f2077f, type: 2}
   - {fileID: 11400000, guid: 21e34882d45778245b53397f568bfa76, type: 2}
+  - {fileID: 11400000, guid: d13a834dd6b3b384ba5957770d0b2fd3, type: 2}
   defaultRecipeOnPlay: 0
   defaultInventoryRecipes: []

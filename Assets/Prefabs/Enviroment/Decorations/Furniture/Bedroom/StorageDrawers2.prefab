@@ -12,12 +12,14 @@ GameObject:
   - component: {fileID: 7523831328241039466}
   - component: {fileID: 9011314105635906768}
   - component: {fileID: 1584163362575691935}
-  m_Layer: 0
+  - component: {fileID: 1660308422}
+  - component: {fileID: 15529801}
+  m_Layer: 8
   m_Name: Chest_drawers_02.002
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &5300415648335117035
 Transform:
@@ -106,6 +108,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 6836053500955312980, guid: dc0c500a871528a47ac14dbcba9dfb88, type: 3}
+--- !u!65 &1660308422
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3206719730231550313}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.3584275, y: 0.0655365, z: 0.29139298}
+  m_Center: {x: 0.001324296, y: -0.45482254, z: 0.3524851}
+--- !u!114 &15529801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3206719730231550313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef07620412c50a24ab21b80a54110dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveTimeInSeconds: 0.5
+  movingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  goalPos: {x: 0, y: -0.75, z: 0}
+  startToGoalPrompt: Open
+  goalToStartPrompt: Close
+  atGoalPos: 0
+  OnStartToGoalEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGoalToStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  canMove: 1
 --- !u!1 &6999559363222087380
 GameObject:
   m_ObjectHideFlags: 0
@@ -118,12 +189,14 @@ GameObject:
   - component: {fileID: 6803634084250119563}
   - component: {fileID: 7878179283162681296}
   - component: {fileID: 2746969373752031619}
+  - component: {fileID: 459121786}
+  - component: {fileID: 212740608}
   m_Layer: 0
   m_Name: Chest_drawers_02.004
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &1548549627510435986
 Transform:
@@ -212,6 +285,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -1393606419652237970, guid: dc0c500a871528a47ac14dbcba9dfb88, type: 3}
+--- !u!65 &459121786
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6999559363222087380}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.3584275, y: 0.0655365, z: 0.29139298}
+  m_Center: {x: 0, y: -0.45, z: -0.33}
+--- !u!114 &212740608
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6999559363222087380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef07620412c50a24ab21b80a54110dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveTimeInSeconds: 0.5
+  movingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  goalPos: {x: 0, y: -0.75, z: 0}
+  startToGoalPrompt: Open
+  goalToStartPrompt: Close
+  atGoalPos: 0
+  OnStartToGoalEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGoalToStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  canMove: 1
 --- !u!1 &7478113562818224759
 GameObject:
   m_ObjectHideFlags: 0
@@ -224,12 +366,14 @@ GameObject:
   - component: {fileID: 2937731848038798347}
   - component: {fileID: 1780496282914251641}
   - component: {fileID: 8851612399392196914}
+  - component: {fileID: 881027860}
+  - component: {fileID: 864291984}
   m_Layer: 0
   m_Name: Chest_drawers_02.003
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &8503129013695543812
 Transform:
@@ -318,6 +462,75 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -752372667003266699, guid: dc0c500a871528a47ac14dbcba9dfb88, type: 3}
+--- !u!114 &881027860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7478113562818224759}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef07620412c50a24ab21b80a54110dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveTimeInSeconds: 0.5
+  movingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  goalPos: {x: 0, y: -0.75, z: 0}
+  startToGoalPrompt: Open
+  goalToStartPrompt: Close
+  atGoalPos: 0
+  OnStartToGoalEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGoalToStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  canMove: 1
+--- !u!65 &864291984
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7478113562818224759}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.3584275, y: 0.0655365, z: 0.29139298}
+  m_Center: {x: 0, y: -0.45, z: 0}
 --- !u!1 &7895270522725957374
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,7 +566,7 @@ Transform:
   - {fileID: 8503129013695543812}
   - {fileID: 1548549627510435986}
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &5869784110189128673
 MeshFilter:

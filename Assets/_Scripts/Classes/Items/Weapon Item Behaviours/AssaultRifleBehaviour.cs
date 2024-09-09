@@ -25,11 +25,15 @@ public class AssaultRifleBehaviour : GunWeaponEquippedItemBehaviour{
     public override void SetupItemBehaviour(InventoryItem _inventoryItem, PlayerInputHandler _playerInputHandler, PlayerInventoryHandler _playerInventoryHandler){
         base.SetupItemBehaviour(_inventoryItem, _playerInputHandler, _playerInventoryHandler);
         assaultRifleWeaponDataSO = (AssaultRifleWeaponDataSO)weaponData;
+
+        GameManager.OnGameStateChange += EvaulateGameState;
     }
 
     public override void SaveData(){
         base.SaveData();
         StopAllCoroutines();
+
+        GameManager.OnGameStateChange -= EvaulateGameState;
     }
 
     public override void WeaponUseInput(object sender, InputEventArgs e){
@@ -81,6 +85,13 @@ public class AssaultRifleBehaviour : GunWeaponEquippedItemBehaviour{
         StartCoroutine(autoBurstFireCoroutine);
     }
 
+    private void StopFireBurst(){
+        if(autoBurstFireCoroutine != null){
+            StopCoroutine(autoBurstFireCoroutine);
+            autoBurstFireCoroutine = null;
+        }
+    }
+
     private void StartFireAuto(){
         autoFireCoroutine = AutoFireCoroutine();
         StartCoroutine(autoFireCoroutine);
@@ -102,6 +113,7 @@ public class AssaultRifleBehaviour : GunWeaponEquippedItemBehaviour{
         if (!playerInventory.HasItemInInventory(weaponResourceData.GetValidItemData())) return;
 
         StopFireAuto();
+        StopFireBurst();
 
         StartReloadAction();
     }
@@ -109,6 +121,7 @@ public class AssaultRifleBehaviour : GunWeaponEquippedItemBehaviour{
     public override void InspectInput(object sender, InputEventArgs e){
         if(currentWeaponState == WeaponState.Aiming) return;
         StopFireAuto();
+        StopFireBurst();
         InspectWeapon(e.inputActionPhase);
     }
 
@@ -165,10 +178,7 @@ public class AssaultRifleBehaviour : GunWeaponEquippedItemBehaviour{
     }
 
     private void BurstFireEnded(){
-        if(autoBurstFireCoroutine != null){
-            StopCoroutine(autoBurstFireCoroutine);
-            autoBurstFireCoroutine = null;
-        }
+        StopFireBurst();
 
         FireRateCooldown();
     }
@@ -229,5 +239,12 @@ public class AssaultRifleBehaviour : GunWeaponEquippedItemBehaviour{
         float kickbackAmount = currentWeaponFiringMode == WeaponFiringMode.Automatic ? weaponData.kickBackAmount : assaultRifleWeaponDataSO.burstKickBackAmount;
 
         OnKickbackApplied?.Invoke(this, new KickbackAppliedEventArgs(kickbackAmount));   
+    }
+
+    private void EvaulateGameState(object sender, GameManager.GameStateEventArgs e){
+        if(e.State != GameState.Game){
+            StopFireAuto();
+            StopFireBurst();
+        }
     }
 }

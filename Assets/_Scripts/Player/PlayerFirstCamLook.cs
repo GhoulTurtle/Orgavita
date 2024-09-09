@@ -88,6 +88,9 @@ public class PlayerFirstCamLook : MonoBehaviour{
 	}
 
     private void OnDestroy() {
+		StopAllCoroutines();
+		cameraTransform.DOKill();
+
 		if(playerMovement != null){
 			playerMovement.OnPlayerMovementDirectionChanged -= UpdateCameraTilt;
 			playerMovement.OnPlayerMovementStopped -= ResetCameraTilt;

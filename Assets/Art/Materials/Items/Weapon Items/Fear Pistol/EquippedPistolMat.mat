@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: FearPistolBulletCasingMat
+  m_Name: EquippedPistolMat
   m_Shader: {fileID: 4800000, guid: 055eab4e84dc70a47ae75b3125a22de6, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -16,13 +16,13 @@ Material:
   - _FOG_ON
   - _LIGHTING_BAKED_ON
   - _LIGHTING_DYNAMIC_ON
-  - _SHADING_EVALUATION_MODE_PER_VERTEX
+  - _SHADING_EVALUATION_MODE_PER_PIXEL
   - _TEXTURE_FILTER_MODE_TEXTURE_IMPORT_SETTINGS
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
+  m_CustomRenderQueue: 4000
   stringTagMap:
     RenderType: Opaque
   disabledShaderPasses: []
@@ -35,7 +35,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 260f7fa3a8b9ac147ac1704b885a5fc0, type: 3}
+        m_Texture: {fileID: 2800000, guid: 3b1b99de2efe1b748bf360977bbb30a5, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ReflectionCubemap:
@@ -48,7 +48,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AffineTextureWarpingWeight: 0
+    - _AffineTextureWarpingWeight: 1
     - _AlphaClip: 0
     - _AlphaClippingDitherIsEnabled: 0
     - _BRDFMode: 0
@@ -70,8 +70,8 @@ Material:
     - _Reflection: 0
     - _ReflectionBlendMode: 0
     - _ReflectionDirectionMode: 0
-    - _RenderQueueCategory: 0
-    - _ShadingEvaluationMode: 0
+    - _RenderQueueCategory: 2
+    - _ShadingEvaluationMode: 1
     - _SrcBlend: 1
     - _Surface: 0
     - _TextureFilterMode: 0

@@ -14,7 +14,6 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
     [SerializeField] protected bool isLocked = false;
 
     protected PlayerInputHandler playerInputHandler;
-    protected PlayerEquippedItemHandler playerEquippedItemHandler;
     
     public event EventHandler OnTriggerState;
     public event EventHandler OnExitState;
@@ -32,14 +31,6 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
 
         if(playerInputHandler != null){
             playerInputHandler.OnCancelInput += ExitState;
-        }
-
-        if(playerEquippedItemHandler == null){
-            player.TryGetComponent(out playerEquippedItemHandler);
-        }
-        
-        if(playerEquippedItemHandler != null){
-            playerEquippedItemHandler.HolsterEquippedItems();
         }
 
         EnterState();
@@ -77,10 +68,6 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
 
         if(playerInputHandler != null){
             playerInputHandler.OnCancelInput -= ExitState;
-        }
-
-        if(playerEquippedItemHandler != null){
-            playerEquippedItemHandler.AttemptUnholsterPreviousActiveItem();
         }
 
         currentInputSystemUIInputModule.deselectOnBackgroundClick = false;

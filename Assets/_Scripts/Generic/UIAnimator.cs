@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
@@ -13,7 +14,7 @@ public static class UIAnimator{
 /// <param name="animationDuration"></param>
 /// <param name="deactivateAfterAnimation"></param>
 /// <returns></returns>
-    public static IEnumerator StretchAnimationCoroutine(Transform transformToAnimate, Vector2 goalScale, float animationDuration, bool deactivateAfterAnimation = true){
+    public static IEnumerator StretchAnimationCoroutine(Transform transformToAnimate, Vector2 goalScale, float animationDuration, bool deactivateAfterAnimation = true, bool scaledDeltaTime = true){
         
         var _goalScale = new Vector3(goalScale.x, goalScale.y, 1);
 
@@ -21,7 +22,12 @@ public static class UIAnimator{
 
         while(Vector3.Distance(transformToAnimate.localScale, _goalScale) > LERP_SNAP_DISTANCE){
             transformToAnimate.localScale = Vector3.Lerp(transformToAnimate.localScale, _goalScale, current / animationDuration);
-            current += Time.deltaTime;
+            if(scaledDeltaTime){
+                current += Time.deltaTime;
+            }
+            else{
+                current += Time.unscaledDeltaTime;
+            }
             yield return null;
         }
 
@@ -43,9 +49,9 @@ public static class UIAnimator{
 /// <param name="infiniteAnimation"></param>
 /// <param name="animationDuration"></param>
 /// <returns></returns>
-    public static IEnumerator SinAnimationCoroutine(Transform transformToAnimate, float transformYOrigin, float animationSpeed, float animationDistance, float animationDuration = -1f){
+    public static IEnumerator SinAnimationCoroutine(Transform transformToAnimate, float transformYOrigin, float animationSpeed, float animationDistance, float animationDuration = -1f, bool scaledTime = true){
         while(animationDuration == -1f){
-            transformToAnimate.localPosition = new Vector3(transformToAnimate.localPosition.x, SinAmount(transformYOrigin, animationSpeed, animationDistance), transformToAnimate.localPosition.z);
+            transformToAnimate.localPosition = new Vector3(transformToAnimate.localPosition.x, SinAmount(transformYOrigin, animationSpeed, animationDistance, scaledTime), transformToAnimate.localPosition.z);
             yield return null;
         }
 
@@ -53,16 +59,25 @@ public static class UIAnimator{
 
         float animationTimer = animationDuration;
         while(animationTimer >= 0f){
-            animationTimer -= Time.deltaTime;
-            transformToAnimate.localPosition = new Vector3(transformToAnimate.localPosition.x, SinAmount(transformYOrigin, animationSpeed, animationDistance), transformToAnimate.localPosition.z);
+            if(scaledTime){
+                animationTimer -= Time.deltaTime;
+            }
+            else{
+                animationTimer -= Time.unscaledDeltaTime;
+            }
+            transformToAnimate.localPosition = new Vector3(transformToAnimate.localPosition.x, SinAmount(transformYOrigin, animationSpeed, animationDistance, scaledTime), transformToAnimate.localPosition.z);
             yield return null;
         }
 
         transformToAnimate.localPosition = new Vector3(transformToAnimate.localPosition.x, transformYOrigin, transformToAnimate.localPosition.z);
     }
 
-    private static float SinAmount(float yOrigin, float sinSpread, float sinIntensity){
-        return yOrigin + Mathf.Sin(Time.time * sinSpread) * sinIntensity;
+    private static float SinAmount(float yOrigin, float sinSpread, float sinIntensity, bool scaledTime = true){
+        if(scaledTime){
+            return yOrigin + Mathf.Sin(Time.time * sinSpread) * sinIntensity;
+        }
+        
+        return yOrigin + Mathf.Sin(Time.unscaledTime * sinSpread) * sinIntensity;
     }
 
 /// <summary>
@@ -76,9 +91,9 @@ public static class UIAnimator{
 /// <param name="infiniteAnimation"></param>
 /// <param name="animationDuration"></param>
 /// <returns></returns>
-    public static IEnumerator CosAnimationCoroutine(Transform transformToAnimate, float transformXOrigin, float animationSpeed, float animationDistance, float animationDuration = -1f){
+    public static IEnumerator CosAnimationCoroutine(Transform transformToAnimate, float transformXOrigin, float animationSpeed, float animationDistance, float animationDuration = -1f, bool scaledTime = true){
         while(animationDuration == -1f){
-            transformToAnimate.localPosition = new Vector3(CosAmount(transformXOrigin, animationSpeed, animationDistance), transformToAnimate.localPosition.y, transformToAnimate.localPosition.z);
+            transformToAnimate.localPosition = new Vector3(CosAmount(transformXOrigin, animationSpeed, animationDistance, scaledTime), transformToAnimate.localPosition.y, transformToAnimate.localPosition.z);
             yield return null;
         }
 
@@ -86,16 +101,25 @@ public static class UIAnimator{
 
         float animationTimer = animationDuration;
         while(animationTimer >= 0f){
-            animationTimer -= Time.deltaTime;
-            transformToAnimate.localPosition = new Vector3(CosAmount(transformXOrigin, animationSpeed, animationDistance), transformToAnimate.localPosition.y, transformToAnimate.localPosition.z);            
+            if(scaledTime){
+                animationTimer -= Time.deltaTime;
+            }
+            else{
+                animationTimer -= Time.unscaledDeltaTime;
+            }
+            transformToAnimate.localPosition = new Vector3(CosAmount(transformXOrigin, animationSpeed, animationDistance, scaledTime), transformToAnimate.localPosition.y, transformToAnimate.localPosition.z);            
             yield return null;
         }
 
         transformToAnimate.localPosition = new Vector3(transformXOrigin, transformToAnimate.localPosition.y, transformToAnimate.localPosition.z);            
     }
 
-    private static float CosAmount(float xOrigin, float cosSpread, float cosIntensity){
-        return xOrigin + Mathf.Cos(Time.time * cosSpread) * cosIntensity;
+    private static float CosAmount(float xOrigin, float cosSpread, float cosIntensity, bool scaledTime = true){
+        if(scaledTime){
+            return xOrigin + Mathf.Cos(Time.time * cosSpread) * cosIntensity;
+        }
+
+        return xOrigin + Mathf.Cos(Time.unscaledTime * cosSpread) * cosIntensity;
     }
 
     /// <summary>
@@ -115,12 +139,17 @@ public static class UIAnimator{
     /// <param name="goalMargins"></param>
     /// <param name="animationDuration"></param>
     /// <returns></returns>
-    public static IEnumerator LerpingTextMarginAnimationCoroutine(TextMeshProUGUI textToAnimate, Vector4 goalMargins, float animationDuration){
+    public static IEnumerator LerpingTextMarginAnimationCoroutine(TextMeshProUGUI textToAnimate, Vector4 goalMargins, float animationDuration, bool scaledDeltaTime = true){
         float current = 0;
 
         while(Vector4.Distance(textToAnimate.margin, goalMargins) > LERP_SNAP_DISTANCE){
             textToAnimate.margin = Vector4.Lerp(textToAnimate.margin, goalMargins, current / animationDuration);
-            current += Time.deltaTime;
+            if(scaledDeltaTime){
+                current += Time.deltaTime;
+            }
+            else{
+                current += Time.unscaledDeltaTime;
+            }
             yield return null;
         }
 
@@ -135,14 +164,19 @@ public static class UIAnimator{
     /// <param name="animationDuration"></param>
     /// <param name="deactivateAfterAnimation"></param>
     /// <returns></returns>
-    public static IEnumerator LerpingAnimationCoroutine(Transform transformToAnimate, Vector2 goalPosition, float animationDuration, bool deactivateAfterAnimation = true){
+    public static IEnumerator LerpingAnimationCoroutine(Transform transformToAnimate, Vector2 goalPosition, float animationDuration, bool deactivateAfterAnimation = true, bool scaledDeltaTime = true){
         var _goalPosition = new Vector3(goalPosition.x, goalPosition.y, 1);
         
         float current = 0;
 
         while(Vector3.Distance(transformToAnimate.localPosition, _goalPosition) > LERP_SNAP_DISTANCE){
             transformToAnimate.localPosition = Vector3.Lerp(transformToAnimate.localPosition, _goalPosition, current / animationDuration);
-            current += Time.deltaTime;
+            if(scaledDeltaTime){
+                current += Time.deltaTime;
+            }
+            else{
+                current += Time.unscaledDeltaTime;
+            }
             yield return null;
         }
 
@@ -156,18 +190,27 @@ public static class UIAnimator{
     /// <summary>
     /// A lerp animation that lerps a canvas group's alpha value.
     /// </summary>
-    public static IEnumerator CanvasGroupAlphaFadeCoroutine(CanvasGroup canvasGroup, float animationDuration, float alphaStart, float alphaEnd = 0){
+    public static IEnumerator CanvasGroupAlphaFadeCoroutine(CanvasGroup canvasGroup, float animationDuration, float alphaStart, float alphaEnd = 0, bool scaledDeltaTime = true, Action onFadeAnimationFinishedCallback = null){
         float startingAlpha = Mathf.Clamp01(alphaStart);
         
         canvasGroup.alpha = startingAlpha;
 
         float current = 0;
         while(current <= animationDuration){
-            current += Time.deltaTime;
+            if(scaledDeltaTime){
+                current += Time.deltaTime / animationDuration;
+            }
+            else{
+                current += Time.unscaledDeltaTime / animationDuration;
+            }
             canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, alphaEnd, current / animationDuration);            
             yield return null;
         }
 
         canvasGroup.alpha  = alphaEnd;
+
+        if(onFadeAnimationFinishedCallback != null){
+            onFadeAnimationFinishedCallback?.Invoke();
+        }
     }
 }

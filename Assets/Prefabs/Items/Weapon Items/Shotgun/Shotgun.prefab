@@ -307,7 +307,7 @@ GameObject:
   - component: {fileID: 5214270944911570763}
   - component: {fileID: 596700929902559127}
   m_Layer: 11
-  m_Name: ShotgunShellCasing (2)
+  m_Name: ShotgunShellCasing
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6403,6 +6403,9 @@ MonoBehaviour:
   OnGunInspected:
     m_PersistentCalls:
       m_Calls: []
+  popupPrintSpeed: 0.01
+  popupWaitTime: 1.5
+  popupFadeTime: 1
   OnShellReloaded:
     m_PersistentCalls:
       m_Calls:
@@ -6835,6 +6838,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4528360768420482147}
   - component: {fileID: 2055273539764637899}
+  - component: {fileID: 3173704328575096123}
+  - component: {fileID: 278040666516856769}
   m_Layer: 0
   m_Name: ShotgunVisuals
   m_TagString: Untagged
@@ -6884,3 +6889,66 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &3173704328575096123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9220575887427029454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03ba13236600ecf4fbeaea2377b37198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modelMaterialList:
+  - meshRenderer: {fileID: 7665269687492306771}
+    gameMaterial: {fileID: 0}
+    uIMaterial: {fileID: 0}
+    cutsceneMaterial: {fileID: 0}
+  - meshRenderer: {fileID: 5457675683295125391}
+    gameMaterial: {fileID: 0}
+    uIMaterial: {fileID: 0}
+    cutsceneMaterial: {fileID: 0}
+  - meshRenderer: {fileID: 9085380480928554095}
+    gameMaterial: {fileID: 0}
+    uIMaterial: {fileID: 0}
+    cutsceneMaterial: {fileID: 0}
+  - meshRenderer: {fileID: 1294213362182427802}
+    gameMaterial: {fileID: 0}
+    uIMaterial: {fileID: 0}
+    cutsceneMaterial: {fileID: 0}
+  - meshRenderer: {fileID: 1374136279347293250}
+    gameMaterial: {fileID: 0}
+    uIMaterial: {fileID: 0}
+    cutsceneMaterial: {fileID: 0}
+  - meshRenderer: {fileID: 3010425350863804727}
+    gameMaterial: {fileID: 0}
+    uIMaterial: {fileID: 0}
+    cutsceneMaterial: {fileID: 0}
+  shareOneMaterial: 1
+  sharedGameMaterial: {fileID: 2100000, guid: a7269df48f0a39b4a86f12c7647f7bf5, type: 2}
+  sharedUIMaterial: {fileID: 2100000, guid: 48fb9880e5f81a24b8ffdb66846b1326, type: 2}
+  sharedCutsceneMaterial: {fileID: 2100000, guid: 48fb9880e5f81a24b8ffdb66846b1326,
+    type: 2}
+--- !u!114 &278040666516856769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9220575887427029454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03ba13236600ecf4fbeaea2377b37198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modelMaterialList:
+  - meshRenderer: {fileID: 596700929902559127}
+    gameMaterial: {fileID: 2100000, guid: 2fda02779458465478008bba4df6238f, type: 2}
+    uIMaterial: {fileID: 2100000, guid: ce6c86dad3968f54dbf882cba3a2ff22, type: 2}
+    cutsceneMaterial: {fileID: 2100000, guid: ce6c86dad3968f54dbf882cba3a2ff22, type: 2}
+  shareOneMaterial: 0
+  sharedGameMaterial: {fileID: 0}
+  sharedUIMaterial: {fileID: 0}
+  sharedCutsceneMaterial: {fileID: 0}

@@ -206,6 +206,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2188993613343319316}
   - component: {fileID: 6063047546054856164}
+  - component: {fileID: 8231594355742849940}
   m_Layer: 0
   m_Name: FearPistolModelVisuals
   m_TagString: Untagged
@@ -254,6 +255,48 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &8231594355742849940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1525329096867659694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03ba13236600ecf4fbeaea2377b37198, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modelMaterialList:
+  - meshRenderer: {fileID: 3347844790916295355}
+    gameMaterial: {fileID: 0}
+    uIMaterial: {fileID: 0}
+    cutsceneMaterial: {fileID: 0}
+  - meshRenderer: {fileID: 4020719640603286904}
+    gameMaterial: {fileID: 0}
+    uIMaterial: {fileID: 0}
+    cutsceneMaterial: {fileID: 0}
+  - meshRenderer: {fileID: 5869423479525332408}
+    gameMaterial: {fileID: 0}
+    uIMaterial: {fileID: 0}
+    cutsceneMaterial: {fileID: 0}
+  - meshRenderer: {fileID: 9032946718294527343}
+    gameMaterial: {fileID: 0}
+    uIMaterial: {fileID: 0}
+    cutsceneMaterial: {fileID: 0}
+  - meshRenderer: {fileID: 1922283489759076842}
+    gameMaterial: {fileID: 0}
+    uIMaterial: {fileID: 0}
+    cutsceneMaterial: {fileID: 0}
+  - meshRenderer: {fileID: 9037473354236149205}
+    gameMaterial: {fileID: 0}
+    uIMaterial: {fileID: 0}
+    cutsceneMaterial: {fileID: 0}
+  shareOneMaterial: 1
+  sharedGameMaterial: {fileID: 2100000, guid: 912f261f39d9c044da9c030014ae9935, type: 2}
+  sharedUIMaterial: {fileID: 2100000, guid: e808f428f80f56b47b001b3ab64aaf1f, type: 2}
+  sharedCutsceneMaterial: {fileID: 2100000, guid: e808f428f80f56b47b001b3ab64aaf1f,
+    type: 2}
 --- !u!1 &2090452482422004507
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,7 +359,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!114 &7337969329326335011
 MonoBehaviour:
@@ -913,6 +956,9 @@ MonoBehaviour:
   OnGunInspected:
     m_PersistentCalls:
       m_Calls: []
+  popupPrintSpeed: 0.01
+  popupWaitTime: 1.5
+  popupFadeTime: 1
   validBounceableTerrainDataList: {fileID: 11400000, guid: 65726a48f1dd0c9488d6dfdee6e038c8,
     type: 2}
   fearPistolBulletDecalDent: {fileID: 9068418653807071930, guid: 5b1f1b0d3ca38d54eaf06e76ebfe0568,

@@ -284,9 +284,12 @@ public abstract class EquippedItemBehaviour : MonoBehaviour{
         float elapsedTime = 0f;
         
         while(elapsedTime <= holsterAnimationDuration){
-            transform.SetPositionAndRotation(Vector3.Lerp(transform.position, holsterTransform.position, elapsedTime / holsterAnimationDuration), Quaternion.Slerp(transform.rotation, holsterTransform.rotation, elapsedTime / holsterAnimationDuration));
+            if(Time.timeScale != 0f){
+                transform.SetPositionAndRotation(Vector3.Lerp(transform.position, holsterTransform.position, elapsedTime / holsterAnimationDuration), Quaternion.Slerp(transform.rotation, holsterTransform.rotation, elapsedTime / holsterAnimationDuration));
 
-            elapsedTime += Time.deltaTime;
+                elapsedTime += Time.deltaTime / holsterAnimationDuration;
+            }
+
             yield return null;
         }
 

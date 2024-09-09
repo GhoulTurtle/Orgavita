@@ -45,6 +45,8 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
 
         playerInventorySO.OnWeaponItemEquipped += WeaponItemEquipped;
         playerInventorySO.OnWeaponItemUnequipped += WeaponItemUnequipped;
+
+        GameManager.OnGameStateChange += EvaulateGameState;
     }
 
     private void OnDestroy() {
@@ -59,7 +61,20 @@ public class PlayerEquippedItemHandler : MonoBehaviour{
         }
 
         if(currentWeaponItemBehaviour != null){
-            currentWeaponItemBehaviour.OnHolsterAnimationCompleted -= ToolUnequipAnimationCompleted;
+            currentWeaponItemBehaviour.OnHolsterAnimationCompleted -= WeaponUnequipAnimationCompleted;
+        }
+
+        GameManager.OnGameStateChange -= EvaulateGameState;
+    }
+
+    private void EvaulateGameState(object sender, GameManager.GameStateEventArgs e){
+        switch (e.State){
+            case GameState.Game: AttemptUnholsterPreviousActiveItem();
+                break;
+            case GameState.UI: HolsterEquippedItems();
+                break;
+            case GameState.Cutscene: HolsterEquippedItems();
+                break;
         }
     }
 

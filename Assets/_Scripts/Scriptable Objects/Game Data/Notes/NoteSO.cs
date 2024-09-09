@@ -5,6 +5,6 @@ using UnityEngine;
 public class NoteSO : ScriptableObject{
     [Header("Note Variables")]
     public string noteTitle;
-    public ItemModel noteItemModel;
+    public Transform noteItemModel;
     public List<string> notePages;
 }

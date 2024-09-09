@@ -13,9 +13,10 @@ MonoBehaviour:
   m_Name: TestNoteSO
   m_EditorClassIdentifier: 
   noteTitle: Tesing Mcgee
-  noteSprite: {fileID: 21300000, guid: 413ca74051731f945a064365804438da, type: 3}
+  noteItemModel: {fileID: 838094140992720538, guid: 1813b08786faaa9419ee807cb6de7fad,
+    type: 3}
   notePages:
-  - Dear Mr.Mcgee, we wish to inform you have the tragic accident.
+  - <color="red">Dear Mr.Mcgee, we wish to inform you have the tragic accident. </color>
   - Your wife, has not been very sigma and lost all her dodge coin.
   - I know this might be heartbreaking to hear, but don't worry! I would like to
     tell your that she locked in and gained 120 robux!

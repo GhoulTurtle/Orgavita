@@ -154,8 +154,10 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
     }
 
     protected void FireRateCooldownFinished(object sender, CoroutineContainer.CoroutineDisposedEventArgs e){
-        fireRateCoroutineContainer.OnCoroutineDisposed -= FireRateCooldownFinished;
-        fireRateCoroutineContainer = null;
+        if(fireRateCoroutineContainer != null){
+            fireRateCoroutineContainer.OnCoroutineDisposed -= FireRateCooldownFinished;
+            fireRateCoroutineContainer = null;
+        }
     }
 
     protected virtual void TriggerKickback(){

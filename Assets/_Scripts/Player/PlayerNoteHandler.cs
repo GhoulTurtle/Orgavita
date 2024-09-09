@@ -37,14 +37,20 @@ public class PlayerNoteHandler : MonoBehaviour{
     }
 
     private void HideNote(object sender, InputEventArgs e){
-        GameManager.UpdateGameState(GameState.Game);
-
-        playerInputHandler.OnCancelInput -= HideNote;
-        playerInputHandler.OnNavigateInput -= EvaulateNavigateInput;
+        UnsubscribeFromInputEvents();
 
         OnHideNote?.Invoke();
+    }
+
+    public void HideNoteAnimationFinished(){ 
+        GameManager.UpdateGameState(GameState.Game);
 
         Time.timeScale = 1;
+    }
+
+    public void UnsubscribeFromInputEvents(){
+        playerInputHandler.OnCancelInput -= HideNote;
+        playerInputHandler.OnNavigateInput -= EvaulateNavigateInput;
     }
 
     private void EvaulateNavigateInput(object sender, InputEventArgs e){

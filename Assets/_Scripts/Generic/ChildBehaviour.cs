@@ -16,7 +16,7 @@ public class ChildBehaviour : MonoBehaviour{
 	}
 
 	private void Update(){
-		if(currentChildBehaviourData.lockPos == null) return;
+		if(currentChildBehaviourData.lockPos == null || Time.timeScale == 0) return;
 		
 		if(currentChildBehaviourData.keepOffset){
 			offsetQuaternion = Quaternion.Euler(currentChildBehaviourData.offsetRotation);

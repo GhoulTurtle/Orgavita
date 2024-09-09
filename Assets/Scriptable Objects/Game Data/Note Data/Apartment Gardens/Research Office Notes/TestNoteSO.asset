@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e8524b9cbba674da15165ed60ecb58, type: 3}
+  m_Name: TestNoteSO
+  m_EditorClassIdentifier: 
+  noteTitle: Tesing Mcgee
+  noteSprite: {fileID: 21300000, guid: 413ca74051731f945a064365804438da, type: 3}
+  notePages:
+  - Dear Mr.Mcgee, we wish to inform you have the tragic accident.
+  - Your wife, has not been very sigma and lost all her dodge coin.
+  - I know this might be heartbreaking to hear, but don't worry! I would like to
+    tell your that she locked in and gained 120 robux!
+  - Congrats on the hard earned robux and I wish you the best. \nFrom your friend,
+    Charlie

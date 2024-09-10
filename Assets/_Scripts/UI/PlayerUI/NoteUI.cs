@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -31,6 +32,7 @@ public class NoteUI : MonoBehaviour{
 
     private Transform currentNoteItemModel;
     private NoteSO currentNoteSO;
+    private List<TextContentProfile> currentNoteTextContentProfileList = new List<TextContentProfile>();
 
     private bool showingNoteContent = false;
     private int contentIndex = -1;
@@ -40,6 +42,8 @@ public class NoteUI : MonoBehaviour{
     private IEnumerator currentGameIsPausedSinCoroutine;
     private IEnumerator currentLeftArrowCosCoroutine;
     private IEnumerator currentRightArrowCosCoroutine;
+
+    private List<IEnumerator> currentTextAnimationCoroutineList = new List<IEnumerator>();
 
     private void Awake() {
         gameIsPausedOriginalPosY = gameIsPausedTextTransform.localPosition.y;
@@ -70,6 +74,13 @@ public class NoteUI : MonoBehaviour{
 
     private void ShowNoteUI(NoteSO note){
         currentNoteSO = note;
+
+        //Parsing the note content when we initially show the note UI
+        for (int i = 0; i < currentNoteSO.notePages.Count; i++){
+            TextContentProfile parsedTextContentProfile = TextParser.Parse(currentNoteSO.notePages[i], out List<TextEffectDefinition> textEffectDefinitionList);
+
+            currentNoteTextContentProfileList.Add(parsedTextContentProfile);
+        }
         
         noteUICanvasGroup.alpha = 0;
         noteOverlayCanvasGroup.alpha = 0;
@@ -111,9 +122,11 @@ public class NoteUI : MonoBehaviour{
     private void ResetNoteUI(){
         DestroyItemModel();
         currentNoteSO = null;
+        currentNoteTextContentProfileList.Clear();
 
         showingNoteContent = false;
         contentIndex = -1;
+
 
         StopAllCoroutines();
         playerNoteHandler.HideNoteAnimationFinished();
@@ -200,6 +213,14 @@ public class NoteUI : MonoBehaviour{
     }
 
     private void UpdateNoteUIText(){
+        if(currentTextAnimationCoroutineList.Count > 0){
+            for (int i = 0; i < currentTextAnimationCoroutineList.Count; i++){
+                StopCoroutine(currentTextAnimationCoroutineList[i]);
+            }
+
+            currentTextAnimationCoroutineList.Clear();
+        }
+
         if(contentIndex == -1){
             //Update note content with the note title
             noteContentText.text = currentNoteSO.noteTitle;
@@ -211,7 +232,11 @@ public class NoteUI : MonoBehaviour{
 
         if(contentIndex >= currentNoteSO.notePages.Count) return;
 
-        string notePage = currentNoteSO.notePages[contentIndex];
+        string notePage = currentNoteTextContentProfileList[contentIndex].textContent;
+
+        UIAnimator.StartTextAnimations(this, noteContentText, currentNoteTextContentProfileList[contentIndex], out List<IEnumerator> runningCorutines, false);
+
+        currentTextAnimationCoroutineList = runningCorutines;
 
         if(notePage != null){
             //Update the content text

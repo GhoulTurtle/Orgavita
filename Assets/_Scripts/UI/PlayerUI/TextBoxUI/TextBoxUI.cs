@@ -218,8 +218,6 @@ public class TextBoxUI : MonoBehaviour{
         StartCoroutine(currentTextPrint);
 
         questionText.color = currentQuestion.SentenceColor;
-
-        UIAnimator.AnimateTextCoroutine(questionText, currentQuestion.SentenceDialogueEffect);
     }
 
     private void SetupChoices(ChoiceDialogue[] choices){
@@ -258,8 +256,6 @@ public class TextBoxUI : MonoBehaviour{
         StartCoroutine(currentTextPrint);
         
         textBoxText.color = currentDialogue[currentDialogueIndex].SentenceColor;
-        
-        UIAnimator.AnimateTextCoroutine(textBoxText, currentDialogue[currentDialogueIndex].SentenceDialogueEffect);
         
         currentDialogueIndex++;
     }

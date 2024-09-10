@@ -51,8 +51,6 @@ public class PopupUI : MonoBehaviour{
             currentPrintCoroutine = TextPrinter.PrintSentence(dialogueToDisplay.Sentence, popupText, null, printTime);
         }
 
-        UIAnimator.AnimateTextCoroutine(popupText, dialogueToDisplay.SentenceDialogueEffect);
-
         StartCoroutine(currentPrintCoroutine);
     }
 

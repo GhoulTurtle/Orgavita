@@ -17,8 +17,9 @@ MonoBehaviour:
     type: 3}
   notePages:
   - <color="red">Dear Mr.Mcgee, we wish to inform you have the tragic accident. </color>
-  - Your wife, has not been very sigma and lost all her dodge coin.
-  - I know this might be heartbreaking to hear, but don't worry! I would like to
-    tell your that she locked in and gained 120 robux!
-  - Congrats on the hard earned robux and I wish you the best. \nFrom your friend,
-    Charlie
+  - Your wife, <effect=Wobble>has not been very sigma.</effect> and lost all her
+    dodge coin.
+  - I know this might be heartbreaking to hear, but don't worry! <effect=Shake>I
+    would like to tell your that she locked in</effect> and gained 120 robux!
+  - Btw the code is <effect=Wobble><color="red"><code=Code Data/Apartment Gardens/Research
+    Office Codes/CreateSecurityCardCode></color></effect>

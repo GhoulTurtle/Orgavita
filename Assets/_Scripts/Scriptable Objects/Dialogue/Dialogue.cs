@@ -4,5 +4,5 @@ using UnityEngine;
 public class Dialogue{
     public string Sentence = "";
     public Color SentenceColor = Color.white;
-    public DialogueEffect SentenceDialogueEffect = DialogueEffect.None;
+    public TextEffect SentenceDialogueEffect = TextEffect.None;
 }

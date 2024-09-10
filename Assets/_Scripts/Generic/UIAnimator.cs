@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class UIAnimator{
     private const float LERP_SNAP_DISTANCE = 0.01f;
@@ -122,14 +124,208 @@ public static class UIAnimator{
         return xOrigin + Mathf.Cos(Time.unscaledTime * cosSpread) * cosIntensity;
     }
 
-    /// <summary>
-    /// Text animations. UNDER CONSTRUCTION
-    /// </summary>
-    /// <param name="textToAnimate"></param>
-    /// <param name="sentenceDialogueEffect"></param>
-    /// <returns></returns>
-    public static IEnumerator AnimateTextCoroutine(TextMeshProUGUI textToAnimate, DialogueEffect sentenceDialogueEffect){
-        yield return null;
+/// <summary>
+/// Will start all text animations coroutines defined in a TextEffectDefinition list, on the animationRunner
+/// </summary>
+/// <param name="animationRunner"></param>
+/// <param name="textToAnimate"></param>
+/// <param name="textString"></param>
+/// <param name="textEffectDefinitions"></param>
+    public static void StartTextAnimations(MonoBehaviour animationRunner, TMP_Text textToAnimate, TextContentProfile textContentProfile, out List<IEnumerator> runningCoroutines, bool scaledTime = true){
+        runningCoroutines = new List<IEnumerator>();
+
+        if(textContentProfile.textEffectDefinitionList.Count == 0) return;
+
+        for (int i = 0; i < textContentProfile.textEffectDefinitionList.Count; i++){
+            IEnumerator animation = null;
+
+            switch (textContentProfile.textEffectDefinitionList[i].textEffect){
+                case TextEffect.None:
+                    break;
+                case TextEffect.PopShrink: 
+                    break;
+                case TextEffect.Wobble: 
+                    animation = WobbleTextAnimationCoroutine(textContentProfile.textContent, textToAnimate, textContentProfile.textEffectDefinitionList[i], scaledTime);
+                    break;
+                case TextEffect.Pulse:
+                    break;
+                case TextEffect.Shake:
+                    break;
+            }
+
+            if(animation != null){
+                animationRunner.StartCoroutine(animation);
+                runningCoroutines.Add(animation);
+            }
+        }
+    }
+
+    public static IEnumerator PopShrinkTextAnimationCoroutine(TMP_Text text, TextEffectDefinition textEffectDefinition, bool scaledTime = true){
+        float duration = 0.5f;
+        float elapsedTime = 0f;
+
+        text.ForceMeshUpdate();
+        Mesh mesh = text.mesh;
+        Vector3[] vertices = mesh.vertices;
+        Vector3[] originalVertices = (Vector3[])vertices.Clone();
+
+        // Calculate vertex indices for the specified text range
+        List<int> vertexIndices = GetVertexIndicesForRange(text, textEffectDefinition.startIndex, textEffectDefinition.endIndex);
+
+        while (true){
+            elapsedTime += scaledTime ? Time.deltaTime : Time.unscaledDeltaTime;
+            float t = Mathf.PingPong(elapsedTime / duration, 1f);
+            float scaleFactor = Mathf.Lerp(1f, 1.5f, t); // Scaling from 1 to 1.5
+
+            // Update vertices based on scale factor
+            foreach (int index in vertexIndices){
+                vertices[index] = originalVertices[index] * scaleFactor;
+            }
+
+            mesh.vertices = vertices;
+            text.canvasRenderer.SetMesh(mesh);
+
+            yield return null;
+        }
+    }
+
+    public static IEnumerator WobbleTextAnimationCoroutine(string textContent, TMP_Text textToAnimate, TextEffectDefinition textEffectDefinition, bool scaledTime = true){
+        //Calculate the word indexes to wobble each word
+        List<int> wordIndexes = new List<int>{0};
+        List<int> wordLengths = new List<int>();
+
+        string textEffectRange = textContent.Substring(textEffectDefinition.startIndex, textEffectDefinition.endIndex - textEffectDefinition.startIndex);
+
+        for (int index = textEffectRange.IndexOf(' '); index > -1; index = textEffectRange.IndexOf(' ', index + 1)){
+            wordLengths.Add(index - wordIndexes[wordIndexes.Count - 1]);
+            wordIndexes.Add(index + 1);
+        }
+
+        wordLengths.Add(textEffectRange.Length - wordIndexes[wordIndexes.Count - 1]);
+
+        while(true){
+            textToAnimate.ForceMeshUpdate();
+
+            Mesh mesh = textToAnimate.mesh;
+            Vector3[] vertices  = textToAnimate.mesh.vertices;
+
+            for (int i = 0; i < wordIndexes.Count; i++){
+                int wordIndex = wordIndexes[i];
+
+                Vector3 offset;
+
+                if(scaledTime){
+                    offset = Wobble(Time.time + i);
+                }
+                else{
+                    offset = Wobble(Time.unscaledTime + i);
+                }
+
+                for (int j = 0; j < wordLengths[i]; j++){
+                    TMP_CharacterInfo c = textToAnimate.textInfo.characterInfo[wordIndex+j];
+
+                    int index = c.vertexIndex;
+
+                    vertices[index] += offset;
+                    vertices[index + 1] += offset;
+                    vertices[index + 2] += offset;
+                    vertices[index + 3] += offset;
+                }
+            }
+
+            mesh.vertices = vertices;
+            textToAnimate.canvasRenderer.SetMesh(mesh);
+
+            yield return null;
+        }
+    }
+
+    private static Vector2 Wobble(float time){
+        return new Vector2(Mathf.Sin(time * 3.3f), Mathf.Cos(time * 2.5f));
+    }
+
+    public static IEnumerator PulseTextAnimationCoroutine(TMP_Text text, TextEffectDefinition textEffectDefinition, bool scaledTime = true){
+        float duration = 0.5f;
+        float elapsedTime = 0f;
+
+        text.ForceMeshUpdate();
+        Mesh mesh = text.mesh;
+        Vector3[] vertices = mesh.vertices;
+        Vector3[] originalVertices = (Vector3[])vertices.Clone();
+
+        // Calculate vertex indices for the specified text range
+        List<int> vertexIndices = GetVertexIndicesForRange(text, textEffectDefinition.startIndex, textEffectDefinition.endIndex);
+
+        while (true){
+            elapsedTime += scaledTime ? Time.deltaTime : Time.unscaledDeltaTime;
+            float t = Mathf.PingPong(elapsedTime / duration, 1f);
+            float pulseFactor = Mathf.Lerp(1f, 1.2f, t); // Pulsing between 1 and 1.2
+
+            // Update vertices based on pulse factor
+            foreach (int index in vertexIndices){
+                vertices[index] = originalVertices[index] * pulseFactor;
+            }
+
+            mesh.vertices = vertices;
+            text.canvasRenderer.SetMesh(mesh);
+
+            yield return null;
+        }
+    }
+
+    public static IEnumerator ShakeTextAnimationCoroutine(TMP_Text text, TextEffectDefinition textEffectDefinition, bool scaledTime = true){
+        float duration = 0.5f;
+        float elapsedTime = 0f;
+        float shakeIntensity = 0.1f; // Adjust the intensity as needed
+
+        text.ForceMeshUpdate();
+        Mesh mesh = text.mesh;
+        Vector3[] vertices = mesh.vertices;
+        Vector3[] originalVertices = (Vector3[])vertices.Clone();
+
+        // Calculate vertex indices for the specified text range
+        List<int> vertexIndices = GetVertexIndicesForRange(text, textEffectDefinition.startIndex, textEffectDefinition.endIndex);
+
+        while (true){
+            elapsedTime += scaledTime ? Time.deltaTime : Time.unscaledDeltaTime;
+            float t = Mathf.PingPong(elapsedTime / duration, 1f);
+            float shakeAmount = Mathf.Lerp(0f, shakeIntensity, t);
+
+            // Apply shake offset to vertices
+            foreach (int index in vertexIndices){
+                vertices[index] = originalVertices[index] + new Vector3(
+                    Random.Range(-shakeAmount, shakeAmount),
+                    Random.Range(-shakeAmount, shakeAmount),
+                    0f
+                );
+            }
+
+            mesh.vertices = vertices;
+            text.canvasRenderer.SetMesh(mesh);
+
+            yield return null;
+        }
+    }
+
+    private static List<int> GetVertexIndicesForRange(TMP_Text text, int startIndex, int endIndex){
+        List<int> indices = new List<int>();
+        text.ForceMeshUpdate();
+        
+        TMP_TextInfo textInfo = text.textInfo;
+
+        // Iterate over each character in the text to find the corresponding vertices
+        for (int i = 0; i < textInfo.characterCount; i++){
+            TMP_CharacterInfo charInfo = textInfo.characterInfo[i];
+            if (i >= startIndex && i <= endIndex){
+                int vertexIndex = charInfo.vertexIndex;
+                indices.Add(vertexIndex);
+                indices.Add(vertexIndex + 1);
+                indices.Add(vertexIndex + 2);
+                indices.Add(vertexIndex + 3);
+            }
+        }
+
+        return indices;
     }
 
     /// <summary>

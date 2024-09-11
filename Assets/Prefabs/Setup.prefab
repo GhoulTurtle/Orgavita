@@ -16923,8 +16923,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   playerEquippedItemHandler: {fileID: 6977103743592686637}
-  interactionRadius: 0.1
-  interactionDistance: 2
+  interactionRadius: 0.15
+  interactionDistance: 2.3
   interactionCooldown: 0.25
 --- !u!114 &7793910637263857222
 MonoBehaviour:
@@ -17140,7 +17140,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerNoteDataList: {fileID: 11400000, guid: 9384cef10d242dc48b485e91faadab13, type: 2}
   playerInputHandler: {fileID: 7793910637263857222}
-  playerEquippedItemHandler: {fileID: 6977103743592686637}
 --- !u!1 &7793910638020122993
 GameObject:
   m_ObjectHideFlags: 0

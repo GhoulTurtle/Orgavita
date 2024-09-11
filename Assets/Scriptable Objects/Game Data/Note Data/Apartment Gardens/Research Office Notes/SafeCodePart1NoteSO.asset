@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e8524b9cbba674da15165ed60ecb58, type: 3}
+  m_Name: SafeCodePart1NoteSO
+  m_EditorClassIdentifier: 
+  noteTitle: Safe Code Part 1
+  noteItemModel: {fileID: 3164688655149136121, guid: 8afb0c280bcbdca42bd4c61cbec40813,
+    type: 3}
+  notePages:
+  - Nice job finding this secret note! The first 2 digits of the code is <color="red"><code=Code
+    Data/Apartment Gardens/Research Office Codes/SafeCode, startchar=0, charcount=2></color>..
+  - Here is your next clue to find the next secret note! <br><i>In a place where
+    you visit a lot. <br>In a place where people consider it a private spot. <br>In
+    a place behind where people throw away unwanted objects.</i> <br>We couldn't
+    figure out a rhyme for this one sorry!
+  - <effect=Wobble>Good Luck</effect>

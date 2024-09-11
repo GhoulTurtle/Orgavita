@@ -12,12 +12,13 @@ GameObject:
   - component: {fileID: 3241254877829829335}
   - component: {fileID: 3189698253181474856}
   - component: {fileID: 2372368106773842074}
+  - component: {fileID: 5681558274060604734}
   m_Layer: 0
   m_Name: WorkshopTableDrawer2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &2030167607677004624
 Transform:
@@ -106,6 +107,56 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 5344329828635502329, guid: 4cbe00d6e44cd0143a1317872818c914, type: 3}
+--- !u!114 &5681558274060604734
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372368106773842073}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef07620412c50a24ab21b80a54110dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveTimeInSeconds: 0.5
+  movingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  goalPos: {x: 0, y: 0.5, z: 0}
+  startToGoalPrompt: Open
+  goalToStartPrompt: Close
+  atGoalPos: 0
+  isInteractable: 1
+  isStoppable: 1
+  OnStartToGoalEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGoalToStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  canMove: 1
 --- !u!1 &5899127824399753344
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,12 +278,13 @@ GameObject:
   - component: {fileID: 6398459616508356807}
   - component: {fileID: 8515007047959607166}
   - component: {fileID: 7557676367934093192}
+  - component: {fileID: 2031057511638704325}
   m_Layer: 0
   m_Name: WorkshopTableDrawer1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 2147483647
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!4 &6031348813425039954
 Transform:
@@ -321,3 +373,53 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -4075101876553028082, guid: 4cbe00d6e44cd0143a1317872818c914, type: 3}
+--- !u!114 &2031057511638704325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7557676367934093191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef07620412c50a24ab21b80a54110dca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveTimeInSeconds: 0.5
+  movingCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  goalPos: {x: 0, y: 0.5, z: 0}
+  startToGoalPrompt: Open
+  goalToStartPrompt: Close
+  atGoalPos: 0
+  isInteractable: 1
+  isStoppable: 1
+  OnStartToGoalEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnGoalToStartEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  canMove: 1

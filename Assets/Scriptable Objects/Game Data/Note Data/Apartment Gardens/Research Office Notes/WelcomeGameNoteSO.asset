@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e8524b9cbba674da15165ed60ecb58, type: 3}
+  m_Name: WelcomeGameNoteSO
+  m_EditorClassIdentifier: 
+  noteTitle: Welcome Game!
+  noteItemModel: {fileID: 3164688655149136121, guid: 8afb0c280bcbdca42bd4c61cbec40813,
+    type: 3}
+  notePages:
+  - <effect=Wobble>Welcome Newbie!!</effect> To help you get settled in and familiar
+    with the place, we decided to make a little scavenger hunt for you!
+  - Around the office there will be secret notes with partial codes, these codes
+    can be used to open up the safe in this room. Inside the safe is your <b><color=#8FFF9E>Security
+    Strip</b></color> you need to create your very own <b><color=#8FFF9E>Security
+    Card!</b></color>
+  - "Here is your first hint to find the first secret note\u2026 <br><i>I am used
+    to preserve.<br>I am cold to the touch.<br>I am used to keep your lunch.<br>What
+    am I?</i>"
+  - <effect=Wobble>Good Luck!</effect>

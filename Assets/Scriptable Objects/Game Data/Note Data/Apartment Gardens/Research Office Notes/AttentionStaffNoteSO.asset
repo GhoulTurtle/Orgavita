@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e8524b9cbba674da15165ed60ecb58, type: 3}
+  m_Name: AttentionStaffNoteSO
+  m_EditorClassIdentifier: 
+  noteTitle: Attention Staff
+  noteItemModel: {fileID: 3164688655149136121, guid: 8afb0c280bcbdca42bd4c61cbec40813,
+    type: 3}
+  notePages:
+  - '<effect=Wobble>Everyone please stop</effect> leaving your junk in the <b><color=#8FFF9E>drawers
+    and in other containers</color></b> around the office. There are trash cans in
+    the bathrooms and break area to appropriately discard your trash. I have been
+    receiving complaints from the higher ups on this matter.  <br> - Manager Tian. '

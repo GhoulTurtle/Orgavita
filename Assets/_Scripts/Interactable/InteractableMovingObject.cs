@@ -12,6 +12,8 @@ public class InteractableMovingObject : MonoBehaviour, IInteractable{
     [SerializeField] private bool atGoalPos = false;
     [SerializeField] private bool isInteractable = true;
     [SerializeField] private bool isStoppable = true;
+    [SerializeField] private bool useLocalSpace =  false;
+    [SerializeField] private bool oneShot = false;
 
     [Header("Moving Object Events")]
     [SerializeField] private UnityEvent OnStartToGoalEvent;
@@ -29,11 +31,21 @@ public class InteractableMovingObject : MonoBehaviour, IInteractable{
     public bool canMove = true;
 
     private void Awake() {
-        startPos = transform.TransformPoint(transform.localPosition);
+        if(useLocalSpace){
+            startPos = transform.TransformPoint(transform.localPosition);
+        }
+        else{
+            startPos = transform.position;
+        }
         offsetPos = transform.TransformPoint(goalPos);
 
         if(atGoalPos){
-            transform.localPosition = offsetPos;
+            if(useLocalSpace){
+                transform.localPosition = offsetPos;
+            }
+            else{
+                transform.position = offsetPos;
+            }
         }
 
         UpdateInteractionPrompt();
@@ -52,6 +64,10 @@ public class InteractableMovingObject : MonoBehaviour, IInteractable{
         
         currentMovingCoroutine = MoveToPosition();
         StartCoroutine(currentMovingCoroutine);
+
+        if(oneShot){
+            isInteractable = false;
+        }
     }
 
     private void UpdateInteractionPrompt(){

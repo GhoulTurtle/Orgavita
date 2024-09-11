@@ -18,9 +18,9 @@ public static class TextParser{
         string outputString = ParseCode(inputString);
         outputString = ParseEffects(outputString, out textEffectDefinitionList);
 
-        for (int i = 0; i < textEffectDefinitionList.Count; i++){
-            Debug.Log(textEffectDefinitionList[i].textEffect + " Starting Index: " + textEffectDefinitionList[i].startIndex + " Ending Index: " + textEffectDefinitionList[i].endIndex);
-        }
+        // for (int i = 0; i < textEffectDefinitionList.Count; i++){
+            // Debug.Log(textEffectDefinitionList[i].textEffect + " Starting Index: " + textEffectDefinitionList[i].startIndex + " Ending Index: " + textEffectDefinitionList[i].endIndex);
+        // }
 
         TextContentProfile textContentProfile = new TextContentProfile(outputString, textEffectDefinitionList);
 

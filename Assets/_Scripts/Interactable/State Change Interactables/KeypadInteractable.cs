@@ -6,8 +6,7 @@ public class KeypadInteractable : StateChangeInteractable{
     public override string InteractionPrompt => "Enter Code";
 
     [Header("Keypad Variables")]
-    [SerializeField] private int maxPasswordSize = 4;
-    [SerializeField] private string password;
+    [SerializeField] private IntegarCodeSO intCodeSO;
     [SerializeField] private UnityEvent UnlockEvent;
     [SerializeField] private UnityEvent LockEvent;
     [SerializeField] private UnityEvent EnteredNumberEvent;
@@ -19,6 +18,8 @@ public class KeypadInteractable : StateChangeInteractable{
     public event EventHandler OnCorrectPasswordEntered;
     public event EventHandler OnIncorrectPasswordEntered;
 
+    private int maxPasswordSize;
+    
     public class KeypadNumberEnteredEventArgs : EventArgs{
         public string Entry;
         public KeypadNumberEnteredEventArgs(string _entry){
@@ -29,6 +30,10 @@ public class KeypadInteractable : StateChangeInteractable{
     private string currentEntry = "";
     private int previousCharPos = 0;
     private char incomingChar = new();
+
+    private void Awake() {
+        maxPasswordSize = intCodeSO.GetCodeDigitLength();
+    }
 
     public override void EnterState(){
         base.EnterState();
@@ -111,7 +116,7 @@ public class KeypadInteractable : StateChangeInteractable{
     }
 
     public void EnterNumber(){
-        if(currentEntry == password){
+        if(currentEntry == intCodeSO.GetCurrentCode()){
             UnlockEvent?.Invoke();
             OnCorrectPasswordEntered?.Invoke(this, EventArgs.Empty);
         }

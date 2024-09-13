@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa9d5eee6bf6ef44d955b4d0699dc29f, type: 3}
+  m_Name: NewbieNotepadApplication
+  m_EditorClassIdentifier: 
+  Name: Getting Started.txt
+  Icon: {fileID: -1232480608, guid: c021f5197cce1b4498ff44509e032f9c, type: 3}
+  LoadingWindowSprite: {fileID: 0}
+  ApplicationUI: {fileID: 7143852366557265967, guid: 9f578e1ff427ca843aa7a0e3776a8d2c,
+    type: 3}
+  LoadTime: 0.5
+  notepadContent: '<effect=Wobble> Welcome Newbie! </effect><br>
+
+    This note will
+    help you get started on your grand adventure! It''s not that exciting ;(. <br>
+
+    Before
+    we start you should take a look at your email, Tian should have sent you your
+    <b><color=#8FFF9E>employee code</color></b>.<br>
+
+'

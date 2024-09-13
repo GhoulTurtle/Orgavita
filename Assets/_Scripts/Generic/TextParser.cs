@@ -27,6 +27,22 @@ public static class TextParser{
         return textContentProfile;
     }
 
+        public static TextContentProfile Parse(string inputString){
+        string outputString = ParseCode(inputString);
+
+        List<TextEffectDefinition> textEffectDefinitionList = new List<TextEffectDefinition>();
+
+        outputString = ParseEffects(outputString, out textEffectDefinitionList);
+
+        // for (int i = 0; i < textEffectDefinitionList.Count; i++){
+            // Debug.Log(textEffectDefinitionList[i].textEffect + " Starting Index: " + textEffectDefinitionList[i].startIndex + " Ending Index: " + textEffectDefinitionList[i].endIndex);
+        // }
+
+        TextContentProfile textContentProfile = new TextContentProfile(outputString, textEffectDefinitionList);
+
+        return textContentProfile;
+    }
+
     private static string ParseCode(string inputString){
         MatchCollection matches = codeRegex.Matches(inputString);
 

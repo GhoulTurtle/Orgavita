@@ -68,8 +68,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Ejecting Card...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ee79120154f4e1747bf89434013f57bb, type: 2}
-  m_sharedMaterial: {fileID: -5524589202577943631, guid: ee79120154f4e1747bf89434013f57bb,
+  m_fontAsset: {fileID: 11400000, guid: 61956c90560e9f4459a363c379382dc6, type: 2}
+  m_sharedMaterial: {fileID: -3021936433588256209, guid: 61956c90560e9f4459a363c379382dc6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -94,8 +94,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21
-  m_fontSizeBase: 21
+  m_fontSize: 23
+  m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -576,8 +576,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: ;lkhjl;kj
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5273c0e1ed4209148b0f3a70c875edff, type: 2}
-  m_sharedMaterial: {fileID: 8997086975893053671, guid: 5273c0e1ed4209148b0f3a70c875edff,
+  m_fontAsset: {fileID: 11400000, guid: 61956c90560e9f4459a363c379382dc6, type: 2}
+  m_sharedMaterial: {fileID: -3021936433588256209, guid: 61956c90560e9f4459a363c379382dc6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -602,8 +602,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1194,8 +1194,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Connected to SecurityX Card Printer
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ee79120154f4e1747bf89434013f57bb, type: 2}
-  m_sharedMaterial: {fileID: -5524589202577943631, guid: ee79120154f4e1747bf89434013f57bb,
+  m_fontAsset: {fileID: 11400000, guid: 61956c90560e9f4459a363c379382dc6, type: 2}
+  m_sharedMaterial: {fileID: -3021936433588256209, guid: 61956c90560e9f4459a363c379382dc6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1220,8 +1220,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 19
-  m_fontSizeBase: 19
+  m_fontSize: 21
+  m_fontSizeBase: 21
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1781,8 +1781,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Email
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ee79120154f4e1747bf89434013f57bb, type: 2}
-  m_sharedMaterial: {fileID: -5524589202577943631, guid: ee79120154f4e1747bf89434013f57bb,
+  m_fontAsset: {fileID: 11400000, guid: 61956c90560e9f4459a363c379382dc6, type: 2}
+  m_sharedMaterial: {fileID: -3021936433588256209, guid: 61956c90560e9f4459a363c379382dc6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1807,8 +1807,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 28.1
-  m_fontSizeBase: 28.1
+  m_fontSize: 30
+  m_fontSizeBase: 30
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -2387,8 +2387,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Eject Card
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5273c0e1ed4209148b0f3a70c875edff, type: 2}
-  m_sharedMaterial: {fileID: 8997086975893053671, guid: 5273c0e1ed4209148b0f3a70c875edff,
+  m_fontAsset: {fileID: 11400000, guid: 61956c90560e9f4459a363c379382dc6, type: 2}
+  m_sharedMaterial: {fileID: -3021936433588256209, guid: 61956c90560e9f4459a363c379382dc6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -2413,8 +2413,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3180,8 +3180,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: BACK
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5273c0e1ed4209148b0f3a70c875edff, type: 2}
-  m_sharedMaterial: {fileID: 8997086975893053671, guid: 5273c0e1ed4209148b0f3a70c875edff,
+  m_fontAsset: {fileID: 11400000, guid: 61956c90560e9f4459a363c379382dc6, type: 2}
+  m_sharedMaterial: {fileID: -3021936433588256209, guid: 61956c90560e9f4459a363c379382dc6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3206,8 +3206,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3392,8 +3392,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Create New Card
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5273c0e1ed4209148b0f3a70c875edff, type: 2}
-  m_sharedMaterial: {fileID: 8997086975893053671, guid: 5273c0e1ed4209148b0f3a70c875edff,
+  m_fontAsset: {fileID: 11400000, guid: 61956c90560e9f4459a363c379382dc6, type: 2}
+  m_sharedMaterial: {fileID: -3021936433588256209, guid: 61956c90560e9f4459a363c379382dc6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3418,8 +3418,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -3719,8 +3719,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: "\u200B"
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5273c0e1ed4209148b0f3a70c875edff, type: 2}
-  m_sharedMaterial: {fileID: 8997086975893053671, guid: 5273c0e1ed4209148b0f3a70c875edff,
+  m_fontAsset: {fileID: 11400000, guid: 61956c90560e9f4459a363c379382dc6, type: 2}
+  m_sharedMaterial: {fileID: -3021936433588256209, guid: 61956c90560e9f4459a363c379382dc6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -3745,8 +3745,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 28
+  m_fontSizeBase: 28
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4046,8 +4046,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 5273c0e1ed4209148b0f3a70c875edff, type: 2}
-  m_sharedMaterial: {fileID: 8997086975893053671, guid: 5273c0e1ed4209148b0f3a70c875edff,
+  m_fontAsset: {fileID: 11400000, guid: 61956c90560e9f4459a363c379382dc6, type: 2}
+  m_sharedMaterial: {fileID: -3021936433588256209, guid: 61956c90560e9f4459a363c379382dc6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -4072,8 +4072,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 20
-  m_fontSizeBase: 20
+  m_fontSize: 22
+  m_fontSizeBase: 22
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4182,8 +4182,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Insert card to begin editing...
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ee79120154f4e1747bf89434013f57bb, type: 2}
-  m_sharedMaterial: {fileID: -5524589202577943631, guid: ee79120154f4e1747bf89434013f57bb,
+  m_fontAsset: {fileID: 11400000, guid: 61956c90560e9f4459a363c379382dc6, type: 2}
+  m_sharedMaterial: {fileID: -3021936433588256209, guid: 61956c90560e9f4459a363c379382dc6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -4208,8 +4208,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 21
-  m_fontSizeBase: 21
+  m_fontSize: 23
+  m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

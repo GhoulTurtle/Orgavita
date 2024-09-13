@@ -1,5 +1,6 @@
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Computer Application/Basic Computer Application", fileName = "NewComputerApplication")]
 public class ComputerApplication : ScriptableObject {
     [Header("Default Computer Application Variables")]
     public string Name;

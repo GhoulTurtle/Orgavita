@@ -278,8 +278,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Email
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ee79120154f4e1747bf89434013f57bb, type: 2}
-  m_sharedMaterial: {fileID: -5524589202577943631, guid: ee79120154f4e1747bf89434013f57bb,
+  m_fontAsset: {fileID: 11400000, guid: 61956c90560e9f4459a363c379382dc6, type: 2}
+  m_sharedMaterial: {fileID: -3021936433588256209, guid: 61956c90560e9f4459a363c379382dc6,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}

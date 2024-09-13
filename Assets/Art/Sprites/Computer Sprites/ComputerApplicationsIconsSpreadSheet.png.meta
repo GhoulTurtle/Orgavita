@@ -69,7 +69,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 1024
+    maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 0
@@ -107,7 +107,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ComputerApplicationsIconsSpreadSheet 1_0
+      name: ComputerApplicationsIconsSpreadSheet_0
       rect:
         serializedVersion: 2
         x: 0
@@ -115,20 +115,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e391b1ba1fc8c2644823a612bd72ed44
-      internalID: 146449784
+      spriteID: db77a611533af554d9ac410bb8d7558d
+      internalID: -1432073434
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ComputerApplicationsIconsSpreadSheet 1_1
+      name: ComputerApplicationsIconsSpreadSheet_1
       rect:
         serializedVersion: 2
         x: 32
@@ -136,20 +136,20 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b1fda3c11aa686042bd09ba65402657a
-      internalID: -900995967
+      spriteID: ec88de014be394e4a941c4aa78a1503a
+      internalID: 924556999
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ComputerApplicationsIconsSpreadSheet 1_2
+      name: ComputerApplicationsIconsSpreadSheet_2
       rect:
         serializedVersion: 2
         x: 64
@@ -157,14 +157,98 @@ TextureImporter:
         width: 32
         height: 32
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6ed5047bcda8466479ae52bd9760d6d9
-      internalID: -382858432
+      spriteID: 1e80b2e4fb7ac9c448bb4bc7e4ef4378
+      internalID: -1201088360
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ComputerApplicationsIconsSpreadSheet_3
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8dae88aabcfbd0459b01ae35d375830
+      internalID: -1232480608
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ComputerApplicationsIconsSpreadSheet_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4e211df144ed4364c9c1b2f5051af3b5
+      internalID: 236205260
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ComputerApplicationsIconsSpreadSheet_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1645b9f2dc908124a8336778f1420712
+      internalID: 1148934077
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: ComputerApplicationsIconsSpreadSheet_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c9c2bd137e88d343bb4b0792379995c
+      internalID: 2032703267
       vertices: []
       indices: 
       edges: []
@@ -172,7 +256,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: c566e53d78750524280b6a386b8b9f00
+    spriteID: b6b8fa3fc2684c74eb3d5c4da4aa71c2
     internalID: 0
     vertices: []
     indices: 
@@ -180,9 +264,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ComputerApplicationsIconsSpreadSheet 1_0: 146449784
-      ComputerApplicationsIconsSpreadSheet 1_1: -900995967
-      ComputerApplicationsIconsSpreadSheet 1_2: -382858432
+      ComputerApplicationsIconsSpreadSheet_2: -1201088360
+      ComputerApplicationsIconsSpreadSheet_0: -1432073434
+      ComputerApplicationsIconsSpreadSheet_3: -1232480608
+      ComputerApplicationsIconsSpreadSheet_6: 2032703267
+      ComputerApplicationsIconsSpreadSheet_4: 236205260
+      ComputerApplicationsIconsSpreadSheet_5: 1148934077
+      ComputerApplicationsIconsSpreadSheet_1: 924556999
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -73,9 +73,28 @@ public class EmailApplicationUI : ApplicationUI{
     }
 
     private void UpdateCurrentEmailUI(){
-        recipientText.text = currentSelectedEmail.Recipient;
-        senderText.text = currentSelectedEmail.Sender;
-        subjectText.text = currentSelectedEmail.Subject;
-        bodyText.text = currentSelectedEmail.Body;
+        StopAllCoroutines();
+
+        List<TextEffectDefinition> textEffects = new List<TextEffectDefinition>();
+        
+        UpdateText(recipientText, currentSelectedEmail.Recipient, textEffects);
+        UpdateText(senderText, currentSelectedEmail.Sender, textEffects);
+        UpdateText(subjectText, currentSelectedEmail.Subject, textEffects);
+        UpdateText(bodyText, currentSelectedEmail.Body, textEffects);
+    }
+
+    private void UpdateText(TextMeshProUGUI textToUpdate, string unParsedString, List<TextEffectDefinition> textEffectsBuffer){
+        TextContentProfile textContentProfile = TextParser.Parse(unParsedString, out textEffectsBuffer);
+        textToUpdate.text = textContentProfile.textContent;
+
+        StartTextEffects(textEffectsBuffer, textContentProfile);
+    }
+
+    private void StartTextEffects(List<TextEffectDefinition> textEffects, TextContentProfile textContentProfile){
+        if(textEffects.Count > 0){
+            UIAnimator.StartTextAnimations(this, recipientText, textContentProfile);
+        }
+
+        textEffects.Clear();
     }
 }

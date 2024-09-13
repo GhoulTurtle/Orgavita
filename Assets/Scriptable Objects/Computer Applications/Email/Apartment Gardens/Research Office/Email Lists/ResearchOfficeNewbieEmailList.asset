@@ -16,5 +16,6 @@ MonoBehaviour:
   - Subject: Welcome!
     Sender: bobby-diamond
     Recipient: jenny-yu
-    Body: Hey! Welcome to the team! 36019 is your Employee Code, please use this
-      when we are making your security card.
+    Body: Hey! Welcome to the team! <b><color=#8FFF9E><code=Code Data/Apartment Gardens/Research
+      Office Codes/CreateSecurityCardCode></color></b> is your Employee Code, please
+      use this when we are making your security card.

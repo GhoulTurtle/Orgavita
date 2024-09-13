@@ -15126,7 +15126,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 47.799988}
+  m_AnchoredPosition: {x: 0, y: 47.80005}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!222 &5308710657191158308
@@ -16923,8 +16923,8 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   playerEquippedItemHandler: {fileID: 6977103743592686637}
-  interactionRadius: 0.15
-  interactionDistance: 2.3
+  interactionRadius: 0.1
+  interactionDistance: 2.5
   interactionCooldown: 0.25
 --- !u!114 &7793910637263857222
 MonoBehaviour:

@@ -160,6 +160,32 @@ public static class UIAnimator{
         }
     }
 
+    public static void StartTextAnimations(MonoBehaviour animationRunner, TMP_Text textToAnimate, TextContentProfile textContentProfile, bool scaledTime = true){
+        if(textContentProfile.textEffectDefinitionList.Count == 0) return;
+
+        for (int i = 0; i < textContentProfile.textEffectDefinitionList.Count; i++){
+            IEnumerator animation = null;
+
+            switch (textContentProfile.textEffectDefinitionList[i].textEffect){
+                case TextEffect.None:
+                    break;
+                case TextEffect.PopShrink: 
+                    break;
+                case TextEffect.Wobble: 
+                    animation = WobbleTextAnimationCoroutine(textContentProfile.textContent, textToAnimate, textContentProfile.textEffectDefinitionList[i], scaledTime);
+                    break;
+                case TextEffect.Pulse:
+                    break;
+                case TextEffect.Shake:
+                    break;
+            }
+
+            if(animation != null){
+                animationRunner.StartCoroutine(animation);
+            }
+        }
+    }
+
     public static IEnumerator PopShrinkTextAnimationCoroutine(TMP_Text text, TextEffectDefinition textEffectDefinition, bool scaledTime = true){
         float duration = 0.5f;
         float elapsedTime = 0f;

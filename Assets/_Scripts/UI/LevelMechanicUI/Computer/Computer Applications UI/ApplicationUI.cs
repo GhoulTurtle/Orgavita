@@ -4,8 +4,8 @@ using UnityEngine.UI;
 
 public class ApplicationUI : MonoBehaviour{
     [Header("UI References")]
-    [SerializeField] private TextMeshProUGUI windowNameText;
-    [SerializeField] private Button closeButton;
+    [SerializeField] protected TextMeshProUGUI windowNameText;
+    [SerializeField] protected Button closeButton;
 
     public ComputerApplication ApplicationSO {get; private set;}
     protected ComputerUI computerUI;

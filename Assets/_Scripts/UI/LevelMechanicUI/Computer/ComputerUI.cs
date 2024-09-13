@@ -26,8 +26,8 @@ public class ComputerUI : MonoBehaviour{
     [SerializeField] private Sprite loadingCursorSprite;
     [SerializeField] private Sprite clickableCursorSprite;
 
-    public EventHandler OnEnableUI;
-    public EventHandler OnDisableUI;
+    public Action OnEnableUI;
+    public Action OnDisableUI;
     public UnityEvent OnApplicationLaunched;
     public UnityEvent OnMouseClick;
     public Action<ComputerApplication, ApplicationUI> OnApplicationSetup;
@@ -78,12 +78,12 @@ public class ComputerUI : MonoBehaviour{
 
     private void EnableComputerUI(object sender, EventArgs e){
         EnableComputerUIInteractivity();
-        OnEnableUI?.Invoke(this, EventArgs.Empty);
+        OnEnableUI?.Invoke();
     }
 
     private void DisableComputerUI(object sender, EventArgs e){
         DisableComputerUIInteractivity();
-        OnDisableUI?.Invoke(this, EventArgs.Empty);
+        OnDisableUI?.Invoke();
     }
 
     private void SetupDesktopUI(object sender, ComputerInteractable.ComputerApplicationSetupEventArgs e){
@@ -96,6 +96,10 @@ public class ComputerUI : MonoBehaviour{
 
     private void EnableComputerUIInteractivity(){
         if(!isActive) return;
+        if(currentApplicationUI != null){
+            currentApplicationUI.EnableApplicationUIInteractivity();
+            return;
+        }
         
         Selectable[] selectableUI = transform.GetComponentsInChildren<Selectable>(true);
         for (int i = 0; i < selectableUI.Length; i++){
@@ -104,6 +108,11 @@ public class ComputerUI : MonoBehaviour{
     }
 
     private void DisableComputerUIInteractivity(){
+        if(currentApplicationUI != null){
+            currentApplicationUI.DisableApplicationUIInteractivity();
+            return;
+        }
+
         Selectable[] selectableUI = transform.GetComponentsInChildren<Selectable>(true);
         for (int i = 0; i < selectableUI.Length; i++){
             selectableUI[i].interactable = false;

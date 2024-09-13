@@ -7,7 +7,7 @@ public class ApplicationUI : MonoBehaviour{
     [SerializeField] protected TextMeshProUGUI windowNameText;
     [SerializeField] protected Button closeButton;
 
-    public ComputerApplication ApplicationSO {get; private set;}
+    public ComputerApplication ApplicationSO {get; protected set;}
     protected ComputerUI computerUI;
 
     public virtual void SetupApplicationUI(ComputerUI _computerUI, ComputerApplication application){
@@ -16,8 +16,8 @@ public class ApplicationUI : MonoBehaviour{
 
         windowNameText.text = ApplicationSO.Name;
 
-        computerUI.OnEnableUI += (sender, e) => EnableApplicationUIInteractivity();
-        computerUI.OnDisableUI += (sender, e) => DisableApplicationUIInteractivity();
+        computerUI.OnEnableUI += EnableApplicationUIInteractivity;
+        computerUI.OnDisableUI += DisableApplicationUIInteractivity;
 
         EnableApplicationUIInteractivity();
     }
@@ -25,20 +25,20 @@ public class ApplicationUI : MonoBehaviour{
     public virtual void CloseApplication(){
         DisableApplicationUIInteractivity();
 
-        computerUI.OnEnableUI -= (sender, e) => EnableApplicationUIInteractivity();
-        computerUI.OnDisableUI -= (sender, e) => DisableApplicationUIInteractivity();
+        computerUI.OnEnableUI -= EnableApplicationUIInteractivity;
+        computerUI.OnDisableUI -= DisableApplicationUIInteractivity;
         
         computerUI.CloseApplication();
     }
 
-    protected virtual void EnableApplicationUIInteractivity(){
+    public virtual void EnableApplicationUIInteractivity(){
         Selectable[] selectableUI = transform.GetComponentsInChildren<Selectable>(true);
         for (int i = 0; i < selectableUI.Length; i++){
             selectableUI[i].interactable = true;
         }
     }
 
-    protected virtual void DisableApplicationUIInteractivity(){
+    public virtual void DisableApplicationUIInteractivity(){
         Selectable[] selectableUI = transform.GetComponentsInChildren<Selectable>(true);
         for (int i = 0; i < selectableUI.Length; i++){
             selectableUI[i].interactable = false;

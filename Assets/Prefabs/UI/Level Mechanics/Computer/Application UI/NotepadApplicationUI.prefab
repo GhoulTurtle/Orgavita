@@ -960,7 +960,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 7143852366557265967}
         m_TargetAssemblyTypeName: ApplicationUI, Assembly-CSharp
         m_MethodName: CloseApplication
         m_Mode: 1

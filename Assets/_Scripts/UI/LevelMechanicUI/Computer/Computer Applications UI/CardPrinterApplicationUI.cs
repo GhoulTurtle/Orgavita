@@ -392,14 +392,6 @@ public class CardPrinterApplicationUI : ApplicationUI{
         popupLoadingBarUI.OnFinishAction += LoadingBarFinished;
     }
 
-    protected override void DisableApplicationUIInteractivity(){
-        base.DisableApplicationUIInteractivity();
-    }
-
-    protected override void EnableApplicationUIInteractivity(){
-        base.EnableApplicationUIInteractivity();
-    }
-
     private void SetPopupButtons(bool popupButtonState, string popupButtonText, bool closePopupButtonState = false, string closePopupButtonText = "Back"){
         popupWindowButtonText.text = popupButtonText;
         popupWindowButtonBorder.SetActive(popupButtonState);

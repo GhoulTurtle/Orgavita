@@ -7,31 +7,55 @@ public class NotepadUI : ApplicationUI{
 
     private NotepadComputerApplication notepadComputerApplication;
 
-    public override void SetupApplicationUI(ComputerUI _computerUI, ComputerApplication application){
-        base.SetupApplicationUI(_computerUI, application);
+    private void OnDestroy() {
+        StopAllCoroutines();
+        computerUI.OnEnableUI -= EnableApplicationUIInteractivity;
+        computerUI.OnDisableUI -= DisableApplicationUIInteractivity;
+    }
 
+    public override void SetupApplicationUI(ComputerUI _computerUI, ComputerApplication application){
+        computerUI = _computerUI;
+        ApplicationSO =  application;
         notepadComputerApplication = (NotepadComputerApplication)application;
+
+        windowNameText.text = notepadComputerApplication.Name;
+
+        computerUI.OnEnableUI += EnableApplicationUIInteractivity;
+        computerUI.OnDisableUI += DisableApplicationUIInteractivity;
+
+        EnableApplicationUIInteractivity();
 
         if(notepadComputerApplication != null){
             TextContentProfile parsedTextContentProfile = TextParser.Parse(notepadComputerApplication.notepadContent);
 
             inputField.text = parsedTextContentProfile.textContent;
 
-            if(!notepadComputerApplication.canType){
-                inputField.interactable = false;
-            }
-
             UIAnimator.StartTextAnimations(this, inputField.textComponent, parsedTextContentProfile);
+
+            if(notepadComputerApplication.saveNote){
+                PlayerNoteHandler.Instance.AttemptAddNewNoteToDataList(notepadComputerApplication.noteToSave);
+            }
         }
     }
 
-    protected override void EnableApplicationUIInteractivity(){
+    public override void CloseApplication(){
+        DisableApplicationUIInteractivity();
+
+        computerUI.OnEnableUI -= EnableApplicationUIInteractivity;
+        computerUI.OnDisableUI -= DisableApplicationUIInteractivity;
+        
+        computerUI.CloseApplication();
+    }
+
+    public override void DisableApplicationUIInteractivity(){
+        base.DisableApplicationUIInteractivity();
+        PlayerNoteHandler.Instance.AttemptShowNotePopup();
+    }
+
+    public override void EnableApplicationUIInteractivity(){
         closeButton.interactable = true;
 
-        if(notepadComputerApplication == null){
-            Debug.Log("Its null??");
-            return;
-        }
+        if(notepadComputerApplication == null) return;
 
         if(!notepadComputerApplication.canType){
             inputField.interactable = false;
@@ -39,9 +63,5 @@ public class NotepadUI : ApplicationUI{
         else{
             inputField.interactable = true;
         }
-    }
-
-    private void OnDestroy() {
-        StopAllCoroutines();
     }
 }

@@ -18,6 +18,9 @@ MonoBehaviour:
   ApplicationUI: {fileID: 7143852366557265967, guid: 9f578e1ff427ca843aa7a0e3776a8d2c,
     type: 3}
   LoadTime: 0.5
+  canType: 0
+  saveNote: 0
+  noteToSave: {fileID: 0}
   notepadContent: '<effect=Wobble> Welcome Newbie! </effect><br>
 
     This note will

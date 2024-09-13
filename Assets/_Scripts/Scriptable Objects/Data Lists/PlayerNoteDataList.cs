@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Data List/Player Note Data List", fileName = "NewPlayerNoteDataList")]
@@ -12,7 +13,9 @@ public class PlayerNoteDataList : ScriptableObject{
     public void OnEnable(){
         if(setDataListToDefaultOnStart){
             noteDataList.Clear();
-            noteDataList = defaultNoteDataList;
+            for (int i = 0; i < defaultNoteDataList.Count; i++){
+                noteDataList.Add(defaultNoteDataList[i]);
+            }
         }
     }
 
@@ -27,5 +30,15 @@ public class PlayerNoteDataList : ScriptableObject{
     public bool IsNoteInDataList(NoteSO noteSO){
         if(noteSO == null || noteDataList == null) return false;
         return noteDataList.Contains(noteSO);
+    }
+
+    public bool IsFirstNote(){
+        return noteDataList.Count == 1;
+    }
+
+    public NoteSO GetLastNoteAdded(){
+        if(noteDataList == null || noteDataList.Count == 0) return null;
+
+        return noteDataList.Last();
     }
 }

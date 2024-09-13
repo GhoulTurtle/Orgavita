@@ -4,6 +4,8 @@ using UnityEngine;
 public class NotepadComputerApplication : ComputerApplication{
     [Header("Notepad Variables")]
     public bool canType;
+    public bool saveNote;
+    public NoteSO noteToSave;
     [TextArea(4,4)] public string notepadContent;
 
     private void OnEnable() {

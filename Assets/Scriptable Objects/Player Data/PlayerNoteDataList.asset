@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: PlayerNoteDataList
   m_EditorClassIdentifier: 
   noteDataList:
-  - {fileID: 11400000, guid: e90656c3c7ca18841835c9e6d50c513c, type: 2}
+  - {fileID: 11400000, guid: 62635557729ab4d44bbe2c0b3be374a0, type: 2}
   setDataListToDefaultOnStart: 1
   defaultNoteDataList: []

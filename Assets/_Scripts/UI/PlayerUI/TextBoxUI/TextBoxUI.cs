@@ -240,7 +240,7 @@ public class TextBoxUI : MonoBehaviour{
 
     private void PrintNextLine(){
         HideTextBoxIndicator();
-
+        
         if(currentDialogue.Length <= currentDialogueIndex && currentConversationSO == null){
             OnCurrentDialogueFinished?.Invoke(this, EventArgs.Empty);
             StopDialogue();

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa9d5eee6bf6ef44d955b4d0699dc29f, type: 3}
-  m_Name: NewbieNotepadApplication
+  m_Name: RobinGettingStartedNotepadApplication
   m_EditorClassIdentifier: 
   Name: Getting Started.txt
   Icon: {fileID: -1232480608, guid: c021f5197cce1b4498ff44509e032f9c, type: 3}
@@ -21,13 +21,10 @@ MonoBehaviour:
   canType: 0
   saveNote: 0
   noteToSave: {fileID: 0}
-  notepadContent: '<effect=Wobble> Welcome Newbie! </effect><br>
-
-    This note will
-    help you get started on your grand adventure! It''s not that exciting ;(. <br>
-
-    Before
+  notepadContent: "<effect=Wobble> Welcome Newbie! </effect><br>\r\nThis note will
+    help you get started on your grand adventure! It's not that exciting ;(. <br>\r\nBefore
     we start you should take a look at your email, Tian should have sent you your
-    <b><color=#8FFF9E>employee code</color></b>.<br>
-
-'
+    <b><color=#8FFF9E>employee code</color></b>.<br>\r\nAfter you write that down,
+    go down to the <b><color=#8FFF9E>file storage </color></b> it\u2019s the last
+    room on the right. I and some others around the office prepared a little game
+    for you when you get there!\r\n"

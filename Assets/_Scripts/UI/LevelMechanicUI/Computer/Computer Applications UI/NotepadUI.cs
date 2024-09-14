@@ -34,6 +34,7 @@ public class NotepadUI : ApplicationUI{
 
             if(notepadComputerApplication.saveNote){
                 PlayerNoteHandler.Instance.AttemptAddNewNoteToDataList(notepadComputerApplication.noteToSave);
+                PlayerNoteHandler.Instance.AttemptShowNotePopup();
             }
         }
     }
@@ -49,11 +50,10 @@ public class NotepadUI : ApplicationUI{
 
     public override void DisableApplicationUIInteractivity(){
         base.DisableApplicationUIInteractivity();
-        PlayerNoteHandler.Instance.AttemptShowNotePopup();
     }
 
     public override void EnableApplicationUIInteractivity(){
-        closeButton.interactable = true;
+        base.EnableApplicationUIInteractivity();
 
         if(notepadComputerApplication == null) return;
 

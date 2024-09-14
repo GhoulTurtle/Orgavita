@@ -8,4 +8,6 @@ public class Email{
     public string Recipient;
     [Space, TextArea(4, 4)]
     public string Body;
+    public bool saveNote;
+    public NoteSO noteToSave;
 }

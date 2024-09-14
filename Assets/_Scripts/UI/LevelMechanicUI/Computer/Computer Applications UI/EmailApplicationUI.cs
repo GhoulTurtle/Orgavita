@@ -40,7 +40,7 @@ public class EmailApplicationUI : ApplicationUI{
     public override void CloseApplication(){
         base.CloseApplication();
     }
-
+    
     public void SelectEmail(Email email){
         if(currentSelectedEmail == email) return;
 
@@ -81,6 +81,11 @@ public class EmailApplicationUI : ApplicationUI{
         UpdateText(senderText, currentSelectedEmail.Sender, textEffects);
         UpdateText(subjectText, currentSelectedEmail.Subject, textEffects);
         UpdateText(bodyText, currentSelectedEmail.Body, textEffects);
+
+        if(currentSelectedEmail.saveNote){
+            PlayerNoteHandler.Instance.AttemptAddNewNoteToDataList(currentSelectedEmail.noteToSave);
+            PlayerNoteHandler.Instance.AttemptShowNotePopup();
+        }
     }
 
     private void UpdateText(TextMeshProUGUI textToUpdate, string unParsedString, List<TextEffectDefinition> textEffectsBuffer){

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5ccdd2a3a7480d4abfe13ed1715ba10, type: 3}
-  m_Name: NewbieOfficeEmailApplication
+  m_Name: RobinOfficeEmailApplication
   m_EditorClassIdentifier: 
   Name: Mail
   Icon: {fileID: -1432073434, guid: c021f5197cce1b4498ff44509e032f9c, type: 3}

@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 45c828af7e91e2c429906f2687ef5a3b, type: 3}
-  m_Name: ResearchOfficeNewbieEmailList
+  m_Name: ResearchOfficeTianEmailList
   m_EditorClassIdentifier: 
   EmailMessageList:
-  - Subject: Welcome!
-    Sender: bobby-diamond
-    Recipient: jenny-yu
-    Body: Hey! Welcome to the team! <b><color=#8FFF9E><code=Code Data/Apartment Gardens/Research
-      Office Codes/CreateSecurityCardCode></color></b> is your Employee Code, please
-      use this when we are making your security card.
+  - Subject: Process Faster
+    Sender: gloria-husk
+    Recipient: tian-uler
+    Body: 
+    saveNote: 0
+    noteToSave: {fileID: 0}

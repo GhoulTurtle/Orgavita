@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7e8524b9cbba674da15165ed60ecb58, type: 3}
+  m_Name: Welcome Email
+  m_EditorClassIdentifier: 
+  noteTitle: Welcome Email
+  noteItemModel: {fileID: 3164688655149136121, guid: 8afb0c280bcbdca42bd4c61cbec40813,
+    type: 3}
+  notePages:
+  - 'Hey Robin I would like to congratulate you on joining our team! First things
+    first here is your personal employee code  <b><color=#8FFF9E><code=Code Data/Apartment
+    Gardens/Research Office Codes/CreateSecurityCardCode></color></b>. '
+  - "We will use this code when we create your <b><color=#8FFF9E>security card</b></color>
+    for yard access so please write it down, the database for these codes is a real
+    pain in the ass to go through.<br>Thanks,<br>\tTian Uler, Manager."

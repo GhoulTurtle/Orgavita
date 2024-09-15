@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BandageItemDataSO
   m_EditorClassIdentifier: 
   itemName: Bandage
-  itemQuickDescription: Bandage that dresses wounds, will eventually coagulate blood
-    over time, healing a light amount.
+  itemQuickDescription: Dresses wounds, will eventually coagulate blood healing a
+    small amount over a long period of time.
   itemInspectDescription: 
   itemIcon: {fileID: 21300000, guid: 0f368b7f47e4f4c42bba4204232146ae, type: 3}
   itemInventoryModelPrefab: {fileID: 838094140992720538, guid: 1813b08786faaa9419ee807cb6de7fad,

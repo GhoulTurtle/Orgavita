@@ -13,9 +13,52 @@ MonoBehaviour:
   m_Name: ResearchOfficeTianEmailList
   m_EditorClassIdentifier: 
   EmailMessageList:
-  - Subject: Process Faster
+  - Subject: Requests
     Sender: gloria-husk
     Recipient: tian-uler
-    Body: 
+    Body: Tian we need you guys at the office to process our sample requests faster.
+      The field team finally broke through the growth on the stairs to the second
+      floor and found a whole new ecosystem, with organisms and materials not from
+      earth. <br><br>Needless to say they are super excited to get this stuff to
+      the lab. So if you can double time on the sample requests then it would make
+      my job a whoooole lot easier. <br><br>Let me know if you run into any problems.<br><br>Gloria
+      Husk, Outpost Supervisor.
+    saveNote: 0
+    noteToSave: {fileID: 0}
+  - Subject: Purchase Processed
+    Sender: security-x
+    Recipient: tian-uler
+    Body: 'Ordered From: SecurityX Corporation<br>Expected By: September 13<br>Total
+      Cost: $251.37<br>Items:<br>-  SecurityX Simple Card Printer<br>- 150 Blank
+      PVC Cards<br>- 30 Pack - Encryptable Card Strips'
+    saveNote: 0
+    noteToSave: {fileID: 0}
+  - Subject: Keycards
+    Sender: gloria-husk
+    Recipient: tian-uler
+    Body: "Tian, why aren\u2019t you picking up your radio??? Everyone's keycards
+      stopped working and we can\u2019t open the main gate. <br><br>We tried to get
+      your team's attention but they won\u2019t even look at us, what is going on???
+      <br><br>My field team is stuck inside of the complex so we need the keycards
+      fixed ASAP. <br><br>If this is some practical joke then it's not a very good
+      one!<br><br>Gloria Husk, Outpost Supervisor.\r"
+    saveNote: 0
+    noteToSave: {fileID: 0}
+  - Subject: RE:Keycards
+    Sender: gloria-husk
+    Recipient: tian-uler
+    Body: "\rYOU FUCKING BASTARD, WHY ARE YOU NOT ANSWERING MY MESSAGES.<br><br>We
+      lost contact with the field team 30 minutes ago, one of my scientists swore
+      they heard screaming from Roberts.<br><br>WE NEED TO GET INSIDE NOW. THIS IS
+      SERIOUS.<br><br>I am firing your ass AS SOON AS YOU FIX OUR DAM KEYCARDS!<br><br>Gloria
+      Husk, Outpost Supervisor."
+    saveNote: 0
+    noteToSave: {fileID: 0}
+  - Subject: RE:Keycards
+    Sender: gloria-husk
+    Recipient: tian-uler
+    Body: '<b><color="red">ERROR: MESSAGE  CORRUPTED.</color></b><br><br>I a5388/sd/f/x//x/
+      kill you /???/5/**ou better burn ?/ /?ell 88//3///3/through ///??3355 you.
+      ///**^*%$ talk 383?&&? /333**SCEMED ??<35?. >>??##^??4^&&TELL??????**%*%**%*%*<br>835<br>835<br>835<br>'
     saveNote: 0
     noteToSave: {fileID: 0}

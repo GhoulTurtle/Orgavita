@@ -10,8 +10,9 @@ public class EmailApplicationUI : ApplicationUI{
     [SerializeField] private EmailUI EmailMessageUIPrefab;
     [SerializeField] private TextMeshProUGUI recipientText;
     [SerializeField] private TextMeshProUGUI senderText;
+    [SerializeField] private TMP_InputField inputField;
+    [SerializeField] private Scrollbar scrollbar;
     [SerializeField] private TextMeshProUGUI subjectText;
-    [SerializeField] private TextMeshProUGUI bodyText;
 
     [Header("Email UI Variables")]
     [SerializeField] private float emailParentStartingSpacing = -350f;
@@ -80,7 +81,12 @@ public class EmailApplicationUI : ApplicationUI{
         UpdateText(recipientText, currentSelectedEmail.Recipient, textEffects);
         UpdateText(senderText, currentSelectedEmail.Sender, textEffects);
         UpdateText(subjectText, currentSelectedEmail.Subject, textEffects);
-        UpdateText(bodyText, currentSelectedEmail.Body, textEffects);
+
+        TextContentProfile textContentProfile = TextParser.Parse(currentSelectedEmail.Body, out List<TextEffectDefinition> textEffectsBuffer);
+        inputField.text = textContentProfile.textContent;
+        scrollbar.value = 0;
+
+        StartTextEffects(textEffectsBuffer, textContentProfile);
 
         if(currentSelectedEmail.saveNote){
             PlayerNoteHandler.Instance.AttemptAddNewNoteToDataList(currentSelectedEmail.noteToSave);
@@ -101,5 +107,10 @@ public class EmailApplicationUI : ApplicationUI{
         }
 
         textEffects.Clear();
+    }
+
+    public override void EnableApplicationUIInteractivity(){
+        base.EnableApplicationUIInteractivity();
+        inputField.interactable = false;
     }
 }

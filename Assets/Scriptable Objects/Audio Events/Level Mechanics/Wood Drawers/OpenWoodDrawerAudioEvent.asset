@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba00ede18d5e4fe47ad3809f5bad1750, type: 3}
+  m_Name: OpenWoodDrawerAudioEvent
+  m_EditorClassIdentifier: 
+  clips:
+  - {fileID: 8300000, guid: c1d30ec8b7779944cb3c91c40a84f1bb, type: 3}
+  - {fileID: 8300000, guid: c5f2b0022b0ec3b469a7376f13fb5ccb, type: 3}
+  volume:
+    minValue: 0.39968652
+    maxValue: 0.39968652
+  pitch:
+    minValue: 0.92633235
+    maxValue: 1.137931

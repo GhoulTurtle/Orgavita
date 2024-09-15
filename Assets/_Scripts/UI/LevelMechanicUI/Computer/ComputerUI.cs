@@ -49,6 +49,7 @@ public class ComputerUI : MonoBehaviour{
     private void Awake() {
         TryGetComponent(out canvasTransform);
         TryGetComponent(out graphicRaycaster);
+
         computerInteractable.OnSetupComputerApplications += SetupDesktopUI;
 
         computerInteractable.OnEnterComputerState += EnterComputerState;
@@ -88,7 +89,7 @@ public class ComputerUI : MonoBehaviour{
 
     private void SetupDesktopUI(object sender, ComputerInteractable.ComputerApplicationSetupEventArgs e){
         for (int i = 0; i < e.computerApplications.Count; i++){
-            Instantiate(desktopApplicationTemplate, desktopIconParent).SetupDesktopUI(this, e.computerApplications[i]);
+            Instantiate(desktopApplicationTemplate, desktopIconParent.transform).SetupDesktopUI(this, e.computerApplications[i]);
         }
 
         DisableComputerUIInteractivity();

@@ -335,4 +335,8 @@ public class TextBoxUI : MonoBehaviour{
         currentSpeakerUIAnimation = UIAnimator.LerpingAnimationCoroutine(speakerUIParent, speakerUIGoalPosition, speakerUIPopupAnimationDuration, !isPoppingUp);
         StartCoroutine(currentSpeakerUIAnimation);
     }
+
+    public bool IsTextBoxOpen(){
+        return textBoxParent.gameObject.activeInHierarchy;
+    }
 }

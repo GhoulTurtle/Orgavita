@@ -150,6 +150,8 @@ MonoBehaviour:
   atGoalPos: 0
   isInteractable: 1
   isStoppable: 1
+  useLocalSpace: 1
+  oneShot: 0
   OnStartToGoalEvent:
     m_PersistentCalls:
       m_Calls: []
@@ -416,6 +418,8 @@ MonoBehaviour:
   atGoalPos: 0
   isInteractable: 1
   isStoppable: 1
+  useLocalSpace: 1
+  oneShot: 0
   OnStartToGoalEvent:
     m_PersistentCalls:
       m_Calls: []

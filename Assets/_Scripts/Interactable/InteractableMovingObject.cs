@@ -33,11 +33,12 @@ public class InteractableMovingObject : MonoBehaviour, IInteractable{
     private void Awake() {
         if(useLocalSpace){
             startPos = transform.TransformPoint(transform.localPosition);
+            offsetPos = transform.TransformPoint(goalPos);
         }
         else{
             startPos = transform.position;
+            offsetPos = startPos + goalPos;
         }
-        offsetPos = transform.TransformPoint(goalPos);
 
         if(atGoalPos){
             if(useLocalSpace){

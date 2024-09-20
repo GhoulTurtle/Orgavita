@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba00ede18d5e4fe47ad3809f5bad1750, type: 3}
-  m_Name: VentInteractionAudioEvent
+  m_Name: VentKickAudioEvent
   m_EditorClassIdentifier: 
   clips:
   - {fileID: 8300000, guid: bcd23c8f30811d44bae516f9fa695710, type: 3}
   volume:
-    minValue: 0.4991135
-    maxValue: 0.4991135
+    minValue: 0.49519503
+    maxValue: 0.49519503
   pitch:
-    minValue: 1.1381365
-    maxValue: 1.2335166
+    minValue: 0.83878917
+    maxValue: 0.9341695

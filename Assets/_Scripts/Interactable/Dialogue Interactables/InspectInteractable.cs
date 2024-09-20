@@ -1,10 +1,15 @@
 using UnityEngine;
 
 public class InspectInteractable : DialogueInteractable{
-    public override string InteractionPrompt => "Inspect";
+    public override string InteractionPrompt => interactionPrompt;
     
     [Header("Inspect Variables")]
     [SerializeField] private BasicDialogueSO inspectDialogue;
+    [SerializeField] private string interactionPrompt = "Inspect";
+
+    private void OnDestroy() {
+        StopAllCoroutines();
+    }
 
     public override void StartDialogue(){
         if(inspectDialogue == null) return;

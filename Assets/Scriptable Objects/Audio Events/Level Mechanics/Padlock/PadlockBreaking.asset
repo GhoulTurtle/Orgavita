@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa5521816a7bf1841a1473184b046512, type: 3}
-  m_Name: FearPistolResourceDataSO
+  m_Script: {fileID: 11500000, guid: ba00ede18d5e4fe47ad3809f5bad1750, type: 3}
+  m_Name: PadlockBreaking
   m_EditorClassIdentifier: 
-  itemDataToHold: {fileID: 11400000, guid: 680516230306fb34db74c7418d0cb551, type: 2}
-  currentStack: 0
-  maxStack: 15
-  resetResourceStack: 1
-  defaultStack: 8
+  clips:
+  - {fileID: 8300000, guid: ea238c330c8e5fa468f373c485c8038e, type: 3}
+  volume:
+    minValue: 1
+    maxValue: 1
+  pitch:
+    minValue: 1.0595611
+    maxValue: 1.2006271

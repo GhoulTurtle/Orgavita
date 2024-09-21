@@ -177,7 +177,7 @@ public class CardPrinterApplicationUI : ApplicationUI{
                 cardPrinterStatusText.text = "Insert card to begin editing.";
                 break;
             case CardPrinterStatus.Invalid_Print_Wrong_Card:
-                cardPrinterStatusText.text = "WARNING: No secruity strip found on card.";
+                cardPrinterStatusText.text = "WARNING: No key card strip found on card.";
                 break;
         }
 
@@ -238,16 +238,16 @@ public class CardPrinterApplicationUI : ApplicationUI{
                 SetPopupButtons(false, "OK");
                 break;
             case CardPrinterPopupState.Create_Card_Error_Used_Card:
-                ErrorPopupWindowUI("ERROR C04: Card is already in use. Insert a Blank Security Card.");
+                ErrorPopupWindowUI("ERROR C04: Card is already in use. Insert a Blank Key Card.");
                 break;
             case CardPrinterPopupState.Upgrade_Card_Error_Not_Available:
                 ErrorPopupWindowUI("ERROR C03: No upgrade card module installed in connected printer. Contact your card printer manufacturer if this is incorrect.");
                 break;
             case CardPrinterPopupState.Upgrade_Card_Error_Max_Level:
-                ErrorPopupWindowUI("ERROR C02: Card detected as max security level. Contact administration if this is incorrect.");
+                ErrorPopupWindowUI("ERROR C02: Card detected as max level. Contact administration if this is incorrect.");
                 break;
             case CardPrinterPopupState.Invalid_Print_Wrong_Card:
-                ErrorPopupWindowUI("ERROR C01: No Security Strip detected on card. Attach Security Strip onto the card before attempting any operations.");
+                ErrorPopupWindowUI("ERROR C01: No Key Card Strip detected on card. Attach Key Card Strip onto the card before attempting any operations.");
                 break;
             case CardPrinterPopupState.Invalid_Print_No_Card:
                 ErrorPopupWindowUI("ERROR C00: No card detected in connected card printer. Insert card into connected printer before attempting any operations.");

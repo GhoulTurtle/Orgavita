@@ -17,7 +17,7 @@ public class ItemLevelMechanic : MonoBehaviour{
     [SerializeField] private BasicDialogueSO hintDialogue;
     [SerializeField] private BasicDialogueSO unlockedDialogue;
     [SerializeField] private string wrongItemMessage = "That item won't work.";
-    [SerializeField] private string alreadyUnlockedMessage = "It's already unlocked.";
+    [SerializeField] private string alreadyUnlockedMessage = "I can't use this here...";
     [SerializeField] private string correctItemMessage = "Used ";
 
     [Header("Events")]

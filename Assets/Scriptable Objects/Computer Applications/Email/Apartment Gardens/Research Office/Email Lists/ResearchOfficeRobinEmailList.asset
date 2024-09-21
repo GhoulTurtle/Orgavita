@@ -27,10 +27,10 @@ MonoBehaviour:
     Recipient: robin-fugle
     Body: Hey Robin I would like to congratulate you on joining our team! First things
       first here is your personal employee code <b><color=#8FFF9E><code=Code Data/Apartment
-      Gardens/Research Office Codes/CreateSecurityCardCode></color></b>. <br><br>We
-      will use this code when we create your <b><color=#8FFF9E>security card</b></color>
-      for yard access so please write it down, the database for these codes is a
-      real pain in the ass to go through.<br>Thanks,<br><br>Tian Uler, Manager.
+      Gardens/Research Office Codes/CreateKeyCardCode></color></b>. <br><br>We will
+      use this code when we create your <b><color=#8FFF9E>key card</b></color> for
+      yard access so please write it down, the database for these codes is a real
+      pain in the ass to go through.<br>Thanks,<br><br>Tian Uler, Manager.
     saveNote: 1
     noteToSave: {fileID: 11400000, guid: 17bb37e43c05c0847a01f55e34efd8d3, type: 2}
   - Subject: Growth
@@ -45,7 +45,6 @@ MonoBehaviour:
       <b><color="red">NEED</color></b> to experience this.<br>It will change you,<br>Mold
       you,<br>Enlighten you,<br>835<br>835<br>835<br><br>You should come to the office,<br>Abandon
       your daily life,<br>Your responsibilities,<br>Your tasks,<br>Your troubles,<br>Your
-      mother,<br>They don't matter anymore.<br><br><color="red">Just come to the
-      office</color>.
+      mother,<br>They don't matter anymore.<br><br>Just come to the office.
     saveNote: 0
     noteToSave: {fileID: 0}

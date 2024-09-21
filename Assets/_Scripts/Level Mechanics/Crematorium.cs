@@ -15,11 +15,14 @@ public class Crematorium : StateChangeInteractable{
 
     [Header("Crematorium Variables")]
     [SerializeField] private string interactionPrompt = "Activate";
-    [SerializeField] private float buttonCooldownTime = 0.1f;
+    [SerializeField] private float buttonCooldownTimeInSeconds = 0.1f;
+    [SerializeField] private float crematoriumDoorOpenDelayTimeInSeconds = 3f;
 
     [Header("Events")]
     public UnityEvent OnInvalidButtonPress;
     public UnityEvent OnValidButtonPress; 
+    public UnityEvent OnAllHeatValvesClosed;
+    public UnityEvent OnOpenCrematoriumDoorOpen;
 
     private bool placedButton = false;
     private bool placedCoolent = false;
@@ -28,6 +31,7 @@ public class Crematorium : StateChangeInteractable{
 
     private IEnumerator currentSliderDrainCoroutine;
     private IEnumerator currentSliderResetCoroutine;
+    private IEnumerator currentBoostedDrainCoroutine;
     private IEnumerator currentButtonCooldownCoroutine;
 
     private Slider currentSlider;
@@ -61,9 +65,19 @@ public class Crematorium : StateChangeInteractable{
     }
 
     public override void UnlockInteractable(){
-        crematoriumUI.UpdateNotificationText(placedButton, placedCoolent);
+        if(placedButton && !placedCoolent){
+            crematoriumUI.UpdateNotificationText(NotificationTextMessage.No_Coolant);
+            return;
+        }
+
+        if(placedCoolent && !placedButton){
+            crematoriumUI.UpdateNotificationText(NotificationTextMessage.No_Button);
+            return;
+        }
 
         if(!placedButton || !placedCoolent) return;
+
+        crematoriumUI.UpdateNotificationText(NotificationTextMessage.Ready);
 
         base.UnlockInteractable();
     }
@@ -81,6 +95,11 @@ public class Crematorium : StateChangeInteractable{
     }
     
     private void AcceptInput(object sender, InputEventArgs e){
+        if(currentSliderIndex == MAX_SLIDER_INDEX){
+            OnValidButtonPress?.Invoke();
+            return;
+        }
+
         if(e.inputActionPhase != InputActionPhase.Performed || currentButtonCooldownCoroutine != null) return;
 
         currentButtonCooldownCoroutine = ButtonCooldownCoroutine();
@@ -129,7 +148,20 @@ public class Crematorium : StateChangeInteractable{
         currentPressZone = GetNextPressZone(currentSlider.value);
 
         //Boost the drain rate
-        StartCoroutine(DrainRateBoostCoroutine());
+        if(currentBoostedDrainCoroutine != null){
+            StopCoroutine(currentBoostedDrainCoroutine);
+            currentBoostedDrainCoroutine = null;
+        }
+
+        currentBoostedDrainCoroutine = DrainRateBoostCoroutine();
+        StartCoroutine(currentBoostedDrainCoroutine);
+    }
+
+    private void AllHeatValvesClosed(){
+        crematoriumUI.UpdateNotificationText(NotificationTextMessage.Opening_Door);
+        OnAllHeatValvesClosed?.Invoke();
+
+        StartCoroutine(CrematoriumDoorOpenDelayCoroutine());
     }
 
     private IEnumerator DrainRateBoostCoroutine(){
@@ -138,10 +170,18 @@ public class Crematorium : StateChangeInteractable{
         currentDrainRate = crematoriumSlider.boostedDrainRate;
         yield return new WaitForSeconds(crematoriumSlider.boostedTimeInSeconds);
         currentDrainRate = crematoriumSlider.drainRate;
+
+        currentBoostedDrainCoroutine = null;
+    }
+
+    private IEnumerator CrematoriumDoorOpenDelayCoroutine(){
+        yield return new WaitForSeconds(crematoriumDoorOpenDelayTimeInSeconds);
+        OnOpenCrematoriumDoorOpen?.Invoke();
+        crematoriumUI.UpdateNotificationText(NotificationTextMessage.Finished);
     }
 
     private IEnumerator ButtonCooldownCoroutine(){
-        yield return new WaitForSeconds(buttonCooldownTime);
+        yield return new WaitForSeconds(buttonCooldownTimeInSeconds);
         currentButtonCooldownCoroutine = null;
     }
 
@@ -173,8 +213,13 @@ public class Crematorium : StateChangeInteractable{
 
         if(currentSliderIndex == MAX_SLIDER_INDEX){
             //Open the door and ignore all input
+            AllHeatValvesClosed();
         }
 
+        if(currentBoostedDrainCoroutine != null){
+            StopCoroutine(currentBoostedDrainCoroutine);
+            currentBoostedDrainCoroutine = null;
+        }
         currentSliderDrainCoroutine = null;
     }
 

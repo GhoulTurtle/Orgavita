@@ -15,6 +15,8 @@ public class CrematoriumUI : MonoBehaviour{
     [SerializeField] private string placedButtonOnlyAttentionText;
     [SerializeField] private string placedCoolentOnlyAttentionText;
     [SerializeField] private string readyAttentionText = "Crematorium cooling is ready...";
+    [SerializeField] private string openingDoorAttentionText;
+    [SerializeField] private string finishedAttentionText;
 
     [Header("Press Zones Colors")]
     [SerializeField] private Color pressZonesDefaultColor = Color.yellow;
@@ -29,53 +31,50 @@ public class CrematoriumUI : MonoBehaviour{
         for (int i = 0; i < pressZoneImages.Count; i++){
             pressZoneImages[i].color = pressZonesDefaultColor;
         }
-
-        for (int i = 0; i < sliderTitleText.Count; i++){
-            sliderTitleText[i].text = "Heat Valve #" + i + 1 + " - Active";
-        }
     
-        UpdateNotificationText(false, false);
+        UpdateSliderTitleText(0, false, false);
+        UpdateNotificationText(NotificationTextMessage.Default);
     }
 
-    public void UpdateNotificationText(bool placedButton, bool placedCoolent){
-        if(placedButton && placedCoolent){
-            notificationText.text = readyAttentionText;
-            return;
+    public void UpdateNotificationText(NotificationTextMessage notificationTextMessage){
+        switch (notificationTextMessage){
+            case NotificationTextMessage.Default: notificationText.text = defaultAttentionText;
+                break;
+            case NotificationTextMessage.No_Coolant: notificationText.text = placedButtonOnlyAttentionText;
+                break;
+            case NotificationTextMessage.No_Button: notificationText.text = placedCoolentOnlyAttentionText;
+                break;
+            case NotificationTextMessage.Ready: notificationText.text = readyAttentionText;
+                break;
+            case NotificationTextMessage.Opening_Door: notificationText.text = openingDoorAttentionText;
+                break;
+            case NotificationTextMessage.Finished: notificationText.text = finishedAttentionText;
+                break;
         }
-        
-        if(placedButton){
-            notificationText.text = placedButtonOnlyAttentionText;
-            return;
-        }
-        
-        if(placedCoolent){
-            notificationText.text = placedCoolentOnlyAttentionText;
-            return;
-        }
-    
-        notificationText.text = defaultAttentionText;
     }
 
     public void UpdateSliderTitleText(int currentIndex, bool isDraining, bool isResetting){
         for (int i = 0; i < sliderTitleText.Count; i++){
+            int sliderNumber = i + 1;
+
             if(i == currentIndex){
                 if(isDraining){
-                    sliderTitleText[i].text = "Heat Valve #" + i + 1 + " - Cooling";
+                    sliderTitleText[i].text = "Heat Valve #" + sliderNumber + " - Cooling";
                     continue;
                 }
 
                 if(isResetting){
-                    sliderTitleText[i].text = "Heat Valve #" + i + 1 + " - Heating";
+                    sliderTitleText[i].text = "Heat Valve #" + sliderNumber + " - Heating";
                     continue;
                 }
             }
 
             if(i < currentIndex){
-                sliderTitleText[i].text = "Heat Valve #" + i + 1 + " - Deactive";
+                sliderTitleText[i].text = "Heat Valve #" + sliderNumber + " - Deactive";
                 continue;
             }
 
-            sliderTitleText[i].text = "Heat Valve #" + i + 1 + " - Active";
+            sliderTitleText[i].text = "Heat Valve #" + sliderNumber + " - Active";
         }
     }
 

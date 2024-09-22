@@ -14,23 +14,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxInventorySize: 6
   inventory:
-  - heldItemData: {fileID: 11400000, guid: 98aaed525d743354b874e8450030fadd, type: 2}
+  - heldItemData: {fileID: 11400000, guid: 479b370889b273a468cb821e09ffb8db, type: 2}
     currentItemStackAmount: 1
   - heldItemData: {fileID: 11400000, guid: 680516230306fb34db74c7418d0cb551, type: 2}
-    currentItemStackAmount: 30
+    currentItemStackAmount: 11
   - heldItemData: {fileID: 0}
     currentItemStackAmount: 0
   - heldItemData: {fileID: 0}
     currentItemStackAmount: 0
   - heldItemData: {fileID: 0}
     currentItemStackAmount: 0
-  - heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
+  - heldItemData: {fileID: 11400000, guid: 14a12da1f8faeb842accb13a43506b0e, type: 2}
+    currentItemStackAmount: 1
   weaponItem:
-    heldItemData: {fileID: 0}
-    currentItemStackAmount: 0
+    heldItemData: {fileID: 11400000, guid: 98aaed525d743354b874e8450030fadd, type: 2}
+    currentItemStackAmount: 1
   toolItem:
     heldItemData: {fileID: 0}
     currentItemStackAmount: 0
-  cleanInventoryOnPlay: 0
+  cleanInventoryOnPlay: 1
   defaultMaxInventory: 6

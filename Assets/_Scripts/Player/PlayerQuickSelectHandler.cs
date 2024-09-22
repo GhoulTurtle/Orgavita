@@ -70,8 +70,7 @@ public class PlayerQuickSelectHandler : MonoBehaviour{
         Dialogue resultDialogue = new Dialogue();
 
         if(!playerInventoryHandler.GetInventory().HasItemInInventory(itemData)){
-            resultDialogue.Sentence = "No " + itemData.GetItemName() + " in inventory.";
-            resultDialogue.SentenceColor = Color.red;
+            resultDialogue.sentence = "<color=\"red\">No " + itemData.GetItemName() + " in inventory.</color>";
             PopupUI.Instance.PrintText(resultDialogue, popupPrintSpeed, true, popupWaitTime, popupFadeTime);
             return;
         }
@@ -80,7 +79,7 @@ public class PlayerQuickSelectHandler : MonoBehaviour{
 
         switch (itemData.GetItemType()){
             case ItemType.Key_Item or ItemType.Consumable: 
-                itemData.UseItem(inventoryItem, playerInventoryHandler, out resultDialogue.Sentence);
+                itemData.UseItem(inventoryItem, playerInventoryHandler, out resultDialogue.sentence);
                 quickSelectInputCooldownCoroutine = QuickSelectInputCooldownCoroutine();
                 StartCoroutine(quickSelectInputCooldownCoroutine);
                 break;
@@ -88,11 +87,11 @@ public class PlayerQuickSelectHandler : MonoBehaviour{
                 //See if the item is active
                 if(playerEquippedItemHandler.IsWeaponItemEquipped(itemData)){
                     if(playerEquippedItemHandler.IsCurrentWeaponActive()){
-                        resultDialogue.Sentence = itemData.GetItemName() + " is equipped.";
+                        resultDialogue.sentence = itemData.GetItemName() + " is equipped.";
                     }
                     else{
                         playerEquippedItemHandler.UnholsterActiveWeapon();
-                        resultDialogue.Sentence =  "Unholstered " + itemData.GetItemName();
+                        resultDialogue.sentence =  "Unholstered " + itemData.GetItemName();
                         quickSelectInputCooldownCoroutine = QuickSelectInputCooldownCoroutine();
                         StartCoroutine(quickSelectInputCooldownCoroutine);
                     }
@@ -103,15 +102,14 @@ public class PlayerQuickSelectHandler : MonoBehaviour{
                         GunWeaponEquippedItemBehaviour currentWeapon = (GunWeaponEquippedItemBehaviour)playerEquippedItemHandler.GetCurrentWeaponItemBehaviour();
 
                         if(!currentWeapon.CanSwitchFromWeapon()){
-                            resultDialogue.Sentence = "Can't switch right now";
-                            resultDialogue.SentenceColor = Color.red;
+                            resultDialogue.sentence = "<color=\"red\">Can't switch right now</color>";
                             PopupUI.Instance.PrintText(resultDialogue, popupPrintSpeed, true, popupWaitTime, popupFadeTime);
                             return;
                         }
                     }
 
                     playerInventoryHandler.GetInventory().EquipWeaponItem(inventoryItem);
-                    resultDialogue.Sentence = "Equipped " + itemData.GetItemName();
+                    resultDialogue.sentence = "Equipped " + itemData.GetItemName();
                     quickSelectInputCooldownCoroutine = QuickSelectInputCooldownCoroutine();
                     StartCoroutine(quickSelectInputCooldownCoroutine);
                 }
@@ -120,18 +118,18 @@ public class PlayerQuickSelectHandler : MonoBehaviour{
                 //See if the item is active
                 if(playerEquippedItemHandler.IsToolItemEquipped(itemData)){
                     if(playerEquippedItemHandler.IsCurrentToolActive()){
-                        resultDialogue.Sentence = itemData.GetItemName() + " is equipped.";
+                        resultDialogue.sentence = itemData.GetItemName() + " is equipped.";
                     }
                     else{
                         playerEquippedItemHandler.UnholsterActiveTool();
-                        resultDialogue.Sentence =  "Unholstered " + itemData.GetItemName();
+                        resultDialogue.sentence =  "Unholstered " + itemData.GetItemName();
                         quickSelectInputCooldownCoroutine = QuickSelectInputCooldownCoroutine();
                         StartCoroutine(quickSelectInputCooldownCoroutine);
                     }
                 }
                 else{
                     playerInventoryHandler.GetInventory().EquipToolItem(inventoryItem);
-                    resultDialogue.Sentence = "Equipped " + itemData.GetItemName();
+                    resultDialogue.sentence = "Equipped " + itemData.GetItemName();
                     quickSelectInputCooldownCoroutine = QuickSelectInputCooldownCoroutine();
                     StartCoroutine(quickSelectInputCooldownCoroutine);
                 }
@@ -143,7 +141,6 @@ public class PlayerQuickSelectHandler : MonoBehaviour{
             quickSelectDataSO.RemoveItemData(itemData);
         }
 
-        resultDialogue.SentenceColor = Color.white;
         PopupUI.Instance.PrintText(resultDialogue, popupPrintSpeed, true, popupWaitTime, popupFadeTime);
     }
 

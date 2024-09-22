@@ -4,7 +4,7 @@ public class InspectInteractable : DialogueInteractable{
     public override string InteractionPrompt => interactionPrompt;
     
     [Header("Inspect Variables")]
-    [SerializeField] private BasicDialogueSO inspectDialogue;
+    [SerializeField] private DialogueSO inspectDialogue;
     [SerializeField] private string interactionPrompt = "Inspect";
 
     private void OnDestroy() {
@@ -31,7 +31,7 @@ public class InspectInteractable : DialogueInteractable{
         base.CancelDialogue(sender, e);
     }
 
-    public void SetInspectDialogue(BasicDialogueSO dialogueSO){
+    public void SetInspectDialogue(DialogueSO dialogueSO){
         if(inspectDialogue == dialogueSO) return;
 
         inspectDialogue = dialogueSO;

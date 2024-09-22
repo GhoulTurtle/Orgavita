@@ -43,17 +43,13 @@ public class TextBoxUI : MonoBehaviour{
     private const float openXScale = 1f;
 
     private Dialogue[] currentDialogue;
+    private List<IEnumerator> currentTextAnimations = new List<IEnumerator>();
     private int currentDialogueIndex = 0;
     private IEnumerator currentTextPrint = null;
 
-    private Dialogue currentQuestion;
-    private List<TextBoxAnswerButtonUI> currentAnswerButtonUI = new List<TextBoxAnswerButtonUI>();
-
+    private SpeakerSO currentSpeakerSO;
     private DialogueSO currentDialogueSO;
-    private int currentConversationIndex = 0;
     private IEnumerator currentSpeakerTextPrint = null;
-
-    private ConversationDialogueSO currentConversationSO;
 
     private IEnumerator currentTextboxAnimation;
     private IEnumerator currentIndicatorAnimation;
@@ -93,81 +89,15 @@ public class TextBoxUI : MonoBehaviour{
         ShowTextBox(true);
     
         currentDialogueSO = dialogueSO;
-
-        SetupDialogue();
-    }
-
-    private void SetupDialogue(){
-        switch (currentDialogueSO){
-            case BasicDialogueSO basicDialogueSO: 
-            currentDialogue = basicDialogueSO.DialogueSentences;
-            PrintNextLine();
-            break;
-            case ChoiceDialogueSO choiceDialogue:
-            currentQuestion = choiceDialogue.Question;
-            SetupChoices(choiceDialogue.Choices);
-            PrintQuestion();
-            break;
-            case ConversationDialogueSO conversationDialogueSO:
-            currentConversationSO = conversationDialogueSO;
-            ShowSpeakerUI(true);
-            ProceedConversation();
-            break;
-            default:
-            StopDialogue();
-            break;
-        }
-    }
-
-    private void ProceedConversation(){
-        if(currentDialogue == null || currentDialogue.Length <= currentDialogueIndex){
-            if(currentConversationSO.Conversation.Length <= currentConversationIndex){
-                //End the conversation
-                OnCurrentDialogueFinished?.Invoke(this, EventArgs.Empty);
-                StopDialogue();
-                return;
-            }
-
-            //Grab the next conversation dialogue set
-            currentDialogue = currentConversationSO.Conversation[currentConversationIndex].SpeakerDialogue;
-            //Update the speaker text
-            UpdateSpeakerText();
-
-            //Increase the conversation index
-            currentConversationIndex++;
-
-            //Reset the dialogue index for the new speaker dialogue
-            currentDialogueIndex = 0;
-        }
-
+        currentDialogue = currentDialogueSO.dialogueSentences;
         PrintNextLine();
-    }
-
-    private void UpdateSpeakerText(){
-        if(currentSpeakerTextPrint != null){
-            SpeakerTextFinishedPrinting();
-        }
-
-        speakerText.color = currentConversationSO.Conversation[currentConversationIndex].SpeakerName.SentenceColor;
-        currentSpeakerTextPrint = TextPrinter.PrintSentence(currentConversationSO.Conversation[currentConversationIndex].SpeakerName.Sentence, speakerText, SpeakerTextFinishedPrinting);
-        StartCoroutine(currentSpeakerTextPrint);
     }
 
     public void AttemptPrintNextLine(){
         if(currentTextPrint != null){
             SentenceFinishedPrinting();
-
-            if(currentQuestion != null){
-                questionText.text = currentQuestion.Sentence;
-                return;
-            }
             
-            textBoxText.text = currentDialogue[currentDialogueIndex-1].Sentence;
-            return;
-        }
-
-        if(currentQuestion != null){
-            ShowChoices();
+            textBoxText.text = currentDialogue[currentDialogueIndex-1].sentence;
             return;
         }
        
@@ -175,87 +105,79 @@ public class TextBoxUI : MonoBehaviour{
     }
 
     public void StopDialogue(){
-        if(currentConversationSO != null){
-            ShowSpeakerUI(false);
-        }
-
-        if(currentTextPrint != null){
+        if (currentTextPrint != null){
             StopCoroutine(currentTextPrint);
             currentTextPrint = null;
         }
 
-        if(currentQuestion != null){
-            RemoveAnswerButtonUI();
-            HideChoices();
-        }
+        StopCurrentTextEffects();
 
         ShowTextBox(false);
+        ShowSpeakerUI(false);
 
         speakerText.text = "";
         questionText.text = "";
         textBoxText.text = "";
 
-        currentConversationSO = null;
-        currentQuestion = null;
+        currentSpeakerSO = null;
         currentDialogue = null;
         currentDialogueSO = null;
         currentDialogueIndex = 0;
-        currentConversationIndex = 0;
     }
 
-    private void RemoveAnswerButtonUI(){
-        for (int i = 0; i < currentAnswerButtonUI.Count; i++){
-            Destroy(currentAnswerButtonUI[i].gameObject);
+    private void StopCurrentTextEffects(){
+        if (currentTextAnimations.Count > 0){
+            for (int i = 0; i < currentTextAnimations.Count; i++){
+                StopCoroutine(currentTextAnimations[i]);
+            }
+
+            currentTextAnimations.Clear();
         }
-
-        currentAnswerButtonUI.Clear();
-    }
-
-    private void PrintQuestion(){
-        HideTextBoxIndicator();
-
-        currentTextPrint = TextPrinter.PrintSentence(currentQuestion.Sentence, questionText, SentenceFinishedPrinting);
-        StartCoroutine(currentTextPrint);
-
-        questionText.color = currentQuestion.SentenceColor;
-    }
-
-    private void SetupChoices(ChoiceDialogue[] choices){
-        HideChoices();
-
-        for (int i = 0; i < choices.Length; i++){
-            var answerButton = Instantiate(answerButtonUIPrefab, answerButtonParent);
-            answerButton.SetupAnswerButton(choices[i]);
-            currentAnswerButtonUI.Add(answerButton);
-        }
-    }
-
-    private void ShowChoices(){
-        answerButtonParent.gameObject.SetActive(true);
-    }
-
-    private void HideChoices(){
-        answerButtonParent.gameObject.SetActive(false);
     }
 
     private void PrintNextLine(){
         HideTextBoxIndicator();
-        
-        if(currentDialogue.Length <= currentDialogueIndex && currentConversationSO == null){
+
+        //Stop the current animations if any
+        StopCurrentTextEffects();
+
+        if(currentDialogue.Length <= currentDialogueIndex){
             OnCurrentDialogueFinished?.Invoke(this, EventArgs.Empty);
             StopDialogue();
             return;
         }
 
-        if(currentConversationSO != null && currentDialogue.Length <= currentDialogueIndex){
-            ProceedConversation();
-            return;
+        //if the current dialogue has a speaker then show the speaker
+        if(currentDialogue[currentDialogueIndex].HasSpeaker()){            
+            if(!IsSpeakerBoxOpen()){
+                ShowSpeakerUI(true);
+            }
+
+            if(currentSpeakerSO != currentDialogue[currentDialogueIndex].speakerSO){
+                currentSpeakerSO = currentDialogue[currentDialogueIndex].speakerSO;
+                
+                speakerText.color = currentSpeakerSO.speakerColor;
+
+                if(currentSpeakerTextPrint != null){
+                    StopCoroutine(currentSpeakerTextPrint);
+                    currentSpeakerTextPrint = null;
+                }
+                
+                //Print the speaker name
+                currentSpeakerTextPrint = TextPrinter.PrintSentence(currentSpeakerSO.speakerName, speakerText, SpeakerTextFinishedPrinting);
+                StartCoroutine(currentSpeakerTextPrint);
+            }
+        }
+        else if(IsSpeakerBoxOpen()){
+            ShowSpeakerUI(false);
         }
 
-        currentTextPrint = TextPrinter.PrintSentence(currentDialogue[currentDialogueIndex].Sentence, textBoxText, SentenceFinishedPrinting);
+        TextContentProfile parsedText = TextParser.Parse(currentDialogue[currentDialogueIndex].sentence);
+        //Animate the text
+        UIAnimator.StartTextAnimations(this, textBoxText, parsedText, out currentTextAnimations);
+
+        currentTextPrint = TextPrinter.PrintSentence(parsedText.textContent, textBoxText, SentenceFinishedPrinting);
         StartCoroutine(currentTextPrint);
-        
-        textBoxText.color = currentDialogue[currentDialogueIndex].SentenceColor;
         
         currentDialogueIndex++;
     }
@@ -264,12 +186,7 @@ public class TextBoxUI : MonoBehaviour{
         StopCoroutine(currentTextPrint);
         currentTextPrint = null;
 
-        if(currentQuestion == null){
-            ShowTextBoxIndicator();
-        }
-        else{
-            ShowChoices();
-        }
+        ShowTextBoxIndicator();
     }
 
     private void SpeakerTextFinishedPrinting(){
@@ -338,5 +255,9 @@ public class TextBoxUI : MonoBehaviour{
 
     public bool IsTextBoxOpen(){
         return textBoxParent.gameObject.activeInHierarchy;
+    }
+
+    private bool IsSpeakerBoxOpen(){
+        return speakerUIParent.gameObject.activeInHierarchy;
     }
 }

@@ -78,8 +78,7 @@ public class ContextMenuUI : MonoBehaviour{
     public void DestroyConfirmationText(){
         DescriptionFinishedPrinting();
 
-        selectedItemDescriptionText.text = destroyConfirmationText.Sentence;
-        selectedItemDescriptionText.color = destroyConfirmationText.SentenceColor;
+        selectedItemDescriptionText.text = destroyConfirmationText.sentence;
     }
 
     public void ShowUseResultText(string resultText){
@@ -162,7 +161,6 @@ public class ContextMenuUI : MonoBehaviour{
         DescriptionFinishedPrinting();
 
         selectedItemDescriptionText.text = "Combine " + inventoryUI.GetSelectedItemData().GetItemName() + " with...";
-        selectedItemDescriptionText.color = Color.white;
     }
 
     private void ShowMoveUI(){
@@ -172,7 +170,6 @@ public class ContextMenuUI : MonoBehaviour{
         DescriptionFinishedPrinting();
 
         selectedItemDescriptionText.text = "Move " + inventoryUI.GetSelectedItemData().GetItemName() + " to...";
-        selectedItemDescriptionText.color = Color.white;
     }
 
     private void ShowAssignUI(){
@@ -182,17 +179,14 @@ public class ContextMenuUI : MonoBehaviour{
         DescriptionFinishedPrinting();
     
         selectedItemDescriptionText.text = "Assign " + inventoryUI.GetSelectedItemData().GetItemName() + " to...";
-        selectedItemDescriptionText.color = Color.white;
     }
 
     private void ShowCombineResult(object sender, InventoryUI.SlotCombinedEventArgs e){
         selectedItemDescriptionText.text = e.comboResultText;
-        selectedItemDescriptionText.color = Color.white;
     }
 
     private void UpdateSelectedItemUI(){
         selectedItemNameText.text = inventoryUI.GetSelectedItemData().GetItemName();
-        selectedItemDescriptionText.color = Color.white;
         selectedItemDescriptionText.text = inventoryUI.GetSelectedItemData().GetItemQuickDescription();
     }
 
@@ -293,7 +287,6 @@ public class ContextMenuUI : MonoBehaviour{
             return;
         }
 
-        selectedItemDescriptionText.color = Color.white;
         currentDescriptionPrint = TextPrinter.PrintSentence(selectedItemData.GetItemQuickDescription(), selectedItemDescriptionText, DescriptionFinishedPrinting);
         StartCoroutine(currentDescriptionPrint);
     }
@@ -305,7 +298,6 @@ public class ContextMenuUI : MonoBehaviour{
             return;
         }
 
-        selectedItemDescriptionText.color = Color.white;
         currentDescriptionPrint = TextPrinter.PrintSentence(selectedItemData.GetItemInspectDescription(), selectedItemDescriptionText, DescriptionFinishedPrinting);
         StartCoroutine(currentDescriptionPrint);
     }

@@ -2,7 +2,11 @@ using UnityEngine;
 
 [System.Serializable]
 public class Dialogue{
-    public string Sentence = "";
-    public Color SentenceColor = Color.white;
-    public TextEffect SentenceDialogueEffect = TextEffect.None;
+    public SpeakerSO speakerSO;
+    public bool hasDialogueEvent;
+    [TextArea] public string sentence = "";
+
+    public bool HasSpeaker(){
+        return speakerSO != null && speakerSO.speakerName != "";
+    }
 }

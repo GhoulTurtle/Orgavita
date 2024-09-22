@@ -7,4 +7,5 @@ public static class ColorHelper{
     public static Color goldenYellow = new Color(1.0f, 0.84f, 0.0f);
     public static Color lightCyan = new Color(0.88f, 1.0f, 1.0f);
     public static Color mintGreen = new Color(0.5613f, 1f, 0.6183f, 1f);
+    public static string mintGreenHash = "#8FFF9E";
 }

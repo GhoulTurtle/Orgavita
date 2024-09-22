@@ -55,8 +55,7 @@ public class ItemPickup : MonoBehaviour{
             //Full inventory
             if(PopupUI.Instance != null && displayPopup){
                 Dialogue pickupDialogue = new Dialogue{
-                    Sentence = "Inventory full.",
-                    SentenceColor = Color.red
+                    sentence = "<color=\"red\">Inventory full.</color>",
                 };
 
                 PopupUI.Instance.PrintText(pickupDialogue, popupPrintSpeed, true, popupWaitTime, popupFadeTime);
@@ -72,8 +71,7 @@ public class ItemPickup : MonoBehaviour{
             if(PopupUI.Instance != null && displayPopup){
                 int itemsPickedUp = itemPickupStackAmount - itemRemainder;
                 Dialogue pickupDialogue = new Dialogue{
-                    Sentence = itemPickupStackAmount != 1 ? "Picked up " + itemToPickup.GetItemName() + " X" + itemsPickedUp : "Picked up " + itemToPickup.GetItemName(),
-                    SentenceColor = Color.white
+                    sentence = itemPickupStackAmount != 1 ? "Picked up " + itemToPickup.GetItemName() + " X" + itemsPickedUp : "Picked up " + itemToPickup.GetItemName(),
                 };
 
                 PopupUI.Instance.PrintText(pickupDialogue, popupPrintSpeed, true, popupWaitTime, popupFadeTime);

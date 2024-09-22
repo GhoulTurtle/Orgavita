@@ -77,8 +77,7 @@ public class PlayerNoteHandler : MonoBehaviour{
 
             if (noteSO != null){
                 Dialogue noteAddedDialogue = new(){
-                    SentenceColor = ColorHelper.mintGreen,
-                    Sentence = playerNoteDataList.IsFirstNote() ? "Note has been added to the note tab in the inventory." : "Note has been saved to the note tab.",
+                    sentence = playerNoteDataList.IsFirstNote() ? $"<color={ColorHelper.mintGreenHash}>Note has been added to the note tab in the inventory.</color>" : $"<color={ColorHelper.mintGreenHash}>Note has been saved to the note tab.</color>",
                 };
                 PopupUI.Instance.PrintText(noteAddedDialogue, popupPrintSpeed, true, popupWaitTime, popupFadeTime);
             }

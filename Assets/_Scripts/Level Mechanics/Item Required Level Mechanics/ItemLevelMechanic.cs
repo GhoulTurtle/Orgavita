@@ -14,8 +14,8 @@ public class ItemLevelMechanic : MonoBehaviour{
     [SerializeField] private bool isOneShot = false;
 
     [Header("Dialogue Variables")]
-    [SerializeField] private BasicDialogueSO hintDialogue;
-    [SerializeField] private BasicDialogueSO unlockedDialogue;
+    [SerializeField] private DialogueSO hintDialogue;
+    [SerializeField] private DialogueSO unlockedDialogue;
     [SerializeField] private string wrongItemMessage = "That item won't work.";
     [SerializeField] private string alreadyUnlockedMessage = "I can't use this here...";
     [SerializeField] private string correctItemMessage = "Used ";

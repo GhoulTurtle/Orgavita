@@ -72,8 +72,7 @@ public class GunWeaponEquippedItemBehaviour : EquippedItemBehaviour{
 
         if(!CanSwitchFromWeapon()){
             Dialogue canNotSwitchDialogue = new(){
-                Sentence = "Can't holster right now.",
-                SentenceColor = Color.red
+                sentence = "<color\"red\">Can't holster right now.</color>",
             };
             PopupUI.Instance.PrintText(canNotSwitchDialogue, popupPrintSpeed, true, popupWaitTime, popupFadeTime);
             return;

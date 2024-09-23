@@ -1,14 +1,17 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
     public abstract string InteractionPrompt {get;}
+    [Header("Interactatable Variables")]
     [SerializeField] protected bool isCancelable = true;
     [SerializeField] protected bool waitBeforePrinting;
     [SerializeField] protected float waitTimeBeforePrintingInSeconds;
+    protected List<DialogueEventHandler> dialogueEventHandlers;
 
     [Header("Inspect Events")]
     public UnityEvent OnDialogueStart;
@@ -38,6 +41,14 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
 
         if(playerEquippedItemHandler == null){
             player.TryGetComponent(out playerEquippedItemHandler);
+        }
+
+        if(dialogueEventHandlers == null && TryGetComponent(out DialogueEventHandler dialogueEvent)){
+            dialogueEventHandlers = new List<DialogueEventHandler>();
+
+            foreach (DialogueEventHandler dialogueEventHandler in GetComponents<DialogueEventHandler>()){
+                dialogueEventHandlers.Add(dialogueEventHandler);
+            }
         }
 
         if(playerEquippedItemHandler != null){
@@ -80,8 +91,6 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
     }
 
     public virtual void EndDialogue(){
-        textBoxUI.StopDialogue();
-
         GameManager.UpdateGameState(GameState.Game);
 
         if(playerInputHandler != null){
@@ -100,27 +109,18 @@ public abstract class DialogueInteractable : MonoBehaviour, IInteractable{
 
     public virtual void ContinueDialogue(object sender, InputEventArgs e){
         if(e.inputActionPhase != InputActionPhase.Performed || !textBoxUI.IsTextBoxOpen()) return;
+        if(textBoxUI.ShowingResponses()){
+            
+            return;
+        }
 
         textBoxUI.AttemptPrintNextLine();
     }
 
     public virtual void CancelDialogue(object sender, InputEventArgs e){
         if(e.inputActionPhase != InputActionPhase.Performed || !isCancelable) return;
-        
+
         textBoxUI.StopDialogue();
-
-        GameManager.UpdateGameState(GameState.Game);
-
-        if(playerInputHandler != null){
-            playerInputHandler.OnCancelInput -= CancelDialogue;
-            playerInputHandler.OnAcceptInput -= ContinueDialogue;
-        }
-
-        if(playerEquippedItemHandler != null){
-            playerEquippedItemHandler.AttemptUnholsterPreviousActiveItem();
-        }
-
-        textBoxUI.OnCurrentDialogueFinished -= (sender, e) => EndDialogue();
     }
 
     public virtual void TriggerDialogueFromGameEvent(PlayerInteract player){

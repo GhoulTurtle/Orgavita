@@ -3,8 +3,12 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Resource Data/Flashlight Resource Data", fileName = "FlashlightResourceDataSO")]
 public class FlashlightResourceDataSO : ResourceDataSO{
+    [Range(0.01f, 1f)]
+    [SerializeField] private float defaultBatteryPercent = 0.5f;
+
     [Header("Flashlight Resource Variables")]
-    [SerializeField, Range(0.1f, 600)] private float maxBatteryTimeInSeconds;
+    [SerializeField, Range(0.1f, 1000)] private float maxBatteryTimeInSeconds;
+
 
     private float currentBatteryTimeInSeconds = 0;
 
@@ -36,7 +40,7 @@ public class FlashlightResourceDataSO : ResourceDataSO{
 
     public override void ResetResourceData(){
         base.ResetResourceData();
-        currentBatteryTimeInSeconds = currentStack == 0 ? 0f : maxBatteryTimeInSeconds;
+        currentBatteryTimeInSeconds = currentStack == 0 ? 0f : maxBatteryTimeInSeconds * defaultBatteryPercent;
     }
 
     public override bool IsFull(){

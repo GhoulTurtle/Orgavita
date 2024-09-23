@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d50e2f41bc81f458227038ef406b6a, type: 3}
+  m_Name: Crystal_Intro_Path_01
+  m_EditorClassIdentifier: 
+  dialogueSentences:
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"How about the <b>Decontamination Room</b> itself? Do I need something
+      to get in?"'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Uhh... oh you will need the <b>Decon Key</b>. Gloria enabled the
+      alarm for the <b>Decontamination Room</b>, before she padlocked everything."'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"She carried that key on her at all times."'
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Where would I find Gloria?"'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"I''m not too sure... <b>the decided</b> got through the defenses
+      she set up. I hid, so I don''t know what happened to her."'
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"What a real hero you are."'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '". . ."'
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Sorry."'
+  responses:
+  - responseText: How would I break the <b>padlocks?</b>
+    dialogueSO: {fileID: 11400000, guid: 66eaa7b75970a72489c36d992c5cbfef, type: 2}
+  - responseText: Thanks for the help. <b>[EXIT]</b>
+    dialogueSO: {fileID: 11400000, guid: 79ff4c38019a4e54387c661056aab4f5, type: 2}

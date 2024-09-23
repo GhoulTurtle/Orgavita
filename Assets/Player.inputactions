@@ -683,17 +683,6 @@
                 },
                 {
                     "name": "",
-                    "id": "eb9c89c8-16bc-41c1-befe-1013b007be01",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Accept",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "adcc24dd-fafd-417a-b6c3-64745a1b8f4f",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
@@ -707,6 +696,17 @@
                     "name": "",
                     "id": "9fa36cd2-53c8-4dab-877a-77d749135e15",
                     "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Accept",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "76f9a737-0c13-449a-bae9-bd7892547c81",
+                    "path": "<Keyboard>/e",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

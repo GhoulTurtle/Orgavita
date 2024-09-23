@@ -4,4 +4,5 @@ using UnityEngine;
 public class SpeakerSO : ScriptableObject{
     public string speakerName;
     public Color speakerColor = Color.white;
+    public AudioEvent speakerVoice;
 }

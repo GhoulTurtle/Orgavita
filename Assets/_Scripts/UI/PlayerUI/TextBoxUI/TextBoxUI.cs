@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 /// <summary>
 /// NOTE: Needs to be refactored, and split up. This does alot.
@@ -12,19 +14,18 @@ public class TextBoxUI : MonoBehaviour{
 
     public TextMeshProUGUI TextBoxText => textBoxText;
 
+    [Header("Required References")]
+    [SerializeField] private ResponseUI responseUI;
+
     [Header("UI References")]
     [SerializeField] private Transform textBoxParent;
     [SerializeField] private TextMeshProUGUI textBoxText;
     [SerializeField] private Transform textBoxContinueIndicator;
 
-    [Header("Question UI References")]
-    [SerializeField] private TextMeshProUGUI questionText;
-    [SerializeField] private Transform answerButtonParent;
-    [SerializeField] private TextBoxAnswerButtonUI answerButtonUIPrefab;
-
     [Header("Speaker UI References")]
     [SerializeField] private Transform speakerUIParent;
     [SerializeField] private TextMeshProUGUI speakerText;
+    [SerializeField] private Image speakerBoxBorder;
 
     [Header("Text Box Animation Variables")]
     [SerializeField] private float animationDuration = 0.15f;
@@ -49,6 +50,7 @@ public class TextBoxUI : MonoBehaviour{
 
     private SpeakerSO currentSpeakerSO;
     private DialogueSO currentDialogueSO;
+    private List<DialogueEventHandler> currentDialogueEventHandlers;
     private IEnumerator currentSpeakerTextPrint = null;
 
     private IEnumerator currentTextboxAnimation;
@@ -77,19 +79,38 @@ public class TextBoxUI : MonoBehaviour{
         }
 
         textBoxParent.gameObject.SetActive(false);
+        speakerUIParent.gameObject.SetActive(false);
     }
 
     private void OnDestroy() {
         StopAllCoroutines();
     }
 
+    public void SetDialogueEventHandlers(List<DialogueEventHandler> dialogueEventHandlers){
+        currentDialogueEventHandlers = dialogueEventHandlers;
+    }
+
     public void StartDialogue(DialogueSO dialogueSO){
-        if(currentDialogueSO != null || dialogueSO == null) return;
-        
-        ShowTextBox(true);
-    
+        if(dialogueSO == null) return;
         currentDialogueSO = dialogueSO;
         currentDialogue = currentDialogueSO.dialogueSentences;
+        currentDialogueIndex = 0;
+
+        if(!IsTextBoxOpen()){
+            ShowTextBox(true);
+        }
+
+        //Get the current dialogue handler
+        if(currentDialogueEventHandlers != null){
+            DialogueEventHandler dialogueEventHandler = GetCurrentDialogueEventHandler();
+            if(dialogueEventHandler != null){
+                responseUI.AddDialogueEvents(dialogueEventHandler.ResponseEvents);
+            }
+            else{
+                responseUI.ClearDialogueEvents();
+            }
+        }   
+
         PrintNextLine();
     }
 
@@ -105,6 +126,8 @@ public class TextBoxUI : MonoBehaviour{
     }
 
     public void StopDialogue(){
+        OnCurrentDialogueFinished?.Invoke(this, EventArgs.Empty);
+
         if (currentTextPrint != null){
             StopCoroutine(currentTextPrint);
             currentTextPrint = null;
@@ -116,7 +139,6 @@ public class TextBoxUI : MonoBehaviour{
         ShowSpeakerUI(false);
 
         speakerText.text = "";
-        questionText.text = "";
         textBoxText.text = "";
 
         currentSpeakerSO = null;
@@ -142,8 +164,16 @@ public class TextBoxUI : MonoBehaviour{
         StopCurrentTextEffects();
 
         if(currentDialogue.Length <= currentDialogueIndex){
-            OnCurrentDialogueFinished?.Invoke(this, EventArgs.Empty);
-            StopDialogue();
+            if(currentDialogueSO.HasResponses){
+                if(IsSpeakerBoxOpen()){
+                    ShowSpeakerUI(false);
+                }
+                
+                responseUI.ShowResponses(currentDialogueSO.responses);
+            }
+            else{
+                StopDialogue();
+            }
             return;
         }
 
@@ -157,6 +187,7 @@ public class TextBoxUI : MonoBehaviour{
                 currentSpeakerSO = currentDialogue[currentDialogueIndex].speakerSO;
                 
                 speakerText.color = currentSpeakerSO.speakerColor;
+                speakerBoxBorder.color = currentSpeakerSO.speakerColor;
 
                 if(currentSpeakerTextPrint != null){
                     StopCoroutine(currentSpeakerTextPrint);
@@ -179,8 +210,33 @@ public class TextBoxUI : MonoBehaviour{
         currentTextPrint = TextPrinter.PrintSentence(parsedText.textContent, textBoxText, SentenceFinishedPrinting);
         StartCoroutine(currentTextPrint);
         
+        //See if the current dialogue has a event to trigger
+        if(currentDialogue[currentDialogueIndex].hasDialogueEvent && currentDialogueEventHandlers != null){
+            DialogueEventHandler dialogueEventHandler = GetCurrentDialogueEventHandler();
+
+            if(dialogueEventHandler != null){
+                 if(dialogueEventHandler.IsDialogueValid(currentDialogueSO)){
+                    int dialogueEventIndex = currentDialogueSO.GetDialogueEventIndex(currentDialogue[currentDialogueIndex]);
+
+                    if(dialogueEventIndex != -1){
+                        dialogueEventHandler.DialogueEvents[dialogueEventIndex].OnEventTriggered?.Invoke();
+                    }
+                }   
+            }
+        }
+
         currentDialogueIndex++;
     }
+
+    private DialogueEventHandler GetCurrentDialogueEventHandler(){
+        for (int i = 0; i < currentDialogueEventHandlers.Count; i++){
+            if(currentDialogueEventHandlers[i].IsDialogueValid(currentDialogueSO)){
+                return currentDialogueEventHandlers[i];
+            }
+        }
+
+        return null;
+    } 
 
     private void SentenceFinishedPrinting(){
         StopCoroutine(currentTextPrint);
@@ -257,7 +313,12 @@ public class TextBoxUI : MonoBehaviour{
         return textBoxParent.gameObject.activeInHierarchy;
     }
 
+    public bool ShowingResponses(){
+        return responseUI.ShowingResponses();
+    }
+
     private bool IsSpeakerBoxOpen(){
         return speakerUIParent.gameObject.activeInHierarchy;
     }
+
 }

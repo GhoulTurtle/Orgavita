@@ -54804,7 +54804,7 @@ MonoBehaviour:
     meshQuery:
       layers: 33554440
       maskAndChannels: 8
-    surfaceParameter: 27988
+    surfaceParameter: 27990
     meshQueryIndex: 1
     subMeshQueryIndex: 0
     geometryHashValue: 3849162186830383816
@@ -66197,7 +66197,7 @@ MonoBehaviour:
     meshQuery:
       layers: 16777223
       maskAndChannels: 234881031
-    surfaceParameter: 28040
+    surfaceParameter: 28042
     meshQueryIndex: 6
     subMeshQueryIndex: 0
     geometryHashValue: 6936761565402320754
@@ -74069,7 +74069,7 @@ MonoBehaviour:
     meshQuery:
       layers: 33554440
       maskAndChannels: 8
-    surfaceParameter: 27988
+    surfaceParameter: 27990
     meshQueryIndex: 1
     subMeshQueryIndex: 0
     geometryHashValue: 3849162186830383816
@@ -84949,7 +84949,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6815560, guid: 8048c32c7fffbe144a01bdb27d58e96e, type: 3}
       propertyPath: OnUnlockEvent.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: BasicDialogueSO, Assembly-CSharp
+      value: DialogueSO, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2890289026228804746, guid: 8048c32c7fffbe144a01bdb27d58e96e,
         type: 3}

@@ -16,6 +16,7 @@ public class InspectInteractable : DialogueInteractable{
 
         base.StartDialogue();
 
+        textBoxUI.SetDialogueEventHandlers(dialogueEventHandlers);
         textBoxUI.StartDialogue(inspectDialogue);
     }
 

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ba00ede18d5e4fe47ad3809f5bad1750, type: 3}
-  m_Name: TextBoxPrintingAudioEvent
+  m_Name: CrystalSpeakingAudioEvent
   m_EditorClassIdentifier: 
   clips:
   - {fileID: 8300000, guid: bd55f3f3b15655f4aabd328dfc33e778, type: 3}

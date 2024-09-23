@@ -4759,12 +4759,6 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7675127232587117695, guid: 80a0578531470ab4498ceedf1d7a27bc,
-        type: 3}
-      propertyPath: destroyConfirmationText.sentence
-      value: '<b>Confirm to destroy this item stack to clear inventory slot.<br><color="red">Warning:
-        This cannot be undone.</color></b>'
-      objectReference: {fileID: 0}
     - target: {fileID: 7793910636250331526, guid: 80a0578531470ab4498ceedf1d7a27bc,
         type: 3}
       propertyPath: m_Name

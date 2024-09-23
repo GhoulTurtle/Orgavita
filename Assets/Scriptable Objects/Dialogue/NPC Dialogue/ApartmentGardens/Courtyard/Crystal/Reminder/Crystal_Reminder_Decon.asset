@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d50e2f41bc81f458227038ef406b6a, type: 3}
+  m_Name: Crystal_Reminder_Decon
+  m_EditorClassIdentifier: 
+  dialogueSentences:
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Can you remind me of how to lower the alarm in the <b>Decontamination
+      Room?</b>"'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"You need to find where Gloria put the <b>Decon Key</b>."'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"I would recommend checking <b>Administration</b>... Gloria was always
+      in there doing work."'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Now get going, you need every second."'
+  responses:
+  - responseText: How do I break the <b>padlocks?</b>
+    dialogueSO: {fileID: 11400000, guid: f62b64efcc0a34c44bd6e09b38ccced5, type: 2}
+  - responseText: "I\u2019ll see you up ahead. <b>[EXIT]</b>"
+    dialogueSO: {fileID: 11400000, guid: 19ef657a06311c643b5b404dac60302d, type: 2}

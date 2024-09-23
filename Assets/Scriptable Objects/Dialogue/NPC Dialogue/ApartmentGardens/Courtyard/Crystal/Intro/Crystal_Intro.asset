@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9d50e2f41bc81f458227038ef406b6a, type: 3}
+  m_Name: Crystal_Intro
+  m_EditorClassIdentifier: 
+  dialogueSentences:
+  - speakerSO: {fileID: 11400000, guid: 943cc211d535f5e4f8a445d775fd3369, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Oh, hello. You''re not connected."'
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Whoa, I didn''t expect another person to be here... how long have
+      you been here?"'
+  - speakerSO: {fileID: 11400000, guid: 943cc211d535f5e4f8a445d775fd3369, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"It''s waiting for my decision. Everyone else has already decided.
+      I''m just here... thinking."'
+  - speakerSO: {fileID: 11400000, guid: 943cc211d535f5e4f8a445d775fd3369, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Until I''ve decided, it keeps waiting."'
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"O-Oh, I see."'
+  - speakerSO: {fileID: 0}
+    hasDialogueEvent: 0
+    sentence: This girl is absolutely insane, she must have been trapped here, and
+      from the way she is acting she's been here for a very long time.
+  - speakerSO: {fileID: 0}
+    hasDialogueEvent: 0
+    sentence: She must be living on scraps of food, maybe she knows how to get into
+      the apartments.
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Hey, do you know how to get into the apartment complex from here?
+      I saw that it was surrounded by a stone wall."'
+  - speakerSO: {fileID: 11400000, guid: 943cc211d535f5e4f8a445d775fd3369, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Why do you want to go into it? They will connect you, make you decide.
+      They will fill your brain with whispers, <i>sweet, sweet, whispers.</i>"'
+  - speakerSO: {fileID: 11400000, guid: 943cc211d535f5e4f8a445d775fd3369, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Out here, you''re far enough away. You can''t hear the whispers from
+      here. Makes your mind more clear, more sharp, more focused."'
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"..."'
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"What''s your name?"'
+  - speakerSO: {fileID: 11400000, guid: 943cc211d535f5e4f8a445d775fd3369, type: 2}
+    hasDialogueEvent: 1
+    sentence: '"This one is called <b>Crystal</b>."'
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Crystal, listen. I really need to get into that apartment building.
+      I''m very sick, I have to go in there to feel better."
+
+'
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Do you think you can help me out?"'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"What how could you-, Oh. I see."'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"You are connected... Only slightly. But it''s there."'
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Con- Listen, can you help me out or not!? I only have a limited amount
+      of time. I can''t be wasting it here with you."'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '". . ."'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"You have to go through the outpost ahead. You need to reach the <b>Decontamination
+      Room</b> in the science ward. It''s the only way past the wall."'
+  - speakerSO: {fileID: 0}
+    hasDialogueEvent: 0
+    sentence: Did she magically get better, or did her brain just factory reset itself?
+      Whatever I have to get the most out of this.
+  - speakerSO: {fileID: 11400000, guid: ec07b9cdd24dadd429f56b05c411bfed, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"Is it locked?"'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"The door to the science ward is padlocked from the inside. Gloria
+      thought it would help protect us from <b>the decided.</b>"'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"You have to go back around through the <b>Medical Ward</b>."'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"You can see the hallway connecting the two from a window around the
+      corner on the right ahead."'
+  - speakerSO: {fileID: 11400000, guid: 3a8e376856231c748971aacdf1afa642, type: 2}
+    hasDialogueEvent: 0
+    sentence: '"The problem is the door leading to that hallway is also padlocked.
+      So you need to get something to break it off. Gloria destroyed the keys."'
+  responses:
+  - responseText: How do I get in the <b>Decontamination Room?</b>
+    dialogueSO: {fileID: 11400000, guid: 2c012a200e26b3f4a843022443e50d07, type: 2}
+  - responseText: How would I break the <b>padlocks?</b>
+    dialogueSO: {fileID: 11400000, guid: 66eaa7b75970a72489c36d992c5cbfef, type: 2}
+  - responseText: Thanks for the help. <b>[EXIT]</b>
+    dialogueSO: {fileID: 11400000, guid: 79ff4c38019a4e54387c661056aab4f5, type: 2}

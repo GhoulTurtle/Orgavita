@@ -13,7 +13,7 @@ public static class TextPrinter{
     private const string HMTL_ALPHA =  "<color=#00000000>";
     private static readonly List<Punctuation> punctuations = new List<Punctuation>(){
         new Punctuation(new HashSet<char>() {'.', '!', '?'}, 0.4f),
-        new Punctuation(new HashSet<char>() {',', ';', ':'}, 0.2f)
+        new Punctuation(new HashSet<char>() {',', ';', ':', '"'}, 0.2f)
     };
 
     public static void SetTextPrintSpeed(float newTextPrintSpeed){

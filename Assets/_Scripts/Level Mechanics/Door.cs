@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Door : MonoBehaviour, IInteractable{
+public class Door : MonoBehaviour, IInteractable, ISaveable{
     public string InteractionPrompt {get{
         if(isLocked) return "";
         
@@ -25,6 +25,30 @@ public class Door : MonoBehaviour, IInteractable{
     private IEnumerator currentDoorAnimation;
 
     private bool isOpen;
+
+    [SerializeField] private string objectID = System.Guid.NewGuid().ToString();
+
+    public ObjectData SaveData(){
+        ObjectData objectData = new ObjectData();
+
+        objectData.objectID = objectID;
+
+        objectData.objectState = isOpen;
+
+        return objectData;
+    }
+
+    public void LoadData(ObjectData objectData){
+        isOpen = objectData.objectState;
+        if(isOpen){
+            Quaternion endRotation = Quaternion.Euler(new Vector3(0, transform.rotation.y + rotationAmount, 0));
+            transform.rotation = endRotation;
+        }
+    }
+
+    public string GetObjectID(){
+        return objectID;
+    }
 
     private void Awake() {
         startRotation = transform.rotation.eulerAngles;

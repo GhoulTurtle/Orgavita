@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponFireRateInSeconds: 0.8
   weaponReloadTimeInSeconds: 1
-  weaponAttackDamage: 3
-  baseBloomAngle: 12
+  weaponAttackDamage: 2.75
+  baseBloomAngle: 8
   steadiedBloomAngle: 4
   minKickBackShotAmount: 1
   kickBackWindowInSeconds: 0

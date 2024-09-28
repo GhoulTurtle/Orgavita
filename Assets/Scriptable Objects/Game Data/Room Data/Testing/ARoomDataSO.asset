@@ -13,17 +13,19 @@ MonoBehaviour:
   m_Name: ARoomDataSO
   m_EditorClassIdentifier: 
   roomName: A Room
-  sceneReference:
-    sceneAsset: {fileID: 0}
-    sceneName: 
   roomObjectDataList:
   - objectID: 5e17fa70-e056-4739-88ef-14aa23274288
     objectCustomState: 
     objectState: 0
+    isEnabled: 0
     objectPos: {x: 0, y: 0, z: 0}
     objectRotation: {x: 0, y: 0, z: 0, w: 0}
-  - objectID: a730e141-a0fd-4bb1-951f-5eaad2b4801e
+  - objectID: d24dcc61-cf90-4a0b-9461-0c46bf2f89dd
     objectCustomState: 
     objectState: 0
+    isEnabled: 0
     objectPos: {x: 0, y: 0, z: 0}
     objectRotation: {x: 0, y: 0, z: 0, w: 0}
+  sceneReference:
+    sceneAsset: {fileID: 102900000, guid: c152cb13877759943a9fd55091daddb3, type: 3}
+    sceneName: LevelLoadAScene

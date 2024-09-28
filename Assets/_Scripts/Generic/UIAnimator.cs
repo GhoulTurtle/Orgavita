@@ -414,22 +414,24 @@ public static class UIAnimator{
     /// </summary>
     public static IEnumerator CanvasGroupAlphaFadeCoroutine(CanvasGroup canvasGroup, float animationDuration, float alphaStart, float alphaEnd = 0, bool scaledDeltaTime = true, Action onFadeAnimationFinishedCallback = null){
         float startingAlpha = Mathf.Clamp01(alphaStart);
-        
+
         canvasGroup.alpha = startingAlpha;
 
         float current = 0;
-        while(current <= animationDuration){
+        while(Mathf.Abs(canvasGroup.alpha - alphaEnd) > LERP_SNAP_DISTANCE){
             if(scaledDeltaTime){
-                current += Time.deltaTime / animationDuration;
+                current += Time.deltaTime;
             }
             else{
-                current += Time.unscaledDeltaTime / animationDuration;
+                current += Time.unscaledDeltaTime;
             }
-            canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, alphaEnd, current / animationDuration);            
+
+            canvasGroup.alpha = Mathf.Lerp(canvasGroup.alpha, alphaEnd, current / animationDuration);
+
             yield return null;
         }
 
-        canvasGroup.alpha  = alphaEnd;
+        canvasGroup.alpha = alphaEnd;
 
         if(onFadeAnimationFinishedCallback != null){
             onFadeAnimationFinishedCallback?.Invoke();

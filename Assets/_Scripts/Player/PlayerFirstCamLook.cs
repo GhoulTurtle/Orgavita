@@ -70,6 +70,8 @@ public class PlayerFirstCamLook : MonoBehaviour{
 		startPos = cameraTransform.localPosition;
 		currentAmplitude = bobbingAmplitude;
 		currentFrequency = bobbingFrequency;
+
+		RoomSceneManager.OnTransitionPointUpdated += UpdatePlayerCamera;
 	}
 
     private void Start() {
@@ -90,6 +92,8 @@ public class PlayerFirstCamLook : MonoBehaviour{
     private void OnDestroy() {
 		StopAllCoroutines();
 		cameraTransform.DOKill();
+
+		RoomSceneManager.OnTransitionPointUpdated -= UpdatePlayerCamera;
 
 		if(playerMovement != null){
 			playerMovement.OnPlayerMovementDirectionChanged -= UpdateCameraTilt;
@@ -118,11 +122,19 @@ public class PlayerFirstCamLook : MonoBehaviour{
 		UpdateCameraRotation();
 	}
 
-	public void LookInputInjected(Vector2 inputVector){
+	public void LookInputInjectedAdditive(Vector2 inputVector){
 		camX += inputVector.x;
 		camY -= inputVector.y;
 		camY = Mathf.Clamp(camY, -YClamp, YClamp);
 		
+		UpdateCameraRotation();
+	}
+
+	public void LookInputInjected(Vector2 inputVector){
+		camX = inputVector.x;
+		camY = inputVector.y;
+		camY = Mathf.Clamp(camY, -YClamp, YClamp);
+
 		UpdateCameraRotation();
 	}
 
@@ -131,6 +143,10 @@ public class PlayerFirstCamLook : MonoBehaviour{
 
 		characterOrientation.transform.localRotation = Quaternion.Euler(0, camX, 0);
 	}
+
+	private void UpdatePlayerCamera(){
+        LookInputInjected(RoomSceneManager.TransitionPointToSpawnAt.GetLookRotation());
+    }
 
 	private void CheckMotion(){
 		if(!playerMovement.IsMoving()){
@@ -245,7 +261,7 @@ public class PlayerFirstCamLook : MonoBehaviour{
 
     private void ApplyCurrentWeaponKickback(object sender, EquippedItemBehaviour.KickbackAppliedEventArgs e){
 		Vector2 kickbackVector = new(0, 1 * e.kickbackAmount);
-		LookInputInjected(kickbackVector);
+		LookInputInjectedAdditive(kickbackVector);
     }
 
     private void StopFOVAnimationCoroutine(){

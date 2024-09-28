@@ -14,5 +14,11 @@ public class ResetStaticDataManager : MonoBehaviour{
             resourceDataSOList[i].ResetResourceData();
         }
         quickSelectDataSO.ClearQuickSelectData();
+
+        RoomSceneManager.SetTransitionPoint(null);
+    }
+
+    private void OnApplicationQuit() {
+        RoomSceneManager.UnsubscribeFromSceneLoadedCallback();
     }
 }

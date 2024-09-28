@@ -10,13 +10,37 @@ public class RoomDataHandler : MonoBehaviour{
     private void Awake() {
         if(Instance == null) {
             Instance = this;
+            RoomSceneManager.OnLoadRoom += LoadRoomData;
+            RoomSceneManager.OnSaveRoom += SaveRoomData;
         }
         else{
             Destroy(gameObject);
         }
     }
 
-    private void Start() {
+    private void OnDestroy() {
+        if(Instance == this){
+            Instance = null;
+        }
+
+        RoomSceneManager.OnSaveRoom -= SaveRoomData;
+        RoomSceneManager.OnLoadRoom -= LoadRoomData;
+    }
+    
+    [ContextMenu("Save Room Data")]
+    public void SaveRoomData(){
+        ISaveable[] saveableObjects = FindObjectsOfType<MonoBehaviour>().OfType<ISaveable>().ToArray();
+
+        roomDataSO.roomObjectDataList.Clear();
+
+        for (int i = 0; i < saveableObjects.Length; i++){
+            ObjectData objectData = saveableObjects[i].SaveData();
+
+            roomDataSO.roomObjectDataList.Add(objectData);
+        }
+    }
+
+    private void LoadRoomData(){
         ISaveable[] saveableObjects = FindObjectsOfType<MonoBehaviour>().OfType<ISaveable>().ToArray();
 
         for (int i = 0; i < saveableObjects.Length; i++){
@@ -28,29 +52,4 @@ public class RoomDataHandler : MonoBehaviour{
             }
         }
     }
-
-    private void OnDestroy() {
-        if(Instance == this){
-            Instance = null;
-        }
-    }
-    
-    [ContextMenu("Update Room Data Objects")]
-    public void GetAllSavableObjects(){
-        ISaveable[] saveableObjects = FindObjectsOfType<MonoBehaviour>().OfType<ISaveable>().ToArray();
-
-        roomDataSO.roomObjectDataList.Clear();
-
-        for (int i = 0; i < saveableObjects.Length; i++){
-            Debug.Log(saveableObjects[i]);
-
-            ObjectData objectData = saveableObjects[i].SaveData();
-
-            roomDataSO.roomObjectDataList.Add(objectData);
-        }
-
-        roomDataSO.GenerateObjectDatasGUID();
-    }
-
-
 }

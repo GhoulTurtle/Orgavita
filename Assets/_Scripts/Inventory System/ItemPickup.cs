@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class ItemPickup : MonoBehaviour{
+public class ItemPickup : MonoBehaviour, ISaveable{
     [Header("Required References")]
     [SerializeField] private Transform itemVisualParent;
     [SerializeField] private ParticleSystem itemParticleSystem;
@@ -22,6 +22,8 @@ public class ItemPickup : MonoBehaviour{
 
     private ItemModel currentItemModel;
 
+    [SerializeField] private string objectID = System.Guid.NewGuid().ToString();
+
     private void Awake() {
         if(itemToPickup == null) return;
         SetupItemPickup();
@@ -31,6 +33,34 @@ public class ItemPickup : MonoBehaviour{
         if(currentItemModel != null){
             currentItemModel.OnModelInteracted -= PickupItem;
         }
+    }
+
+    [ContextMenu("Generate New GUID")]
+    public void GenerateObjectDataGUID(){
+        objectID = System.Guid.NewGuid().ToString();
+    }
+
+    public ObjectData SaveData(){
+        ObjectData objectData = new ObjectData();
+        objectData.objectID = objectID;
+        objectData.objectStateInt = itemPickupStackAmount;
+        return objectData;
+    }
+
+    public void LoadData(ObjectData objectData){
+        itemPickupStackAmount = objectData.objectStateInt;
+        
+        if(itemPickupStackAmount == 0){
+            DestroyItemModel();
+        }
+        else{
+            currentItemModel.UpdateInteractionText(itemToPickup.GetItemName(), itemPickupStackAmount);
+        }
+
+    }
+
+    public string GetObjectID(){
+        return objectID;
     }
 
     public void SetItemPickup(ItemDataSO _itemToPickup, int _itemPickupStackAmount){
@@ -79,19 +109,26 @@ public class ItemPickup : MonoBehaviour{
         }
 
         if(itemRemainder == 0){
-            if(currentItemModel != null){
-                Destroy(currentItemModel.gameObject);
-            }
-
-            if(itemParticleSystem != null){
-                itemParticleSystem.Stop();
-            }
-
+            DestroyItemModel();
         }
 
         itemPickupStackAmount = itemRemainder;
         
         currentItemModel.UpdateInteractionText(itemToPickup.GetItemName(), itemPickupStackAmount);
+    }
+
+    private void DestroyItemModel(){
+        if(currentItemModel != null){
+            currentItemModel.OnModelInteracted -= PickupItem;
+        }
+
+        if (currentItemModel != null){
+            Destroy(currentItemModel.gameObject);
+        }
+
+        if (itemParticleSystem != null){
+            itemParticleSystem.Stop();
+        }
     }
 
     private void SetupItemPickup(){
@@ -119,8 +156,6 @@ public class ItemPickup : MonoBehaviour{
                 }
             }
         }
-
-        if(itemParticleSystem == null) return;
 
         itemParticleSystem.Play(); 
     }

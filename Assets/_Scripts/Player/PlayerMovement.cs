@@ -90,15 +90,19 @@ public class PlayerMovement : MonoBehaviour{
 		standingHeight = characterController.height;
 		initialCameraPosition = cameraTransform.localPosition;
 		initialGroundCheckPosition = groundCheckTransform.localPosition;
+		
+		RoomSceneManager.OnTransitionPointUpdated += UpdatePlayerSpawnPos;
 	}
 
-	private void OnDestroy() {
+    private void OnDestroy() {
 		StopAllCoroutines();
 		
 		if(playerEquippedItemHandler != null){
 			playerEquippedItemHandler.OnWeaponItemBehaviourSpawned -= SubscribeToWeaponStateEvent;
 			playerEquippedItemHandler.OnWeaponItemBehaviourDespawned -= UnsubscribeToWeaponStateEvent;
 		}
+
+		RoomSceneManager.OnTransitionPointUpdated -= UpdatePlayerSpawnPos;
 	}
 
 	private void Update(){
@@ -115,6 +119,14 @@ public class PlayerMovement : MonoBehaviour{
 		playerMoveInput.x = xInput;
 		playerMoveInput.y = yInput;
 	}
+	
+    private void UpdatePlayerSpawnPos(){
+		characterController.enabled = false;
+
+		transform.position = RoomSceneManager.TransitionPointToSpawnAt.GetPointToSpawnAt();
+
+		characterController.enabled = true;
+    }
 
 	public void SprintInput(InputAction.CallbackContext context){
 		if(currentPlayerMovementState == PlayerMovementState.Crouching) return;
@@ -371,7 +383,7 @@ public class PlayerMovement : MonoBehaviour{
 		return currentTerrainType;
 	}
 
-		private void OnDrawGizmosSelected() {
+	private void OnDrawGizmosSelected() {
 		if(!drawGizmos) return;
 
 		Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);

@@ -39,7 +39,7 @@ AudioMixerController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MasterVolume
+  m_Name: MasterMixer
   m_OutputGroup: {fileID: 0}
   m_MasterGroup: {fileID: 24300002}
   m_Snapshots:
@@ -48,7 +48,15 @@ AudioMixerController:
   m_SuspendThreshold: -80
   m_EnableSuspend: 1
   m_UpdateMode: 0
-  m_ExposedParameters: []
+  m_ExposedParameters:
+  - guid: 2732cf637cb1c3749bf4f3ae149e8e27
+    name: Ambience_Volume
+  - guid: 44755f93c516a4c44927ec1a30e37cdc
+    name: Master_Volume
+  - guid: a0f3ca39cc1ff674aa21f6a53a995ed0
+    name: Music_Volume
+  - guid: bbcc5ae21c8412a4895fd26fb5534ec0
+    name: SFX_Volume
   m_AudioMixerGroupViews:
   - guids:
     - 4e9e025c9cfc33d4b8798033fbcc5643

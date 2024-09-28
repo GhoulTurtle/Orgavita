@@ -6,6 +6,9 @@ public class ObjectData{
     public string objectID = "";
     public string objectCustomState;
     public bool objectState;
+    public int objectStateInt;
+    public float objectStateFloat;
+    public bool isEnabled;
     public Vector3 objectPos;
     public Quaternion objectRotation;
 

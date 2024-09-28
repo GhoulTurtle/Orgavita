@@ -28,6 +28,11 @@ public class Door : MonoBehaviour, IInteractable, ISaveable{
 
     [SerializeField] private string objectID = System.Guid.NewGuid().ToString();
 
+    [ContextMenu("Generate New GUID")]
+    public void GenerateObjectDataGUID(){
+        objectID = System.Guid.NewGuid().ToString();
+    }
+
     public ObjectData SaveData(){
         ObjectData objectData = new ObjectData();
 

@@ -22,7 +22,6 @@ public class PlayerNoteHandler : MonoBehaviour{
 
     private void Awake() {
         if (Instance != null){
-            Debug.LogError("There is two PlayerNoteHandlers in the Scene. This should not be the case!");
             Destroy(gameObject);
         }
         else{
@@ -31,7 +30,7 @@ public class PlayerNoteHandler : MonoBehaviour{
     }
 
     private void OnDestroy() {
-        if(playerInputHandler == null) return;
+        if(playerInputHandler == null || Instance != this) return;
 
         playerInputHandler.OnCancelInput -= HideNote;
         playerInputHandler.OnNavigateInput -= EvaulateNavigateInput;

@@ -100,10 +100,87 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defaultItemState: 4
   defaultItemHolsterType: 4
+  aimedChildData:
+    lockPos: {fileID: 0}
+    keepOffset: 0
+    offsetPos: {x: 0, y: 0, z: 0}
+    offsetRotation: {x: 0, y: 0, z: 0}
+    delayPosUpdate: 0
+    followSpeed: 0
+  inspectingChildData:
+    lockPos: {fileID: 0}
+    keepOffset: 0
+    offsetPos: {x: 0, y: 0, z: 0}
+    offsetRotation: {x: 0, y: 0, z: 0}
+    delayPosUpdate: 0
+    followSpeed: 0
+  reloadingChildData:
+    lockPos: {fileID: 0}
+    keepOffset: 0
+    offsetPos: {x: 0, y: 0, z: 0}
+    offsetRotation: {x: 0, y: 0, z: 0}
+    delayPosUpdate: 0
+    followSpeed: 0
+  playHolsterAnimation: 0
+  holsterAnimationDuration: 0.35
   lightReference: {fileID: 4290631168321002958}
   flashlightResourceData: {fileID: 11400000, guid: 8ab31a0f29f6a13409e9c9acce3f6268,
     type: 2}
-  FlashlightTurnedOn:
+  fullyChargedIntensity: 30
+  minChargedIntensity: 20
+  lowBatteryEffectsStartAmount: 0.4
+  flashlightIntensityFalloff:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  flashlightFlickeringCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  baseFlickerChance: 4
+  flashlightMinFlickerTime: 0.05
+  flashlightMaxFlickerTime: 0.2
+  OnFlashlightTurnedOn:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 3551f12c9a42d7f4084e7717a03f4d27, type: 2}
@@ -118,7 +195,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  FlashlightTurnedOff:
+  OnFlashlightTurnedOff:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 4f7f8dc4a06945a47adc79b5d576a44a, type: 2}
@@ -133,12 +210,42 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  FlashlightInteractWhileBatteryDead:
+  OnFlashlightInteractWhileBatteryDead:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 11400000, guid: 3aabbbae0daeee94faeb4526f8e38431, type: 2}
         m_TargetAssemblyTypeName: SimpleAudioEvent, Assembly-CSharp
         m_MethodName: Play
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2662014840147381929}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnFlashlightReloaded:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: f71436425732ef5488fad1f44ca06467, type: 2}
+        m_TargetAssemblyTypeName: SimpleAudioEvent, Assembly-CSharp
+        m_MethodName: Play
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 2662014840147381929}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnFlashlightFlickered:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 11400000, guid: fed71ba0823ef7f4ca4cba950790310f, type: 2}
+        m_TargetAssemblyTypeName: SimpleAudioEvent, Assembly-CSharp
+        m_MethodName: PlayOneShot
         m_Mode: 2
         m_Arguments:
           m_ObjectArgument: {fileID: 2662014840147381929}
@@ -191,7 +298,7 @@ Light:
       e32: 0
       e33: 1
     m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
+  m_Cookie: {fileID: 2800000, guid: cd11855828bcc3a4188d9dc364c59d8b, type: 3}
   m_DrawHalo: 0
   m_Flare: {fileID: 0}
   m_RenderMode: 0

@@ -65,6 +65,10 @@ public class FlashlightResourceDataSO : ResourceDataSO{
         return maxBatteryTimeInSeconds;
     }
 
+    public float GetNormalizedBatteryTime(){
+        return currentBatteryTimeInSeconds / maxBatteryTimeInSeconds;
+    }
+
     public override int GetMissingStackCount(){
         if(currentBatteryTimeInSeconds != maxBatteryTimeInSeconds){
             return 1;

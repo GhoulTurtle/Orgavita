@@ -12,7 +12,7 @@ public class Health : MonoBehaviour, IDamagable{
 
 	public Action OnStartHealingOverTime;
 	public Action OnFinishedHealingOverTime;
-	public EventHandler OnDamagedEvent;
+	public Action OnDamagedEvent;
 	public EventHandler OnHealedEvent;
 	public EventHandler OnMaxIncreasedEvent;
 	public Action OnDeathEvent;
@@ -54,7 +54,7 @@ public class Health : MonoBehaviour, IDamagable{
 			return;
 		}
 
-		OnDamagedEvent?.Invoke(this, EventArgs.Empty);
+		OnDamagedEvent?.Invoke();
 		UpdateHealthState();
 	}
 
@@ -82,6 +82,10 @@ public class Health : MonoBehaviour, IDamagable{
     public Transform GetDamageableTransform(){
         return transform;
     }
+
+	public HealthState GetCurrentHealthState(){
+		return currentHealthState;
+	}
 
 	public void IncreaseMaxHealth(float amount){
 		if(IsHealthFull()){

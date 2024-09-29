@@ -82,6 +82,14 @@ public static class UIAnimator{
         return yOrigin + Mathf.Sin(Time.unscaledTime * sinSpread) * sinIntensity;
     }
 
+    private static float SinAmount(float sinSpread, float sinIntensity, bool scaledTime = true){
+        if(scaledTime){
+            return Mathf.Sin(Time.time * sinSpread) * sinIntensity;
+        }
+        
+        return Mathf.Sin(Time.unscaledTime * sinSpread) * sinIntensity;
+    }
+
 /// <summary>
 /// A cos animation that animates a transform local X position following a cos wave. Can adjust the cos wave with the animationSpeed and animationDistance. 
 /// Can have a set animation time or run until the coroutine is terminated.
@@ -435,6 +443,28 @@ public static class UIAnimator{
 
         if(onFadeAnimationFinishedCallback != null){
             onFadeAnimationFinishedCallback?.Invoke();
+        }
+    }
+
+    public static IEnumerator CanvasGroupAlphaPulseCoroutine(CanvasGroup canvasGroup, float alphaStart, float alphaEnd, float animationSpeed, bool scaledDeltaTime = true, float animationDuration = -1){
+        float elapsedTime = 0f;
+        float time = 0f; 
+
+        while (animationDuration < 0 || elapsedTime < animationDuration){
+            // Use scaled or unscaled delta time
+            float deltaTime = scaledDeltaTime ? Time.deltaTime : Time.unscaledDeltaTime;
+
+            // Create pulsing effect using PingPong and SmoothStep
+            float t = Mathf.PingPong(time * animationSpeed, 1f);
+            t = Mathf.SmoothStep(0f, 1f, t); // Optional smoothing for smooth transitions
+
+            // Interpolate alpha based on the pulsing value (t)
+            canvasGroup.alpha = Mathf.Lerp(alphaStart, alphaEnd, t);
+
+            // Update time for pulsing and elapsed time for duration control
+            time += deltaTime;
+            elapsedTime += deltaTime;
+            yield return null;
         }
     }
 }

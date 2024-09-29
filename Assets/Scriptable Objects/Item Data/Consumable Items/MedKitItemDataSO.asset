@@ -22,7 +22,7 @@ MonoBehaviour:
     moderate injuries over time.
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 0}
-  itemInWorldModelPrefab: {fileID: 8967305202571421445, guid: c1407835baff04f41ad16c6ac1ffee2a,
+  itemInWorldModelPrefab: {fileID: -1889420442233833563, guid: 06fb3986e54902447b74a9040d0d5c46,
     type: 3}
   itemPickupAudioEvent: {fileID: 0}
   itemUseAudioEvent: {fileID: 0}

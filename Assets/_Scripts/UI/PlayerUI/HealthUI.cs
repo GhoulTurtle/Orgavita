@@ -24,8 +24,6 @@ public class HealthUI : MonoBehaviour{
     [Header("Health Overlay Variables")]
     [SerializeField] private float damageOverlayFadeInTimeInSeconds = 0.2f;
     [SerializeField] private float damageOverlayFadeOutTimeInSeconds = 3f;
-    [SerializeField] private float damageOverlayWarningAlpha = 0.5f;
-    [SerializeField] private float damageOverlayCriticalPulseAnimationSpeedInSeconds = 0.75f;
     [SerializeField, Range(0f, 1f)] private float healingOverTimeOverlayAlpha = 0.5f;
     [SerializeField] private float healingOvertimePulseAnimationSpeedInSeconds = 0.75f; 
     [SerializeField] private float healingOverlayFadeInTimeInSeconds = 0.2f;
@@ -80,60 +78,31 @@ public class HealthUI : MonoBehaviour{
 
     private void ShowHealingOvertimeUI(){
         healingUIParent.SetActive(true);
-        StartHealingOverlayFadeInAnimation();
+        StartOverlayFadeInAnimation(false, healingOverlayFadeInTimeInSeconds);
     }
 
     private void ShowInstantHealUI(object sender, EventArgs e){
-        StartHealingOverlayFadeInAnimation();
-    }
-
-    private void ShowDamagedUI(){
-        StartDamageOverlayFadeInAnimation();
+        StartOverlayFadeInAnimation(false, healingOverlayFadeInTimeInSeconds);
     }
 
     private void OnHealingFadeInFinished(){
         if(playerHealth.IsActiveHealOverTimeJob()){
             //Reduce the alpha to the healingOverTimeOverlayAlpha
-            StartHealingOverlayOvertimePulseAlphaAnimation();
+            StopHealingOverlayAnimation();
+            healingOverlayAnimationCoroutine = UIAnimator.CanvasGroupAlphaPulseCoroutine(healingOverlayCanvasGroup, 1f, healingOverTimeOverlayAlpha, healingOvertimePulseAnimationSpeedInSeconds);
+
+            StartCoroutine(healingOverlayAnimationCoroutine);
         }
         else{
-            StartHealingOverlayFadeOutAnimation();
+            StartOverlayFadeOutAnimation(false, healingOverlayFadeOutTimeInSeconds);
         }
+    }
+
+    private void ShowDamagedUI(){
+        StartOverlayFadeInAnimation(true, damageOverlayFadeInTimeInSeconds);
     }
 
     private void OnDamageFadeInFinished(){
-        switch (playerHealth.GetCurrentHealthState()){
-            case HealthState.Healthy: StartDamageOverlayFadeOutAnimation();
-                break;
-            case HealthState.Injured: StartDamageOverlayFadeOutAnimation();
-                break;
-            case HealthState.Warning:
-                break;
-            case HealthState.Critical:
-                break;
-        }
-    }
-
-    private void StartHealingOverlayFadeInAnimation(){
-        StartOverlayFadeInAnimation(false, healingOverlayFadeInTimeInSeconds);
-    }
-
-    private void StartHealingOverlayFadeOutAnimation(){
-        StartOverlayFadeOutAnimation(false, healingOverlayFadeOutTimeInSeconds);
-    }
-
-    private void StartHealingOverlayOvertimePulseAlphaAnimation(){
-        StopHealingOverlayAnimation();
-        healingOverlayAnimationCoroutine = UIAnimator.CanvasGroupAlphaPulseCoroutine(healingOverlayCanvasGroup, 1f, healingOverTimeOverlayAlpha, healingOvertimePulseAnimationSpeedInSeconds);
-
-        StartCoroutine(healingOverlayAnimationCoroutine);
-    }
-
-    private void StartDamageOverlayFadeInAnimation(){
-        StartOverlayFadeInAnimation(transform, damageOverlayFadeInTimeInSeconds);
-    }
-
-    private void StartDamageOverlayFadeOutAnimation(){
         StartOverlayFadeOutAnimation(true, damageOverlayFadeOutTimeInSeconds);
     }
 
@@ -187,6 +156,6 @@ public class HealthUI : MonoBehaviour{
 
     private void HideHealingOvertimeUI(){
         healingUIParent.SetActive(false);
-        StartHealingOverlayFadeOutAnimation();
+        StartOverlayFadeOutAnimation(false, healingOverlayFadeOutTimeInSeconds);
     }
 }

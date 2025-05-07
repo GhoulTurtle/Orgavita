@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CarryingBagItemDataSO
   m_EditorClassIdentifier: 
   itemName: Carrying Bag
-  itemQuickDescription: A small bag that allows the user to carry more items.
+  itemQuickDescription: Small carrying bag that allows the owner to carry more items.
   itemInspectDescription: Despite its unassuming appearance, the carrying bag expands
     the user's carrying capacity, providing additional inventory slots for items.
     The bag is sturdy and well-made, with multiple compartments and pockets for efficient
@@ -33,6 +33,6 @@ MonoBehaviour:
   maxStackSize: 1
   consumableItemJobList:
   - jobType: 4
-    amount: 2
+    amount: 1
     time: 0
   itemUsedMessage: 

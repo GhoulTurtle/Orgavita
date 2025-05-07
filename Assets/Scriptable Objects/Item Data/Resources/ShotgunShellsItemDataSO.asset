@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c388e5dcdca4ab4aa014ad0a6c0f04d, type: 3}
   m_Name: ShotgunShellsItemDataSO
   m_EditorClassIdentifier: 
-  itemName: Shotgun Shells
-  itemQuickDescription: 12 gauge buckshot shells, they have a wide spread but have
-    a lot of power.
-  itemInspectDescription: These powerful shells are designed for close-range combat,
-    packing a spread of large pellets that devastate targets in a wide area. Perfect
-    for clearing out groups of enemies or dealing massive damage to tougher foes.
+  itemName: Shotgun Shell
+  itemQuickDescription: 12 gauge buckshot shell, has a wide spread but have a lot
+    of power.
+  itemInspectDescription: 
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 0}
   itemInWorldModelPrefab: {fileID: 5771749425091677146, guid: 732e3a44fc622bb47b6c15e9e8884488,

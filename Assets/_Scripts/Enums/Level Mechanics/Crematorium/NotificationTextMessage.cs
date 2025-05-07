@@ -1,7 +1,7 @@
 public enum NotificationTextMessage{
     Default,
-    No_Coolant,
-    No_Button,
+    No_Coolant_1,
+    No_Coolant_2,
     Ready,
     Opening_Door,
     Finished,

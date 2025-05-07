@@ -126,8 +126,8 @@ MonoBehaviour:
   lightReference: {fileID: 4290631168321002958}
   flashlightResourceData: {fileID: 11400000, guid: 8ab31a0f29f6a13409e9c9acce3f6268,
     type: 2}
-  fullyChargedIntensity: 30
-  minChargedIntensity: 20
+  fullyChargedIntensity: 20
+  minChargedIntensity: 10
   lowBatteryEffectsStartAmount: 0.4
   flashlightIntensityFalloff:
     serializedVersion: 2
@@ -268,7 +268,7 @@ Light:
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 20
-  m_Range: 30
+  m_Range: 20
   m_SpotAngle: 40
   m_InnerSpotAngle: 4
   m_CookieSize: 10

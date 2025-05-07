@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackSpeedInSeconds: 5
   attackDodgePeriodInSeconds:
-    minValue: 5
-    maxValue: 5
-  attackDamage: 20
+    minValue: 10
+    maxValue: 10
+  attackDamage: 15
   attackRange:
     minValue: 4.2323065
     maxValue: 42.32306
@@ -118,7 +118,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   lungeAmount: 1
   lungeForce: 6
-  lungeSpeed: 6
+  lungeSpeed: 3
   lungleDamageRangeRadius: 0.5
   maxLungeTargetsHit: 5
   lungeChargeTime: 3

@@ -3410,7 +3410,6 @@ MonoBehaviour:
   aIAttackDodgeType: 0
   aIAttackDefinitionList:
   - {fileID: 11400000, guid: 274e5c25530f94142b6ed75bab82d828, type: 2}
-  - {fileID: 11400000, guid: 35ed173f68f113f489ce3e7a91775c09, type: 2}
   - {fileID: 11400000, guid: cb95a214f7f575e4ea97991c1ca39f65, type: 2}
   maxDodgePointSearchLoops: 20
 --- !u!114 &415276464184728903

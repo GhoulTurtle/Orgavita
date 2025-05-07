@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speakerName: Sally
   speakerColor: {r: 1, g: 0.7153699, b: 0.10849059, a: 1}
+  speakerVoice: {fileID: 0}

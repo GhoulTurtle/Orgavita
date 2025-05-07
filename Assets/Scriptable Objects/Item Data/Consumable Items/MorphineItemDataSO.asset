@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MorphineItemDataSO
   m_EditorClassIdentifier: 
   itemName: Morphine
-  itemQuickDescription: 'A injection that will relieve a small amount of health instantly. '
+  itemQuickDescription: 'Injection that will relieve a small amount of health instantly. '
   itemInspectDescription: 
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 0}

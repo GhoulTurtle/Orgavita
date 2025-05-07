@@ -13,10 +13,8 @@ MonoBehaviour:
   m_Name: BatteryItemDataSO
   m_EditorClassIdentifier: 
   itemName: Battery
-  itemQuickDescription: A basic AA battery, can be used to power items.
-  itemInspectDescription: Essential for powering electronic tools and devices, batteries
-    are required to keep your equipment running smoothly. They are getting more rare
-    as the days go by, better keep a high stock.
+  itemQuickDescription: A simple AA battery. Can be used to power tools and items.
+  itemInspectDescription: 
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 0}
   itemInWorldModelPrefab: {fileID: 5771749425091677146, guid: c9203ded3f7c357449bdc4019ec1f735,

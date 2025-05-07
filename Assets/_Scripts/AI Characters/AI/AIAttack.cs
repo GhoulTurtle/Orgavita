@@ -125,8 +125,6 @@ public class AIAttack : MonoBehaviour{
             return null;
         }
 
-        Debug.Log(bestAIAttack.name + " is the best attack with a score of: " + bestAttackScore);
-
         return bestAIAttack;
     }
 }

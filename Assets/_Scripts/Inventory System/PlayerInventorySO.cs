@@ -95,6 +95,10 @@ public class PlayerInventorySO : ScriptableObject{
         OnMaxInventoryIncreased?.Invoke(this, new MaxInventoryIncreasedEventArgs(maxInventorySize, amount, newSlotsAdded));
     }
 
+    public void AttemptToAddItemToInventory(ItemDataSO item){
+        AttemptToAddItemToInventory(item, 1);
+    }
+
     public int AttemptToAddItemToInventory(ItemDataSO item, int itemAmount){
         if(item.GetIsStackable()){
             List<InventoryItem> validInventoryItems = CheckValidStackableInventoryItems(item);

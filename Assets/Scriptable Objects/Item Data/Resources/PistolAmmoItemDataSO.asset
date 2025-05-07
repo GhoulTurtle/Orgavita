@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: PistolAmmoItemDataSO
   m_EditorClassIdentifier: 
   itemName: Pistol Ammo
-  itemQuickDescription: 
+  itemQuickDescription: 9mm bullet cartridge, standard cartridge that has a balance
+    of power, accuracy, and ease of use.
   itemInspectDescription: 
   itemIcon: {fileID: 0}
   itemInventoryModelPrefab: {fileID: 0}

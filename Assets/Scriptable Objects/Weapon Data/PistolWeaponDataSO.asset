@@ -15,8 +15,8 @@ MonoBehaviour:
   weaponFireRateInSeconds: 0.3
   weaponReloadTimeInSeconds: 1.5
   weaponAttackDamage: 8
-  baseBloomAngle: 4
-  steadiedBloomAngle: 1.5
+  baseBloomAngle: 3
+  steadiedBloomAngle: 1
   minKickBackShotAmount: 2
   kickBackWindowInSeconds: 0.5
   kickBackAmount: 2

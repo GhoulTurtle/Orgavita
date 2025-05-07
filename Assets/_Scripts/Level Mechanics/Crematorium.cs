@@ -23,9 +23,9 @@ public class Crematorium : StateChangeInteractable{
     public UnityEvent OnValidButtonPress; 
     public UnityEvent OnAllHeatValvesClosed;
     public UnityEvent OnOpenCrematoriumDoorOpen;
-
-    private bool placedButton = false;
-    private bool placedCoolent = false;
+    
+    private bool placedCoolent1 = false;
+    private bool placedCoolent2 = false;
 
     private int currentSliderIndex = 0;
 
@@ -65,31 +65,31 @@ public class Crematorium : StateChangeInteractable{
     }
 
     public override void UnlockInteractable(){
-        if(placedButton && !placedCoolent){
-            crematoriumUI.UpdateNotificationText(NotificationTextMessage.No_Coolant);
+        if(placedCoolent1 && !placedCoolent2){
+            crematoriumUI.UpdateNotificationText(NotificationTextMessage.No_Coolant_2);
             return;
         }
 
-        if(placedCoolent && !placedButton){
-            crematoriumUI.UpdateNotificationText(NotificationTextMessage.No_Button);
+        if(placedCoolent2 && !placedCoolent1){
+            crematoriumUI.UpdateNotificationText(NotificationTextMessage.No_Coolant_1);
             return;
         }
 
-        if(!placedButton || !placedCoolent) return;
+        if(!placedCoolent1 || !placedCoolent2) return;
 
         crematoriumUI.UpdateNotificationText(NotificationTextMessage.Ready);
 
         base.UnlockInteractable();
     }
 
-    public void PlacedButton(){
-        placedButton = true;
+    public void PlacedCoolant1(){
+        placedCoolent1 = true;
 
         UnlockInteractable();
     }
 
-    public void PlacedCoolent(){
-        placedCoolent = true;
+    public void PlacedCoolent2(){
+        placedCoolent2 = true;
     
         UnlockInteractable();
     }

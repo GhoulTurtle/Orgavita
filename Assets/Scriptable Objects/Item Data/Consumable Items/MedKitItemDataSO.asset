@@ -34,6 +34,9 @@ MonoBehaviour:
   isDestroyable: 1
   maxStackSize: 3
   consumableItemJobList:
+  - jobType: 1
+    amount: 10
+    time: 0
   - jobType: 2
     amount: 30
     time: 0.15

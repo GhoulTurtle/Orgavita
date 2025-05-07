@@ -12,8 +12,8 @@ public class CrematoriumUI : MonoBehaviour{
     [SerializeField] private TextMeshProUGUI notificationText;
     [Header("Attention Text Strings")]
     [SerializeField] private string defaultAttentionText;
-    [SerializeField] private string placedButtonOnlyAttentionText;
-    [SerializeField] private string placedCoolentOnlyAttentionText;
+    [SerializeField] private string placedCoolant1AttentionText;
+    [SerializeField] private string placedCoolent2AttentionText;
     [SerializeField] private string readyAttentionText = "Crematorium cooling is ready...";
     [SerializeField] private string openingDoorAttentionText;
     [SerializeField] private string finishedAttentionText;
@@ -40,9 +40,9 @@ public class CrematoriumUI : MonoBehaviour{
         switch (notificationTextMessage){
             case NotificationTextMessage.Default: notificationText.text = defaultAttentionText;
                 break;
-            case NotificationTextMessage.No_Coolant: notificationText.text = placedButtonOnlyAttentionText;
+            case NotificationTextMessage.No_Coolant_1: notificationText.text = placedCoolent2AttentionText;
                 break;
-            case NotificationTextMessage.No_Button: notificationText.text = placedCoolentOnlyAttentionText;
+            case NotificationTextMessage.No_Coolant_2: notificationText.text = placedCoolant1AttentionText;
                 break;
             case NotificationTextMessage.Ready: notificationText.text = readyAttentionText;
                 break;

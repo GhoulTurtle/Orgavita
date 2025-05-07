@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 169fa12860c9f1040ba05fa7f6994dab, type: 3}
   m_Name: FastSwipeLungeAttackDefinitionSO
   m_EditorClassIdentifier: 
-  attackSpeedInSeconds: 0.75
+  attackSpeedInSeconds: 1.5
   attackDodgePeriodInSeconds:
-    minValue: 2.3030803
-    maxValue: 2.9896545
-  attackDamage: 10
+    minValue: 10
+    maxValue: 10
+  attackDamage: 5
   attackRange:
     minValue: 0
     maxValue: 5.0055623
@@ -127,10 +127,10 @@ MonoBehaviour:
     m_RotationOrder: 4
   lungeAmount: 1
   lungeForce: 6
-  lungeSpeed: 12
+  lungeSpeed: 6
   lungleDamageRangeRadius: 0.5
   maxLungeTargetsHit: 5
-  lungeChargeTime: 0.45000002
-  lungePerformTime: 0.112500004
-  lungeRecoveryTime: 0.112500004
-  lungeWindupTime: 0.075
+  lungeChargeTime: 0.90000004
+  lungePerformTime: 0.22500001
+  lungeRecoveryTime: 0.22500001
+  lungeWindupTime: 0.15

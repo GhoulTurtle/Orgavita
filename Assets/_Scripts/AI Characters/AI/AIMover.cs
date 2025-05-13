@@ -10,6 +10,10 @@ public class AIMover : MonoBehaviour{
 
     private IEnumerator rotationCoroutine;
 
+    private bool lookAtPlayer = false;
+
+    private Transform playerTransform;
+
     private void Awake() {
         if(aICharacterDataSO != null){
             navMeshAgent.speed = aICharacterDataSO.movementSpeed;
@@ -34,10 +38,26 @@ public class AIMover : MonoBehaviour{
     private void Update() {
         if(navMeshAgent == null || navMeshAgent.enabled == false || rotationCoroutine != null) return;
 
-        Vector3 dir = navMeshAgent.velocity;
-        if(dir == Vector3.zero) return;
+       if(lookAtPlayer){
+            if(playerTransform == null) return;
 
-        SetAIRotationVector(dir);
+            SetAIRotationVector(playerTransform.position - transform.position);
+        }
+        else{
+            Vector3 dir = navMeshAgent.velocity;
+            if(dir == Vector3.zero) return;
+
+            SetAIRotationVector(dir);
+        }
+    }
+
+    public void LookAtPlayer(bool state, Transform _playerTransform){
+        playerTransform = _playerTransform;
+        lookAtPlayer = state;
+    }
+
+    public void LookAtPlayer(bool state){
+        lookAtPlayer = state;
     }
 
     public void SetDestination(Vector3 _goalPosition){

@@ -3,10 +3,10 @@ using UnityEngine;
 
 public class AIPatrol : MonoBehaviour{
     [Header("Required References")]
-    [SerializeField] private AITargetDefinition aITargetDefinition;
     [SerializeField] private AIMover aIMover;
     [SerializeField] private AIPatrolType patrolType;
     [SerializeField] private List<Transform> patrolPositions;
+    [SerializeField] private LayerMask obstructionLayerMask;
 
     [Header("AI Patrol Variables")]
     [SerializeField] private float homePointWanderRange = 15f;
@@ -27,7 +27,7 @@ public class AIPatrol : MonoBehaviour{
         }
         switch (patrolType){
             case AIPatrolType.Homepoint: 
-                if(!aIMover.CheckValidPosition( patrolPositions[0].position, out Vector3 validHomePosition)){
+                if(!aIMover.CheckValidPosition(patrolPositions[0].position, out Vector3 validHomePosition, homePointWanderRange)){
                     Debug.LogError( patrolPositions[0].gameObject.name + " is not close enough to a valid Navmesh position!");
                 }
                 currentGoalPoint = validHomePosition;
@@ -161,7 +161,7 @@ public class AIPatrol : MonoBehaviour{
 
         Debug.DrawRay(pointRay.origin, direction * pointCheckDistance, Color.red, 3f);
 
-        if(Physics.Raycast(pointRay, pointCheckDistance, aITargetDefinition.obstructionLayerMask)){
+        if(Physics.Raycast(pointRay, pointCheckDistance, obstructionLayerMask)){
             return false;
         }
 

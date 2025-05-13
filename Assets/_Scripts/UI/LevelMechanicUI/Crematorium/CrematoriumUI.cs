@@ -33,7 +33,7 @@ public class CrematoriumUI : MonoBehaviour{
         }
     
         UpdateSliderTitleText(0, false, false);
-        UpdateNotificationText(NotificationTextMessage.Default);
+        UpdateNotificationText(NotificationTextMessage.Ready);
     }
 
     public void UpdateNotificationText(NotificationTextMessage notificationTextMessage){

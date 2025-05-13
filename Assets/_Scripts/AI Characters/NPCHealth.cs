@@ -9,8 +9,6 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class NPCHealth : MonoBehaviour{
     [Header("Required References")]
-    [SerializeField] private RagdollHandler characterRagdollHandler;
-    [SerializeField] private FadeObjectSpawner characterGibletsSpawner;
     [SerializeField] private AICharacterDataSO aICharacterDataSO;
 
     [Header("Editor Variables")]
@@ -34,27 +32,13 @@ public class NPCHealth : MonoBehaviour{
 
     [ContextMenu("Generate Body Parts List")]
     private void GenerateNPCBodyParts(){
-        if(characterRagdollHandler == null && !TryGetComponent(out characterRagdollHandler)){
-            Debug.LogWarning("No dragged reference or found reference of a RagdollHandler. Can't generate body parts.");
-            return;
-        }
-
-        List<GameObject> ragdollGameObjects = characterRagdollHandler.GetRagdollGameObjects(); 
-
-        if(ragdollGameObjects == null){
-            Debug.LogWarning("No ragdoll transforms found, make sure that there are rigidbodies components in the RagdollHandler rigidbodies list. Can't generate body parts.");
-            return;
-        }
-
         nPCBodyParts.Clear();
 
-        for (int i = 0; i < ragdollGameObjects.Count; i++){
-            if(!ragdollGameObjects[i].TryGetComponent(out NPCBodyPart nPCBodyPart)){
-                nPCBodyPart= ragdollGameObjects[i].AddComponent<NPCBodyPart>();
-            }
+        NPCBodyPart[] nPCBodyPartArray = transform.GetComponentsInChildren<NPCBodyPart>();
 
-            nPCBodyPart.SetupNPCBodyPart(this, characterRagdollHandler, characterGibletsSpawner, defaultGeneratedBodyPartType);
-            nPCBodyParts.Add(nPCBodyPart);
+        for (int i = 0; i < nPCBodyPartArray.Length; i++){
+            nPCBodyPartArray[i].SetupNPCBodyPart(this, defaultGeneratedBodyPartType);
+            nPCBodyParts.Add(nPCBodyPartArray[i]);
         }
     }
 
@@ -89,7 +73,7 @@ public class NPCHealth : MonoBehaviour{
     private void TriggerCharacterDealth(){
         isDead = true;
         OnCharacterDeath?.Invoke();
-        characterRagdollHandler.EnableCharacterRagdoll();
+        Destroy(gameObject);
     }
 
     public bool IsDead(){

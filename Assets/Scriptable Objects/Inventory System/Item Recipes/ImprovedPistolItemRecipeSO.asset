@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e281a804787a6244aa56859cf5db92ca, type: 3}
+  m_Name: ImprovedPistolItemRecipeSO
+  m_EditorClassIdentifier: 
+  returnOneItem: 1
+  combineItemDataOne: {fileID: 11400000, guid: 98aaed525d743354b874e8450030fadd, type: 2}
+  combineItemDataTwo: {fileID: 11400000, guid: 1e1a5f5689c6c4f43a3742d6699fbd19, type: 2}
+  resultItemData: {fileID: 11400000, guid: ec9b8b03e14192a4c8a98f8fceaeec4c, type: 2}
+  resultStackAmount: 1

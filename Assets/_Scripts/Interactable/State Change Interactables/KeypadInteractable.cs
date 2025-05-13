@@ -39,8 +39,8 @@ public class KeypadInteractable : StateChangeInteractable{
         base.EnterState();
     }
 
-    public override void ExitState(object sender, InputEventArgs e){
-        base.ExitState(sender, e);
+    public override void ExitStateInput(object sender, InputEventArgs e){
+        base.ExitStateInput(sender, e);
     }
 
     public void NumButtonPressed(int number){
@@ -117,6 +117,7 @@ public class KeypadInteractable : StateChangeInteractable{
 
     public void EnterNumber(){
         if(currentEntry == intCodeSO.GetCurrentCode()){
+            ExitState();
             UnlockEvent?.Invoke();
             OnCorrectPasswordEntered?.Invoke(this, EventArgs.Empty);
         }

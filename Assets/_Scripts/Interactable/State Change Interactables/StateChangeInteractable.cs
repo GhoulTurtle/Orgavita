@@ -30,7 +30,7 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
         }
 
         if(playerInputHandler != null){
-            playerInputHandler.OnCancelInput += ExitState;
+            playerInputHandler.OnCancelInput += ExitStateInput;
         }
 
         EnterState();
@@ -39,7 +39,7 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
 
     private void OnDestroy() {
         if(playerInputHandler != null){
-            playerInputHandler.OnCancelInput -= ExitState;
+            playerInputHandler.OnCancelInput -= ExitStateInput;
         }
     }
 
@@ -59,15 +59,19 @@ public abstract class StateChangeInteractable : MonoBehaviour, IInteractable{
         OnTriggerState?.Invoke(this, EventArgs.Empty);
     }
 
-    public virtual void ExitState(object sender, InputEventArgs e){
-        if(e.inputActionPhase != InputActionPhase.Performed) return;
+    public virtual void ExitStateInput(object sender, InputEventArgs e){
+        if (e.inputActionPhase != InputActionPhase.Performed) return;
+        ExitState();
+    }
+
+    public virtual void ExitState(){
         GameManager.UpdateGameState(GameState.Game);
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         virtualCamera.Priority = 9;
 
-        if(playerInputHandler != null){
-            playerInputHandler.OnCancelInput -= ExitState;
+        if (playerInputHandler != null){
+            playerInputHandler.OnCancelInput -= ExitStateInput;
         }
 
         currentInputSystemUIInputModule.deselectOnBackgroundClick = false;

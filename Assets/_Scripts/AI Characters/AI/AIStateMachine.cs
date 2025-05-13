@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class AIStateMachine : StateMachine<AIStateType>{
     [Header("Required References")]
-    [SerializeField] private AIStateDataList aIStateDataList;
     [SerializeField] private AICharacterDataSO aICharacterDataSO;
     [SerializeField] private AILineOfSight aILineOfSight;
     [SerializeField] private AIMover aIMover;
@@ -14,31 +13,16 @@ public class AIStateMachine : StateMachine<AIStateType>{
     [Header("AI State References")]
     [SerializeField] private AIPatrol aIPatrol;
     [SerializeField] private AIAggression aIAggression;
-    [SerializeField] private AIAttack aIAttack;
     [SerializeField] private AISearch aISearch;
-
-    private Dictionary<AIStateTransitionType, AIStateTransitionConditionJob> aIStateTransitionJobs = new Dictionary<AIStateTransitionType, AIStateTransitionConditionJob>();
-
-    private AICommandType currentAICommand = AICommandType.None;
-    private ICommandIssuer currentCommandIssuer;
-
-    public Action<AICommandType> OnStartCommand;
-    public Action<AICommandType> OnStopCommand;
 
     private List<CoroutineContainer> coroutineContainerList = new();
 
-    private void Awake() {
-        if(aIStateDataList != null){
-            aIStateDataList.GetAIStateDictionary(States, this, out AIStateType firstState); 
-            CurrentState = States[firstState];
+    private void Awake(){
+        Activate();
+    }
 
-            aIStateDataList.GenerateAIStateTransitionJobDictionary(this);
-
-            //Start the current state transition timers
-            aIStateDataList.StartTransitionTimers(this, firstState);
-        }
-
-        if(nPCHealth != null){
+    public virtual void Activate(){
+        if (nPCHealth != null){
             nPCHealth.OnCharacterDeath += StopAICoroutines;
         }
     }
@@ -48,7 +32,6 @@ public class AIStateMachine : StateMachine<AIStateType>{
             nPCHealth.OnCharacterDeath -= StopAICoroutines;
         }
 
-        aIStateTransitionJobs.Clear();
         StopAllCoroutineContainers();
 
         StopAllCoroutines();
@@ -61,8 +44,7 @@ public class AIStateMachine : StateMachine<AIStateType>{
     }
 
     private void Update() {
-        if (CurrentState == null || aIStateDataList == null || nPCHealth.IsDead()) return;
-		aIStateDataList.NextStateTransition(this);
+
     }
 
     public void UpdateState(AIStateType nextStateKey){
@@ -75,50 +57,7 @@ public class AIStateMachine : StateMachine<AIStateType>{
 		}
     }
 
-    public void AddStateTransitionConditionJob(AIStateTransitionType transitionType, AIStateTransitionConditionJob transitionJob){
-        if(aIStateTransitionJobs.ContainsKey(transitionType)) return;
-        aIStateTransitionJobs.Add(transitionType, transitionJob);
-        transitionJob.SetupConditionJob(this);
-    }
 
-    //Reset the transition jobs for the from state
-    public void ResetTransitionConditionJobs(List<AIStateTransitionType> transitionsToReset){
-        for (int i = 0; i < transitionsToReset.Count; i++){
-            if(!aIStateTransitionJobs.ContainsKey(transitionsToReset[i])) continue;
-            aIStateTransitionJobs[transitionsToReset[i]].ResetConditionJob();
-        }
-    }
-
-    public void StartTransitionTimers(List<AIStateTransitionType> transitionsTypes){
-        for (int i = 0; i < transitionsTypes.Count; i++){
-            if(!aIStateTransitionJobs.ContainsKey(transitionsTypes[i])) continue;
-            aIStateTransitionJobs[transitionsTypes[i]].StartTransitionTimer();
-        }
-    }
-
-    public void StartAICommand(AICommandType aICommandType, ICommandIssuer commandIssuer){
-        if(currentAICommand != AICommandType.None){
-            currentCommandIssuer.CommandInterrupted(this, currentAICommand);
-            StopAICommand();
-        }
-        
-        if(currentCommandIssuer != null && currentCommandIssuer != commandIssuer){
-            currentCommandIssuer = null;
-            currentCommandIssuer = commandIssuer;
-        }
-
-        currentAICommand = aICommandType;
-        if(currentAICommand != AICommandType.None){
-            OnStartCommand?.Invoke(currentAICommand);
-        }
-    }
-
-    public void StopAICommand(){
-        if(currentAICommand == AICommandType.None) return;
-
-        OnStopCommand?.Invoke(currentAICommand);
-        currentAICommand = AICommandType.None;
-    }
 
     public void StartNewCoroutineContainer(CoroutineContainer coroutineContainer){
         coroutineContainer.OnCoroutineDisposed += DisposeCoroutineContainer;
@@ -147,21 +86,8 @@ public class AIStateMachine : StateMachine<AIStateType>{
         StopAllCoroutines();
     }
 
-    public AICommandType GetCurrentCommand(){
-        return currentAICommand;
-    }
-
-    public ICommandIssuer GetCurrentCommandIssuer(){
-        return currentCommandIssuer;
-    }
-
-    public AIStateTransitionConditionJob AttemptGetTransitionConditionJob(AIStateTransitionType transitionType){
-        if(!aIStateTransitionJobs.ContainsKey(transitionType)) return null;
-        return aIStateTransitionJobs[transitionType];
-    }
 
     public AILineOfSight GetAILineOfSight(){
-        if(aIStateDataList == null) return null;
         return aILineOfSight;
     }
 
@@ -178,11 +104,6 @@ public class AIStateMachine : StateMachine<AIStateType>{
     public AIAggression GetAIAggression(){
         if(aIAggression == null) return null;
         return aIAggression;
-    }
-
-    public AIAttack GetAIAttack(){
-        if(aIAttack == null) return null;
-        return aIAttack;
     }
 
     public AISearch GetAISearch(){

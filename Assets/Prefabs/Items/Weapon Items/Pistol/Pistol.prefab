@@ -961,8 +961,7 @@ MonoBehaviour:
   popupFadeTime: 1
   validBounceableTerrainDataList: {fileID: 11400000, guid: 65726a48f1dd0c9488d6dfdee6e038c8,
     type: 2}
-  fearPistolBulletDecalDent: {fileID: 9068418653807071930, guid: 5b1f1b0d3ca38d54eaf06e76ebfe0568,
-    type: 3}
+  pistolBulletDecalDent: {fileID: 0}
   OnBulletBounced:
     m_PersistentCalls:
       m_Calls:

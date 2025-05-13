@@ -17,5 +17,5 @@ MonoBehaviour:
   maxStack: 1
   resetResourceStack: 1
   defaultStack: 1
-  defaultBatteryPercent: 0.01
+  defaultBatteryPercent: 1
   maxBatteryTimeInSeconds: 600

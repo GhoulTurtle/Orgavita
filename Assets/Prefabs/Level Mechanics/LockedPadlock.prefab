@@ -257,6 +257,7 @@ MonoBehaviour:
       m_Calls: []
   inspectDialogue: {fileID: 11400000, guid: 1c02a8867518c384ab18b1779d81c557, type: 2}
   interactionPrompt: Inspect
+  connectedItemLevelMechanic: {fileID: 0}
 --- !u!114 &3469287837547019261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +298,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 11400000, guid: 15700da0d08f05b4498e9ec2854ec220,
             type: 2}
-          m_ObjectArgumentAssemblyTypeName: BasicDialogueSO, Assembly-CSharp
+          m_ObjectArgumentAssemblyTypeName: DialogueSO, Assembly-CSharp
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 

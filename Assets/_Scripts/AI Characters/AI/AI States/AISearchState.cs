@@ -7,8 +7,6 @@ public class AISearchState : BaseState<AIStateType>{
     private AISearch aISearch;
     private AIMover aIMover;
 
-    private SearchTimeExpired targetOutLOSForSearchTime;
-
     private CoroutineContainer searchCoroutineContainer;
 
     private Vector3 currentSearchPoint;
@@ -26,9 +24,6 @@ public class AISearchState : BaseState<AIStateType>{
     }
 
     public override void EnterState(){
-        if(targetOutLOSForSearchTime == null){
-            targetOutLOSForSearchTime = (SearchTimeExpired)aIStateMachine.AttemptGetTransitionConditionJob(AIStateTransitionType.SearchTimeExpired);
-        }
 
         searchCoroutineContainer.OnCoroutineDisposed += CalculateNextSearchPoint;
     
@@ -37,7 +32,7 @@ public class AISearchState : BaseState<AIStateType>{
 
     private void CalculateNextSearchPoint(object sender, CoroutineContainer.CoroutineDisposedEventArgs e){
         if(aIMover.IsAgentAtMovementTarget()){
-            currentSearchPoint = aISearch.GetNextSearchVector(aIStateMachine.transform.position, targetOutLOSForSearchTime.GetCurrentSearchTimeProgress());
+            currentSearchPoint = aISearch.GetNextSearchVector(aIStateMachine.transform.position);
             aIMover.SetDestination(currentSearchPoint);
         }
 

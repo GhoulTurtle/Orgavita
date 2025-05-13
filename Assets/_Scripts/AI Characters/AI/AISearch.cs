@@ -6,7 +6,6 @@ public class AISearch : MonoBehaviour{
 
     [Header("Search Variables")]
     [SerializeField] private float searchRadius;
-    [SerializeField] private AISearchType aISearchType;
     [SerializeField] private int maxSearchPointLoops = 20;
 
     [Header("Debugging")]
@@ -32,26 +31,13 @@ public class AISearch : MonoBehaviour{
         return lastKnownTargetPosition;
     }
 
-    public Vector3 GetNextSearchVector(Vector3 currentAIPos, float currentSearchProgress){
-        return aISearchType switch{
-            AISearchType.Random => GetRandomSearchVector(),
-            AISearchType.Funnel => GetFunnelSearchVector(currentAIPos, currentSearchProgress),
-            _ => lastKnownTargetPosition,
-        };
-    }
-
-    private Vector3 GetFunnelSearchVector(Vector3 currentAIPos, float currentSearchProgress){
+    public Vector3 GetNextSearchVector(Vector3 currentAIPos){
         Vector3 currentTargetPos = currentTargetTransform.position;
 
-        Vector3 searchPosCenter = Vector3.Lerp(currentAIPos, currentTargetPos, currentSearchProgress);
+        Vector3 searchPosCenter = currentTargetPos;
 
         Vector3 finalPos = AIHelper.GetRandomCirclePosition(aIMover, searchPosCenter, searchRadius, maxSearchPointLoops);
         return finalPos;
-
-    }   
-
-    private Vector3 GetRandomSearchVector(){
-        return AIHelper.GetRandomCirclePosition(aIMover, lastKnownTargetPosition, searchRadius, maxSearchPointLoops);
     }
 
     private void OnDrawGizmos() {
@@ -60,13 +46,7 @@ public class AISearch : MonoBehaviour{
 
         Gizmos.color = gizmosColor;
 
-        switch (aISearchType){
-            case AISearchType.Random: 
-                Gizmos.DrawWireSphere(lastKnownTargetPosition, searchRadius);
-                break;
-            case AISearchType.Funnel: DrawFunnelSearchGizmos();
-                break;
-        }
+        DrawFunnelSearchGizmos();
     }
 
     private void DrawFunnelSearchGizmos(){

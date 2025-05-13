@@ -7,8 +7,6 @@ public class AIPatrolState : BaseState<AIStateType>{
     private AIPatrol aIPatrol;
     private AIMover aIMover;
 
-    private PatrolTimeExpired patrolTimeExpired;
-
     private CoroutineContainer patrolIdleCoroutineContainer;
 
     public AIPatrolState(AIStateType key) : base(key){
@@ -25,9 +23,6 @@ public class AIPatrolState : BaseState<AIStateType>{
     }
 
     public override void EnterState(){
-        if(patrolTimeExpired == null){
-            patrolTimeExpired = (PatrolTimeExpired)aIStateMachine.AttemptGetTransitionConditionJob(AIStateTransitionType.PatrolTimeExpired);
-        }
 
         patrolIdleCoroutineContainer.OnCoroutineDisposed += GetNextPatrolPoint;
 
@@ -35,7 +30,7 @@ public class AIPatrolState : BaseState<AIStateType>{
     }
 
     public override void UpdateState(){
-        if(aIPatrol.AtGoalPoint(1.5f) && !patrolTimeExpired.IsPatrolTimerExpired() && !patrolIdleCoroutineContainer.IsCoroutineRunning()){
+        if(aIPatrol.AtGoalPoint(1.5f) && !patrolIdleCoroutineContainer.IsCoroutineRunning()){
             float pointIdleTime = Random.Range(aICharacterDataSO.patrolIdleTimeInSeconds.minValue, aICharacterDataSO.patrolIdleTimeInSeconds.maxValue);
             
             patrolIdleCoroutineContainer.SetCoroutine(PatrolPointIdleCoroutine(patrolIdleCoroutineContainer, pointIdleTime));

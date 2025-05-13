@@ -115,6 +115,8 @@ public class ItemPickup : MonoBehaviour, ISaveable{
         itemPickupStackAmount = itemRemainder;
         
         currentItemModel.UpdateInteractionText(itemToPickup.GetItemName(), itemPickupStackAmount);
+
+        OnPickupEvent?.Invoke();
     }
 
     private void DestroyItemModel(){

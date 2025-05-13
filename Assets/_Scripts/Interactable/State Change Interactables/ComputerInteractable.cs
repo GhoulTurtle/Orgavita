@@ -61,8 +61,8 @@ public class ComputerInteractable : StateChangeInteractable{
         OnEnterComputerState?.Invoke(this, EventArgs.Empty);
     }
 
-    public override void ExitState(object sender, InputEventArgs e){
-        base.ExitState(sender, e);
+    public override void ExitStateInput(object sender, InputEventArgs e){
+        base.ExitStateInput(sender, e);
 
         isSelected = false;
         OnExitComputerState?.Invoke(this, EventArgs.Empty);

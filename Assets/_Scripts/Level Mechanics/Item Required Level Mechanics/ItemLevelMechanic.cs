@@ -36,6 +36,32 @@ public class ItemLevelMechanic : MonoBehaviour{
         }
     }
 
+    public virtual bool AttemptLevelMechanicInteractionOnInteract(out string usedText){
+        usedText = string.Empty;
+
+        if(isUnlocked && isOneShot) return false;
+        if(playerInventoryHandler == null) return false;
+        if(playerInventoryHandler.GetCurrentLevelMechanic() != this) return false;
+        
+        InventoryItem validInventoryItem = null;
+        for (int i = 0; i < associatedKeyItemDataList.Count; i++){
+            validInventoryItem = playerInventoryHandler.GetInventory().AttemptGetInventoryItem(associatedKeyItemDataList[i]);
+            if(validInventoryItem != null) break;
+        }
+
+        if(validInventoryItem == null) return false;
+
+        if(correctItemMessage == "Used "){
+            usedText = correctItemMessage + validInventoryItem.GetHeldItem().GetItemName() + ".";
+        }
+        else{
+            usedText = correctItemMessage;
+        }
+
+        TriggerLevelMechanic(validInventoryItem);
+        return true;
+    }
+
     public virtual string AttemptLevelMechanicInteraction(KeyItemDataSO keyItemDataSO, InventoryItem inventoryItem){
         if(isUnlocked && isOneShot){
             return alreadyUnlockedMessage;

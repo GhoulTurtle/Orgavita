@@ -7,11 +7,27 @@ public class InspectInteractable : DialogueInteractable{
     [SerializeField] private DialogueSO inspectDialogue;
     [SerializeField] private string interactionPrompt = "Inspect";
 
+    [Header("Inspect Interactable Settings")]
+    [SerializeField] private ItemLevelMechanic connectedItemLevelMechanic;
+
     private void OnDestroy() {
         StopAllCoroutines();
     }
 
+    public override bool Interact(PlayerInteract player){
+        if(connectedItemLevelMechanic != null){
+            //If we have a connected level mechanic attempt to unlock it to sortcut having the player needing to open their inventory
+            if(connectedItemLevelMechanic.AttemptLevelMechanicInteractionOnInteract(out string resultText)){
+                PopupUI.Instance.PrintText(resultText);
+                return false;
+            }
+        }   
+        
+        return base.Interact(player);
+    }
+
     public override void StartDialogue(){
+
         if(inspectDialogue == null) return;
 
         base.StartDialogue();

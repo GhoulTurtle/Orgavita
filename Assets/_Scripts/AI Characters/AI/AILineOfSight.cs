@@ -3,7 +3,7 @@ using UnityEngine;
 public class AILineOfSight : MonoBehaviour{
     [Header("Required References")]
     [SerializeField] private AICharacterDataSO aICharacterDataSO;
-    [SerializeField] private AITargetDefinition aITargetDefinition;
+    [SerializeField] private LayerMask obstructionLayerMask;
 
     [Header("Debugging")]
     [SerializeField] private bool drawGizmos;
@@ -38,7 +38,7 @@ public class AILineOfSight : MonoBehaviour{
     }
 
     public bool GetTargets(out Collider[] validTargets){
-        int targetsFound = Physics.OverlapSphereNonAlloc(transform.position, aICharacterDataSO.visionRange, targetsInView, aITargetDefinition.GetTargetLayerMask());
+        int targetsFound = Physics.OverlapSphereNonAlloc(transform.position, aICharacterDataSO.visionRange, targetsInView, obstructionLayerMask);
 
         if(targetsFound == 0){
             validTargets = null;
@@ -71,7 +71,7 @@ public class AILineOfSight : MonoBehaviour{
 
         float distanceToTarget = Vector3.Distance(position, target.position);
 
-        if (Physics.Raycast(transform.position, directionToTarget, distanceToTarget, aITargetDefinition.GetObstructionLayerMask())) return false;
+        if (Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionLayerMask)) return false;
 
         return true;
     }
@@ -83,7 +83,7 @@ public class AILineOfSight : MonoBehaviour{
 
         float distanceToTarget = Vector3.Distance(transform.position, target.position);
 
-        if (Physics.Raycast(transform.position, directionToTarget, distanceToTarget, aITargetDefinition.GetObstructionLayerMask())) return false;
+        if (Physics.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionLayerMask)) return false;
 
         return true;
     }
@@ -111,10 +111,6 @@ public class AILineOfSight : MonoBehaviour{
         }
 
         return currentPosition;
-    }
-
-    public AITargetDefinition GetAITargetDefinition(){
-        return aITargetDefinition;
     }
 
     private void OnDrawGizmosSelected(){

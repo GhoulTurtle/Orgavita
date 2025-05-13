@@ -55,6 +55,24 @@ public class PopupUI : MonoBehaviour{
         StartCoroutine(currentPrintCoroutine);
     }
 
+        public void PrintText(string dialogueToDisplay, float printTime = -1, bool fadeAfterCompletion = true, float waitTime = -1f, float fadeTime = -1f){
+        currentWaitTime = waitTime;
+        currentFadeTime = fadeTime;
+        StopCurrentFade();
+        StopCurrentPrint();
+
+        popupText.color = Color.white;
+
+        if(fadeAfterCompletion){
+            currentPrintCoroutine = TextPrinter.PrintSentence(dialogueToDisplay, popupText, StartPopupFadeCoroutine, printTime);
+        }
+        else{
+            currentPrintCoroutine = TextPrinter.PrintSentence(dialogueToDisplay, popupText, null, printTime);
+        }
+
+        StartCoroutine(currentPrintCoroutine);
+    }
+
     private void StartPopupFadeCoroutine(){
         StopCurrentFade();
         currentFadeCoroutine = PopupFadeCoroutine(currentWaitTime, currentFadeTime);

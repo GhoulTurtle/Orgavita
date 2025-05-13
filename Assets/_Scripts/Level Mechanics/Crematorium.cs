@@ -23,9 +23,6 @@ public class Crematorium : StateChangeInteractable{
     public UnityEvent OnValidButtonPress; 
     public UnityEvent OnAllHeatValvesClosed;
     public UnityEvent OnOpenCrematoriumDoorOpen;
-    
-    private bool placedCoolent1 = false;
-    private bool placedCoolent2 = false;
 
     private int currentSliderIndex = 0;
 
@@ -48,16 +45,16 @@ public class Crematorium : StateChangeInteractable{
         playerInputHandler.OnAcceptInput += AcceptInput;
     }
 
-    public override void ExitState(object sender, InputEventArgs e){
+    public override void ExitStateInput(object sender, InputEventArgs e){
         if(e.inputActionPhase != InputActionPhase.Performed) return;
-        base.ExitState(sender, e);
+        base.ExitStateInput(sender, e);
 
         playerInputHandler.OnAcceptInput -= AcceptInput;
     }
 
     private void OnDestroy() {
         if(playerInputHandler != null){
-            playerInputHandler.OnCancelInput -= ExitState;
+            playerInputHandler.OnCancelInput -= ExitStateInput;
             playerInputHandler.OnAcceptInput -= AcceptInput;
         }
 
@@ -65,33 +62,9 @@ public class Crematorium : StateChangeInteractable{
     }
 
     public override void UnlockInteractable(){
-        if(placedCoolent1 && !placedCoolent2){
-            crematoriumUI.UpdateNotificationText(NotificationTextMessage.No_Coolant_2);
-            return;
-        }
-
-        if(placedCoolent2 && !placedCoolent1){
-            crematoriumUI.UpdateNotificationText(NotificationTextMessage.No_Coolant_1);
-            return;
-        }
-
-        if(!placedCoolent1 || !placedCoolent2) return;
-
         crematoriumUI.UpdateNotificationText(NotificationTextMessage.Ready);
 
         base.UnlockInteractable();
-    }
-
-    public void PlacedCoolant1(){
-        placedCoolent1 = true;
-
-        UnlockInteractable();
-    }
-
-    public void PlacedCoolent2(){
-        placedCoolent2 = true;
-    
-        UnlockInteractable();
     }
     
     private void AcceptInput(object sender, InputEventArgs e){

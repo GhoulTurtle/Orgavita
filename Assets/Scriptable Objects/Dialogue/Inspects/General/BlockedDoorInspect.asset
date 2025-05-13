@@ -15,5 +15,5 @@ MonoBehaviour:
   dialogueSentences:
   - speakerSO: {fileID: 0}
     hasDialogueEvent: 0
-    sentence: The lock is blocked by something. I can't open it.
+    sentence: The door is blocked by something. I can't open it.
   responses: []

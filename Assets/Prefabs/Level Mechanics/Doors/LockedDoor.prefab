@@ -185,6 +185,7 @@ MonoBehaviour:
       m_Calls: []
   inspectDialogue: {fileID: 0}
   interactionPrompt: Open
+  connectedItemLevelMechanic: {fileID: 839628167978094849}
 --- !u!65 &839628167978094851
 BoxCollider:
   m_ObjectHideFlags: 0

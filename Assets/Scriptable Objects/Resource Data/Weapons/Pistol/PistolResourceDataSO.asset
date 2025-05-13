@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PistolResourceDataSO
   m_EditorClassIdentifier: 
   itemDataToHold: {fileID: 11400000, guid: 680516230306fb34db74c7418d0cb551, type: 2}
-  currentStack: 8
+  currentStack: 9
   maxStack: 15
   resetResourceStack: 1
   defaultStack: 15
